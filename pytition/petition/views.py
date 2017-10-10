@@ -8,8 +8,10 @@ from .models import Petition, Signature
 
 import uuid
 
+
 def index(request):
-    pass
+    petition = Petition.objects.latest('id')
+    return redirect('/petition/{}'.format(petition.id))
 
 
 def detail(request, petition_id):
@@ -41,6 +43,7 @@ def detail(request, petition_id):
                   fail_silently=False, html_message=html_message)
 
     return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None})
+
 
 def get_json_data(request, petition_id):
     petition = Petition.objects.get(pk=petition_id)

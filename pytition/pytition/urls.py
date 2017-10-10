@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from petition.views import index
 
 urlpatterns = [
+    url(r'^$', index, name="index"),
     url(r'^petition/', include('petition.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),
