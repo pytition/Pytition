@@ -1,5 +1,6 @@
 Dependencies : 
 - Python 3
 - Django
+- Pillow
 - django-tinymce
 - django-colorfield
