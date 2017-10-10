@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from .models import Petition, Signature
 
@@ -27,14 +29,18 @@ def vote(request, petition_id):
         phone = post["phone_number"]
         hash = str(uuid.uuid4())
 
-        signatures = Signature.objects.filter(petition_id = petition_id).filter(confirmed = True).filter(email = email).all()
+        signatures = Signature.objects.filter(petition_id = petition_id)\
+            .filter(confirmed = True).filter(email = email).all()
         if len(signatures) > 0:
             raise Http404("Vous avez déjà signé la pétition")
 
         signature = Signature.objects.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
                                              petition_id = petition_id, confirmation_hash = hash)
         url = request.build_absolute_uri("/petition/confirm/{}".format(hash))
-        send_mail("Confirmez votre signature à notre pétition", "Bravo, veuillez cliquer <a href=\"{}\">ici</a>".format(url), "petition@antipub.org", [email], fail_silently=False)
+        html_message = render_to_string("petition/confirmation_email.html", {'firstname': firstname, 'url': url})
+        message = strip_tags(html_message)
+        send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [email],
+                  fail_silently=False, html_message=html_message)
         return redirect("/petition/{}".format(petition_id))
     else:
         raise Http404("no GET method for this URI")
