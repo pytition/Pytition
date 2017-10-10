@@ -17,10 +17,7 @@ def detail(request, petition_id):
         petition = Petition.objects.get(pk=petition_id)
     except Petition.DoesNotExist:
         raise Http404("Petition does not exist")
-    return render(request, 'petition/detail2.html', {'petition': petition})
 
-
-def vote(request, petition_id):
     if request.method == "POST":
         post = request.POST
         firstname = post["first_name"]
@@ -32,7 +29,8 @@ def vote(request, petition_id):
         signatures = Signature.objects.filter(petition_id = petition_id)\
             .filter(confirmed = True).filter(email = email).all()
         if len(signatures) > 0:
-            raise Http404("Vous avez déjà signé la pétition")
+            return render(request, 'petition/detail2.html', {'petition': petition,
+                                                             'errormsg': 'Vous avez déjà signé la pétition'})
 
         signature = Signature.objects.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
                                              petition_id = petition_id, confirmation_hash = hash)
@@ -41,10 +39,8 @@ def vote(request, petition_id):
         message = strip_tags(html_message)
         send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [email],
                   fail_silently=False, html_message=html_message)
-        return redirect("/petition/{}".format(petition_id))
-    else:
-        raise Http404("no GET method for this URI")
 
+    return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None})
 
 def get_json_data(request, petition_id):
     petition = Petition.objects.get(pk=petition_id)

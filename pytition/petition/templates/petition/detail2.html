@@ -105,10 +105,21 @@ body{
     </div>
 
     <div class="container petition">
+<style type="text/css">
+    .errormsg {
+    background-color: red;
+    }
+</style>
 
 			<div class="petition-wrapper">
 
 				<div class="content">
+{% if errormsg %}
+<div class="errormsg">
+    <h2>Erreur</h2>
+    <b>{{ errormsg }}</b>
+</div>
+{% endif %}
 					<h1>{% autoescape off%}{{ petition.title }}{% endautoescape %}</h1>
 
 
@@ -148,7 +159,7 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 <script type='text/javascript' src='{% static "typeahead.js" %}'></script>
 
 
-<form method='POST' name='petition' id='ea14749id' class='eaform ea14749class' action='/petition/{{ petition.id }}/vote/'>
+<form method='POST' name='petition' id='ea14749id' class='eaform ea14749class' action='/petition/{{ petition.id }}/'>
 <div id='eaerrors' class='eaErrorMessage'>
 </div>
 
