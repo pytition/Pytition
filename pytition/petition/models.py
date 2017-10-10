@@ -51,7 +51,9 @@ class Signature(models.Model):
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "[{}] {} {}".format(self.petition.id, self.first_name, self.last_name)
+        return "[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,
+                                      self.last_name)
 
     def __repr__(self):
-        return "[{}] {} {}".format(self.petition.id, self.first_name, self.last_name)
+        return "[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,
+                                      self.last_name)
