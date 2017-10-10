@@ -33,6 +33,8 @@ class Petition(models.Model):
     bgcolor = ColorField(blank=True)
     footer_text = tinymce_models.HTMLField(default="Cette pétition est hébergée sur le site de RAP.")
     footer_links = tinymce_models.HTMLField(blank=True)
+    twitter_description = models.CharField(max_length=200, blank=True)
+    twitter_image = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
         return mark_safe(self.title)

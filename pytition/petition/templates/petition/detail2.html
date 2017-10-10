@@ -24,11 +24,17 @@
     <meta itemprop="url" content="https://act.greenpeace.org/ea-action/action?ea.client.id=1849&ea.campaign.id=49888"/>
 
     <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:creator" content="@greenpeacefr"/>
-    <meta name="twitter:site" content="nouveauxogmjenveuxpas.fr"/>
+    <meta name="twitter:creator" content="@yann.sionneau"/>
+    <meta name="twitter:site" content="@RAP_Asso"/>
     <meta name="twitter:title" content="{{ petition.title|striptags }}"/>
-    <meta name="twitter:description" content="Les entreprises de l’agrochimie ont trouvé une nouvelle recette pour faire entrer les OGM dans nos champs et nos assiettes : contourner la réglementation européenne en affirmant que les nouveaux OGM ne sont pas des OGM. Photo © Pierre Baelen / Greenpeace"/>
-		<meta name="twitter:image" content="https://secured-static.greenpeace.org/france/Global/france/new-gmo/FB-ad-OGM-1200x628-C.jpg"/>
+        {% if petition.twitter_description %}
+    <meta name="twitter:description" content="{{ petition.twitter_description }}"/>
+        {% else %}
+        <meta name="twitter:description" content="{{ petition.text|striptags }}"/>
+        {% endif %}
+        {% if petition.twitter_image %}
+		<meta name="twitter:image" content="{{ petition.twitter_image }}"/>
+        {% endif %}
 
 		<link href="{% static "ensharing.css" %}" rel="stylesheet" type="text/css">
 <link href="{% static "typeahead.css" %}" rel="stylesheet" type="text/css">
