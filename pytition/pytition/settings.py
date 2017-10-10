@@ -122,8 +122,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_HOST="localhost"
-EMAIL_PORT="1025"
 TINYMCE_JS_URL = 'http://127.0.0.1:8000/static/tinymce/js/tinymce/tinymce.min.js'
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',

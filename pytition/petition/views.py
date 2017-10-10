@@ -33,7 +33,8 @@ def vote(request, petition_id):
 
         signature = Signature.objects.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
                                              petition_id = petition_id, confirmation_hash = hash)
-        send_mail("Confirmez votre signature à notre pétition", "Bravo, veuillez cliquer <a href=\"http://127.0.0.1/petition/confirm/{}\">ici</a>".format(hash), "petition@antipub.org", [email], fail_silently=False)
+        url = request.build_absolute_uri("/petition/confirm/{}".format(hash))
+        send_mail("Confirmez votre signature à notre pétition", "Bravo, veuillez cliquer <a href=\"{}\">ici</a>".format(url), "petition@antipub.org", [email], fail_silently=False)
         return redirect("/petition/{}".format(petition_id))
     else:
         raise Http404("no GET method for this URI")
