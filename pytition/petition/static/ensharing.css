@@ -1,0 +1,50 @@
+.en_social_buttons
+ {
+     clear:both;
+     margin-left: 20px;
+ }
+
+ .en_facebook, .en_twitter, .en_google_plusone
+ {
+     display: block;
+     float: left;
+ }
+ 
+ .en_social_buttons .large
+ {
+     /*height: 100px;*/
+ }
+ 
+ .en_facebook.large, .en_google_plusone.large
+ {
+     padding-left: 40px;
+ }
+ 
+.en_google_plusone.small
+ {
+     padding-left: 40px;
+ }
+ 
+ .en_social_buttons .small
+ {
+     height: 24px;
+ }
+
+ .en_twitter.small, .en_google_plusone.small
+ {
+ }
+ 
+ .en_social_buttons .simple
+ {
+     width: 100px;
+     height: 30px;
+ }
+
+.en_social_buttons:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
