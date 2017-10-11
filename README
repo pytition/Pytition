@@ -4,3 +4,4 @@ Dependencies :
 - Pillow
 - django-tinymce
 - django-colorfield
+- requests

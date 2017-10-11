@@ -7,6 +7,7 @@ from django.utils.html import strip_tags
 from .models import Petition, Signature
 
 import uuid
+import requests
 
 
 def index(request):
@@ -26,6 +27,14 @@ def detail(request, petition_id):
         lastname = post["last_name"]
         email = post["email"]
         phone = post["phone_number"]
+        try:
+            emailOK = post["email_ok"]
+            if emailOK == "Y":
+                subscribe = True
+            else:
+                subscribe = False
+        except:
+            subscribe = False
         hash = str(uuid.uuid4())
 
         signatures = Signature.objects.filter(petition_id = petition_id)\
@@ -41,6 +50,17 @@ def detail(request, petition_id):
         message = strip_tags(html_message)
         send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [email],
                   fail_silently=False, html_message=html_message)
+
+        if subscribe:
+            data = {'_wpcf7': 21,
+                    '_wpcf7_version': '4.9',
+                    '_wpcf7_locale': 'fr_FR',
+                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',
+                    '_wpcf7_container_post': '5398',
+                    'your-email': email
+                    }
+            requests.post("http://antipub.org/la-galaxie-antipub-a-la-reconquete-de-lespace-public/#wpcf7-f21-p5398-o1",
+                          data)
 
     return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None})
 
