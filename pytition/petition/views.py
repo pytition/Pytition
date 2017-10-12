@@ -78,6 +78,10 @@ def get_json_data(request, petition_id):
 def confirm(request, hash):
     signature = Signature.objects.get(confirmation_hash = hash)
     if signature:
+        # Signature found, invalidating other signatures from same email
+        email = signature.email
+        Signature.objects.filter(email = email).exclude(confirmation_hash = hash).all().delete()
+        # Now confirm the signature corresponding to this hash
         signature.confirmed = True
         signature.save()
         petition_id = signature.petition.id
