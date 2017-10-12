@@ -61,6 +61,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'petition.views.settings_context_processor',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -131,3 +132,17 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
     'insert_toolbar': 'forecolor backcolor'
 }
+
+# Pytition settings
+ORG_NAME = 'RAP'
+ORG_TWITTER_HANDLE = '@RAP_Asso'
+NEWSLETTER_SUBSCRIBE_URL = 'http://antipub.org/la-galaxie-antipub-a-la-reconquete-de-lespace-public/#wpcf7-f21-p5398-o1'
+NEWSLETTER_SUBSCRIBE_METHOD = 'POST'
+NEWSLETTER_SUBSCRIBE_DATA = {'_wpcf7': 21,
+                    '_wpcf7_version': '4.9',
+                    '_wpcf7_locale': 'fr_FR',
+                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',
+                    '_wpcf7_container_post': '5398',
+                    'your-email': ''
+                    }
+NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME = 'your-email'

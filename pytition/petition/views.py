@@ -3,11 +3,16 @@ from django.http import Http404, JsonResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.conf import settings
 
 from .models import Petition, Signature
 
 import uuid
 import requests
+
+
+def settings_context_processor(request):
+    return {'settings': settings}
 
 
 def index(request):
@@ -52,15 +57,14 @@ def detail(request, petition_id):
                   fail_silently=False, html_message=html_message)
 
         if subscribe:
-            data = {'_wpcf7': 21,
-                    '_wpcf7_version': '4.9',
-                    '_wpcf7_locale': 'fr_FR',
-                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',
-                    '_wpcf7_container_post': '5398',
-                    'your-email': email
-                    }
-            requests.post("http://antipub.org/la-galaxie-antipub-a-la-reconquete-de-lespace-public/#wpcf7-f21-p5398-o1",
-                          data)
+            data = settings.NEWSLETTER_SUBSCRIBE_DATA
+            data[settings.NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME] = email
+            if settings.NEWSLETTER_SUBSCRIBE_METHOD == "POST":
+                requests.post(settings.NEWSLETTER_SUBSCRIBE_URL, data)
+            elif settings.NEWSLETTER_SUBSCRIBE_METHOD == "GET":
+                requests.get(settings.NEWSLETTER_SUBSCRIBE_URL, data)
+            else:
+                raise ValueError("setting NEWSLETTER_SUBSCRIBE_METHOD must either be POST or GET")
 
     return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None})
 

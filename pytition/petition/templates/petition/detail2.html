@@ -25,7 +25,7 @@
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:creator" content="@yannsionneau"/>
-    <meta name="twitter:site" content="@RAP_Asso"/>
+    <meta name="twitter:site" content="{{ settings.ORG_TWITTER_HANDLE }}"/>
     <meta name="twitter:title" content="{{ petition.title|striptags }}"/>
         {% if petition.twitter_description %}
     <meta name="twitter:description" content="{{ petition.twitter_description }}"/>
@@ -181,7 +181,7 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 
 </div>
 <div id='email_okDiv' class='eaFullWidthContent'><div class="eaQuestionLabel"></div><div class="eaQuestionCheckboxFormFieldContainer">
-<span class='eaQuestionCheckbox'><input id='email_okY' type='checkbox' name='email_ok' value='Y'/><label for="email_okY"> Je veux recevoir des informations de la part de RAP.</label></span>&nbsp;&nbsp;&nbsp;</div>
+<span class='eaQuestionCheckbox'><input id='email_okY' type='checkbox' name='email_ok' value='Y'/><label for="email_okY"> Je veux recevoir des informations de la part de {{ settings.ORG_NAME }}.</label></span>&nbsp;&nbsp;&nbsp;</div>
 </div>
 <div id='OGM_-_script_page_1Div' class='eaFullWidthContent'><script type="text/javascript">// <![CDATA[
   window.virtualPageURL = '/petition/{{ petition.id }}';
@@ -201,7 +201,7 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 
 <div class="reassurance" id="reassurance">
 <p>
-Vos données resteront strictement confidentielles et ne seront ni vendues ni échangées. Des informations sur cette campagne ainsi que d’autres actualités RAP vous seront envoyées si vous avez coché la case. Vous pouvez vous désinscrire à tout moment.
+Vos données resteront strictement confidentielles et ne seront ni vendues ni échangées. Des informations sur cette campagne ainsi que d’autres actualités {{ settings.ORG_NAME }} vous seront envoyées si vous avez coché la case. Vous pouvez vous désinscrire à tout moment.
 </p>
 
 </div>
