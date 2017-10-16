@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from django.views.generic import ListView, DetailView
 
 from .models import Petition, Signature
 
@@ -18,6 +19,43 @@ def settings_context_processor(request):
 def index(request):
     petition = Petition.objects.latest('id')
     return redirect('/petition/{}'.format(petition.id))
+
+
+class PetitionDetail(DetailView):
+    model = Petition
+    template_name = 'petition/detail2.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PetitionDetail, self).get_context_data(**kwargs)
+        context['errormsg'] = None
+        if self.request.method == "post":
+            email = self.request.POST['email']
+            signatures = Signature.objects.filter(petition_id=self.object.pk).filter(confirmed=True)\
+                .filter(email=email).all()
+            if len(signatures) > 0:
+                context['errormsg'] = 'Vous avez déjà signé la pétition'
+        return context
+
+    def post(self, request, *args, **kwargs):
+        petition = self.object
+        post = request.POST
+        firstname = post["first_name"]
+        lastname = post["last_name"]
+        email = post["email"]
+        phone = post["phone_number"]
+        try:
+            emailOK = post["email_ok"]
+            if emailOK == "Y":
+                subscribe = True
+            else:
+                subscribe = False
+        except:
+            subscribe = False
+        _hash = str(uuid.uuid4())
+
+        url = request.build_absolute_uri("/petition/confirm/{}".format(_hash))
+        petition.sign(first_name=firstname, last_name=lastname, email=email, phone=phone, confirmation_hash=_hash,
+                      url=url, subscribe=subscribe)
 
 
 def detail(request, petition_id):
