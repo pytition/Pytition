@@ -12,16 +12,24 @@
 		<title>{% autoescape off %}{{ petition.title|striptags }}{% endautoescape %}</title>
 		<meta name="description" content="(Comment) les entreprises de l’agrochimie tentent de nous imposer en douce les nouveaux OGM" />
 
-    <meta property="og:title" content="{{ petition.title }}"/>
-    <meta property="og:description" content="Les entreprises de l’agrochimie ont trouvé une nouvelle recette pour faire entrer les OGM dans nos champs et nos assiettes : contourner la réglementation européenne en affirmant que les nouveaux OGM ne sont pas des OGM. Photo © Pierre Baelen / Greenpeace"/>
+    <meta property="og:title" content="{{ petition.title|striptags }}"/>
+                {% if petition.twitter_description %}
+    <meta name="og:description" content="{{ petition.twitter_description }}"/>
+        {% else %}
+        <meta name="og:description" content="{{ petition.text|striptags }}"/>
+        {% endif %}
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://act.greenpeace.org/ea-action/action?ea.client.id=1849&ea.campaign.id=49888"/>
-    <meta property="og:site_name" content="nouveauxogmjenveuxpas.fr"/>
-		<meta property="og:image" content="https://secured-static.greenpeace.org/france/Global/france/new-gmo/FB-ad-OGM-1200x628-C.jpg"/>
+    <meta property="og:url" content="https://petition.antipub.org/petition/{{ petition.id }}/"/>
+    <meta property="og:site_name" content="petition.antipub.org"/>
+		<!-- FIXME: <meta property="og:image" content=""/> //-->
 
-    <meta itemprop="name" content="{{ petition.title }}"/>
-    <meta itemprop="description" content="Les entreprises de l’agrochimie ont trouvé une nouvelle recette pour faire entrer les OGM dans nos champs et nos assiettes : contourner la réglementation européenne en affirmant que les nouveaux OGM ne sont pas des OGM. Photo © Pierre Baelen / Greenpeace"/>
-    <meta itemprop="url" content="https://act.greenpeace.org/ea-action/action?ea.client.id=1849&ea.campaign.id=49888"/>
+    <meta itemprop="name" content="{{ petition.title|striptags }}"/>
+        {% if petition.twitter_description %}
+    <meta itemprop="description" content="{{ petition.twitter_description }}"/>
+        {% else %}
+        <meta itemprop="description" content="{{ petition.text|striptags }}"/>
+        {% endif %}
+        <!-- FIXME: <meta itemprop="url" content=""/> //-->
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:creator" content="@yannsionneau"/>
