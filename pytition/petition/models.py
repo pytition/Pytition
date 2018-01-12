@@ -51,6 +51,7 @@ class Signature(models.Model):
     confirmation_hash = models.CharField(max_length=128)
     confirmed = models.BooleanField(default=False)
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
+    subscribed_to_mailinglist = models.BooleanField(default=False)
 
     def __str__(self):
         return "[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,

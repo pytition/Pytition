@@ -49,7 +49,8 @@ def detail(request, petition_id):
                                                              'errormsg': 'Vous avez déjà signé la pétition'})
 
         signature = Signature.objects.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
-                                             petition_id = petition_id, confirmation_hash = hash)
+                                             petition_id = petition_id, confirmation_hash = hash,
+                                             subscribed_to_mailinglist = subscribe)
         url = request.build_absolute_uri("/petition/confirm/{}".format(hash))
         html_message = render_to_string("petition/confirmation_email.html", {'firstname': firstname, 'url': url})
         message = strip_tags(html_message)
