@@ -10,4 +10,4 @@ class SignatureAdmin(admin.ModelAdmin):
 
 @admin.register(Petition)
 class PetitionAdmin(admin.ModelAdmin):
-    pass
+    change_form_template = 'petition/change_form.html'

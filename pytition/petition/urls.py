@@ -10,4 +10,5 @@ urlpatterns = [
     # ex: /polls/5/vote/
     url(r'^(?P<petition_id>[0-9]+)/get_json_data$', views.get_json_data, name='get_json_data'),
     url(r'^confirm/(?P<hash>.*)$', views.confirm, name='confirm'),
+    url(r'^(?P<petition_id>[0-9]+)/get_csv_signature$', views.get_csv_signature, name='get_csv_signature'),
 ]

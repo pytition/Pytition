@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -9,6 +9,7 @@ from .models import Petition, Signature
 
 import uuid
 import requests
+import csv
 
 
 def settings_context_processor(request):
@@ -18,6 +19,25 @@ def settings_context_processor(request):
 def index(request):
     petition = Petition.objects.latest('id')
     return redirect('/petition/{}'.format(petition.id))
+
+
+def get_csv_signature(request, petition_id):
+    try:
+        petition = Petition.objects.get(pk=petition_id)
+    except Petition.DoesNotExist:
+        raise Http404("Petition does not exist")
+
+    filename = '{}.csv'.format(petition)
+    signatures = Signature.objects.filter(petition_id = petition_id).filter(confirmed = True).all()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment;filename={}'.format(filename).replace('\r\n', '').replace(' ', '%20')
+    writer = csv.writer(response)
+    attrs = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist']
+    writer.writerow(attrs)
+    for signature in signatures:
+        values = [getattr(signature, field) for field in attrs]
+        writer.writerow(values)
+    return response
 
 
 def detail(request, petition_id):
