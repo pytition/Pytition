@@ -136,13 +136,18 @@ TINYMCE_DEFAULT_CONFIG = {
 # Pytition settings
 ORG_NAME = 'RAP'
 ORG_TWITTER_HANDLE = '@RAP_Asso'
-NEWSLETTER_SUBSCRIBE_URL = 'http://antipub.org/la-galaxie-antipub-a-la-reconquete-de-lespace-public/#wpcf7-f21-p5398-o1'
-NEWSLETTER_SUBSCRIBE_METHOD = 'POST'
-NEWSLETTER_SUBSCRIBE_DATA = {'_wpcf7': 21,
-                    '_wpcf7_version': '4.9',
-                    '_wpcf7_locale': 'fr_FR',
-                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',
-                    '_wpcf7_container_post': '5398',
-                    'your-email': ''
-                    }
-NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME = 'your-email'
+# for GET or POST method
+# NEWSLETTER_SUBSCRIBE_URL = 'http://antipub.org/#wpcf7-f21-p5398-o1'
+# can be GET, POST, or MAIL
+NEWSLETTER_SUBSCRIBE_METHOD = 'MAIL'
+# this is used for POST or GET method
+# NEWSLETTER_SUBSCRIBE_HTTP_DATA = {'_wpcf7': 21,
+#                    '_wpcf7_version': '4.9',
+#                    '_wpcf7_locale': 'fr_FR',
+#                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',
+#                    '_wpcf7_container_post': '5398',
+#                    'your-email': ''
+#                    }
+#NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME = 'your-email'
+# subject of email when using MAIL method, must contain {} at location of subscriber email
+NEWSLETTER_SUBSCRIBE_MAIL_SUBJECT = 'ADD rapatoile {} viaSiteWebInterne'

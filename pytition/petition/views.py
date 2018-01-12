@@ -57,12 +57,16 @@ def detail(request, petition_id):
                   fail_silently=False, html_message=html_message)
 
         if subscribe:
-            data = settings.NEWSLETTER_SUBSCRIBE_DATA
-            data[settings.NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME] = email
+            if settings.NEWSLETTER_SUBSCRIBE_METHOD in ["POST", "GET"]:
+                data = settings.NEWSLETTER_SUBSCRIBE_HTTP_DATA
+                data[settings.NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME] = email
             if settings.NEWSLETTER_SUBSCRIBE_METHOD == "POST":
                 requests.post(settings.NEWSLETTER_SUBSCRIBE_URL, data)
             elif settings.NEWSLETTER_SUBSCRIBE_METHOD == "GET":
                 requests.get(settings.NEWSLETTER_SUBSCRIBE_URL, data)
+            elif settings.NEWSLETTER_SUBSCRIBE_METHOD == "MAIL":
+                send_mail(settings.NEWSLETTER_SUBSCRIBE_MAIL_SUBJECT.format(email), "", "petition@antipub.org",
+                          ["sympa@antipub.listes.vox.coop"], fail_silently=False)
             else:
                 raise ValueError("setting NEWSLETTER_SUBSCRIBE_METHOD must either be POST or GET")
 
