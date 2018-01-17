@@ -5,7 +5,7 @@ from petition.models import Signature, Petition
 
 @admin.register(Signature)
 class SignatureAdmin(admin.ModelAdmin):
-    list_display =  ('first_name', 'last_name', 'phone', 'email', 'confirmed', 'subscribed_to_mailinglist', 'petition')
+    list_display =  ('first_name', 'last_name', 'phone', 'email', 'confirmed', 'subscribed_to_mailinglist', 'petition', 'date')
 
 
 @admin.register(Petition)
