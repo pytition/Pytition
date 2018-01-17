@@ -55,6 +55,7 @@ class Signature(models.Model):
     confirmed = models.BooleanField(default=False)
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
     subscribed_to_mailinglist = models.BooleanField(default=False)
+    date = models.DateTimeField(blank=True, auto_now_add=True)
 
     def __str__(self):
         return html.unescape("[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,
