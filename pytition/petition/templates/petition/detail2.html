@@ -106,6 +106,10 @@ body{
     .errormsg {
     background-color: red;
     }
+
+    .successmsg {
+    background-color: #00aa00;
+    }
 </style>
 
 			<div class="petition-wrapper">
@@ -114,7 +118,13 @@ body{
 {% if errormsg %}
 <div class="errormsg">
     <h2>Erreur</h2>
-    <b>{{ errormsg }}</b>
+    <p><b>{{ errormsg }}</b></p>
+</div>
+{% endif %}
+{% if successmsg %}
+<div class="successmsg">
+    <h2>Merci !</h2>
+    <p><b>{% autoescape off%}{{ successmsg }}{% endautoescape %}</b></p>
 </div>
 {% endif %}
 					<h1>{% autoescape off%}{{ petition.title }}{% endautoescape %}</h1>

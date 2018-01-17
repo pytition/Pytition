@@ -76,6 +76,9 @@ def detail(request, petition_id):
         message = strip_tags(html_message)
         send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [email],
                   fail_silently=False, html_message=html_message)
+        successmsg = "Merci d'avoir signé la pétition, vous allez recevoir un e-mail afin de confirmer votre signature.<br>" \
+                     "Vous devrez cliquer sur le lien à l'intérieur du mail.<br>Si vous ne trouvez pas le mail consultez votre" \
+                     "dossier \"spam\" ou \"indésirable\""
 
         if subscribe:
             if settings.NEWSLETTER_SUBSCRIBE_METHOD in ["POST", "GET"]:
@@ -90,8 +93,10 @@ def detail(request, petition_id):
                           ["sympa@antipub.listes.vox.coop"], fail_silently=False)
             else:
                 raise ValueError("setting NEWSLETTER_SUBSCRIBE_METHOD must either be POST or GET")
+    else:
+        successmsg = None
 
-    return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None})
+    return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None, 'successmsg': successmsg})
 
 
 def get_json_data(request, petition_id):
