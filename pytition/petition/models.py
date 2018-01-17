@@ -49,7 +49,7 @@ class Petition(models.Model):
 class Signature(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20, blank=True)
     email = models.EmailField()
     confirmation_hash = models.CharField(max_length=128)
     confirmed = models.BooleanField(default=False)
