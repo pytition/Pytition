@@ -9,36 +9,36 @@
 		<meta name="robots" content="index,follow,noodp"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width"/>
-		<title>{% autoescape off %}{{ petition.title|striptags }}{% endautoescape %}</title>
-		<meta name="description" content="(Comment) les entreprises de l’agrochimie tentent de nous imposer en douce les nouveaux OGM" />
+		<title>{{ petition.raw_title }}</title>
+		<meta name="description" content="{{ petition.raw_title }}" />
 
-    <meta property="og:title" content="{{ petition.title|striptags }}"/>
+    <meta property="og:title" content="{{ petition.raw_title }}"/>
                 {% if petition.twitter_description %}
-    <meta name="og:description" content="{{ petition.twitter_description }}"/>
+    <meta name="og:description" content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
         {% else %}
-        <meta name="og:description" content="{{ petition.text|striptags }}"/>
+        <meta name="og:description" content="{{ petition.raw_text }}"/>
         {% endif %}
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://petition.antipub.org/petition/{{ petition.id }}/"/>
     <meta property="og:site_name" content="petition.antipub.org"/>
 		<!-- FIXME: <meta property="og:image" content=""/> //-->
 
-    <meta itemprop="name" content="{{ petition.title|striptags }}"/>
+    <meta itemprop="name" content="{{ petition.raw_title }}"/>
         {% if petition.twitter_description %}
-    <meta itemprop="description" content="{{ petition.twitter_description }}"/>
+    <meta itemprop="description" content="{{ petition.raw_twitter_description }}"/>
         {% else %}
-        <meta itemprop="description" content="{{ petition.text|striptags }}"/>
+        <meta itemprop="description" content="{{ petition.raw_text }}"/>
         {% endif %}
         <!-- FIXME: <meta itemprop="url" content=""/> //-->
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:creator" content="@yannsionneau"/>
     <meta name="twitter:site" content="{{ settings.ORG_TWITTER_HANDLE }}"/>
-    <meta name="twitter:title" content="{{ petition.title|striptags }}"/>
+    <meta name="twitter:title" content="{{ petition.raw_title }}"/>
         {% if petition.twitter_description %}
-    <meta name="twitter:description" content="{{ petition.twitter_description }}"/>
+    <meta name="twitter:description" content="{{ petition.raw_twitter_description }}"/>
         {% else %}
-        <meta name="twitter:description" content="{{ petition.text|striptags }}"/>
+        <meta name="twitter:description" content="{{ petition.raw_text }}"/>
         {% endif %}
         {% if petition.twitter_image %}
 		<meta name="twitter:image" content="{{ petition.twitter_image }}"/>

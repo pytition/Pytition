@@ -39,11 +39,23 @@ class Petition(models.Model):
     twitter_description = models.CharField(max_length=200, blank=True)
     twitter_image = models.CharField(max_length=500, blank=True)
 
-    def __str__(self):
+    @property
+    def raw_twitter_description(self):
+        return html.unescape(mark_safe(strip_tags(self.twitter_description)))
+
+    @property
+    def raw_text(self):
+        return html.unescape(mark_safe(strip_tags(self.text)))
+
+    @property
+    def raw_title(self):
         return html.unescape(mark_safe(strip_tags(self.title)))
 
+    def __str__(self):
+        return self.raw_title
+
     def __repr__(self):
-        return html.unescape(mark_safe(strip_tags(self.title)))
+        return self.raw_title
 
 
 class Signature(models.Model):
