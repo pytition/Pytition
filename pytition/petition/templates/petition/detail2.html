@@ -9,36 +9,36 @@
 		<meta name="robots" content="index,follow,noodp"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width"/>
-		<title>{{ petition.raw_title }}</title>
-		<meta name="description" content="{{ petition.raw_title }}" />
+		<title>{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}</title>
+		<meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{ %endautoescape %}" />
 
-    <meta property="og:title" content="{{ petition.raw_title }}"/>
+    <meta property="og:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
                 {% if petition.twitter_description %}
     <meta name="og:description" content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
         {% else %}
-        <meta name="og:description" content="{{ petition.raw_text }}"/>
+        <meta name="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
         {% endif %}
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://petition.antipub.org/petition/{{ petition.id }}/"/>
     <meta property="og:site_name" content="petition.antipub.org"/>
 		<!-- FIXME: <meta property="og:image" content=""/> //-->
 
-    <meta itemprop="name" content="{{ petition.raw_title }}"/>
+    <meta itemprop="name" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
         {% if petition.twitter_description %}
-    <meta itemprop="description" content="{{ petition.raw_twitter_description }}"/>
+    <meta itemprop="description" content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
         {% else %}
-        <meta itemprop="description" content="{{ petition.raw_text }}"/>
+        <meta itemprop="description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
         {% endif %}
         <!-- FIXME: <meta itemprop="url" content=""/> //-->
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:creator" content="@yannsionneau"/>
     <meta name="twitter:site" content="{{ settings.ORG_TWITTER_HANDLE }}"/>
-    <meta name="twitter:title" content="{{ petition.raw_title }}"/>
+    <meta name="twitter:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
         {% if petition.twitter_description %}
-    <meta name="twitter:description" content="{{ petition.raw_twitter_description }}"/>
+    <meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
         {% else %}
-        <meta name="twitter:description" content="{{ petition.raw_text }}"/>
+        <meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
         {% endif %}
         {% if petition.twitter_image %}
 		<meta name="twitter:image" content="{{ petition.twitter_image }}"/>
@@ -204,7 +204,7 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 <div id='OGM_-_script_page_1Div' class='eaFullWidthContent'><script type="text/javascript">// <![CDATA[
   window.virtualPageURL = '/petition/{{ petition.id }}';
   window.virtualHostName = 'petition.antipub.org';
-  window.virtualPageTitle = '{{ petition.title }}';
+  window.virtualPageTitle = '{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}';
 
    dataLayer.push({
       'event':'franceVirtualPageview',
