@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width"/>
 		<title>{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}</title>
-		<meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{ %endautoescape %}" />
+		<meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}" />
 
     <meta property="og:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
                 {% if petition.twitter_description %}
