@@ -40,7 +40,7 @@ def get_csv_signature(request, petition_id):
     return response
 
 
-def detail(request, petition_id):
+def detail(request, petition_id, confirm=False, hash=None):
     try:
         petition = Petition.objects.get(pk=petition_id)
     except Petition.DoesNotExist:
@@ -71,7 +71,7 @@ def detail(request, petition_id):
         signature = Signature.objects.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
                                              petition_id = petition_id, confirmation_hash = hash,
                                              subscribed_to_mailinglist = subscribe)
-        url = request.build_absolute_uri("/petition/confirm/{}".format(hash))
+        url = request.build_absolute_uri("/petition/confirm/{}/{}".format(petition_id, hash))
         html_message = render_to_string("petition/confirmation_email.html", {'firstname': firstname, 'url': url})
         message = strip_tags(html_message)
         send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [email],
@@ -94,7 +94,22 @@ def detail(request, petition_id):
             else:
                 raise ValueError("setting NEWSLETTER_SUBSCRIBE_METHOD must either be POST or GET")
     else:
-        successmsg = None
+        if confirm:
+            signature = Signature.objects.get(confirmation_hash=hash)
+            if signature:
+                # Signature found, invalidating other signatures from same email
+                email = signature.email
+                Signature.objects.filter(email=email).exclude(confirmation_hash=hash).all().delete()
+                # Now confirm the signature corresponding to this hash
+                signature.confirmed = True
+                signature.save()
+                petition_id = signature.petition.id
+                successmsg = "Merci d'avoir confirmé votre signature !"
+            else:
+                raise Http404("Erreur: Cette confirmation n'existe pas")
+        else:
+            print("confirm est vide !")
+            successmsg = None
 
     return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None, 'successmsg': successmsg})
 
@@ -103,18 +118,3 @@ def get_json_data(request, petition_id):
     petition = Petition.objects.get(pk=petition_id)
     signatures = petition.signature_set.filter(confirmed=True).all()
     return JsonResponse({"rows":[{"columns":[{"name":"participatingSupporters","value":len(signatures),"type":"xs:int","format":""}]}]})
-
-
-def confirm(request, hash):
-    signature = Signature.objects.get(confirmation_hash = hash)
-    if signature:
-        # Signature found, invalidating other signatures from same email
-        email = signature.email
-        Signature.objects.filter(email = email).exclude(confirmation_hash = hash).all().delete()
-        # Now confirm the signature corresponding to this hash
-        signature.confirmed = True
-        signature.save()
-        petition_id = signature.petition.id
-        return redirect("/petition/{}".format(petition_id))
-    else:
-        raise Http404("Erreur: Cette confirmation n'existe pas")
