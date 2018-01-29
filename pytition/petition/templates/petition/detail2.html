@@ -129,7 +129,7 @@ body{
     <p><b>{% autoescape off%}{{ successmsg }}{% endautoescape %}</b></p>
 </div>
 {% endif %}
-					<h1>{% autoescape off%}{{ petition.title }}{% endautoescape %}</h1>
+					<h1>{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
 
 
 
