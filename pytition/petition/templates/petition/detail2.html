@@ -21,7 +21,9 @@
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://petition.antipub.org/petition/{{ petition.id }}/"/>
     <meta property="og:site_name" content="petition.antipub.org"/>
-		<!-- FIXME: <meta property="og:image" content=""/> //-->
+    {% if petition.twitter_image %}
+	<meta property="og:image" content="{{ petition.twitter_image }}"/>
+    {% endif %}
 
     <meta itemprop="name" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
         {% if petition.twitter_description %}
