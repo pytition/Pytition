@@ -14,9 +14,9 @@
 
     <meta property="og:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
                 {% if petition.twitter_description %}
-    <meta name="og:description" content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+    <meta property="og:description" content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
         {% else %}
-        <meta name="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
+        <meta property="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
         {% endif %}
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://petition.antipub.org/petition/{{ petition.id }}/"/>
