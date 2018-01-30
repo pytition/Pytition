@@ -4,6 +4,8 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 from .models import Petition, Signature
 
@@ -60,6 +62,14 @@ def detail(request, petition_id, confirm=False, hash=None):
                 subscribe = False
         except:
             subscribe = False
+
+        try:
+            validate_email(email)
+        except ValidationError:
+            errormsg = "L'adresse email indiquée \'{}\' est invalide".format(email)
+            return render(request, 'petition/detail2.html',
+                          {'petition': petition, 'errormsg': errormsg, 'successmsg': None})
+
         hash = str(uuid.uuid4())
 
         signatures = Signature.objects.filter(petition_id = petition_id)\
