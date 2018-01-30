@@ -89,8 +89,8 @@ def detail(request, petition_id, confirm=False, hash=None):
             elif settings.NEWSLETTER_SUBSCRIBE_METHOD == "GET":
                 requests.get(settings.NEWSLETTER_SUBSCRIBE_URL, data)
             elif settings.NEWSLETTER_SUBSCRIBE_METHOD == "MAIL":
-                send_mail(settings.NEWSLETTER_SUBSCRIBE_MAIL_SUBJECT.format(email), "", "petition@antipub.org",
-                          ["sympa@antipub.listes.vox.coop"], fail_silently=False)
+                send_mail(settings.NEWSLETTER_SUBSCRIBE_MAIL_SUBJECT.format(email), "", settings.NEWSLETTER_SUBSCRIBE_MAIL_FROM,
+                          [settings.NEWSLETTER_SUBSCRIBE_MAIL_TO], fail_silently=False)
             else:
                 raise ValueError("setting NEWSLETTER_SUBSCRIBE_METHOD must either be POST or GET")
     else:
@@ -108,7 +108,6 @@ def detail(request, petition_id, confirm=False, hash=None):
             else:
                 raise Http404("Erreur: Cette confirmation n'existe pas")
         else:
-            print("confirm est vide !")
             successmsg = None
 
     return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None, 'successmsg': successmsg})
