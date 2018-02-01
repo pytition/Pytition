@@ -23,6 +23,16 @@ class Petition(models.Model):
         (BOTTOM_LEFT,  "to bottom left")
     )
 
+    MAIL = "MAIL"
+    POST = "POST"
+    GET = "GET"
+
+    NEWSLETTER_SUBSCRIBE_METHOD_CHOICES = (
+        (MAIL, "MAIL"),
+        (POST, "POST"),
+        (GET,  "GET")
+    )
+
     title = tinymce_models.HTMLField()
     text = tinymce_models.HTMLField()
     background = models.ImageField(blank=True)
@@ -38,6 +48,16 @@ class Petition(models.Model):
     footer_links = tinymce_models.HTMLField(blank=True)
     twitter_description = models.CharField(max_length=200, blank=True)
     twitter_image = models.CharField(max_length=500, blank=True)
+    has_newsletter = models.BooleanField(default=False)
+    newsletter_subscribe_http_data = models.TextField(blank=True)
+    newsletter_subscribe_http_mailfield = models.CharField(max_length=100, blank=True)
+    newsletter_subscribe_http_url = models.CharField(max_length=1000, blank=True)
+    newsletter_subscribe_mail_subject = models.CharField(max_length=1000, blank=True)
+    newsletter_subscribe_mail_from = models.CharField(max_length=500, blank=True)
+    newsletter_subscribe_mail_to = models.CharField(max_length=500, blank=True)
+    newsletter_subscribe_method = models.CharField(choices=NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, max_length=4,
+                                                   default=MAIL)
+    published = models.BooleanField(default=False)
 
     @property
     def raw_twitter_description(self):

@@ -48,6 +48,9 @@ def detail(request, petition_id, confirm=False, hash=None):
     except Petition.DoesNotExist:
         raise Http404("Petition does not exist")
 
+    if not petition.published:
+        raise Http404("Petition does not exist")
+
     if request.method == "POST":
         post = request.POST
         firstname = post["first_name"]
@@ -90,17 +93,18 @@ def detail(request, petition_id, confirm=False, hash=None):
                      "Vous devrez cliquer sur le lien à l'intérieur du mail.<br>Si vous ne trouvez pas le mail consultez votre" \
                      "dossier \"spam\" ou \"indésirable\""
 
-        if subscribe:
-            if settings.NEWSLETTER_SUBSCRIBE_METHOD in ["POST", "GET"]:
-                data = settings.NEWSLETTER_SUBSCRIBE_HTTP_DATA
-                data[settings.NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME] = email
-            if settings.NEWSLETTER_SUBSCRIBE_METHOD == "POST":
-                requests.post(settings.NEWSLETTER_SUBSCRIBE_URL, data)
-            elif settings.NEWSLETTER_SUBSCRIBE_METHOD == "GET":
-                requests.get(settings.NEWSLETTER_SUBSCRIBE_URL, data)
-            elif settings.NEWSLETTER_SUBSCRIBE_METHOD == "MAIL":
-                send_mail(settings.NEWSLETTER_SUBSCRIBE_MAIL_SUBJECT.format(email), "", settings.NEWSLETTER_SUBSCRIBE_MAIL_FROM,
-                          [settings.NEWSLETTER_SUBSCRIBE_MAIL_TO], fail_silently=False)
+        if subscribe and petition.has_newsletter:
+            if petition.newsletter_subscribe_method in ["POST", "GET"]:
+                data = petition.newsletter_subscribe_http_data
+                data[petition.newsletter_subscribe_http_mailfield] = email
+            if petition.newsletter_subscribe_method == "POST":
+                requests.post(petition.newsletter_subscribe_http_url, data)
+            elif petition.newsletter_subscribe_method == "GET":
+                requests.get(petition.newsletter_subscribe_http_url, data)
+            elif petition.newsletter_subscribe_method == "MAIL":
+                send_mail(petition.newsletter_subscribe_mail_subject.format(email), "",
+                          petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
+                          fail_silently=False)
             else:
                 raise ValueError("setting NEWSLETTER_SUBSCRIBE_METHOD must either be POST or GET")
     else:
