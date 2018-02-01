@@ -19,7 +19,7 @@ def settings_context_processor(request):
 
 
 def index(request):
-    petition = Petition.objects.latest('id')
+    petition = Petition.objects.filter(published=True).latest('id')
     return redirect('/petition/{}'.format(petition.id))
 
 
