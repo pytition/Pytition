@@ -28,13 +28,6 @@ For your own usage of Pytition you should customize the following variables in s
 
 * ORG_NAME => your organization name
 * ORG_TWITTER_HANDLE => your organization's twitter handle
-* NEWSLETTER_SUBSCRIBE_METHOD => either MAIL or POST or GET depending on the method used to subscribe someone to your mailing list
-* NEWSLETTER_SUBSCRIBE_URL => the URL to GET (or POST) to subscribe someone to your mailing list (ML)
-* NEWSLETTER_SUBSCRIBE_HTTP_DATA => a dictionary of the data to POST/GET to subscribe someone to your ML
-* NEWSLETTER_SUBSCRIBE_EMAIL_FIELDNAME => the POST/GET field name for the email you want to subscribe to your ML
-* NEWSLETTER_SUBSCRIBE_MAIL_SUBJECT => if using MAIL method instead of HTTP POST/GET, this is the subject of the email, {} will be replaced my the email address to subscribe
-* NEWSLETTER_SUBSCRIBE_MAIL_FROM => the email address accepted as administrator of the list and able to subscribe people remotely via email
-* NEWSLETTER_SUBSCRIBE_MAIL_TO => the list email address, like sympa@lists.yourdomain.tld
 
 You can also customize the TinyMCE variables:
 
