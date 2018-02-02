@@ -36,6 +36,7 @@ class PetitionForm(ModelForm):
             'newsletter_subscribe_mail_to': 'Uniquement en cas d\'inscription à la newsletter via la méthode EMAIL. Adresse email d\'administration de la liste, ex : sympa@NOM_LISTE.listes.vox.coop',
             'newsletter_subscribe_method': 'Sélectionne la méthode utilisée pour inscrire quelqu\'un sur la newsletter. Soit HTTP GET ou POST ou via l\'envoie d\'un MAIL',
             'published': 'Si coché, la pétition est publiée et accessible sur le site',
+            'newsletter_text': 'Ex: Je veux recevoir des informations de la part de RAP.'
         }
         labels = {
             'title': 'Titre de la pétition',
@@ -61,7 +62,8 @@ class PetitionForm(ModelForm):
             'newsletter_subscribe_mail_from': 'Expéditeur du mail d\'inscription à la newsletter',
             'newsletter_subscribe_mail_to': 'Destinataire du mail d\'inscription à la newsletter',
             'newsletter_subscribe_method': 'Méthode d\'inscription à la newsletter',
-            'published': 'Publiée'
+            'published': 'Publiée',
+            'newsletter_text': 'Texte du label de la case à cocher d\'inscription à la newsletter'
         }
 
 

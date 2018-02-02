@@ -58,6 +58,7 @@ class Petition(models.Model):
     newsletter_subscribe_method = models.CharField(choices=NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, max_length=4,
                                                    default=MAIL)
     published = models.BooleanField(default=False)
+    newsletter_text = models.CharField(max_length=1000, blank=True)
 
     @property
     def raw_twitter_description(self):

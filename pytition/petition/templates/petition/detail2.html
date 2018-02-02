@@ -202,7 +202,7 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 </div>
 {% if petition.has_newsletter %}
 <div id='email_okDiv' class='eaFullWidthContent'><div class="eaQuestionLabel"></div><div class="eaQuestionCheckboxFormFieldContainer">
-<span class='eaQuestionCheckbox'><input id='email_okY' type='checkbox' name='email_ok' value='Y'/><label for="email_okY"> Je veux recevoir des informations de la part de {{ settings.ORG_NAME }}.</label></span>&nbsp;&nbsp;&nbsp;</div>
+<span class='eaQuestionCheckbox'><input id='email_okY' type='checkbox' name='email_ok' value='Y'/><label for="email_okY"> {{ petition.newsletter_text }}</label></span>&nbsp;&nbsp;&nbsp;</div>
 </div>
 {% endif %}
 <div id='OGM_-_script_page_1Div' class='eaFullWidthContent'><script type="text/javascript">// <![CDATA[
