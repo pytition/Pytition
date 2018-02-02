@@ -39,7 +39,7 @@ class PetitionForm(ModelForm):
         }
         labels = {
             'title': 'Titre de la pétition',
-            'text': 'Text de la pétition',
+            'text': 'Texte de la pétition',
             'background': 'Image de fond (non fonctionnel)',
             'mobile_background': 'Image de fond pour téléphone mobile (non fonctionnel)',
             'top_picture': 'Image en haut de la pétition (non fonctionnel)',
