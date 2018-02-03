@@ -8,10 +8,10 @@
 $ mkdir -p www/static
 $ virtualenv -p python3 pytition_venv
 $ source pytition_venv/bin/activate
-(pytition_venv) $ pip3 install django==1.11.9 pillow django-tinymce django-colorfield requests
 (pytition_venv) $ cd www
 (pytition_venv) $ git clone https://github.com/fallen/pytition
 (pytition_venv) $ cd pytition
+(pytition_venv) $ pip3 install -r requirements.txt
 ```
 
 ### Configure pytition/pytition/pytition/settings.py:
