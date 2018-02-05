@@ -41,6 +41,7 @@
     <form action="{% url 'get_csv_signature' original.id %}">
         <input type="submit" value="Generate signature CSV file">
     </form>
+    <h2><a href="{% url 'detail' original.id %}">Visualiser la pétition</a></h2>
     {% endif %}
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
 <div>
