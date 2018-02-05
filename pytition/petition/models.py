@@ -59,6 +59,7 @@ class Petition(models.Model):
                                                    default=MAIL)
     published = models.BooleanField(default=False)
     newsletter_text = models.CharField(max_length=1000, blank=True)
+    sign_form_footer = models.TextField(blank=True)
 
     @property
     def raw_twitter_description(self):
