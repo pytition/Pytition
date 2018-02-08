@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls static admin_modify %}
+{% load petition_extras %}
 
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
@@ -42,7 +43,9 @@
         <input type="submit" value="Generate signature CSV file">
     </form>
     <h2><a href="{% url 'detail' original.id %}">Visualiser la pétition</a></h2>
-    <h2><a href="{% url 'admin:petition_signature_changelist' %}?petition__id__exact={{ original.id }}">Visualiser les signatures</a></h2>
+    {% with "admin:"|addstr:app_label|addstr:"_signature_changelist" as urlname %}
+    <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}">Visualiser les signatures</a></h2>
+    {% endwith %}
     {% endif %}
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
 <div>
