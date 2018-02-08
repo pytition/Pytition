@@ -113,7 +113,8 @@ def detail(request, petition_id, confirm=False, hash=None):
             if signature:
                 # Signature found, invalidating other signatures from same email
                 email = signature.email
-                Signature.objects.filter(email=email).exclude(confirmation_hash=hash).all().delete()
+                Signature.objects.filter(email=email).filter(petition=petition_id).exclude(confirmation_hash=hash).all()\
+                    .delete()
                 # Now confirm the signature corresponding to this hash
                 signature.confirmed = True
                 signature.save()
