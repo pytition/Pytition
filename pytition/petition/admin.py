@@ -14,6 +14,7 @@ confirm.short_description = "Confirmer les signatures"
 @admin.register(Signature)
 class SignatureAdmin(admin.ModelAdmin):
     list_display =  ('first_name', 'last_name', 'phone', 'email', 'confirmed', 'subscribed_to_mailinglist', 'petition', 'date')
+    list_filter = ('petition', )
     actions = [confirm]
 
 
