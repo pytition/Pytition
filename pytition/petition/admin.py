@@ -4,9 +4,17 @@ from django.forms import ModelForm, TextInput
 from petition.models import Signature, Petition
 
 
+def confirm(modeladmin, request, queryset):
+    queryset.update(confirmed=True)
+
+
+confirm.short_description = "Confirmer les signatures"
+
+
 @admin.register(Signature)
 class SignatureAdmin(admin.ModelAdmin):
     list_display =  ('first_name', 'last_name', 'phone', 'email', 'confirmed', 'subscribed_to_mailinglist', 'petition', 'date')
+    actions = [confirm]
 
 
 class PetitionForm(ModelForm):
