@@ -2,20 +2,27 @@ from django.contrib import admin
 from django.forms import ModelForm, TextInput
 
 from petition.models import Signature, Petition
+from petition.views import send_confirmation_email
 
 
 def confirm(modeladmin, request, queryset):
     queryset.update(confirmed=True)
 
 
+def resend_confirmation_mail(modeladmin, request, queryset):
+    for signature in queryset:
+        send_confirmation_email(request, signature)
+
+
 confirm.short_description = "Confirmer les signatures"
+resend_confirmation_mail.short_description = "Renvoyer le mail de confirmation"
 
 
 @admin.register(Signature)
 class SignatureAdmin(admin.ModelAdmin):
     list_display =  ('first_name', 'last_name', 'phone', 'email', 'confirmed', 'subscribed_to_mailinglist', 'petition', 'date')
     list_filter = ('petition', )
-    actions = [confirm]
+    actions = [confirm, resend_confirmation_mail]
     search_fields = ('first_name', 'last_name', 'phone', 'email')
 
 
