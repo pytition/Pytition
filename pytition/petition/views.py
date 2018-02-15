@@ -6,6 +6,7 @@ from django.utils.html import strip_tags
 from django.conf import settings
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 
 from .models import Petition, Signature
 
@@ -51,6 +52,13 @@ def send_confirmation_email(request, signature):
     message = strip_tags(html_message)
     send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [signature.email],
               fail_silently=False, html_message=html_message)
+
+
+def go_send_confirmation_email(request, signature_id):
+    app_label = Signature._meta.app_label
+    signature = Signature.objects.filter(pk=signature_id).get()
+    send_confirmation_email(request, signature)
+    return redirect(reverse('admin:{}_signature_change'.format(app_label), args=[signature_id]))
 
 
 def subscribe_to_newsletter(petition, email):

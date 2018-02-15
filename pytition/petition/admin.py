@@ -24,6 +24,7 @@ class SignatureAdmin(admin.ModelAdmin):
     list_filter = ('petition', )
     actions = [confirm, resend_confirmation_mail]
     search_fields = ('first_name', 'last_name', 'phone', 'email')
+    change_form_template = 'petition/signature_change_form.html'
 
 
 class PetitionForm(ModelForm):
@@ -88,6 +89,6 @@ class PetitionForm(ModelForm):
 
 @admin.register(Petition)
 class PetitionAdmin(admin.ModelAdmin):
-    change_form_template = 'petition/change_form.html'
+    change_form_template = 'petition/petition_change_form.html'
     form = PetitionForm
     search_fields = ('title', )

@@ -15,4 +15,5 @@ urlpatterns = [
         name='get_csv_signature'),
     url(r'^(?P<petition_id>[0-9]+)/get_csv_confirmed_signature$', views.get_csv_signature, {'only_confirmed': True},
         name='get_csv_confirmed_signature'),
+    url(r'^resend/(?P<signature_id>[0-9]+)', views.go_send_confirmation_email, name='resend_confirmation_email'),
 ]
