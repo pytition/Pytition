@@ -39,8 +39,11 @@
 {% endif %}{% endif %}
 {% endblock %}
     {% if change %}
+    <form action="{% url 'get_csv_confirmed_signature' original.id %}">
+        <input type="submit" value="Generate confirmed signatures CSV file">
+    </form>
     <form action="{% url 'get_csv_signature' original.id %}">
-        <input type="submit" value="Generate signature CSV file">
+        <input type="submit" value="Generate ALL-signatures CSV file">
     </form>
     <h2><a href="{% url 'detail' original.id %}">Visualiser la pétition</a></h2>
     {% with "admin:"|addstr:app_label|addstr:"_signature_changelist" as urlname %}

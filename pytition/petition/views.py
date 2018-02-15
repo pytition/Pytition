@@ -23,18 +23,21 @@ def index(request):
     return redirect('/petition/{}'.format(petition.id))
 
 
-def get_csv_signature(request, petition_id):
+def get_csv_signature(request, petition_id, confirmed):
     try:
         petition = Petition.objects.get(pk=petition_id)
     except Petition.DoesNotExist:
         raise Http404("Petition does not exist")
 
     filename = '{}.csv'.format(petition)
-    signatures = Signature.objects.filter(petition_id = petition_id).filter(confirmed = True).all()
+    signatures = Signature.objects.filter(petition_id = petition_id)
+    if confirmed:
+        signatures = signatures.filter(confirmed = True)
+    signatures = signatures.all()
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment;filename={}'.format(filename).replace('\r\n', '').replace(' ', '%20')
     writer = csv.writer(response)
-    attrs = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist']
+    attrs = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist', 'confirmed']
     writer.writerow(attrs)
     for signature in signatures:
         values = [getattr(signature, field) for field in attrs]
