@@ -5,6 +5,7 @@ from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
 
 import html
+import uuid
 
 
 class Petition(models.Model):
@@ -61,6 +62,30 @@ class Petition(models.Model):
     newsletter_text = models.CharField(max_length=1000, blank=True)
     sign_form_footer = models.TextField(blank=True)
 
+    def sign(self, firstname, lastname, email, phone, subscribe):
+        hashstring = str(uuid.uuid4())
+        return self.signature_set.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
+                                         confirmation_hash = hashstring, subscribed_to_mailinglist = subscribe)
+
+    def already_signed(self, email):
+        signatures = Signature.objects.filter(petition_id = self.id)\
+            .filter(confirmed = True).filter(email = email).all()
+        return len(signatures) > 0
+
+    def confirm_signature(self, conf_hash):
+        signature = Signature.objects.get(confirmation_hash=conf_hash)
+        if signature:
+            # Signature found, invalidating other signatures from same email
+            email = signature.email
+            Signature.objects.filter(email=email).filter(petition=self.id).exclude(confirmation_hash=conf_hash).all() \
+                .delete()
+            # Now confirm the signature corresponding to this hash
+            signature.confirm()
+            signature.save()
+            return "Merci d'avoir confirmé votre signature !"
+        else:
+            return None
+
     @property
     def raw_twitter_description(self):
         return html.unescape(mark_safe(strip_tags(self.twitter_description)))
@@ -90,6 +115,9 @@ class Signature(models.Model):
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
     subscribed_to_mailinglist = models.BooleanField(default=False)
     date = models.DateTimeField(blank=True, auto_now_add=True)
+
+    def confirm(self):
+        self.confirmed = True
 
     def __str__(self):
         return html.unescape("[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,

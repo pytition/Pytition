@@ -9,7 +9,6 @@ from django.core.exceptions import ValidationError
 
 from .models import Petition, Signature
 
-import uuid
 import requests
 import csv
 
@@ -23,7 +22,7 @@ def index(request):
     return redirect('/petition/{}'.format(petition.id))
 
 
-def get_csv_signature(request, petition_id, confirmed):
+def get_csv_signature(request, petition_id, only_confirmed):
     try:
         petition = Petition.objects.get(pk=petition_id)
     except Petition.DoesNotExist:
@@ -31,7 +30,7 @@ def get_csv_signature(request, petition_id, confirmed):
 
     filename = '{}.csv'.format(petition)
     signatures = Signature.objects.filter(petition_id = petition_id)
-    if confirmed:
+    if only_confirmed:
         signatures = signatures.filter(confirmed = True)
     signatures = signatures.all()
     response = HttpResponse(content_type='text/csv')
@@ -45,14 +44,37 @@ def get_csv_signature(request, petition_id, confirmed):
     return response
 
 
-def detail(request, petition_id, confirm=False, hash=None):
+def send_confirmation_email(request, signature):
+    petition = signature.petition
+    url = request.build_absolute_uri("/petition/confirm/{}/{}".format(petition.id, signature.confirmation_hash))
+    html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
+    message = strip_tags(html_message)
+    send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [signature.email],
+              fail_silently=False, html_message=html_message)
+
+
+def subscribe_to_newsletter(petition, email):
+    if petition.newsletter_subscribe_method in ["POST", "GET"]:
+        data = petition.newsletter_subscribe_http_data
+        data[petition.newsletter_subscribe_http_mailfield] = email
+    if petition.newsletter_subscribe_method == "POST":
+        requests.post(petition.newsletter_subscribe_http_url, data)
+    elif petition.newsletter_subscribe_method == "GET":
+        requests.get(petition.newsletter_subscribe_http_url, data)
+    elif petition.newsletter_subscribe_method == "MAIL":
+        send_mail(petition.newsletter_subscribe_mail_subject.format(email), "",
+                  petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
+                  fail_silently=False)
+
+
+def detail(request, petition_id, do_confirmation=False, confirmation_hash=None):
     try:
         petition = Petition.objects.get(pk=petition_id)
     except Petition.DoesNotExist:
         raise Http404("Petition does not exist")
 
     if not petition.published:
-        raise Http404("Petition does not exist")
+        raise Http404("This Petition is not published yet!")
 
     if request.method == "POST":
         post = request.POST
@@ -63,11 +85,11 @@ def detail(request, petition_id, confirm=False, hash=None):
         try:
             emailOK = post["email_ok"]
             if emailOK == "Y":
-                subscribe = True
+                do_subscribe = True
             else:
-                subscribe = False
+                do_subscribe = False
         except:
-            subscribe = False
+            do_subscribe = False
 
         try:
             validate_email(email)
@@ -76,54 +98,24 @@ def detail(request, petition_id, confirm=False, hash=None):
             return render(request, 'petition/detail2.html',
                           {'petition': petition, 'errormsg': errormsg, 'successmsg': None})
 
-        hash = str(uuid.uuid4())
-
-        signatures = Signature.objects.filter(petition_id = petition_id)\
-            .filter(confirmed = True).filter(email = email).all()
-        if len(signatures) > 0:
+        if petition.already_signed(email):
             return render(request, 'petition/detail2.html', {'petition': petition,
                                                              'errormsg': 'Vous avez déjà signé la pétition'})
 
-        signature = Signature.objects.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
-                                             petition_id = petition_id, confirmation_hash = hash,
-                                             subscribed_to_mailinglist = subscribe)
-        url = request.build_absolute_uri("/petition/confirm/{}/{}".format(petition_id, hash))
-        html_message = render_to_string("petition/confirmation_email.html", {'firstname': firstname, 'url': url})
-        message = strip_tags(html_message)
-        send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [email],
-                  fail_silently=False, html_message=html_message)
+        signature = petition.sign(firstname = firstname, lastname = lastname, email = email, phone = phone,
+                                  subscribe = do_subscribe)
+        send_confirmation_email(request, signature)
         successmsg = "Merci d'avoir signé la pétition, vous allez recevoir un e-mail afin de confirmer votre signature.<br>" \
                      "Vous devrez cliquer sur le lien à l'intérieur du mail.<br>Si vous ne trouvez pas le mail consultez votre" \
                      "dossier \"spam\" ou \"indésirable\""
 
-        if subscribe and petition.has_newsletter:
-            if petition.newsletter_subscribe_method in ["POST", "GET"]:
-                data = petition.newsletter_subscribe_http_data
-                data[petition.newsletter_subscribe_http_mailfield] = email
-            if petition.newsletter_subscribe_method == "POST":
-                requests.post(petition.newsletter_subscribe_http_url, data)
-            elif petition.newsletter_subscribe_method == "GET":
-                requests.get(petition.newsletter_subscribe_http_url, data)
-            elif petition.newsletter_subscribe_method == "MAIL":
-                send_mail(petition.newsletter_subscribe_mail_subject.format(email), "",
-                          petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
-                          fail_silently=False)
-            else:
-                raise ValueError("setting NEWSLETTER_SUBSCRIBE_METHOD must either be POST or GET")
+        if do_subscribe and petition.has_newsletter:
+            subscribe_to_newsletter(petition, email)
+
     else:
-        if confirm:
-            signature = Signature.objects.get(confirmation_hash=hash)
-            if signature:
-                # Signature found, invalidating other signatures from same email
-                email = signature.email
-                Signature.objects.filter(email=email).filter(petition=petition_id).exclude(confirmation_hash=hash).all()\
-                    .delete()
-                # Now confirm the signature corresponding to this hash
-                signature.confirmed = True
-                signature.save()
-                petition_id = signature.petition.id
-                successmsg = "Merci d'avoir confirmé votre signature !"
-            else:
+        if do_confirmation:
+            successmsg = petition.confirm_signature(confirmation_hash)
+            if successmsg is None:
                 raise Http404("Erreur: Cette confirmation n'existe pas")
         else:
             successmsg = None
