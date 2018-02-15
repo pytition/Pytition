@@ -48,6 +48,7 @@
     <h2><a href="{% url 'detail' original.id %}">Visualiser la pétition</a></h2>
     {% with "admin:"|addstr:app_label|addstr:"_signature_changelist" as urlname %}
     <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}">Visualiser les signatures</a></h2>
+    <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}&confirmed__exact=0">Visualiser les signatures non confirmées</a></h2>
     {% endwith %}
     {% endif %}
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
