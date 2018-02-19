@@ -58,6 +58,7 @@ class Petition(models.Model):
     newsletter_subscribe_mail_to = models.CharField(max_length=500, blank=True)
     newsletter_subscribe_method = models.CharField(choices=NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, max_length=4,
                                                    default=MAIL)
+    org_twitter_handle = models.CharField(max_length=20)
     published = models.BooleanField(default=False)
     newsletter_text = models.CharField(max_length=1000, blank=True)
     sign_form_footer = models.TextField(blank=True)

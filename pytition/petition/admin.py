@@ -55,7 +55,8 @@ class PetitionForm(ModelForm):
             'newsletter_subscribe_method': 'Sélectionne la méthode utilisée pour inscrire quelqu\'un sur la newsletter. Soit HTTP GET ou POST ou via l\'envoie d\'un MAIL',
             'published': 'Si coché, la pétition est publiée et accessible sur le site',
             'newsletter_text': 'Ex: Je veux recevoir des informations de la part de RAP.',
-            'sign_form_footer': 'Ex: Vos données resteront strictement confidentielles et ne seront ni vendues ni échangées. Des informations sur cette campagne ainsi que d’autres actualités sur RAP vous seront envoyées si vous avez coché la case. Vous pouvez vous désinscrire à tout moment.'
+            'sign_form_footer': 'Ex: Vos données resteront strictement confidentielles et ne seront ni vendues ni échangées. Des informations sur cette campagne ainsi que d’autres actualités sur RAP vous seront envoyées si vous avez coché la case. Vous pouvez vous désinscrire à tout moment.',
+            'org_twitter_handle': 'Le compte Twitter de l\'organisation, précédé du @. Ex: @RAP_Asso. Nécessaire pour attribuer la \'Twitter Card\' au bon compte. Cf https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary'
         }
         labels = {
             'title': 'Titre de la pétition',
@@ -84,6 +85,7 @@ class PetitionForm(ModelForm):
             'published': 'Publiée',
             'newsletter_text': 'Texte du label de la case à cocher d\'inscription à la newsletter',
             'sign_form_footer': 'Texte sous le formulaire',
+            'org_twitter_handle': 'Compte Twitter de l\'organisation'
         }
 
 

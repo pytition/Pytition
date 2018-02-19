@@ -35,7 +35,7 @@
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:creator" content="@yannsionneau"/>
-    <meta name="twitter:site" content="{{ settings.ORG_TWITTER_HANDLE }}"/>
+    <meta name="twitter:site" content="{% autoescape off %}{{ petition.org_twitter_handle }}{% endautoescape %}"/>
     <meta name="twitter:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
         {% if petition.twitter_description %}
     <meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>

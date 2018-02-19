@@ -24,12 +24,8 @@ In a production environment you should modify the following settings:
 * STATIC_ROOT => /home/your_user/www/static
 
 ### Setup your customization
-For your own usage of Pytition you should customize the following variables in settings.py:
 
-* ORG_NAME => your organization name
-* ORG_TWITTER_HANDLE => your organization's twitter handle
-
-You can also customize the TinyMCE variables:
+You can customize the TinyMCE variables:
 
 * TINYMCE_JS_URL
 * TINYMCE_DEFAULT_CONFIG
