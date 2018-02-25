@@ -113,7 +113,7 @@ def detail(request, petition_id, do_confirmation=False, confirmation_hash=None):
         signature = petition.sign(firstname = firstname, lastname = lastname, email = email, phone = phone,
                                   subscribe = do_subscribe)
         send_confirmation_email(request, signature)
-        successmsg = "Merci d'avoir signé la pétition, vous allez recevoir un e-mail afin de confirmer votre signature.<br>" \
+        successmsg = "Merci d'avoir signé la pétition, un e-mail va vous être envoyé à l'adresse " + email + " afin de confirmer votre signature.<br>" \
                      "Vous devrez cliquer sur le lien à l'intérieur du mail.<br>Si vous ne trouvez pas le mail consultez votre" \
                      "dossier \"spam\" ou \"indésirable\""
 
