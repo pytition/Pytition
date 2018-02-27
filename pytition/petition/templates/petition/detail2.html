@@ -106,12 +106,36 @@ body{
     <div class="container petition">
 <style type="text/css">
     .errormsg {
-    background-color: red;
+        background-color: red;
     }
 
     .successmsg {
-    background-color: #00aa00;
+        background-color: #00aa00;
     }
+
+    .successmsg, .errormsg {
+        width: 100%;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 10px;
+    }
+
+   @media screen and (min-width:768px){
+       .successmsg, .errormsg {
+        width: 60%;
+       }
+   }
+
+   @media screen and (min-width:992px){
+       .successmsg, .errormsg {
+        width: 66.666%;
+       }
+   }
+   @media screen and (min-width:1090px){
+       .successmsg, .errormsg {
+        width: 69%;
+       }
+   }
 </style>
 
 			<div class="petition-wrapper">
