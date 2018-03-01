@@ -63,6 +63,12 @@ class Petition(models.Model):
     newsletter_text = models.CharField(max_length=1000, blank=True)
     sign_form_footer = models.TextField(blank=True)
 
+    def get_signature_number(self, confirmed=None):
+        signatures = self.signature_set
+        if confirmed is not None:
+            signatures = signatures.filter(confirmed=confirmed)
+        return len(signatures.all())
+
     def sign(self, firstname, lastname, email, phone, subscribe):
         hashstring = str(uuid.uuid4())
         return self.signature_set.create(first_name = firstname, last_name = lastname, email = email, phone = phone,

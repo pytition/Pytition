@@ -94,3 +94,16 @@ class PetitionAdmin(admin.ModelAdmin):
     change_form_template = 'petition/petition_change_form.html'
     form = PetitionForm
     search_fields = ('title', )
+    list_display = ('raw_title', 'non_confirmed_signature_number', 'confirmed_signature_number')
+
+    def non_confirmed_signature_number(self, petition):
+        return petition.get_signature_number(confirmed=False)
+    non_confirmed_signature_number.short_description = 'Signatures non confirmées'
+
+    def confirmed_signature_number(self, petition):
+        return petition.get_signature_number(confirmed=True)
+    confirmed_signature_number.short_description = 'Signatures confirmées'
+
+    def raw_title(self, petition):
+        return petition.raw_title
+    raw_title.short_description = 'Titre'
