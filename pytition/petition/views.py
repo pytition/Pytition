@@ -99,7 +99,7 @@ def detail(request, petition_id, do_confirmation=False, confirmation_hash=None):
         except:
             do_subscribe = False
         
-        if not (firstname or lastname):
+        if not (firstname and lastname):
             errormsg = "Vous devez mettre votre nom et prénom pour que la signature soit valide"
             return render(request, 'petition/detail2.html',
                           {'petition': petition, 'errormsg': errormsg, 'successmsg': None})
