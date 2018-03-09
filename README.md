@@ -111,7 +111,6 @@ If you try this URL before creating a petition you will get an error.
 
 * Python 3
 * Django
-* Pillow
 * django-tinymce
 * django-colorfield
 * requests

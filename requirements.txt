@@ -1,17 +1,4 @@
-certifi==2017.7.27.1
-chardet==3.0.4
 Django~=1.11.0
 django-colorfield==0.1.14
 django-tinymce==2.6.0
-get==0.0.0
-idna==2.6
-olefile==0.44
-Pillow==4.2.1
-pkg-resources==0.0.0
-post==0.0.0
-public==0.0.0
-pytz==2017.3
-query-string==0.0.0
 requests==2.18.4
-setupfiles==0.0.50
-urllib3==1.22
