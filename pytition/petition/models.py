@@ -132,4 +132,4 @@ class Signature(models.Model):
 
     def __repr__(self):
         return html.unescape("[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,
-                                      self.last_name))
+                                                    self.last_name))

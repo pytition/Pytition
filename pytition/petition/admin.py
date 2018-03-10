@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.forms import ModelForm, TextInput
 
-from petition.models import Signature, Petition
-from petition.views import send_confirmation_email
+
+from .models import Signature, Petition
+from .views import send_confirmation_email
 
 
 def confirm(modeladmin, request, queryset):
