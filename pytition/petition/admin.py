@@ -54,10 +54,23 @@ class PetitionForm(ModelForm):
             'newsletter_subscribe_mail_from': 'Uniquement en cas d\'inscription à la newsletter via la méthode EMAIL. L\'expéditeur du mail qui permet d\'enregistrer quelqu\'un à la newsletter. Il s\'agit généralement d\'une adresse qui est administratrice de la liste SYMPA ou MAILMAN',
             'newsletter_subscribe_mail_to': 'Uniquement en cas d\'inscription à la newsletter via la méthode EMAIL. Adresse email d\'administration de la liste, ex : sympa@NOM_LISTE.listes.vox.coop',
             'newsletter_subscribe_method': 'Sélectionne la méthode utilisée pour inscrire quelqu\'un sur la newsletter. Soit HTTP GET ou POST ou via l\'envoie d\'un MAIL',
-            'published': 'Si coché, la pétition est publiée et accessible sur le site',
+            'published': 'Si coché, la pétition est publiée et accessible sur le site.',
             'newsletter_text': 'Ex: Je veux recevoir des informations de la part de RAP.',
             'sign_form_footer': 'Ex: Vos données resteront strictement confidentielles et ne seront ni vendues ni échangées. Des informations sur cette campagne ainsi que d’autres actualités sur RAP vous seront envoyées si vous avez coché la case. Vous pouvez vous désinscrire à tout moment.',
-            'org_twitter_handle': 'Le compte Twitter de l\'organisation, précédé du @. Ex: @RAP_Asso. Nécessaire pour attribuer la \'Twitter Card\' au bon compte. Cf https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary'
+            'org_twitter_handle': 'Le compte Twitter de l\'organisation, précédé du @. Ex: @RAP_Asso. Nécessaire pour attribuer la \'Twitter Card\' au bon compte. Cf https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary',
+            'confirmation_email_sender': 'Ex: petition@mydomain.tld',
+            'confirmation_email_smtp_host': 'Si vous n\'avez pas de vrai compte mail, laissez \'localhost\'.',
+            'confirmation_email_smtp_port': '25 pour une connexion en clair, 587 pour STARTTLS, 465 pour TLS. Privilégiez TLS si le serveur le supporte.',
+            'confirmation_email_smtp_user': 'Laissez vide si vous n\'utiliser pas de compte.',
+            'confirmation_email_smtp_password': 'Laissez vide si vous n\'utilisez pas de compte.',
+            'confirmation_email_smtp_tls': 'Connexion SMTP chiffrée via TLS, préférez ce réglage à STARTTLS. Ne pas cocher les 2. Les 2 réglages sont mutuellement exclusifs.',
+            'confirmation_email_smtp_starttls': 'Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas cocher les 2. Les 2 réglages sont mutuellement exclusifs.',
+            'newsletter_subscribe_mail_smtp_host': 'Si vous n\'avez pas de vrai compte mail, laissez \'localhost\'.',
+            'newsletter_subscribe_mail_smtp_port': '25 pour une connexion en clair, 587 pour STARTTLS, 465 pour TLS. Privilégiez TLS si le serveur le supporte.',
+            'newsletter_subscribe_mail_smtp_user': 'Laissez vide si vous n\'utiliser pas de compte.',
+            'newsletter_subscribe_mail_smtp_password': 'Laissez vide si vous n\'utilisez pas de compte.',
+            'newsletter_subscribe_mail_smtp_tls': 'Connexion SMTP chiffrée via TLS, préférez ce réglage à STARTTLS. Ne pas cocher les 2. Les 2 réglages sont mutuellement exclusifs.',
+            'newsletter_subscribe_mail_smtp_starttls': 'Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas cocher les 2. Les 2 réglages sont mutuellement exclusifs.',
         }
         labels = {
             'title': 'Titre de la pétition',
@@ -86,7 +99,20 @@ class PetitionForm(ModelForm):
             'published': 'Publiée',
             'newsletter_text': 'Texte du label de la case à cocher d\'inscription à la newsletter',
             'sign_form_footer': 'Texte sous le formulaire',
-            'org_twitter_handle': 'Compte Twitter de l\'organisation'
+            'org_twitter_handle': 'Compte Twitter de l\'organisation',
+            'confirmation_email_sender': 'Expéditeur du mail de confirmation',
+            'confirmation_email_smtp_host': 'Serveur d\'envoie SMTP',
+            'confirmation_email_smtp_port': 'Port SMTP',
+            'confirmation_email_smtp_user': 'Nom d\'utilisateur du compte mail SMTP',
+            'confirmation_email_smtp_password': 'Mot de passe du compte mail SMTP',
+            'confirmation_email_smtp_tls': 'Connexion mail SMTP TLS ?',
+            'confirmation_email_smtp_starttls': 'Connexion mail SMTP STARTTLS ?',
+            'newsletter_subscribe_mail_smtp_host': 'Serveur d\'envoie SMTP',
+            'newsletter_subscribe_mail_smtp_port': 'Port SMTP',
+            'newsletter_subscribe_mail_smtp_user': 'Nom d\'utilisateur du compte mail SMTP',
+            'newsletter_subscribe_mail_smtp_password': 'Mot de passe du compte mail SMTP',
+            'newsletter_subscribe_mail_smtp_tls': 'Connexion mail SMTP TLS ?',
+            'newsletter_subscribe_mail_smtp_starttls': 'Connexion mail SMTP STARTTLS ?',
         }
 
 

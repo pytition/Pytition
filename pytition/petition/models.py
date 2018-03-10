@@ -58,10 +58,23 @@ class Petition(models.Model):
     newsletter_subscribe_mail_to = models.CharField(max_length=500, blank=True)
     newsletter_subscribe_method = models.CharField(choices=NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, max_length=4,
                                                    default=MAIL)
+    newsletter_subscribe_mail_smtp_host = models.CharField(max_length=100, default='localhost')
+    newsletter_subscribe_mail_smtp_port = models.IntegerField(default=25)
+    newsletter_subscribe_mail_smtp_user = models.CharField(max_length=200, blank=True)
+    newsletter_subscribe_mail_smtp_password = models.CharField(max_length=200, blank=True)
+    newsletter_subscribe_mail_smtp_tls = models.BooleanField(default=False)
+    newsletter_subscribe_mail_smtp_starttls = models.BooleanField(default=False)
     org_twitter_handle = models.CharField(max_length=20)
     published = models.BooleanField(default=False)
     newsletter_text = models.CharField(max_length=1000, blank=True)
     sign_form_footer = models.TextField(blank=True)
+    confirmation_email_sender = models.CharField(max_length=100)
+    confirmation_email_smtp_host = models.CharField(max_length=100, default='localhost')
+    confirmation_email_smtp_port = models.IntegerField(default=25)
+    confirmation_email_smtp_user = models.CharField(max_length=200, blank=True)
+    confirmation_email_smtp_password = models.CharField(max_length=200, blank=True)
+    confirmation_email_smtp_tls = models.BooleanField(default=False)
+    confirmation_email_smtp_starttls = models.BooleanField(default=False)
 
     def get_signature_number(self, confirmed=None):
         signatures = self.signature_set

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse, HttpResponse
-from django.core.mail import send_mail
+from django.core.mail import get_connection, send_mail
+from django.core.mail.message import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
@@ -50,8 +51,13 @@ def send_confirmation_email(request, signature):
     url = request.build_absolute_uri("/petition/confirm/{}/{}".format(petition.id, signature.confirmation_hash))
     html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
     message = strip_tags(html_message)
-    send_mail("Confirmez votre signature à notre pétition", message, "petition@antipub.org", [signature.email],
-              fail_silently=False, html_message=html_message)
+    with get_connection(host=petition.confirmation_email_smtp_host, port=petition.confirmation_email_smtp_port,
+                        username=petition.confirmation_email_smtp_user,
+                        password=petition.confirmation_email_smtp_password,
+                        use_ssl=petition.confirmation_email_smtp_tls,
+                        use_tls=petition.confirmation_email_smtp_starttls) as connection:
+        send_mail("Confirmez votre signature à notre pétition", message, petition.confirmation_email_sender,
+                     [signature.email], html_message=html_message, connection=connection, fail_silently=False)
 
 
 def go_send_confirmation_email(request, signature_id):
@@ -70,9 +76,15 @@ def subscribe_to_newsletter(petition, email):
     elif petition.newsletter_subscribe_method == "GET":
         requests.get(petition.newsletter_subscribe_http_url, data)
     elif petition.newsletter_subscribe_method == "MAIL":
-        send_mail(petition.newsletter_subscribe_mail_subject.format(email), "",
-                  petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
-                  fail_silently=False)
+        with get_connection(host=petition.newsletter_subscribe_mail_smtp_host,
+                            port=petition.newsletter_subscribe_mail_smtp_port,
+                            username=petition.newsletter_subscribe_mail_smtp_user,
+                            password=petition.newsletter_subscribe_mail_smtp_password,
+                            use_ssl=petition.newsletter_subscribe_mail_smtp_tls,
+                            use_tls=petition.newsletter_subscribe_mail_smtp_starttls) as connection:
+            EmailMessage(petition.newsletter_subscribe_mail_subject.format(email), "",
+                         petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
+                         connection=connection).send(fail_silently=False)
 
 
 def detail(request, petition_id, do_confirmation=False, confirmation_hash=None):
