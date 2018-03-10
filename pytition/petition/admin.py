@@ -122,6 +122,44 @@ class PetitionAdmin(admin.ModelAdmin):
     form = PetitionForm
     search_fields = ('title', )
     list_display = ('raw_title', 'non_confirmed_signature_number', 'confirmed_signature_number')
+    fieldsets = (
+        ('Contenu de la pétition',
+         {
+          'fields': ('title', 'text', 'side_text', 'footer_text', 'footer_links', 'sign_form_footer', 'target')
+         }
+        ),
+        ('Couleur de fond',
+         {
+             'fields': ('linear_gradient_direction', 'gradient_from', 'gradient_to', 'bgcolor')
+         }
+         ),
+        ('Configuration de la newsletter associée à la pétition',
+         {
+             'fields': ('has_newsletter', 'newsletter_text', 'newsletter_subscribe_method',
+                        'newsletter_subscribe_http_data', 'newsletter_subscribe_http_mailfield',
+                        'newsletter_subscribe_http_url', 'newsletter_subscribe_mail_subject',
+                        'newsletter_subscribe_mail_from', 'newsletter_subscribe_mail_to',
+                        'newsletter_subscribe_mail_smtp_host', 'newsletter_subscribe_mail_smtp_port',
+                        'newsletter_subscribe_mail_smtp_user', 'newsletter_subscribe_mail_smtp_password',
+                        'newsletter_subscribe_mail_smtp_tls', 'newsletter_subscribe_mail_smtp_starttls')
+         }
+         ),
+        ('Configuration du mail de confirmation',
+         {
+             'fields': ('confirmation_email_sender', 'confirmation_email_smtp_host', 'confirmation_email_smtp_port',
+                        'confirmation_email_smtp_user', 'confirmation_email_smtp_password',
+                        'confirmation_email_smtp_tls', 'confirmation_email_smtp_starttls')
+         }
+        ),
+        ('Méta-données de la pétition pour les réseaux sociaux',
+         {
+             'fields': ('twitter_description', 'twitter_image', 'org_twitter_handle')
+         }),
+        ('Publication de la pétition',
+         {
+             'fields': ('published', )
+         })
+    )
 
     def non_confirmed_signature_number(self, petition):
         return petition.get_signature_number(confirmed=False)
