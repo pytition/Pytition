@@ -114,3 +114,5 @@ If you try this URL before creating a petition you will get an error.
 * django-tinymce
 * django-colorfield
 * requests
+* mysqlclient
+* Pillow
