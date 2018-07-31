@@ -93,7 +93,7 @@ def detail(request, petition_id, do_confirmation=False, confirmation_hash=None):
     except Petition.DoesNotExist:
         raise Http404("Petition does not exist")
 
-    if not petition.published:
+    if not petition.published and not request.user.is_authenticated:
         raise Http404("This Petition is not published yet!")
 
     if request.method == "POST":
