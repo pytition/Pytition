@@ -40,15 +40,15 @@
 {% endblock %}
     {% if change %}
     <form action="{% url 'get_csv_confirmed_signature' original.id %}">
-        <input type="submit" value="Generate confirmed signatures CSV file">
+        <input type="submit" value="{% trans "Generate confirmed signatures CSV file" %}">
     </form>
     <form action="{% url 'get_csv_signature' original.id %}">
-        <input type="submit" value="Generate ALL-signatures CSV file">
+        <input type="submit" value="{% trans "Generate ALL-signatures CSV file" %}">
     </form>
-    <h2><a href="{% url 'detail' original.id %}">Visualiser la pétition</a></h2>
+    <h2><a href="{% url 'detail' original.id %}">{% trans "Preview the petition" %}</a></h2>
     {% with "admin:"|addstr:app_label|addstr:"_signature_changelist" as urlname %}
-    <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}">Visualiser les signatures</a></h2>
-    <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}&confirmed__exact=0">Visualiser les signatures non confirmées</a></h2>
+    <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}">{% trans "Show the signatures" %}</a></h2>
+    <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}&confirmed__exact=0">{% trans "Show unconfirmed signatures" %}</a></h2>
     {% endwith %}
     {% endif %}
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}

@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^petition/', include('petition.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 ]

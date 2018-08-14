@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.html import mark_safe, strip_tags
+from django.utils.translation import ugettext as _
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
@@ -45,7 +46,7 @@ class Petition(models.Model):
     gradient_from = ColorField(blank=True)
     gradient_to = ColorField(blank=True)
     bgcolor = ColorField(blank=True)
-    footer_text = tinymce_models.HTMLField(default="Cette pétition est hébergée sur le site de RAP.")
+    footer_text = tinymce_models.HTMLField(default=_("This petition is hosted on RAP website."))
     footer_links = tinymce_models.HTMLField(blank=True)
     twitter_description = models.CharField(max_length=200, blank=True)
     twitter_image = models.CharField(max_length=500, blank=True)
@@ -102,7 +103,7 @@ class Petition(models.Model):
             # Now confirm the signature corresponding to this hash
             signature.confirm()
             signature.save()
-            return "Merci d'avoir confirmé votre signature !"
+            return _("Thank you for confirming your signature!")
         else:
             return None
 
