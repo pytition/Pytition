@@ -117,7 +117,7 @@ class Petition(models.Model):
 
     @property
     def raw_title(self):
-        return html.unescape(mark_safe(strip_tags(self.title)))
+        return html.unescape(mark_safe(strip_tags(self.title).strip()))
 
     def __str__(self):
         return self.raw_title
