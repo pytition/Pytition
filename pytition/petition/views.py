@@ -5,15 +5,30 @@ from django.core.mail.message import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
-from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.translation import ugettext as _
+from django.contrib import messages
+from django.utils.html import format_html
 
 from .models import Petition, Signature
+from .forms import SignatureForm
 
 import requests
 import csv
+
+
+def petition_from_id(id):
+    petition = Petition.by_id(id)
+    if petition is None:
+        raise Http404(_("Petition does not exist"))
+    else:
+        return petition
+
+
+def check_petition_is_accessible(request, petition):
+    if not petition.published and not request.user.is_authenticated:
+        raise Http404(_("This Petition is not published yet!"))
 
 
 def settings_context_processor(request):
@@ -26,10 +41,7 @@ def index(request):
 
 
 def get_csv_signature(request, petition_id, only_confirmed):
-    try:
-        petition = Petition.objects.get(pk=petition_id)
-    except Petition.DoesNotExist:
-        raise Http404(_("This petition does not exist"))
+    petition = petition_from_id(petition_id)
 
     filename = '{}.csv'.format(petition)
     signatures = Signature.objects.filter(petition_id = petition_id)
@@ -85,72 +97,58 @@ def subscribe_to_newsletter(petition, email):
                             use_tls=petition.newsletter_subscribe_mail_smtp_starttls) as connection:
             EmailMessage(petition.newsletter_subscribe_mail_subject.format(email), "",
                          petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
-                         connection=connection).send(fail_silently=False)
+                         connection=connection).send(fail_silently=True)
 
 
-def detail(request, petition_id, do_confirmation=False, confirmation_hash=None):
-    try:
-        petition = Petition.objects.get(pk=petition_id)
-    except Petition.DoesNotExist:
-        raise Http404(_("This petition does not exist"))
-
-    if not petition.published and not request.user.is_authenticated:
-        raise Http404(_("This Petition is not published yet!"))
+def create_signature(request, petition_id):
+    petition = petition_from_id(petition_id)
+    check_petition_is_accessible(request, petition)
 
     if request.method == "POST":
-        post = request.POST
-        firstname = post["first_name"]
-        lastname = post["last_name"]
-        email = post["email"]
-        phone = post["phone_number"]
-        try:
-            emailOK = post["email_ok"]
-            if emailOK == "Y":
-                do_subscribe = True
-            else:
-                do_subscribe = False
-        except:
-            do_subscribe = False
-        
-        if not (firstname and lastname):
-            errormsg = _("You must enter your first and last names for the signature to be valid.")
-            return render(request, 'petition/detail2.html',
-                          {'petition': petition, 'errormsg': errormsg, 'successmsg': None})
-        
-        try:
-            validate_email(email)
-        except ValidationError:
-            errormsg = _("Invalid email address \'{email}\'").format(email=email)
-            return render(request, 'petition/detail2.html',
-                          {'petition': petition, 'errormsg': errormsg, 'successmsg': None})
+        form = SignatureForm(petition=petition, data=request.POST)
+        if not form.is_valid():
+            return render(request, 'petition/detail2.html', {'petition': petition, 'form': form})
 
-        if petition.already_signed(email):
-            return render(request, 'petition/detail2.html', {'petition': petition,
-                                                             'errormsg': _('You already signed the petition.')})
-
-        signature = petition.sign(firstname = firstname, lastname = lastname, email = email, phone = phone,
-                                  subscribe = do_subscribe)
+        signature = form.save()
         send_confirmation_email(request, signature)
-        successmsg = _("Thank you for signing this petition, an email has just been sent to you at your address \'{}\'" \
-                       " in order to confirm your signature.<br>" \
-                       "You will need to click on the confirmation link in the email.<br>" \
-                       "If you cannot find the email in your Inbox, please have a look in your Spam box.").format(email)
+        messages.success(request,
+            format_html(_("Thank you for signing this petition, an email has just been sent to you at your address \'{}\'" \
+            " in order to confirm your signature.<br>" \
+            "You will need to click on the confirmation link in the email.<br>" \
+            "If you cannot find the email in your Inbox, please have a look in your Spam box.")\
+            , signature.email))
 
-        if do_subscribe and petition.has_newsletter:
-            subscribe_to_newsletter(petition, email)
+        if petition.has_newsletter and signature.subscribed_to_mailinglist:
+            subscribe_to_newsletter(petition, signature.email)
 
-    else:
-        if do_confirmation:
-            successmsg = petition.confirm_signature(confirmation_hash)
-            if successmsg is None:
-                raise Http404(_("Error: This confirmation code is invalid. Maybe you\'ve already confirmed?"))
+    return redirect('/petition/{}'.format(petition.id))
+
+
+def confirm(request, petition_id, confirmation_hash):
+    petition = petition_from_id(petition_id)
+    check_petition_is_accessible(request, petition)
+
+    try:
+        successmsg = petition.confirm_signature(confirmation_hash)
+        if successmsg is None:
+            messages.error(request, _("Error: This confirmation code is invalid. Maybe you\'ve already confirmed?"))
         else:
-            successmsg = None
+            messages.success(request, successmsg)
+    except ValidationError as e:
+        messages.error(request, _(e.message))
+    except Signature.DoesNotExist:
+        messages.error(request, _("Error: This confirmation code is invalid."))
+    return redirect('/petition/{}'.format(petition.id))
 
-    return render(request, 'petition/detail2.html', {'petition': petition, 'errormsg': None, 'successmsg': successmsg})
+
+def detail(request, petition_id):
+    petition = petition_from_id(petition_id)
+    check_petition_is_accessible(request, petition)
+    sign_form = SignatureForm(petition=petition)
+    return render(request, 'petition/detail2.html', {'petition': petition, 'form': sign_form})
 
 
 def get_json_data(request, petition_id):
-    petition = Petition.objects.get(pk=petition_id)
+    petition = petition_from_id(petition_id)
     signatures = petition.signature_set.filter(confirmed=True).all()
     return JsonResponse({"rows":[{"columns":[{"name":"participatingSupporters","value":len(signatures),"type":"xs:int","format":""}]}]})

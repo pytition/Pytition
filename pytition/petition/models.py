@@ -1,12 +1,12 @@
 from django.db import models
 from django.utils.html import mark_safe, strip_tags
 from django.utils.translation import ugettext as _
+from django.core.exceptions import ValidationError
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
 
 import html
-import uuid
 
 
 class Petition(models.Model):
@@ -77,16 +77,18 @@ class Petition(models.Model):
     confirmation_email_smtp_tls = models.BooleanField(default=False)
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
 
+    @classmethod
+    def by_id(cls, id):
+        try:
+            return Petition.objects.get(pk=id)
+        except Petition.DoesNotExist:
+            return None
+
     def get_signature_number(self, confirmed=None):
         signatures = self.signature_set
         if confirmed is not None:
             signatures = signatures.filter(confirmed=confirmed)
         return len(signatures.all())
-
-    def sign(self, firstname, lastname, email, phone, subscribe):
-        hashstring = str(uuid.uuid4())
-        return self.signature_set.create(first_name = firstname, last_name = lastname, email = email, phone = phone,
-                                         confirmation_hash = hashstring, subscribed_to_mailinglist = subscribe)
 
     def already_signed(self, email):
         signatures = Signature.objects.filter(petition_id = self.id)\
@@ -136,6 +138,14 @@ class Signature(models.Model):
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
     subscribed_to_mailinglist = models.BooleanField(default=False)
     date = models.DateTimeField(blank=True, auto_now_add=True)
+
+    def clean(self):
+        if self.petition.already_signed(self.email) and self.confirmed:
+            raise ValidationError(_("You already signed the petition"))
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     def confirm(self):
         self.confirmed = True

@@ -49,6 +49,7 @@
 
 		<link href="{% static "ensharing.css" %}" rel="stylesheet" type="text/css">
 <link href="{% static "typeahead.css" %}" rel="stylesheet" type="text/css">
+ <link href="{% static "petition.css" %}" rel="stylesheet" type="text/css">
 <style type="text/css">
     {% if petition.linear_gradient_direction != petition.NO %}
     body {
@@ -75,7 +76,7 @@ body{
  background-image:url()
 {% endif %}
 }
-}a{color:#00f}.share a{color:#ffeb1f}p.lead{line-height:1.2}h1{padding-left:15px;padding-right:15px;color:#000;font-weight:800;text-transform:uppercase;font-size:50px}@media screen and (min-width:768px){h1{font-size:62px;float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){h1{width:66.666%}}@media screen and (min-width:1090px){h1{width:69%}}.content{position:relative;overflow:hidden;overflow-wrap:break-word;}.formular,.presentation{min-height:1px;padding-left:15px;padding-right:15px;position:relative;width:100%;float:right}.counter{display:none}.counter.show{display:block}.petition-wrapper{background-color:#fff;overflow:hidden;position:relative}.presentation{padding-bottom:3em;padding-left:15px;padding-right:15px}@media screen and (min-width:768px){.presentation{float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){.presentation{width:66.666%}}@media screen and (min-width:1090px){.presentation{width:69%}}.presentation img{max-width:100%; object-fit: scale-down} .formular{background-color:#666;color:#fff;height:100%;margin-bottom:1em}.formular .form-wrapper{padding-top:20px}@media screen and (min-width:768px){.formular{position:absolute;overflow:auto;top:0;right:0;bottom:0;width:40%}}@media screen and (min-width:992px){.formular{width:33.334%}}@media screen and (min-width:1090px){.formular{width:31%}}.show-form{z-index:100;background-color:#666;position:fixed;top:0;left:0;right:0;transform:translateY(-100%)}.show-form .wrapper{padding:7px 15px}.fixed .show-form{transform:translateY(0);transition:transform .6s}#eaerrors{margin-bottom:1em}#eaerrors ol,#eaerrors ul{padding-left:0;list-style-type:none}#email_okDiv,#utm_campaignDiv,#utm_contentDiv,#utm_mediumDiv,#utm_sourceDiv,#utm_termDiv{}#email_okDiv label{display:inline}.eaErrorMessageHeader{font-size:1.7em}@media screen and (max-width:768px){.eaFullWidthContent{margin-top:0!important}}.eaFullWidthContent .eaErrorMessage{display:none}.eaFullWidthContent,.eaSubmitResetButtonGroup{margin-bottom:0;display:block}.eaFullWidthContent input[type=submit],.eaSubmitResetButtonGroup input[type=submit]{width:100%}.eaFormField{margin-bottom:10px}.btn-primary,.eaSubmitButton{color:#666;text-shadow:1px 1px 1px #fff}.eaSubmitButton{font-size:20px;padding:12px 20px}@media screen and (min-width:768px){.show-form{display:none}}.intro{font-size:21px;line-height:1.2}.sign{color:#ffeb1f}.counter{margin-top:18px}.reassurance{padding-bottom:30px;padding-top:20px;font-size:11px}.footer{padding:20px 0;text-align:left;background-color:#020;color:#99979c}.footer .footer-links{padding:0}.footer li{display:inline-block;padding-right:20px}.footer li a{color:#fff}.footer p a,.footer p a:hover{color:#99979c}.footer p a:hover{text-decoration:underline}input[type=email],input[type=tel],input[type=text]{padding:5px 6px}.share-top{clear:both;padding:12px 15px 20px}@media screen and (min-width:768px){.share-top{padding-left:30px;padding-right:30px}}.share-top .share-item{color:#fff;padding:2px 6px;display:inline;font-weight:700;margin-right:4px;font-size:14px}.share-top .share-item#share-facebook{background-color:#4865b5}.share-top .share-item#share-twitter{background-color:#00acee}.share .share-item{text-align:center;display:block;padding:5px;cursor:pointer;margin:0 3px;font-size:4em}a.share-item:active,a.share-item:focus,a.share-item:hover{text-decoration:none}.progress{height:10px;border-radius:0}.assos{border-top:1px solid #666;padding-top:1.5em;margin:4em 0 2em;clear:both;overflow:hidden}.assos .asso{float:left;text-align:center;margin:0 20px;height:116px}.assos .asso img{width:inherit}.more h3{cursor:pointer}.more h3 .fa-stack{color:#666}.more h3 .fa-inverse{color:#ffeb1f}.more .more-content{display:none}</style>
+}a{color:#00f}.share a{color:#ffeb1f}p.lead{line-height:1.2}h1{padding-left:15px;padding-right:15px;color:#000;font-weight:800;text-transform:uppercase;font-size:50px}@media screen and (min-width:768px){h1{font-size:62px;float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){h1{width:66.666%}}@media screen and (min-width:1090px){h1{width:69%}}.content{position:relative;overflow:hidden;overflow-wrap:break-word;}.formular,.presentation{min-height:1px;padding-left:15px;padding-right:15px;position:relative;width:100%;float:right}.counter{display:none}.counter.show{display:block}.petition-wrapper{background-color:#fff;overflow:hidden;position:relative}.presentation{padding-bottom:3em;padding-left:15px;padding-right:15px}@media screen and (min-width:768px){.presentation{float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){.presentation{width:66.666%}}@media screen and (min-width:1090px){.presentation{width:69%}}.presentation img{max-width:100%; object-fit: scale-down} .formular{background-color:#666;color:#fff;height:100%;margin-bottom:1em}.formular .form-wrapper{padding-top:20px}@media screen and (min-width:768px){.formular{position:absolute;overflow:auto;top:0;right:0;bottom:0;width:40%}}@media screen and (min-width:992px){.formular{width:33.334%}}@media screen and (min-width:1090px){.formular{width:31%}}.show-form{z-index:100;background-color:#666;position:fixed;top:0;left:0;right:0;transform:translateY(-100%)}.show-form .wrapper{padding:7px 15px}.fixed .show-form{transform:translateY(0);transition:transform .6s}#eaerrors{margin-bottom:1em}#eaerrors ol,#eaerrors ul{padding-left:0;list-style-type:none}#email_okDiv,#utm_campaignDiv,#utm_contentDiv,#utm_mediumDiv,#utm_sourceDiv,#utm_termDiv{}#email_okDiv label{display:inline}.eaErrorMessageHeader{font-size:1.7em}@media screen and (max-width:768px){.eaFullWidthContent{margin-top:0!important}}.eaFullWidthContent .eaErrorMessage{display:none}.eaFullWidthContent,.eaSubmitResetButtonGroup{margin-bottom:0;display:block}.eaFullWidthContent input[type=submit],.eaSubmitResetButtonGroup input[type=submit]{width:100%}.eaFormField{margin-bottom:10px}.btn-primary,.eaSubmitButton{color:#666;text-shadow:1px 1px 1px #fff}.eaSubmitButton{font-size:20px;padding:12px 20px}@media screen and (min-width:768px){.show-form{display:none}}.intro{font-size:21px;line-height:1.2}.sign{color:#ffeb1f}.counter{margin-top:18px}.reassurance{padding-bottom:30px;padding-top:20px;font-size:11px}.footer{padding:20px 0;text-align:left;background-color:#020;color:#99979c}.footer .footer-links{padding:0}.footer li{display:inline-block;padding-right:20px}.footer li a{color:#fff}.footer p a,.footer p a:hover{color:#99979c}.footer p a:hover{text-decoration:underline}input[type=email],input[type=tel],input[type=text]{padding:5px 6px; color: #555}.share-top{clear:both;padding:12px 15px 20px}@media screen and (min-width:768px){.share-top{padding-left:30px;padding-right:30px}}.share-top .share-item{color:#fff;padding:2px 6px;display:inline;font-weight:700;margin-right:4px;font-size:14px}.share-top .share-item#share-facebook{background-color:#4865b5}.share-top .share-item#share-twitter{background-color:#00acee}.share .share-item{text-align:center;display:block;padding:5px;cursor:pointer;margin:0 3px;font-size:4em}a.share-item:active,a.share-item:focus,a.share-item:hover{text-decoration:none}.progress{height:10px;border-radius:0}.assos{border-top:1px solid #666;padding-top:1.5em;margin:4em 0 2em;clear:both;overflow:hidden}.assos .asso{float:left;text-align:center;margin:0 20px;height:116px}.assos .asso img{width:inherit}.more h3{cursor:pointer}.more h3 .fa-stack{color:#666}.more h3 .fa-inverse{color:#ffeb1f}.more .more-content{display:none}</style>
 
 		<link rel="mask-icon" href="{% static "safari-pinned-tab.svg" %}" color="#ffffff">
 <link rel="apple-touch-icon" sizes="152x152" href="{% static "apple-touch-icon.png" %}">
@@ -105,55 +106,10 @@ body{
     </div>
 
     <div class="container petition">
-<style type="text/css">
-    .errormsg {
-        background-color: red;
-    }
-
-    .successmsg {
-        background-color: #00aa00;
-    }
-
-    .successmsg, .errormsg {
-        width: 100%;
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-bottom: 10px;
-    }
-
-   @media screen and (min-width:768px){
-       .successmsg, .errormsg {
-        width: 60%;
-       }
-   }
-
-   @media screen and (min-width:992px){
-       .successmsg, .errormsg {
-        width: 66.666%;
-       }
-   }
-   @media screen and (min-width:1090px){
-       .successmsg, .errormsg {
-        width: 69%;
-       }
-   }
-</style>
 
 			<div class="petition-wrapper">
 
 				<div class="content">
-{% if errormsg %}
-<div class="errormsg">
-    <h2>Erreur</h2>
-    <p><b>{{ errormsg }}</b></p>
-</div>
-{% endif %}
-{% if successmsg %}
-<div class="successmsg">
-    <h2>Merci !</h2>
-    <p><b>{% autoescape off%}{{ successmsg }}{% endautoescape %}</b></p>
-</div>
-{% endif %}
 					<h1>{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
 
 
@@ -181,6 +137,12 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 							</div>
 
 							<div id="form-sticky" class="form-sticky">
+
+{% for message in messages %}
+  <div class="alert {{ message.tags }}" role="alert">
+    {{ message }}
+  </div>
+{% endfor %}
 								<div class="fields">
 <!-- <script type='text/javascript' src='https://www.google.com/jsapi'></script>
 <script type='text/javascript'>google.load('jquery', '1.7.1');</script> //-->
@@ -191,45 +153,45 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 <script type='text/javascript' src='{% static "eacampaign.js" %}'></script>
 
 <script type='text/javascript' src='{% static "typeahead.js" %}'></script>
-
-
-<form method='POST' name='petition' id='ea14749id' class='eaform ea14749class' action='/petition/{{ petition.id }}/'>
-<div id='eaerrors' class='eaErrorMessage'>
-</div>
-
-<div id='first_nameDiv' class='eaFullWidthContent'><div id='first_nameError' class='eaErrorMessage'></div>
-<span class='eaFormElementLabel'><label for='first_name'><a name='first_name' style='text-decoration:none; color: inherit;'>Pr&eacute;nom</a><span class='eaMandatoryFieldMarker'> *</span></label></span>
-<div id='first_nameField' class='eaFormField'>
-   <input id='first_name' type='text' class='eaFormTextfield' name='first_name' value='' onblur='validatefield(this, true, false, false);' />
-</div>
+<form method='POST' name='petition' id='ea14749id' class='eaform ea14749class' action='/petition/{{ petition.id }}/sign'>
 {% csrf_token %}
-</div>
-<div id='last_nameDiv' class='eaFullWidthContent'><div id='last_nameError' class='eaErrorMessage'></div>
-<span class='eaFormElementLabel'><label for='last_name'><a name='last_name' style='text-decoration:none; color: inherit;'>Nom</a><span class='eaMandatoryFieldMarker'> *</span></label></span>
-<div id='last_nameField' class='eaFormField'>
-   <input id='last_name' type='text' class='eaFormTextfield' name='last_name' value='' onblur='validatefield(this, true, false, false);' />
-</div>
+{% for hidden_field in form.hidden_fields %}
+  {{ hidden_field }}
+{% endfor %}
 
-</div>
-<div id='emailDiv' class='eaFullWidthContent'><div id='emailError' class='eaErrorMessage'></div>
-<span class='eaFormElementLabel'><label for='email'><a name='email' style='text-decoration:none; color: inherit;'>Adresse e-mail</a><span class='eaMandatoryFieldMarker'> *</span></label></span>
-<div id='emailField' class='eaFormField'>
-   <input id='email' type='text' class='eaFormTextfield' name='email' value='' onblur='validatefield(this, true, false, false);' />
-</div>
-
-</div>
-<div id='phone_numberDiv' class='eaFullWidthContent'><div id='phone_numberError' class='eaErrorMessage'></div>
-<span class='eaFormElementLabel'><label for='phone_number'><a name='phone_number' style='text-decoration:none; color: inherit;'>T&eacute;l&eacute;phone</a></label></span>
-<div id='phone_numberField' class='eaFormField'>
-   <input id='phone_number' type='text' class='eaFormTextfield' name='phone_number' value='' onblur='validatefield(this, true, false, false);' />
-</div>
-
-</div>
-{% if petition.has_newsletter %}
-<div id='email_okDiv' class='eaFullWidthContent'><div class="eaQuestionLabel"></div><div class="eaQuestionCheckboxFormFieldContainer">
-<span class='eaQuestionCheckbox'><input id='email_okY' type='checkbox' name='email_ok' value='Y'/><label for="email_okY"> {{ petition.newsletter_text }}</label></span>&nbsp;&nbsp;&nbsp;</div>
-</div>
+{% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in form.non_field_errors %}
+      {{ error }}
+    {% endfor %}
+  </div>
 {% endif %}
+
+{% for field in form.visible_fields %}
+  <div class="form-group">
+    {{ field.label_tag }}
+
+    {% if form.is_bound %}
+      {% if field.errors %}
+        {{ field }}
+        {% for error in field.errors %}
+          <div class="invalid-feedback">
+            {{ error }}
+          </div>
+        {% endfor %}
+      {% else %}
+        {{ field }}
+      {% endif %}
+    {% else %}
+        {{ field }}
+    {% endif %}
+
+    {% if field.help_text %}
+      <small class="form-text text-muted">{{ field.help_text }}</small>
+    {% endif %}
+  </div>
+{% endfor %}
+
 <div id='OGM_-_script_page_1Div' class='eaFullWidthContent'><script type="text/javascript">// <![CDATA[
   window.virtualPageURL = '/petition/{{ petition.id }}';
   window.virtualHostName = 'petition.antipub.org';

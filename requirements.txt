@@ -4,3 +4,4 @@ django-tinymce==2.6.0
 requests==2.18.4
 mysqlclient==1.3.12
 Pillow==5.1.0
+django-widget-tweaks==1.4.2
