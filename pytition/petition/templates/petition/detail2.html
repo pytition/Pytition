@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 <!doctype html>
+{% load widget_tweaks %}
 <html lang="fr" xmlns:og="http://ogp.me/ns#">
 
 	<head>
@@ -48,6 +49,7 @@
         {% endif %}
 
 		<link href="{% static "ensharing.css" %}" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" href="{% static "bootstrap.min.css" %}" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 <link href="{% static "typeahead.css" %}" rel="stylesheet" type="text/css">
  <link href="{% static "petition.css" %}" rel="stylesheet" type="text/css">
 <style type="text/css">
@@ -139,7 +141,13 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 							<div id="form-sticky" class="form-sticky">
 
 {% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+  <div class="alert alert-danger" role="alert">
+{% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+<div class="alert alert-success" role="alert">
+{% else %}
   <div class="alert {{ message.tags }}" role="alert">
+{% endif %}
     {{ message }}
   </div>
 {% endfor %}
@@ -173,14 +181,14 @@ Objectif : <span class="format-number">{{ petition.target }}</span>
 
     {% if form.is_bound %}
       {% if field.errors %}
-        {{ field }}
+        {{ field|add_class:"is-invalid" }}
         {% for error in field.errors %}
           <div class="invalid-feedback">
             {{ error }}
           </div>
         {% endfor %}
       {% else %}
-        {{ field }}
+        {{ field|add_class:"is-valid" }}
       {% endif %}
     {% else %}
         {{ field }}
