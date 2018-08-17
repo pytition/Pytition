@@ -88,12 +88,12 @@ class Petition(models.Model):
         signatures = self.signature_set
         if confirmed is not None:
             signatures = signatures.filter(confirmed=confirmed)
-        return len(signatures.all())
+        return signatures.count()
 
     def already_signed(self, email):
-        signatures = Signature.objects.filter(petition_id = self.id)\
-            .filter(confirmed = True).filter(email = email).all()
-        return len(signatures) > 0
+        signature_number = Signature.objects.filter(petition = self.id)\
+            .filter(confirmed = True).filter(email = email).count()
+        return signature_number > 0
 
     def confirm_signature(self, conf_hash):
         signature = Signature.objects.filter(petition=self.id).get(confirmation_hash=conf_hash)

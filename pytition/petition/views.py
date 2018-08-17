@@ -150,5 +150,5 @@ def detail(request, petition_id):
 
 def get_json_data(request, petition_id):
     petition = petition_from_id(petition_id)
-    signatures = petition.signature_set.filter(confirmed=True).all()
-    return JsonResponse({"rows":[{"columns":[{"name":"participatingSupporters","value":len(signatures),"type":"xs:int","format":""}]}]})
+    signature_number = petition.signature_set.filter(confirmed=True).count()
+    return JsonResponse({"rows":[{"columns":[{"name":"participatingSupporters","value":signature_number,"type":"xs:int","format":""}]}]})
