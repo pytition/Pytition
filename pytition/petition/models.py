@@ -96,12 +96,8 @@ class Petition(models.Model):
         return len(signatures) > 0
 
     def confirm_signature(self, conf_hash):
-        signature = Signature.objects.get(confirmation_hash=conf_hash)
+        signature = Signature.objects.filter(petition=self.id).get(confirmation_hash=conf_hash)
         if signature:
-            # Signature found, invalidating other signatures from same email
-            email = signature.email
-            Signature.objects.filter(email=email).filter(petition=self.id).exclude(confirmation_hash=conf_hash).all() \
-                .delete()
             # Now confirm the signature corresponding to this hash
             signature.confirm()
             signature.save()
@@ -140,11 +136,16 @@ class Signature(models.Model):
     date = models.DateTimeField(blank=True, auto_now_add=True)
 
     def clean(self):
-        if self.petition.already_signed(self.email) and self.confirmed:
-            raise ValidationError(_("You already signed the petition"))
+        if self.petition.already_signed(self.email):
+            if self.petition.signature_set.filter(email = self.email).get(confirmed = True).id != self.id:
+                raise ValidationError(_("You already signed the petition"))
 
     def save(self, *args, **kwargs):
         self.clean()
+        if self.confirmed:
+            # invalidating other signatures from same email
+            Signature.objects.filter(petition=self.petition).filter(email=self.email)\
+                .exclude(id=self.id).delete()
         super().save(*args, **kwargs)
 
     def confirm(self):

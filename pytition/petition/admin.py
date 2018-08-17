@@ -1,14 +1,20 @@
 from django.contrib import admin
 from django.forms import ModelForm
 from django.utils.translation import ugettext as _
-
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 
 from .models import Signature, Petition
 from .views import send_confirmation_email
 
 
 def confirm(modeladmin, request, queryset):
-    queryset.update(confirmed=True)
+    try:
+        for signature in queryset:
+            signature.confirm()
+            signature.save()
+    except ValidationError as e:
+        messages.error(request, _("Error: {}").format(e.message))
 
 
 def resend_confirmation_mail(modeladmin, request, queryset):
