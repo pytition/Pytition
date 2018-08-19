@@ -4,62 +4,65 @@
 {% load widget_tweaks %}
 <html lang="fr" xmlns:og="http://ogp.me/ns#">
 
-	<head>
-		<meta charset="utf-8"/>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<meta name="content-language" content="fr"/>
-		<meta name="robots" content="index,follow,noodp"/>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="content-language" content="fr"/>
+    <meta name="robots" content="index,follow,noodp"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width"/>
-		<title>{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}</title>
-		<meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}" />
+    <meta name="viewport" content="width=device-width"/>
+    <title>{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}</title>
+    <meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
 
     <meta property="og:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
-                {% if petition.twitter_description %}
-    <meta property="og:description" content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
-        {% else %}
+    {% if petition.twitter_description %}
+        <meta property="og:description"
+              content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+    {% else %}
         <meta property="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
-        {% endif %}
+    {% endif %}
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://petition.antipub.org/petition/{{ petition.id }}/"/>
     <meta property="og:site_name" content="petition.antipub.org"/>
     {% if petition.twitter_image %}
-	<meta property="og:image" content="{{ petition.twitter_image }}"/>
+        <meta property="og:image" content="{{ petition.twitter_image }}"/>
     {% endif %}
 
     <meta itemprop="name" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
-        {% if petition.twitter_description %}
-    <meta itemprop="description" content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
-        {% else %}
+    {% if petition.twitter_description %}
+        <meta itemprop="description"
+              content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+    {% else %}
         <meta itemprop="description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
-        {% endif %}
-        <!-- FIXME: <meta itemprop="url" content=""/> //-->
+    {% endif %}
+    <!-- FIXME: <meta itemprop="url" content=""/> //-->
 
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:creator" content="@yannsionneau"/>
     <meta name="twitter:site" content="{% autoescape off %}{{ petition.org_twitter_handle }}{% endautoescape %}"/>
     <meta name="twitter:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
-        {% if petition.twitter_description %}
-    <meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
-        {% else %}
+    {% if petition.twitter_description %}
+        <meta name="twitter:description"
+              content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+    {% else %}
         <meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
-        {% endif %}
-        {% if petition.twitter_image %}
-		<meta name="twitter:image" content="{{ petition.twitter_image }}"/>
-        {% endif %}
+    {% endif %}
+    {% if petition.twitter_image %}
+        <meta name="twitter:image" content="{{ petition.twitter_image }}"/>
+    {% endif %}
 
-		<link href="{% static "ensharing.css" %}" rel="stylesheet" type="text/css">
-         <link rel="stylesheet" href="{% static "bootstrap.min.css" %}" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-<link href="{% static "typeahead.css" %}" rel="stylesheet" type="text/css">
- <link href="{% static "petition.css" %}" rel="stylesheet" type="text/css">
-<style type="text/css">
+    <link href="{% static "ensharing.css" %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="{% static "typeahead.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "petition.css" %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
     {% if petition.linear_gradient_direction != petition.NO %}
     body {
         background: linear-gradient({{ petition.linear_gradient_direction}}, {{ petition.gradient_from }}, {{ petition.gradient_to }});
     }
     {% endif %}
-</style>
-<style type="text/css">/*!
+    </style>
+    <style type="text/css">/*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -78,167 +81,152 @@ body{
  background-image:url()
 {% endif %}
 }
-}a{color:#00f}.share a{color:#ffeb1f}p.lead{line-height:1.2}h1{padding-left:15px;padding-right:15px;color:#000;font-weight:800;text-transform:uppercase;font-size:50px}@media screen and (min-width:768px){h1{font-size:62px;float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){h1{width:66.666%}}@media screen and (min-width:1090px){h1{width:69%}}.content{position:relative;overflow:hidden;overflow-wrap:break-word;}.formular,.presentation{min-height:1px;padding-left:15px;padding-right:15px;position:relative;width:100%;float:right}.counter{display:none}.counter.show{display:block}.petition-wrapper{background-color:#fff;overflow:hidden;position:relative}.presentation{padding-bottom:3em;padding-left:15px;padding-right:15px}@media screen and (min-width:768px){.presentation{float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){.presentation{width:66.666%}}@media screen and (min-width:1090px){.presentation{width:69%}}.presentation img{max-width:100%; object-fit: scale-down} .formular{background-color:#666;color:#fff;height:100%;margin-bottom:1em}.formular .form-wrapper{padding-top:20px}@media screen and (min-width:768px){.formular{position:absolute;overflow:auto;top:0;right:0;bottom:0;width:40%}}@media screen and (min-width:992px){.formular{width:33.334%}}@media screen and (min-width:1090px){.formular{width:31%}}.show-form{z-index:100;background-color:#666;position:fixed;top:0;left:0;right:0;transform:translateY(-100%)}.show-form .wrapper{padding:7px 15px}.fixed .show-form{transform:translateY(0);transition:transform .6s}#eaerrors{margin-bottom:1em}#eaerrors ol,#eaerrors ul{padding-left:0;list-style-type:none}#email_okDiv,#utm_campaignDiv,#utm_contentDiv,#utm_mediumDiv,#utm_sourceDiv,#utm_termDiv{}#email_okDiv label{display:inline}.eaErrorMessageHeader{font-size:1.7em}@media screen and (max-width:768px){.eaFullWidthContent{margin-top:0!important}}.eaFullWidthContent .eaErrorMessage{display:none}.eaFullWidthContent,.eaSubmitResetButtonGroup{margin-bottom:0;display:block}.eaFullWidthContent input[type=submit],.eaSubmitResetButtonGroup input[type=submit]{width:100%}.eaFormField{margin-bottom:10px}.btn-primary,.eaSubmitButton{color:#666;text-shadow:1px 1px 1px #fff}.eaSubmitButton{font-size:20px;padding:12px 20px}@media screen and (min-width:768px){.show-form{display:none}}.intro{font-size:21px;line-height:1.2}.sign{color:#ffeb1f}.counter{margin-top:18px}.reassurance{padding-bottom:30px;padding-top:20px;font-size:11px}.footer{padding:20px 0;text-align:left;background-color:#020;color:#99979c}.footer .footer-links{padding:0}.footer li{display:inline-block;padding-right:20px}.footer li a{color:#fff}.footer p a,.footer p a:hover{color:#99979c}.footer p a:hover{text-decoration:underline}input[type=email],input[type=tel],input[type=text]{padding:5px 6px; color: #555}.share-top{clear:both;padding:12px 15px 20px}@media screen and (min-width:768px){.share-top{padding-left:30px;padding-right:30px}}.share-top .share-item{color:#fff;padding:2px 6px;display:inline;font-weight:700;margin-right:4px;font-size:14px}.share-top .share-item#share-facebook{background-color:#4865b5}.share-top .share-item#share-twitter{background-color:#00acee}.share .share-item{text-align:center;display:block;padding:5px;cursor:pointer;margin:0 3px;font-size:4em}a.share-item:active,a.share-item:focus,a.share-item:hover{text-decoration:none}.progress{height:10px;border-radius:0}.assos{border-top:1px solid #666;padding-top:1.5em;margin:4em 0 2em;clear:both;overflow:hidden}.assos .asso{float:left;text-align:center;margin:0 20px;height:116px}.assos .asso img{width:inherit}.more h3{cursor:pointer}.more h3 .fa-stack{color:#666}.more h3 .fa-inverse{color:#ffeb1f}.more .more-content{display:none}</style>
+}a{color:#00f}.share a{color:#ffeb1f}p.lead{line-height:1.2}h1{padding-left:15px;padding-right:15px;color:#000;font-weight:800;text-transform:uppercase;font-size:50px}@media screen and (min-width:768px){h1{font-size:62px;float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){h1{width:66.666%}}@media screen and (min-width:1090px){h1{width:69%}}.content{position:relative;overflow:hidden;overflow-wrap:break-word;}.formular,.presentation{min-height:1px;padding-left:15px;padding-right:15px;position:relative;width:100%;float:right}.counter{display:none}.counter.show{display:block}.petition-wrapper{background-color:#fff;overflow:hidden;position:relative}.presentation{padding-bottom:3em;padding-left:15px;padding-right:15px}@media screen and (min-width:768px){.presentation{float:left;width:60%;padding-left:30px;padding-right:30px}}@media screen and (min-width:992px){.presentation{width:66.666%}}@media screen and (min-width:1090px){.presentation{width:69%}}.presentation img{max-width:100%; object-fit: scale-down} .formular{background-color:#666;color:#fff;height:100%;margin-bottom:1em}.formular .form-wrapper{padding-top:20px}@media screen and (min-width:768px){.formular{position:absolute;overflow:auto;top:0;right:0;bottom:0;width:40%}}@media screen and (min-width:992px){.formular{width:33.334%}}@media screen and (min-width:1090px){.formular{width:31%}}.show-form{z-index:100;background-color:#666;position:fixed;top:0;left:0;right:0;transform:translateY(-100%)}.show-form .wrapper{padding:7px 15px}.fixed .show-form{transform:translateY(0);transition:transform .6s}#eaerrors{margin-bottom:1em}#eaerrors ol,#eaerrors ul{padding-left:0;list-style-type:none}#email_okDiv,#utm_campaignDiv,#utm_contentDiv,#utm_mediumDiv,#utm_sourceDiv,#utm_termDiv{}#email_okDiv label{display:inline}.eaErrorMessageHeader{font-size:1.7em}@media screen and (max-width:768px){.eaFullWidthContent{margin-top:0!important}}.eaFullWidthContent .eaErrorMessage{display:none}.eaFullWidthContent,.eaSubmitResetButtonGroup{margin-bottom:0;display:block}.eaFullWidthContent input[type=submit],.eaSubmitResetButtonGroup input[type=submit]{width:100%}.eaFormField{margin-bottom:10px}.btn-primary,.eaSubmitButton{color:#666;text-shadow:1px 1px 1px #fff}.eaSubmitButton{font-size:20px;padding:12px 20px}@media screen and (min-width:768px){.show-form{display:none}}.intro{font-size:21px;line-height:1.2}.sign{color:#ffeb1f}.counter{margin-top:18px}.reassurance{padding-bottom:30px;padding-top:20px;font-size:11px}.footer{padding:20px 0;text-align:left;background-color:#020;color:#99979c}.footer .footer-links{padding:0}.footer li{display:inline-block;padding-right:20px}.footer li a{color:#fff}.footer p a,.footer p a:hover{color:#99979c}.footer p a:hover{text-decoration:underline}input[type=email],input[type=tel],input[type=text]{padding:5px 6px; color: #555}.share-top{clear:both;padding:12px 15px 20px}@media screen and (min-width:768px){.share-top{padding-left:30px;padding-right:30px}}.share-top .share-item{color:#fff;padding:2px 6px;display:inline;font-weight:700;margin-right:4px;font-size:14px}.share-top .share-item#share-facebook{background-color:#4865b5}.share-top .share-item#share-twitter{background-color:#00acee}.share .share-item{text-align:center;display:block;padding:5px;cursor:pointer;margin:0 3px;font-size:4em}a.share-item:active,a.share-item:focus,a.share-item:hover{text-decoration:none}.progress{height:10px;border-radius:0}.assos{border-top:1px solid #666;padding-top:1.5em;margin:4em 0 2em;clear:both;overflow:hidden}.assos .asso{float:left;text-align:center;margin:0 20px;height:116px}.assos .asso img{width:inherit}.more h3{cursor:pointer}.more h3 .fa-stack{color:#666}.more h3 .fa-inverse{color:#ffeb1f}.more .more-content{display:none}
+    </style>
 
-<link rel="mask-icon" href="{% static "safari-pinned-tab.svg" %}" color="#ffffff">
-<link rel="apple-touch-icon" sizes="152x152" href="{% static "apple-touch-icon.png" %}">
-<link rel="icon" type="image/png" href="{% static "favicon-32x32.png" %}" sizes="32x32">
-<link rel="icon" type="image/png" href="{% static "favicon-16x16.png" %}" sizes="16x16">
-<link rel="manifest" href="{% static "manifest.json" %}">
-<link rel="shortcut icon" href="{% static "favicon.ico" %}">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="{% static "mstile-150x150.png" %}">
-<meta name="msapplication-config" content="{% static "browserconfig.xml" %}">
-<meta name="theme-color" content="#ffffff">
+    <link rel="mask-icon" href="{% static "safari-pinned-tab.svg" %}" color="#ffffff">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static "apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" href="{% static "favicon-32x32.png" %}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{% static "favicon-16x16.png" %}" sizes="16x16">
+    <link rel="manifest" href="{% static "manifest.json" %}">
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{% static "mstile-150x150.png" %}">
+    <meta name="msapplication-config" content="{% static "browserconfig.xml" %}">
+    <meta name="theme-color" content="#ffffff">
 
     <link rel="canonical" href="http://127.0.0.1/petition/{{ petition.id }}"/>
     <script>
       dataLayer = [];
     </script>
-	</head>
+</head>
 
-	<body {% if petition.bgcolor %}
-            bgcolor="{{ petition.bgcolor }}"
-          {% endif %}>
+<body {% if petition.bgcolor %}
+        bgcolor="{{ petition.bgcolor }}"
+      {% endif %}>
 
-    <div class="show-form" id="show-form">
-      <div class="wrapper">
+<div class="show-form" id="show-form">
+    <div class="wrapper">
         <button type="button" class="btn btn-primary btn-block">SIGNER</button>
-      </div>
     </div>
-
-    <div class="container petition">
-
-			<div class="petition-wrapper">
-
-				<div class="content">
-					<h1>{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
-
-
-
-					<div class="formular" id="petition">
-						<div class="form-wrapper">
-							<p class="intro" id="intro">
-								{% autoescape off%}{{ petition.side_text }}{% endautoescape %}
-<br/>
-<span class="sign">Signez la pétition&nbsp;!</span>
-
-							</p>
-
-							<div class="counter" id="counter">
-							  <p>
-							    Déjà <span id="nb-signatures">1</span> signatures.
-Objectif : <span class="format-number">{{ petition.target }}</span>
-
-
-							  </p>
-							  <div class="progress">
-							    <div class="progress-bar" role="progressbar" id="progress-bar" data-target="{{ petition.target }}">
-							    </div>
-							  </div>
-							</div>
-
-							<div id="form-sticky" class="form-sticky">
-
-{% for message in messages %}
-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-  <div class="alert alert-danger" role="alert">
-{% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-<div class="alert alert-success" role="alert">
-{% else %}
-  <div class="alert {{ message.tags }}" role="alert">
-{% endif %}
-    {{ message }}
-  </div>
-{% endfor %}
-								<div class="fields">
-<script type='text/javascript' src='{% static "jquery-1.7.1.js" %}'></script>
-<script type='text/javascript' >var CONTEXT_ROOT = '/ea-action';</script>
-<script type='text/javascript' src='{% static "eaCommon.js" %}'></script>
-<script type='text/javascript' src='{% static "eaAJAX.js" %}'></script>
-<script type='text/javascript' src='{% static "eacampaign.js" %}'></script>
-
-<script type='text/javascript' src='{% static "typeahead.js" %}'></script>
-<form method='POST' name='petition' id='ea14749id' class='eaform ea14749class' action='/petition/{{ petition.id }}/sign'>
-{% csrf_token %}
-{% for hidden_field in form.hidden_fields %}
-  {{ hidden_field }}
-{% endfor %}
-
-{% if form.non_field_errors %}
-  <div class="alert alert-danger" role="alert">
-    {% for error in form.non_field_errors %}
-      {{ error }}
-    {% endfor %}
-  </div>
-{% endif %}
-
-{% for field in form.visible_fields %}
-  <div class="form-group">
-    {{ field.label_tag }}
-
-    {% if form.is_bound %}
-      {% if field.errors %}
-        {{ field|add_class:"is-invalid" }}
-        {% for error in field.errors %}
-          <div class="invalid-feedback">
-            {{ error }}
-          </div>
-        {% endfor %}
-      {% else %}
-        {{ field|add_class:"is-valid" }}
-      {% endif %}
-    {% else %}
-        {{ field }}
-    {% endif %}
-
-    {% if field.help_text %}
-      <small class="form-text text-muted">{{ field.help_text }}</small>
-    {% endif %}
-  </div>
-{% endfor %}
-
-<div id='OGM_-_script_page_1Div' class='eaFullWidthContent'>
-</div><span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input type="submit" class="eaSubmitButton" value="SIGNER"></input></span>
-</form></div>
-
-
-<div class="reassurance" id="reassurance">
-<p style="text-align:justify">
-{{ petition.sign_form_footer }}
-</p>
-
 </div>
 
+<div class="container petition">
+    <div class="petition-wrapper">
+        <div class="content">
+            <h1>{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
+            <div class="formular" id="petition">
+                <div class="form-wrapper">
+                    <p class="intro" id="intro">
+                        {% autoescape off%}{{ petition.side_text }}{% endautoescape %}
+                        <br/>
+                        <span class="sign">Signez la pétition&nbsp;!</span>
+                    </p>
+                    <div class="counter" id="counter">
+                        <p>
+                            Déjà <span id="nb-signatures">1</span> signatures.
+                            Objectif : <span class="format-number">{{ petition.target }}</span>
+                        </p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" id="progress-bar"
+                                 data-target="{{ petition.target }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="form-sticky" class="form-sticky">
+                        {% for message in messages %}
+                            <div
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                class="alert alert-danger" role="alert">
+                            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                class="alert alert-success" role="alert">
+                            {% else %}
+                                class="alert {{ message.tags }}" role="alert">
+                            {% endif %}
+                                    {{ message }}
+                            </div>
+                        {% endfor %}
+                        <div class="fields">
+                            <script type='text/javascript' src='{% static "jquery-1.7.1.js" %}'></script>
+                            <script type='text/javascript'>var CONTEXT_ROOT = '/ea-action';</script>
+                            <script type='text/javascript' src='{% static "eaCommon.js" %}'></script>
+                            <script type='text/javascript' src='{% static "eaAJAX.js" %}'></script>
+                            <script type='text/javascript' src='{% static "eacampaign.js" %}'></script>
 
-</div>
+                            <script type='text/javascript' src='{% static "typeahead.js" %}'></script>
+                            <form method='POST' name='petition' id='ea14749id' class='eaform ea14749class'
+                                  action='/petition/{{ petition.id }}/sign'>
+                                {% csrf_token %}
+                                {% for hidden_field in form.hidden_fields %}
+                                    {{ hidden_field }}
+                                {% endfor %}
 
-</div>
-</div>
+                                {% if form.non_field_errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error in form.non_field_errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
 
-<div class="presentation">
-{% autoescape off%}{{ petition.text }}{% endautoescape %}
-</div>
+                                {% for field in form.visible_fields %}
+                                    <div class="form-group">
+                                        {{ field.label_tag }}
 
+                                        {% if form.is_bound %}
+                                            {% if field.errors %}
+                                                {{ field|add_class:"is-invalid" }}
+                                                {% for error in field.errors %}
+                                                    <div class="invalid-feedback">
+                                                        {{ error }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                {{ field|add_class:"is-valid" }}
+                                            {% endif %}
+                                        {% else %}
+                                            {{ field }}
+                                        {% endif %}
 
+                                        {% if field.help_text %}
+                                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
 
-
-			</div>
-		</div>
-<span style="float:right"><a href="https://github.com/fallen/Pytition/"><img src="{% static  "GitHub_Logo_White.png" %}" width="100" height="41" /></a></span>
-
+                                <div id='OGM_-_script_page_1Div' class='eaFullWidthContent'>
+                                </div>
+                                <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
+                                        type="submit" class="eaSubmitButton" value="SIGNER"></span>
+                            </form>
+                        </div>
+                        <div class="reassurance" id="reassurance">
+                            <p style="text-align:justify">
+                                {{ petition.sign_form_footer }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="presentation">
+                        {% autoescape off%}{{ petition.text }}{% endautoescape %}
+            </div>
+        </div>
+    </div>
+    <span style="float:right"><a href="https://github.com/fallen/Pytition/"><img src="{% static "GitHub_Logo_White.png" %}" width="100" height="41" /></a></span>
     <footer role="contentinfo" class="footer">
-      <div class="container">
-          <div class="footer-links">
-          {% autoescape off %}{{ petition.footer_links }}{% endautoescape %}
-      </div>
-        <p>
-{% autoescape off %}{{ petition.footer_text }}{% endautoescape %}
-</p>
-
-
-      </div>
-     </footer>
-     <script type="text/javascript">!function(a,b){function c(a,b){var c=a.createElement("p"),d=a.getElementsByTagName("head")[0]||a.documentElement;return c.innerHTML="x<style>"+b+"</style>",d.insertBefore(c.lastChild,d.firstChild)}function d(){var a=t.elements;return"string"==typeof a?a.split(" "):a}function e(a,b){var c=t.elements;"string"!=typeof c&&(c=c.join(" ")),"string"!=typeof a&&(a=a.join(" ")),t.elements=c+" "+a,j(b)}function f(a){var b=s[a[q]];return b||(b={},r++,a[q]=r,s[r]=b),b}function g(a,c,d){if(c||(c=b),l)return c.createElement(a);d||(d=f(c));var e;return e=d.cache[a]?d.cache[a].cloneNode():p.test(a)?(d.cache[a]=d.createElem(a)).cloneNode():d.createElem(a),!e.canHaveChildren||o.test(a)||e.tagUrn?e:d.frag.appendChild(e)}function h(a,c){if(a||(a=b),l)return a.createDocumentFragment();c=c||f(a);for(var e=c.frag.cloneNode(),g=0,h=d(),i=h.length;i>g;g++)e.createElement(h[g]);return e}function i(a,b){b.cache||(b.cache={},b.createElem=a.createElement,b.createFrag=a.createDocumentFragment,b.frag=b.createFrag()),a.createElement=function(c){return t.shivMethods?g(c,a,b):b.createElem(c)},a.createDocumentFragment=Function("h,f","return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&("+d().join().replace(/[\w\-:]+/g,function(a){return b.createElem(a),b.frag.createElement(a),'c("'+a+'")'})+");return n}")(t,b.frag)}function j(a){a||(a=b);var d=f(a);return!t.shivCSS||k||d.hasCSS||(d.hasCSS=!!c(a,"article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}mark{background:#FF0;color:#000}template{display:none}")),l||i(a,d),a}var k,l,m="3.7.3",n=a.html5||{},o=/^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i,p=/^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,q="_html5shiv",r=0,s={};!function(){try{var a=b.createElement("a");a.innerHTML="<xyz></xyz>",k="hidden"in a,l=1==a.childNodes.length||function(){b.createElement("a");var a=b.createDocumentFragment();return"undefined"==typeof a.cloneNode||"undefined"==typeof a.createDocumentFragment||"undefined"==typeof a.createElement}()}catch(c){k=!0,l=!0}}();var t={elements:n.elements||"abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output picture progress section summary template time video",version:m,shivCSS:n.shivCSS!==!1,supportsUnknownElements:l,shivMethods:n.shivMethods!==!1,type:"default",shivDocument:j,createElement:g,createDocumentFragment:h,addElements:e};a.html5=t,j(b),"object"==typeof module&&module.exports&&(module.exports=t)}("undefined"!=typeof window?window:this,document),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof b&&b;e||d.data("bs.button",e=new c(this,f)),"toggle"==b?e.toggle():b&&e.setState(b)})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.isLoading=!1};c.VERSION="3.3.7",c.DEFAULTS={loadingText:"loading..."},c.prototype.setState=function(b){var c="disabled",d=this.$element,e=d.is("input")?"val":"html",f=d.data();b+="Text",null==f.resetText&&d.data("resetText",d[e]()),setTimeout(a.proxy(function(){d[e](null==f[b]?this.options[b]:f[b]),"loadingText"==b?(this.isLoading=!0,d.addClass(c).attr(c,c).prop(c,!0)):this.isLoading&&(this.isLoading=!1,d.removeClass(c).removeAttr(c).prop(c,!1))},this),0)},c.prototype.toggle=function(){var a=!0,b=this.$element.closest('[data-toggle="buttons"]');if(b.length){var c=this.$element.find("input");"radio"==c.prop("type")?(c.prop("checked")&&(a=!1),b.find(".active").removeClass("active"),this.$element.addClass("active")):"checkbox"==c.prop("type")&&(c.prop("checked")!==this.$element.hasClass("active")&&(a=!1),this.$element.toggleClass("active")),c.prop("checked",this.$element.hasClass("active")),a&&c.trigger("change")}else this.$element.attr("aria-pressed",!this.$element.hasClass("active")),this.$element.toggleClass("active")};var d=a.fn.button;a.fn.button=b,a.fn.button.Constructor=c,a.fn.button.noConflict=function(){return a.fn.button=d,this},a(document).on("click.bs.button.data-api",'[data-toggle^="button"]',function(c){var d=a(c.target).closest(".btn");b.call(d,"toggle"),a(c.target).is('input[type="radio"], input[type="checkbox"]')||(c.preventDefault(),d.is("input,button")?d.trigger("focus"):d.find("input:visible,button:visible").first().trigger("focus"))}).on("focus.bs.button.data-api blur.bs.button.data-api",'[data-toggle^="button"]',function(b){a(b.target).closest(".btn").toggleClass("focus",/^focus(in)?$/.test(b.type))})}(jQuery),function(a,b){a(document).ready(function(){var c=[];if(document.createElement("input").placeholder!=b){a("#form-sticky").find(".eaFormField").each(function(){var b=a(this),d=b.parent().find("label"),e=d.find("a").text(),f=d.find(".eaMandatoryFieldMarker"),g=b.find('input[type="text"]');c.push({input:g,placeholder:e+(1==f.length?" *":""),label:d})});for(var d=0,e=c.length;e>d;d++){var f=c[d];f.input.attr("placeholder",f.placeholder),f.label.hide()}}})}(jQuery),function(a,b,c){function d(){var a=!1,b=g.offset().top;b=window_width<mobile_breakpoint?b+f.height()-g.height():b-l-15,m>b&&(a=!0),window_width>=mobile_breakpoint?a?(l=m-b,f.css("transform","translate3d(0,"+l+"px,0)")):f.css("transform","translate3d(0,0,0)"):(f.css("transform","translate3d(0,0,0)"),a?i.addClass("fixed"):i.removeClass("fixed"))}function e(){window_width=j.width(),d()}var f,g,h,i,j=a(b),k=b.document,l=0,m=0;window_width=0,mobile_breakpoint=768,j.on("scroll",function(){m=j.scrollTop(),d()}).on("resize",e),a(k).ready(function(){f=a("#form-sticky"),g=f.find(".eaFullWidthContent:first"),h=a("#show-form"),i=a("body"),h.on("click",function(){a("html,body").animate({scrollTop:a("#intro").offset().top},.5*m)}),e()})}(jQuery,window),function(a,b,c){function d(a){a=""+a,numbers=a.split("").reverse(),formatted=[];for(var b=0,c=numbers.length;c>b;b++)b%3===0&&formatted.push("&nbsp;"),formatted.push(numbers[b]);return formatted.reverse().join("")}function e(c){if(c&&c.rows){j-=1;for(var e=c.rows[0].columns,i=0,n=e.length;n>i;i++){var o=e[i];o.name&&"participatingSupporters"===o.name&&(k+=parseInt(o.value))}if(0>=j){var p=parseInt(g.data("target")),q=Math.floor(k/p*100);h.html(d(k)),f.addClass("show"),g.animate({width:q+"%"},l,m,function(){a(b).trigger("counter.displayed")})}}}var f,g,h,i=["/petition/{{ petition.id }}/get_json_data"],j=i.length,k=0,l=1e3,m="linear";a(document).ready(function(){f=a("#counter"),g=f.find("#progress-bar"),h=f.find("#nb-signatures"),f.find(".format-number").each(function(){var b=a(this);b.html(d(b.text()))})}),a(b).on("load",function(){for(var b=0,c=i.length;c>b;b++)a.ajax({url:i[b],dataType:"json",success:e})})}(jQuery,window),function(a,b,c){function d(a){b.open(a,"share","toolbar=0,status=0,width=626,height=500")}a(document).ready(function(){a(".share-item").on("click",function(c){c.stopPropagation(),c.preventDefault();var e=a(this),f=e.attr("id"),g={category:"share",action:"click",event:"share",virtualPageURL:b.virtualPageURL,virtualPageTitle:b.virtualPageTitle,virtualHostName:b.virtualHostName};switch(f){case"share-facebook":g.label="facebook",d(e.attr("href"));break;case"share-twitter":g.label="twitter",d(e.attr("href"));break;case"share-email":g.label="email"}b.dataLayer.push(g)})})}(jQuery,window),function(a,b){var c;a(document).ready(function(){c=a(".more"),c.find("h3").on("click",function(){var b=a(this),c=b.parents(".more").find(".more-content");c.slideToggle()})})}(jQuery),function(a,b,c){a(b).on("petition.signed",function(){a("#intro").hide(),a("#reassurance").hide()})}(jQuery,window),function(a,b,c){a.onload=function(){var a=b.getElementById("first_name");a&&(a.removeAttribute("onblur"),b.getElementById("last_name").removeAttribute("onblur"),b.getElementById("email").removeAttribute("onblur"),b.getElementById("phone_number").removeAttribute("onblur"))}}(window,window.document);</script>
-	</body>
+        <div class="container">
+            <div class="footer-links">
+                {% autoescape off %}{{ petition.footer_links }}{% endautoescape %}
+            </div>
+            <p>
+                {% autoescape off %}{{ petition.footer_text }}{% endautoescape %}
+            </p>
+        </div>
+    </footer>
+    <script type="text/javascript">
+            !function(a,b){function c(a,b){var c=a.createElement("p"),d=a.getElementsByTagName("head")[0]||a.documentElement;return c.innerHTML="x<style>"+b+"</style>",d.insertBefore(c.lastChild,d.firstChild)}function d(){var a=t.elements;return"string"==typeof a?a.split(" "):a}function e(a,b){var c=t.elements;"string"!=typeof c&&(c=c.join(" ")),"string"!=typeof a&&(a=a.join(" ")),t.elements=c+" "+a,j(b)}function f(a){var b=s[a[q]];return b||(b={},r++,a[q]=r,s[r]=b),b}function g(a,c,d){if(c||(c=b),l)return c.createElement(a);d||(d=f(c));var e;return e=d.cache[a]?d.cache[a].cloneNode():p.test(a)?(d.cache[a]=d.createElem(a)).cloneNode():d.createElem(a),!e.canHaveChildren||o.test(a)||e.tagUrn?e:d.frag.appendChild(e)}function h(a,c){if(a||(a=b),l)return a.createDocumentFragment();c=c||f(a);for(var e=c.frag.cloneNode(),g=0,h=d(),i=h.length;i>g;g++)e.createElement(h[g]);return e}function i(a,b){b.cache||(b.cache={},b.createElem=a.createElement,b.createFrag=a.createDocumentFragment,b.frag=b.createFrag()),a.createElement=function(c){return t.shivMethods?g(c,a,b):b.createElem(c)},a.createDocumentFragment=Function("h,f","return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&("+d().join().replace(/[\w\-:]+/g,function(a){return b.createElem(a),b.frag.createElement(a),'c("'+a+'")'})+");return n}")(t,b.frag)}function j(a){a||(a=b);var d=f(a);return!t.shivCSS||k||d.hasCSS||(d.hasCSS=!!c(a,"article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}mark{background:#FF0;color:#000}template{display:none}")),l||i(a,d),a}var k,l,m="3.7.3",n=a.html5||{},o=/^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i,p=/^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,q="_html5shiv",r=0,s={};!function(){try{var a=b.createElement("a");a.innerHTML="<xyz></xyz>",k="hidden"in a,l=1==a.childNodes.length||function(){b.createElement("a");var a=b.createDocumentFragment();return"undefined"==typeof a.cloneNode||"undefined"==typeof a.createDocumentFragment||"undefined"==typeof a.createElement}()}catch(c){k=!0,l=!0}}();var t={elements:n.elements||"abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output picture progress section summary template time video",version:m,shivCSS:n.shivCSS!==!1,supportsUnknownElements:l,shivMethods:n.shivMethods!==!1,type:"default",shivDocument:j,createElement:g,createDocumentFragment:h,addElements:e};a.html5=t,j(b),"object"==typeof module&&module.exports&&(module.exports=t)}("undefined"!=typeof window?window:this,document),+function(a){"use strict";function b(b){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof b&&b;e||d.data("bs.button",e=new c(this,f)),"toggle"==b?e.toggle():b&&e.setState(b)})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.isLoading=!1};c.VERSION="3.3.7",c.DEFAULTS={loadingText:"loading..."},c.prototype.setState=function(b){var c="disabled",d=this.$element,e=d.is("input")?"val":"html",f=d.data();b+="Text",null==f.resetText&&d.data("resetText",d[e]()),setTimeout(a.proxy(function(){d[e](null==f[b]?this.options[b]:f[b]),"loadingText"==b?(this.isLoading=!0,d.addClass(c).attr(c,c).prop(c,!0)):this.isLoading&&(this.isLoading=!1,d.removeClass(c).removeAttr(c).prop(c,!1))},this),0)},c.prototype.toggle=function(){var a=!0,b=this.$element.closest('[data-toggle="buttons"]');if(b.length){var c=this.$element.find("input");"radio"==c.prop("type")?(c.prop("checked")&&(a=!1),b.find(".active").removeClass("active"),this.$element.addClass("active")):"checkbox"==c.prop("type")&&(c.prop("checked")!==this.$element.hasClass("active")&&(a=!1),this.$element.toggleClass("active")),c.prop("checked",this.$element.hasClass("active")),a&&c.trigger("change")}else this.$element.attr("aria-pressed",!this.$element.hasClass("active")),this.$element.toggleClass("active")};var d=a.fn.button;a.fn.button=b,a.fn.button.Constructor=c,a.fn.button.noConflict=function(){return a.fn.button=d,this},a(document).on("click.bs.button.data-api",'[data-toggle^="button"]',function(c){var d=a(c.target).closest(".btn");b.call(d,"toggle"),a(c.target).is('input[type="radio"], input[type="checkbox"]')||(c.preventDefault(),d.is("input,button")?d.trigger("focus"):d.find("input:visible,button:visible").first().trigger("focus"))}).on("focus.bs.button.data-api blur.bs.button.data-api",'[data-toggle^="button"]',function(b){a(b.target).closest(".btn").toggleClass("focus",/^focus(in)?$/.test(b.type))})}(jQuery),function(a,b){a(document).ready(function(){var c=[];if(document.createElement("input").placeholder!=b){a("#form-sticky").find(".eaFormField").each(function(){var b=a(this),d=b.parent().find("label"),e=d.find("a").text(),f=d.find(".eaMandatoryFieldMarker"),g=b.find('input[type="text"]');c.push({input:g,placeholder:e+(1==f.length?" *":""),label:d})});for(var d=0,e=c.length;e>d;d++){var f=c[d];f.input.attr("placeholder",f.placeholder),f.label.hide()}}})}(jQuery),function(a,b,c){function d(){var a=!1,b=g.offset().top;b=window_width<mobile_breakpoint?b+f.height()-g.height():b-l-15,m>b&&(a=!0),window_width>=mobile_breakpoint?a?(l=m-b,f.css("transform","translate3d(0,"+l+"px,0)")):f.css("transform","translate3d(0,0,0)"):(f.css("transform","translate3d(0,0,0)"),a?i.addClass("fixed"):i.removeClass("fixed"))}function e(){window_width=j.width(),d()}var f,g,h,i,j=a(b),k=b.document,l=0,m=0;window_width=0,mobile_breakpoint=768,j.on("scroll",function(){m=j.scrollTop(),d()}).on("resize",e),a(k).ready(function(){f=a("#form-sticky"),g=f.find(".eaFullWidthContent:first"),h=a("#show-form"),i=a("body"),h.on("click",function(){a("html,body").animate({scrollTop:a("#intro").offset().top},.5*m)}),e()})}(jQuery,window),function(a,b,c){function d(a){a=""+a,numbers=a.split("").reverse(),formatted=[];for(var b=0,c=numbers.length;c>b;b++)b%3===0&&formatted.push("&nbsp;"),formatted.push(numbers[b]);return formatted.reverse().join("")}function e(c){if(c&&c.rows){j-=1;for(var e=c.rows[0].columns,i=0,n=e.length;n>i;i++){var o=e[i];o.name&&"participatingSupporters"===o.name&&(k+=parseInt(o.value))}if(0>=j){var p=parseInt(g.data("target")),q=Math.floor(k/p*100);h.html(d(k)),f.addClass("show"),g.animate({width:q+"%"},l,m,function(){a(b).trigger("counter.displayed")})}}}var f,g,h,i=["/petition/{{ petition.id }}/get_json_data"],j=i.length,k=0,l=1e3,m="linear";a(document).ready(function(){f=a("#counter"),g=f.find("#progress-bar"),h=f.find("#nb-signatures"),f.find(".format-number").each(function(){var b=a(this);b.html(d(b.text()))})}),a(b).on("load",function(){for(var b=0,c=i.length;c>b;b++)a.ajax({url:i[b],dataType:"json",success:e})})}(jQuery,window),function(a,b,c){function d(a){b.open(a,"share","toolbar=0,status=0,width=626,height=500")}a(document).ready(function(){a(".share-item").on("click",function(c){c.stopPropagation(),c.preventDefault();var e=a(this),f=e.attr("id"),g={category:"share",action:"click",event:"share",virtualPageURL:b.virtualPageURL,virtualPageTitle:b.virtualPageTitle,virtualHostName:b.virtualHostName};switch(f){case"share-facebook":g.label="facebook",d(e.attr("href"));break;case"share-twitter":g.label="twitter",d(e.attr("href"));break;case"share-email":g.label="email"}b.dataLayer.push(g)})})}(jQuery,window),function(a,b){var c;a(document).ready(function(){c=a(".more"),c.find("h3").on("click",function(){var b=a(this),c=b.parents(".more").find(".more-content");c.slideToggle()})})}(jQuery),function(a,b,c){a(b).on("petition.signed",function(){a("#intro").hide(),a("#reassurance").hide()})}(jQuery,window),function(a,b,c){a.onload=function(){var a=b.getElementById("first_name");a&&(a.removeAttribute("onblur"),b.getElementById("last_name").removeAttribute("onblur"),b.getElementById("email").removeAttribute("onblur"),b.getElementById("phone_number").removeAttribute("onblur"))}}(window,window.document);
+    </script>
+</div>
+</body>
 </html>
