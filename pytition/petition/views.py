@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import Http404, HttpResponse
 from django.core.mail import get_connection, send_mail
 from django.core.mail.message import EmailMessage
 from django.template.loader import render_to_string
@@ -146,9 +146,3 @@ def detail(request, petition_id):
     check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
     return render(request, 'petition/detail2.html', {'petition': petition, 'form': sign_form})
-
-
-def get_json_data(request, petition_id):
-    petition = petition_from_id(petition_id)
-    signature_number = petition.signature_set.filter(confirmed=True).count()
-    return JsonResponse({"rows":[{"columns":[{"name":"participatingSupporters","value":signature_number,"type":"xs:int","format":""}]}]})

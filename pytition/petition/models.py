@@ -106,6 +106,10 @@ class Petition(models.Model):
             return None
 
     @property
+    def signature_number(self):
+        return self.get_signature_number(True)
+
+    @property
     def raw_twitter_description(self):
         return html.unescape(mark_safe(strip_tags(self.twitter_description)))
 
