@@ -61,7 +61,7 @@ def get_csv_signature(request, petition_id, only_confirmed):
 
 def send_confirmation_email(request, signature):
     petition = signature.petition
-    url = request.build_absolute_uri("/petition/confirm/{}/{}".format(petition.id, signature.confirmation_hash))
+    url = request.build_absolute_uri("/petition/{}/confirm/{}".format(petition.id, signature.confirmation_hash))
     html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
     message = strip_tags(html_message)
     with get_connection(host=petition.confirmation_email_smtp_host, port=petition.confirmation_email_smtp_port,
