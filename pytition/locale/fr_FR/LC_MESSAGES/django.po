@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-18 01:12+0200\n"
-"PO-Revision-Date: 2018-09-03 19:35+0200\n"
+"POT-Creation-Date: 2018-09-11 18:50+0200\n"
+"PO-Revision-Date: 2018-09-11 18:49+0200\n"
+"Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
+"Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
-"Language-Team: Yann Sionneau\n"
 "X-Generator: Poedit 2.0.6\n"
 
 #: petition/admin.py:17
@@ -434,30 +434,62 @@ msgid "Confirmed signatures"
 msgstr "Signatures confirmées"
 
 #: petition/forms.py:16
-msgid "First name"
-msgstr "Prénom"
+msgid "First name *"
+msgstr "Prénom *"
 
 #: petition/forms.py:17
-msgid "Last name"
-msgstr "Nom"
+msgid "Last name *"
+msgstr "Nom *"
 
-#: petition/forms.py:18
+#: petition/forms.py:18 petition/models.py:135
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
 #: petition/forms.py:19
-msgid "Email address"
-msgstr "Adresse email"
+msgid "Email address *"
+msgstr "Adresse email *"
 
-#: petition/models.py:49
+#: petition/models.py:39
+msgid "Title"
+msgstr "Titre"
+
+#: petition/models.py:50
 msgid "This petition is hosted on RAP website."
 msgstr "Cette pétition est hébergée sur le site de RAP."
 
-#: petition/models.py:104
+#: petition/models.py:105
 msgid "Thank you for confirming your signature!"
 msgstr "Merci d'avoir confirmé votre signature !"
 
+#: petition/models.py:133
+msgid "First name"
+msgstr "Prénom"
+
+#: petition/models.py:134
+msgid "Last name"
+msgstr "Nom"
+
+#: petition/models.py:136
+msgid "Email address"
+msgstr "Adresse email"
+
+#: petition/models.py:138
+msgid "Confirmed"
+msgstr "Confirmé"
+
+#: petition/models.py:139
+msgid "Petition"
+msgstr "Pétition"
+
+#: petition/models.py:140
+msgid "Subscribed to mailing list"
+msgstr "Abonné à la liste de diffusion"
+
 #: petition/models.py:141
+msgid "Date"
+msgstr "Date"
+
+#: petition/models.py:146
 msgid "You already signed the petition"
 msgstr "Vous avez déjà signé la pétition"
 

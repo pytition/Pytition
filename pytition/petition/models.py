@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.html import mark_safe, strip_tags
 from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
 from django.core.exceptions import ValidationError
 
 from tinymce import models as tinymce_models
@@ -35,7 +36,7 @@ class Petition(models.Model):
         (GET,  "GET")
     )
 
-    title = tinymce_models.HTMLField()
+    title = tinymce_models.HTMLField(verbose_name=ugettext_lazy("Title"))
     text = tinymce_models.HTMLField()
     background = models.ImageField(blank=True)
     mobile_background = models.ImageField(blank=True)
@@ -129,15 +130,15 @@ class Petition(models.Model):
 
 
 class Signature(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=20, blank=True)
-    email = models.EmailField()
+    first_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("First name"))
+    last_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Last name"))
+    phone = models.CharField(max_length=20, blank=True, verbose_name=ugettext_lazy("Phone number"))
+    email = models.EmailField(verbose_name=ugettext_lazy("Email address"))
     confirmation_hash = models.CharField(max_length=128)
-    confirmed = models.BooleanField(default=False)
-    petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
-    subscribed_to_mailinglist = models.BooleanField(default=False)
-    date = models.DateTimeField(blank=True, auto_now_add=True)
+    confirmed = models.BooleanField(default=False, verbose_name=ugettext_lazy("Confirmed"))
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE, verbose_name=ugettext_lazy("Petition"))
+    subscribed_to_mailinglist = models.BooleanField(default=False, verbose_name=ugettext_lazy("Subscribed to mailing list"))
+    date = models.DateTimeField(blank=True, auto_now_add=True, verbose_name=ugettext_lazy("Date"))
 
     def clean(self):
         if self.petition.already_signed(self.email):
