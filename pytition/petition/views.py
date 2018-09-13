@@ -82,8 +82,13 @@ def go_send_confirmation_email(request, signature_id):
 
 def subscribe_to_newsletter(petition, email):
     if petition.newsletter_subscribe_method in ["POST", "GET"]:
+        if petition.newsletter_subscribe_http_url == '':
+            return
         data = petition.newsletter_subscribe_http_data
-        data[petition.newsletter_subscribe_http_mailfield] = email
+        if data == '':
+            data = None
+        if data is not None and petition.newsletter_subscribe_http_mailfield != '':
+            data[petition.newsletter_subscribe_http_mailfield] = email
     if petition.newsletter_subscribe_method == "POST":
         requests.post(petition.newsletter_subscribe_http_url, data)
     elif petition.newsletter_subscribe_method == "GET":
