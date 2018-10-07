@@ -15,4 +15,7 @@ urlpatterns = [
         name='get_csv_confirmed_signature'),
     url(r'^resend/(?P<signature_id>[0-9]+)', views.go_send_confirmation_email, name='resend_confirmation_email'),
     url(r'^(?P<petition_id>[0-9]+)/sign', views.create_signature, name='create_signature'),
+    url(r'^org/(?P<org_name>[^/]*)$', views.org_dashboard, name='org_dashboard'),
+    url(r'^org/(?P<org_name>.*)/leave$', views.leave_org, name="leave_org"),
+    url(r'^user/(?P<user_name>.*)$', views.user_dashboard, name='user_dashboard'),
 ]

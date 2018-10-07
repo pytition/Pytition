@@ -13,10 +13,10 @@ class SignatureForm(ModelForm):
         model = Signature
         fields = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist']
         widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': _('First name *'), 'class': 'form-control eaFormTextField eaFullWidthContent'}),
-            'last_name': forms.TextInput(attrs={'placeholder': _('Last name *'), 'class': 'form-control eaFormTextField eaFullWidthContent'}),
-            'phone': forms.TextInput(attrs={'placeholder': _('Phone number'), 'class': 'form-control eaFormTextField eaFullWidthContent'}),
-            'email': forms.EmailInput(attrs={'placeholder': _('Email address *'), 'class': 'form-control eaFormTextField eaFullWidthContent'})
+            'first_name': forms.TextInput(attrs={'placeholder': _('First name *'), 'class': 'form-control has-feedback eaFullWidthContent'}),
+            'last_name': forms.TextInput(attrs={'placeholder': _('Last name *'), 'class': 'form-control has-feedback eaFullWidthContent'}),
+            'phone': forms.TextInput(attrs={'placeholder': _('Phone number'), 'class': 'form-control has-feedback eaFullWidthContent'}),
+            'email': forms.EmailInput(attrs={'placeholder': _('Email address *'), 'class': 'form-control has-feedback eaFullWidthContent'})
         }
 
         labels = { f : '' for f in  ['first_name', 'last_name', 'phone', 'email'] }

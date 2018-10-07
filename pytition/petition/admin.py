@@ -4,8 +4,34 @@ from django.utils.translation import ugettext_lazy
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 
-from .models import Signature, Petition
+from .models import Signature, Petition, Organization, PytitionUser
 from .views import send_confirmation_email
+
+#admin.register(Organization)
+
+
+@admin.register(PytitionUser)
+class PytitionUserAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+
+    def name(self, pu):
+        return pu.user.get_full_name()
+
+    name.description = ugettext_lazy("Name")
+
+
+@admin.register(Organization)
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'petition_num', 'user_num')
+
+    def petition_num(self, org):
+        return org.petitions.count()
+
+    def user_num(self, org):
+        return org.members.count()
+
+    petition_num.description = ugettext_lazy('Petition number')
+    user_num.description = ugettext_lazy('User number')
 
 
 def confirm(modeladmin, request, queryset):

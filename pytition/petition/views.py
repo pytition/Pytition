@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseForbidden
 from django.core.mail import get_connection, send_mail
 from django.core.mail.message import EmailMessage
 from django.template.loader import render_to_string
@@ -12,7 +12,8 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.db.models import Q
 
-from .models import Petition, Signature
+from django.contrib.auth.models import User
+from .models import Petition, Signature, Organization, PytitionUser
 from .forms import SignatureForm
 
 import requests
@@ -159,3 +160,42 @@ def detail(request, petition_id):
     check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
     return render(request, 'petition/detail2.html', {'petition': petition, 'form': sign_form})
+
+
+def org_dashboard(request, org_name):
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("not found"))
+    return render(request, 'petition/org_dashboard.html', {'org': org})
+
+
+def user_dashboard(request, user_name):
+    try:
+        pytitionuser = PytitionUser.objects.get(user__username=user_name)
+    except User.DoesNotExist:
+        raise Http404(_("not found"))
+    return render(request, 'petition/user_dashboard.html', {'pytitionuser': pytitionuser})
+
+
+def leave_org(request, org_name):
+    print(org_name)
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("not found"))
+
+    if not request.user.is_authenticated:
+        raise HttpResponseForbidden(_("You must log-in first"))
+
+    try:
+        pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
+    except User.DoesNotExist:
+        raise Http404(_("not found"))
+
+    try:
+        pytitionuser.organizations.remove(org)
+    except:
+        raise Http404(_("not found"))
+
+    return redirect('/petition/user/{name}'.format(name=pytitionuser.user.username))
