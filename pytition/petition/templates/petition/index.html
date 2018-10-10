@@ -25,9 +25,11 @@ Menu <span class="navbar-toggler-icon"></span>
     <li class="nav-item">
     <a href="#" class="nav-link">Login</a>
     </li>
+    {% if settings.ALLOW_REGISTER %}
     <li class="nav-item">
     <a href="#" class="nav-link">Register</a>
     </li>
+    {% endif %}
 </ul>
 </div>
 </nav>
