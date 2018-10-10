@@ -147,3 +147,5 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
     'insert_toolbar': 'forecolor backcolor'
 }
+
+SITE_NAME = "Pytition"

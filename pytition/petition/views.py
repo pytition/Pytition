@@ -36,8 +36,9 @@ def settings_context_processor(request):
 
 
 def index(request):
-    petition = Petition.objects.filter(published=True).latest('id')
-    return redirect('/petition/{}'.format(petition.id))
+    petitions = Petition.objects.filter(published=True)
+    title = "Pétitions Résistance à l'agression publicitaire"
+    return render(request, 'petition/index.html', {'petitions': petitions, 'title': title})
 
 
 def get_csv_signature(request, petition_id, only_confirmed):

@@ -1,0 +1,74 @@
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{{ title }}</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static "bootstrap4/bootstrap.min.css" %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<a class="navbar-brand" href="/">{{ settings.SITE_NAME }}</a>
+<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+Menu <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarResponsive">
+<ul class="navbar-nav">
+    <li class="nav-item">
+    <a href="#" class="nav-link">Login</a>
+    </li>
+    <li class="nav-item">
+    <a href="#" class="nav-link">Register</a>
+    </li>
+</ul>
+</div>
+</nav>
+    <p></p>
+    <div class="row"></div>
+    {% for petition in petitions %}
+    {% if forloop.first %}
+        <div class="row">
+    {% endif %}
+            <div class="col-md-4 col-xs-6 text-center sb-preview">
+                <div class="card h-100">
+                    <a href="#" class="sb-preview-img">
+                        {% if not petition.twitter_image %}
+                        <img class="card-img-top" src="" height="100">
+                        {% else %}
+                        <img class="card-img-top" src="{{ petition.twitter_image }}" height="100">
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ petition.title|safe }}</h4>
+                        <p class="card-text">{{ petition.description|safe }}</p>
+                        <div class="card-footer">
+                            {{ petition.twitter_description }}
+                            <a href="{% url "detail" petition.id %}" class="btn btn-success">
+                            {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% if forloop.counter1|divisibleby:3 or forloop.last %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "bootstrap4/jquery-3.2.1.slim.min.js" %}"></script>
+    <script src="{% static "bootstrap4/popper.min.js" %}"></script>
+    <script src="{% static "bootstrap4/bootstrap.min.js" %}"></script>
+</body>
+</html>
