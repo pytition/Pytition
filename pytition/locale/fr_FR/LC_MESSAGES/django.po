@@ -7,13 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2018-10-11 08:41+0200\n"
-"PO-Revision-Date: 2018-10-11 08:42+0200\n"
-=======
-"POT-Creation-Date: 2018-10-05 19:45+0200\n"
-"PO-Revision-Date: 2018-10-05 19:46+0200\n"
->>>>>>> draft of organization support
+"POT-Creation-Date: 2018-10-16 08:36+0200\n"
+"PO-Revision-Date: 2018-10-16 08:36+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -22,21 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: petition/admin.py:20 petition/models.py:245 petition/models.py:255
+#: petition/admin.py:20 petition/models.py:235 petition/models.py:245
 msgid "Name"
 msgstr "Nom"
 
 #: petition/admin.py:33
-#, fuzzy
-#| msgid "Phone number"
 msgid "Petition number"
-msgstr "Numéro de téléphone"
+msgstr "Numéro de pétition"
 
 #: petition/admin.py:34
-#, fuzzy
-#| msgid "Phone number"
 msgid "User number"
-msgstr "Numéro de téléphone"
+msgstr "Numéro d'utilisateur"
 
 #: petition/admin.py:43
 msgid "Error: {}"
@@ -454,11 +445,7 @@ msgstr "Signatures non confirmées"
 msgid "Confirmed signatures"
 msgstr "Signatures confirmées"
 
-<<<<<<< HEAD
-#: petition/admin.py:181 petition/models.py:39
-=======
-#: petition/admin.py:207 petition/models.py:50
->>>>>>> draft of organization support
+#: petition/admin.py:207 petition/models.py:42
 msgid "Title"
 msgstr "Titre"
 
@@ -470,7 +457,7 @@ msgstr "Prénom *"
 msgid "Last name *"
 msgstr "Nom *"
 
-#: petition/forms.py:18 petition/models.py:147
+#: petition/forms.py:18 petition/models.py:138
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
@@ -478,62 +465,54 @@ msgstr "Numéro de téléphone"
 msgid "Email address *"
 msgstr "Adresse email *"
 
-<<<<<<< HEAD
-#: petition/models.py:50
-=======
-#: petition/models.py:61 petition/models.py:216
->>>>>>> draft of organization support
+#: petition/models.py:53 petition/models.py:206
 msgid "This petition is hosted on RAP website."
 msgstr "Cette pétition est hébergée sur le site de RAP."
 
-#: petition/models.py:117
+#: petition/models.py:108
 msgid "Thank you for confirming your signature!"
 msgstr "Merci d'avoir confirmé votre signature !"
 
-#: petition/models.py:145
+#: petition/models.py:136
 msgid "First name"
 msgstr "Prénom"
 
-#: petition/models.py:146
+#: petition/models.py:137
 msgid "Last name"
 msgstr "Nom"
 
-#: petition/models.py:148
+#: petition/models.py:139
 msgid "Email address"
 msgstr "Adresse email"
 
-#: petition/models.py:150
+#: petition/models.py:141
 msgid "Confirmed"
 msgstr "Confirmé"
 
-#: petition/models.py:151
+#: petition/models.py:142
 msgid "Petition"
 msgstr "Pétition"
 
-#: petition/models.py:152
+#: petition/models.py:143
 msgid "Subscribed to mailing list"
 msgstr "Abonné à la liste de diffusion"
 
-#: petition/models.py:153
+#: petition/models.py:144
 msgid "Date"
 msgstr "Date"
 
-#: petition/models.py:159
+#: petition/models.py:149
 msgid "You already signed the petition"
 msgstr "Vous avez déjà signé la pétition"
 
-#: petition/models.py:256
-#, fuzzy
-#| msgid "Petition text"
+#: petition/models.py:246
 msgid "Petition templates"
-msgstr "Texte de la pétition"
+msgstr "Gabarit de pétition"
 
-#: petition/models.py:257 petition/templates/petition/org_dashboard.html:26
+#: petition/models.py:247 petition/templates/petition/org_dashboard.html:26
 #: petition/templates/petition/user_dashboard.html:26
-#, fuzzy
-#| msgid "Petition"
 msgid "Petitions"
-msgstr "Pétition"
+msgstr "Pétitions"
 
 #: petition/templates/petition/change_form.html:18
 #: petition/templates/petition/petition_change_form.html:19
@@ -572,31 +551,29 @@ msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
 msgid "Please correct the errors below."
 msgstr "Corrigez les erreurs ci-dessous s'il vous plaît."
 
-<<<<<<< HEAD
-#: petition/templates/petition/index.html:34
+#: petition/templates/petition/index.html:35
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: petition/templates/petition/index.html:36
+#: petition/templates/petition/index.html:37
 msgid "Login"
 msgstr "Connexion"
 
-#: petition/templates/petition/index.html:41
+#: petition/templates/petition/index.html:43
 msgid "Register"
 msgstr "S'enregistrer"
 
-#: petition/templates/petition/index.html:52
+#: petition/templates/petition/index.html:54
 msgid "Search"
 msgstr "Rechercher"
 
-#: petition/templates/petition/index.html:75
+#: petition/templates/petition/index.html:78
 msgid "Sign!"
 msgstr "Signer !"
-=======
+
 #: petition/templates/petition/org_dashboard.html:35
 msgid "Members"
 msgstr "Membres"
->>>>>>> draft of organization support
 
 #: petition/templates/petition/petition_change_form.html:43
 msgid "Generate confirmed signatures CSV file"
@@ -619,32 +596,26 @@ msgid "Show unconfirmed signatures"
 msgstr "Afficher les signatures non confirmées"
 
 #: petition/templates/petition/user_dashboard.html:37
-#, fuzzy
-#| msgid "Organization Twitter handle"
 msgid "Organizations"
-msgstr "Nom d'utilisateur Twitter de l'organisation"
+msgstr "Organisations"
 
-#: petition/views.py:25
+#: petition/templates/petition/user_dashboard.html:43
+msgid "Quit"
+msgstr "Quitter"
+
+#: petition/views.py:26
 msgid "Petition does not exist"
 msgstr "Cette pétition n'existe pas"
 
-#: petition/views.py:32
+#: petition/views.py:33
 msgid "This Petition is not published yet!"
 msgstr "Cette pétition n'est pas encore publiée !"
 
-<<<<<<< HEAD
-#: petition/views.py:75
+#: petition/views.py:81
 msgid "Confirm your signature to our petition"
 msgstr "Confirmez votre signature à notre pétition"
 
-#: petition/views.py:123
-=======
-#: petition/views.py:73
-msgid "Confirm your signature to our petition"
-msgstr "Confirmez votre signature à notre pétition"
-
-#: petition/views.py:121
->>>>>>> draft of organization support
+#: petition/views.py:129
 msgid ""
 "Thank you for signing this petition, an email has just been sent to you at "
 "your address '{}' in order to confirm your signature.<br>You will need to "
@@ -657,43 +628,22 @@ msgstr ""
 "vous ne trouvez pas l'e-mail dans votre boite de réception, regardez dans "
 "votre dossier spam/indésirable svp."
 
-<<<<<<< HEAD
-#: petition/views.py:142
-=======
-#: petition/views.py:140
->>>>>>> draft of organization support
+#: petition/views.py:148
 msgid ""
 "Error: This confirmation code is invalid. Maybe you've already confirmed?"
 msgstr ""
 "Erreur : ce code de confirmation est invalide. Peut-être avez-vous déjà "
 "confirmé ?"
 
-<<<<<<< HEAD
-#: petition/views.py:148
+#: petition/views.py:154
 msgid "Error: This confirmation code is invalid."
 msgstr "Erreur : ce code de confirmation est invalide."
 
-#, fuzzy
-#~| msgid "Petition"
-#~ msgid "Petitions"
-#~ msgstr "Pétition"
-
-#~ msgid "Members"
-#~ msgstr "Membres"
-
-#, fuzzy
-#~| msgid "Organization Twitter handle"
-#~ msgid "Organizations"
-#~ msgstr "Nom d'utilisateur Twitter de l'organisation"
-
-#~ msgid "Quit"
-#~ msgstr "Quitter"
-=======
-#: petition/views.py:146
-msgid "Error: This confirmation code is invalid."
-msgstr "Erreur : ce code de confirmation est invalide."
-
-#: petition/views.py:161 petition/views.py:169
+#: petition/views.py:169 petition/views.py:177 petition/views.py:186
+#: petition/views.py:194 petition/views.py:199
 msgid "not found"
 msgstr "introuvable"
->>>>>>> draft of organization support
+
+#: petition/views.py:189
+msgid "You must log-in first"
+msgstr "Vous devez d'abord vous identifier"

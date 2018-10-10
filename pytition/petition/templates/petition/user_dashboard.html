@@ -1,0 +1,54 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta charset="UTF-8">
+    <title>{{ pytitionuser.user.get_full_name }} dashboard</title>
+</head>
+<body>
+    <div class="container">
+
+        <header class="page-header">
+        <h1>{{ pytitionuser.user.get_full_name }} dashboard</h1>
+        </header>
+
+        <section class="row">
+        <h2>{% trans "Petitions" %}</h2>
+        <ul>
+            {% for petition in pytitionuser.petitions.all %}
+            <li>
+                <a href="{% url "detail" petition.id %}">{{ petition.raw_title }}</a> ({{ petition.signature_number }})
+            </li>
+            {% endfor %}
+        </ul>
+        </section>
+
+        <section class="row">
+        <h2>{% trans "Organizations" %}</h2>
+        <ul>
+            {% for org in pytitionuser.organizations.all %}
+            <li>
+                <a href="{% url "org_dashboard" org.name %}">{{ org.name }}</a>
+                <form action="{% url "leave_org" org.name %}">
+                    <input type="submit" value="{% trans "Quit" %}">
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        </section>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
