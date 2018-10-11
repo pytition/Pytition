@@ -150,3 +150,7 @@ TINYMCE_DEFAULT_CONFIG = {
 
 SITE_NAME = "Pytition"
 ALLOW_REGISTER = True
+DEFAULT_INDEX_THUMBNAIL = ""  # fill-in the blank!
+
+if DEFAULT_INDEX_THUMBNAIL == "":
+    print("Please set a default index thumbnail or your index page will not be very beautiful")

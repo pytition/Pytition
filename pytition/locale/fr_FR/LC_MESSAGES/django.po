@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-10 18:46+0200\n"
-"PO-Revision-Date: 2018-10-10 18:46+0200\n"
+"POT-Creation-Date: 2018-10-11 08:41+0200\n"
+"PO-Revision-Date: 2018-10-11 08:42+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -530,20 +530,25 @@ msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
 msgid "Please correct the errors below."
 msgstr "Corrigez les erreurs ci-dessous s'il vous plaît."
 
-#: petition/templates/petition/index.html:55
+#: petition/templates/petition/index.html:34
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: petition/templates/petition/index.html:36
+msgid "Login"
+msgstr "Connexion"
+
+#: petition/templates/petition/index.html:41
+msgid "Register"
+msgstr "S'enregistrer"
+
+#: petition/templates/petition/index.html:52
+msgid "Search"
+msgstr "Rechercher"
+
+#: petition/templates/petition/index.html:75
 msgid "Sign!"
 msgstr "Signer !"
-
-#: petition/templates/petition/org_dashboard.html:26
-#: petition/templates/petition/user_dashboard.html:26
-#, fuzzy
-#| msgid "Petition"
-msgid "Petitions"
-msgstr "Pétition"
-
-#: petition/templates/petition/org_dashboard.html:35
-msgid "Members"
-msgstr "Membres"
 
 #: petition/templates/petition/petition_change_form.html:43
 msgid "Generate confirmed signatures CSV file"
@@ -565,16 +570,6 @@ msgstr "Afficher les signatures"
 msgid "Show unconfirmed signatures"
 msgstr "Afficher les signatures non confirmées"
 
-#: petition/templates/petition/user_dashboard.html:37
-#, fuzzy
-#| msgid "Organization Twitter handle"
-msgid "Organizations"
-msgstr "Nom d'utilisateur Twitter de l'organisation"
-
-#: petition/templates/petition/user_dashboard.html:43
-msgid "Quit"
-msgstr "Quitter"
-
 #: petition/views.py:24
 msgid "Petition does not exist"
 msgstr "Cette pétition n'existe pas"
@@ -583,11 +578,11 @@ msgstr "Cette pétition n'existe pas"
 msgid "This Petition is not published yet!"
 msgstr "Cette pétition n'est pas encore publiée !"
 
-#: petition/views.py:73
+#: petition/views.py:75
 msgid "Confirm your signature to our petition"
 msgstr "Confirmez votre signature à notre pétition"
 
-#: petition/views.py:121
+#: petition/views.py:123
 msgid ""
 "Thank you for signing this petition, an email has just been sent to you at "
 "your address '{}' in order to confirm your signature.<br>You will need to "
@@ -600,13 +595,29 @@ msgstr ""
 "vous ne trouvez pas l'e-mail dans votre boite de réception, regardez dans "
 "votre dossier spam/indésirable svp."
 
-#: petition/views.py:140
+#: petition/views.py:142
 msgid ""
 "Error: This confirmation code is invalid. Maybe you've already confirmed?"
 msgstr ""
 "Erreur : ce code de confirmation est invalide. Peut-être avez-vous déjà "
 "confirmé ?"
 
-#: petition/views.py:146
+#: petition/views.py:148
 msgid "Error: This confirmation code is invalid."
 msgstr "Erreur : ce code de confirmation est invalide."
+
+#, fuzzy
+#~| msgid "Petition"
+#~ msgid "Petitions"
+#~ msgstr "Pétition"
+
+#~ msgid "Members"
+#~ msgstr "Membres"
+
+#, fuzzy
+#~| msgid "Organization Twitter handle"
+#~ msgid "Organizations"
+#~ msgstr "Nom d'utilisateur Twitter de l'organisation"
+
+#~ msgid "Quit"
+#~ msgstr "Quitter"
