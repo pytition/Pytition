@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.utils.html import format_html
+from django.db.models import Q
 
 from .models import Petition, Signature
 from .forms import SignatureForm
@@ -37,10 +38,14 @@ def settings_context_processor(request):
 
 def index(request):
     authenticated = request.user.is_authenticated
-    petitions = Petition.objects.filter(published=True)
+    q = request.GET.get('q', '')
+    if q != "":
+        petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
+    else:
+        petitions = Petition.objects.filter(published=True)
     title = "Pétitions Résistance à l'agression publicitaire"
     return render(request, 'petition/index.html', {'petitions': petitions, 'title': title,
-                                                   'authenticated': authenticated})
+                                                   'authenticated': authenticated, 'q': q})
 
 
 def get_csv_signature(request, petition_id, only_confirmed):

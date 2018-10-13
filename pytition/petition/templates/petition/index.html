@@ -43,13 +43,13 @@ Menu <span class="navbar-toggler-icon"></span>
     {% endif %}
 </ul>
 </div>
-    <form class="form-inline my-2 my-lg-0" action="/action_page.php">
+    <form class="form-inline my-2 my-lg-0" action="{% url "index" %}" method="GET">
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">?</span>
       </div>
-      <input type="text" class="form-control mr-sm-2" placeholder="...">
-        <button class="btn my-2 my-sm-0" type="button">{% trans "Search" %}</button>
+      <input type="text" class="form-control mr-sm-2" placeholder="..." name="q" value="{{ q }}">
+        <input type="submit" class="btn my-2 my-sm-0" value="{% trans "Search" %}">
     </div>
   </form>
 </nav>
