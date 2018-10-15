@@ -145,7 +145,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
     'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-    'insert_toolbar': 'forecolor backcolor'
+    'insert_toolbar': 'forecolor backcolor',
+    'entity_encoding': 'raw',
 }
 
 SITE_NAME = "Pytition"
