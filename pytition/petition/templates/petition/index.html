@@ -29,6 +29,7 @@ Menu <span class="navbar-toggler-icon"></span>
 </button>
 <div class="collapse navbar-collapse" id="navbarResponsive">
 <ul class="navbar-nav">
+    {% if settings.ALLOW_CONNECT %}
     <li class="nav-item">
         {% if authenticated %}
         <a href="{% url "admin:logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
@@ -36,6 +37,7 @@ Menu <span class="navbar-toggler-icon"></span>
         <a href="{% url "admin:login" %}?next=/" class="nav-link">{% trans "Login" %}</a>
         {% endif %}
     </li>
+    {% endif %}
     {% if settings.ALLOW_REGISTER %}
     <li class="nav-item">
     <a href="#" class="nav-link">{% trans "Register" %}</a>
