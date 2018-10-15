@@ -85,9 +85,9 @@ def subscribe_to_newsletter(petition, email):
         if petition.newsletter_subscribe_http_url == '':
             return
         data = petition.newsletter_subscribe_http_data
-        if data == '':
-            data = None
-        if data is not None and petition.newsletter_subscribe_http_mailfield != '':
+        if data == '' or data is None:
+            data = {}
+        if petition.newsletter_subscribe_http_mailfield != '':
             data[petition.newsletter_subscribe_http_mailfield] = email
     if petition.newsletter_subscribe_method == "POST":
         requests.post(petition.newsletter_subscribe_http_url, data)
