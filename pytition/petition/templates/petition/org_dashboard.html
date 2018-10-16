@@ -2,45 +2,95 @@
 {% load static %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <meta charset="UTF-8">
-    <title>{{ org.name }} dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{{ title }}</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static "bootstrap4/bootstrap.min.css" %}" rel="stylesheet">
+    <style>
+  .card-img-top{
+   width: 100%!important;
+   height: 200px!important;
+   object-fit: cover;
+    }
+    </style>
 </head>
 <body>
 <div class="container">
-    <header class="page-header">
-<h1>{{ org.name }} dashboard</h1>
-    </header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">{{ org.name }}</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    Menu <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav">
+        {% if settings.ALLOW_CONNECT %}
+        <li class="nav-item">
+            {% if authenticated %}
+            <a href="{% url "admin:logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
+            {% else %}
+            <a href="{% url "admin:login" %}?next=/" class="nav-link">{% trans "Login" %}</a>
+            {% endif %}
+        </li>
+        {% endif %}
+        {% if settings.ALLOW_REGISTER %}
+        <li class="nav-item">
+        <a href="#" class="nav-link">{% trans "Register" %}</a>
+        </li>
+        {% endif %}
+    </ul>
+    </div>
+        <form class="form-inline my-2 my-lg-0" action="{% url "index" %}" method="GET">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">?</span>
+          </div>
+          <input type="text" class="form-control mr-sm-2" placeholder="..." name="q" value="{{ q }}">
+            <input type="submit" class="btn my-2 my-sm-0" value="{% trans "Search" %}">
+        </div>
+      </form>
+    </nav>
+    <p></p>
+    <div class="row">
 
-    <section class="row">
-<h2>{% trans "Petitions" %}</h2>
-<ul>
-    {% for petition in org.petitions.all %}
-    <li><a href="{% url "detail" petition.id %}">{{ petition.raw_title }}</a></li>
-    {% endfor %}
-</ul>
-    </section>
-
-    <section class="row">
-<h2>{% trans "Members" %}</h2>
-<ul>
-    {% for member in org.members.all %}
-    <li><a href="{% url "user_dashboard" member.user.username %}">{{ member.user.get_full_name }}</a></li>
-    {% endfor %}
-</ul>
-        </section>
+        {% for petition in org.petitions.all %}
+            <div class="col-md-4 col-xs-6 text-center sb-preview">
+                <div class="card h-100">
+                    <a href="#" class="sb-preview-img">
+                        {% if not petition.twitter_image%}
+                        <img class="card-img-top img-fluid img-thumbnail" src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
+                        {% else %}
+                        <img class="card-img-top img-fluid img-thumbnail" src="{{ petition.twitter_image }}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">{{ petition.title|striptags }}</h4>
+                        <p class="card-text">{{ petition.twitter_description|safe }}</p>
+                        <div class="card-footer mt-auto">
+                            <a href="{% url "detail" petition.id %}" class="btn btn-success">
+                            {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+    </div>
+    <p></p>
+    <div class="row">
+        {% endif %}
+        {% endfor %}
+        </div>
 </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "bootstrap4/jquery-3.2.1.slim.min.js" %}"></script>
+    <script src="{% static "bootstrap4/popper.min.js" %}"></script>
+    <script src="{% static "bootstrap4/bootstrap.min.js" %}"></script>
 </body>
 </html>
