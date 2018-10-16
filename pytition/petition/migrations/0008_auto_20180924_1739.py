@@ -23,7 +23,7 @@ def destroyPytitionUsers(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('petition', '0006_auto_20180924_1738'),
+        ('petition', '0007_auto_20180924_1738'),
     ]
 
     operations = [
