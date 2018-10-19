@@ -163,23 +163,41 @@ def detail(request, petition_id):
 
 
 def org_dashboard(request, org_name):
+    if not request.user.is_authenticated:
+        raise HttpResponseForbidden(_("You must log-in first"))
     try:
         org = Organization.objects.get(name=org_name)
     except Organization.DoesNotExist:
         raise Http404(_("not found"))
-    return render(request, 'petition/org_dashboard.html', {'org': org})
+
+    try:
+        pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
+    except User.DoesNotExist:
+        raise Http404(_("not found"))
+
+    other_orgs = pytitionuser.organizations.filter(~Q(name=org.name))
+    return render(request, 'petition/org_dashboard.html', {'org': org, 'user': request.user, "other_orgs": other_orgs})
 
 
 def user_dashboard(request, user_name):
+    if not request.user.is_authenticated:
+        raise HttpResponseForbidden(_("You must log-in first"))
     try:
-        pytitionuser = PytitionUser.objects.get(user__username=user_name)
+        pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
     except User.DoesNotExist:
         raise Http404(_("not found"))
     return render(request, 'petition/user_dashboard.html', {'pytitionuser': pytitionuser})
 
 
+def user_profile(request, user_name):
+    try:
+        profile = PytitionUser.objects.get(user__username=user_name)
+    except User.DoesNotExist:
+        raise Http404(_("not found"))
+    return render(request, 'petition/user_profile.html', {'profile': profile, 'user': request.user})
+
+
 def leave_org(request, org_name):
-    print(org_name)
     try:
         org = Organization.objects.get(name=org_name)
     except Organization.DoesNotExist:
@@ -198,4 +216,9 @@ def leave_org(request, org_name):
     except:
         raise Http404(_("not found"))
 
-    return redirect('/petition/user/{name}'.format(name=pytitionuser.user.username))
+    return redirect('/petition/user/{name}/dashboard'.format(name=pytitionuser.user.username))
+
+
+def org_profile(request, org_name):
+    pass
+

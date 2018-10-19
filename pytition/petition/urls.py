@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'^(?P<petition_id>[0-9]+)/sign', views.create_signature, name='create_signature'),
     url(r'^org/(?P<org_name>[^/]*)$', views.org_dashboard, name='org_dashboard'),
     url(r'^org/(?P<org_name>.*)/leave$', views.leave_org, name="leave_org"),
-    url(r'^user/(?P<user_name>.*)$', views.user_dashboard, name='user_dashboard'),
+    url(r'^user/(?P<user_name>[^/]*)$', views.user_profile, name='user_profile'),
+    url(r'^user/(?P<user_name>[^/]*)/dashboard$', views.user_dashboard, name='user_dashboard'),
 ]
