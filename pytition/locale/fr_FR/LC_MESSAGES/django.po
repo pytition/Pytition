@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-16 08:36+0200\n"
-"PO-Revision-Date: 2018-10-16 08:36+0200\n"
+"POT-Creation-Date: 2018-10-19 14:04+0200\n"
+"PO-Revision-Date: 2018-10-19 14:04+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -509,8 +509,7 @@ msgstr "Vous avez déjà signé la pétition"
 msgid "Petition templates"
 msgstr "Gabarit de pétition"
 
-#: petition/models.py:247 petition/templates/petition/org_dashboard.html:26
-#: petition/templates/petition/user_dashboard.html:26
+#: petition/models.py:247 petition/templates/petition/user_dashboard.html:26
 msgid "Petitions"
 msgstr "Pétitions"
 
@@ -552,28 +551,44 @@ msgid "Please correct the errors below."
 msgstr "Corrigez les erreurs ci-dessous s'il vous plaît."
 
 #: petition/templates/petition/index.html:35
+#: petition/templates/petition/org_dashboard.html:35
+#: petition/templates/petition/user_profile.html:35
 msgid "Logout"
 msgstr "Déconnexion"
 
 #: petition/templates/petition/index.html:37
+#: petition/templates/petition/org_dashboard.html:37
+#: petition/templates/petition/user_profile.html:37
 msgid "Login"
 msgstr "Connexion"
 
 #: petition/templates/petition/index.html:43
+#: petition/templates/petition/org_dashboard.html:43
+#: petition/templates/petition/user_profile.html:43
 msgid "Register"
 msgstr "S'enregistrer"
 
 #: petition/templates/petition/index.html:54
+#: petition/templates/petition/org_dashboard.html:54
+#: petition/templates/petition/user_profile.html:54
 msgid "Search"
 msgstr "Rechercher"
 
-#: petition/templates/petition/index.html:78
+#: petition/templates/petition/index.html:75
+#: petition/templates/petition/org_dashboard.html:98
+#: petition/templates/petition/user_profile.html:98
 msgid "Sign!"
 msgstr "Signer !"
 
-#: petition/templates/petition/org_dashboard.html:35
+#: petition/templates/petition/org_dashboard.html:72
+#: petition/templates/petition/user_profile.html:72
 msgid "Members"
 msgstr "Membres"
+
+#: petition/templates/petition/org_dashboard.html:77
+#: petition/templates/petition/user_profile.html:77
+msgid "Invite user"
+msgstr "Inviter un utilisateur à devenir membre"
 
 #: petition/templates/petition/petition_change_form.html:43
 msgid "Generate confirmed signatures CSV file"
@@ -639,11 +654,12 @@ msgstr ""
 msgid "Error: This confirmation code is invalid."
 msgstr "Erreur : ce code de confirmation est invalide."
 
-#: petition/views.py:169 petition/views.py:177 petition/views.py:186
-#: petition/views.py:194 petition/views.py:199
-msgid "not found"
-msgstr "introuvable"
-
-#: petition/views.py:189
+#: petition/views.py:167 petition/views.py:184 petition/views.py:207
 msgid "You must log-in first"
 msgstr "Vous devez d'abord vous identifier"
+
+#: petition/views.py:171 petition/views.py:176 petition/views.py:188
+#: petition/views.py:196 petition/views.py:204 petition/views.py:212
+#: petition/views.py:217
+msgid "not found"
+msgstr "introuvable"

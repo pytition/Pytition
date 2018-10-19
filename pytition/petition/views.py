@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse, HttpResponseForbidden
+from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.core.mail import get_connection, send_mail
 from django.core.mail.message import EmailMessage
 from django.template.loader import render_to_string
@@ -222,3 +222,27 @@ def leave_org(request, org_name):
 def org_profile(request, org_name):
     pass
 
+def get_user_list(request):
+    q = request.GET.get('q', '')
+    if q != "":
+        users = PytitionUser.objects.filter(Q(user__username__contains=q) | Q(user__first_name__icontains=q) |
+                                            Q(user__last_name__icontains=q)).all()
+    else:
+        users =  []
+
+    userdict = {
+        "values": [user.user.username for user in users],
+    }
+    return JsonResponse(userdict)
+
+def org_add_user(request, org_name):
+    user = request.GET.get('user', '')
+    print("on rajoute {}".format(user))
+
+    if user != "":
+        users = PytitionUser.objects.get(user__username=user)
+
+    if users is None:
+        return JsonResponse({"status": "KO"})
+    else:
+        return JsonResponse({"status": "OK"})

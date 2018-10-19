@@ -9,22 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>{{ title }}</title>
+
     <!-- Bootstrap -->
-    <link href="{% static "bootstrap-4.1.3/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "bootstrap-4.1.3/css/open-iconic-bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap4/bootstrap.min.css" %}" rel="stylesheet">
     <style>
   .card-img-top{
    width: 100%!important;
    height: 200px!important;
    object-fit: cover;
     }
-
     </style>
 </head>
 <body>
 <div class="container-fluid">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">{{ org.name }}</a>
+    <a class="navbar-brand" href="#">{{ profile.user.get_full_name }}</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     Menu <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,14 +31,14 @@
     <ul class="navbar-nav">
         {% if settings.ALLOW_CONNECT %}
         <li class="nav-item">
-            {% if authenticated %}
+            {% if user.is_authenticated %}
             <a href="{% url "admin:logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
             {% else %}
             <a href="{% url "admin:login" %}?next=/" class="nav-link">{% trans "Login" %}</a>
             {% endif %}
         </li>
         {% endif %}
-        {% if settings.ALLOW_REGISTER %}
+        {% if settings.ALLOW_REGISTER and not user.is_authenticated %}
         <li class="nav-item">
         <a href="#" class="nav-link">{% trans "Register" %}</a>
         </li>
@@ -60,35 +59,23 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">{{ org.name }}</button>
-            <div class="dropdown-menu">
-                <a href="{% url "user_dashboard" user.username %}" class="dropdown-item">{{ user.get_full_name }}</a>
-                {% for org in other_orgs %}
-                    <a href="{% url "org_dashboard" org.name %}" class="dropdown-item">{{ org.name }}</a>
-                {% endfor %}
+            <a href="#switch-list" data-toggle="collapse" data-target="#switch-list">{{ org.name }} ></a>
+            <div class="collapse" id="switch-list">
+                <div class="list-group">
+                    <a href="{% url "user_dashboard" user.username %}" class="list-group-item list-group-item-primary">{{ user.get_full_name }}</a>
+                    {% for org in other_orgs %}
+                        <a href="{% url "org_dashboard" org.name %}" class="list-group-item list-group-item-primary">{{ org.name }}</a>
+                    {% endfor %}
+                </div>
             </div>
             <hr>
             <h2>{% trans "Members" %}</h2>
-            <div class="list-group">
             {% for member in org.members.all %}
-                <a href="{% url "user_profile" member.user.username %}" class="list-group-item list-group-item-action list-group-item-primary"><span class="oi oi-person"></span> {{ member.user.get_full_name }}</a>
+                <a href="{% url "user_profile" member.user.username %}" class="list-group-item list-group-item-primary">{{ member.user.get_full_name }}</a>
             {% endfor %}
-            </div>
             <br>
-            <h4>{% trans "Invite user" %}</h4>
-            <form>
-                <div class="form-group">
-                    <label for="invite_user" class="invisible">{% trans "User" %} : </label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span class="oi oi-person"></span></span>
-                        </div>
-                        <input class="form-control" type="text" id="invite_user" placeholder="{% trans "Username" %}">
-                    </div>
-                </div>
-                <div id="user_search_result" class="list-group">
-                </div>
-            </form>
+            <h3>{% trans "Invite user" %}</h3>
+
         </div>
         <div class="col-md-10 col-xs-12">
             <div class="row">
@@ -127,52 +114,8 @@
 </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{% static "bootstrap-4.1.3/js/jquery-3.3.1.min.js" %}"></script>
-    <script src="{% static "bootstrap-4.1.3/js/popper.min.js" %}"></script>
-    <script src="{% static "bootstrap-4.1.3/js/bootstrap.min.js" %}"></script>
-    <script>
-        function addUser(user) {
-            $("#user_search_result").html("<span class=\"oi oi-cog\" title=\"waiting\" aria-hidden=\"true\"></span>");
-            $.ajax({
-                url: "{% url "org_add_user" org.name %}?user=" + user,
-                dataType: "json",
-                }).done(function(data) {
-                    $("#user_search_result").html("");
-                    if (data.status == "OK") {
-                        var html = `
-                        <div class="alert alert-success alert-dismissible show fade">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        {% trans "You sent an invitation to join the organization" %}</div>
-                        `
-                        $("#user_search_result").append(html);
-                    } else {
-                        var html = `
-                        <div class="alert alert-danger alert-dismissible show fade">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        {% trans "Error while sending the invitation, please try again later or check that wthis user still exists" %}</div>
-                        `
-                        $("#user_search_result").append(html);
-                    }
-            });
-        }
-
-        $(document).ready(function(){
-          $("#invite_user").on("keyup", function() {
-           $.ajax({
-           url: "{% url "get_user_list" %}?q=" + $("#invite_user").val(),
-           dataType: "json",
-           }).done(function(data) {
-                $("#user_search_result").html("");
-                data.values.forEach(function(item, index) {
-                    $("#user_search_result").append("<a id=\"addUser"+ item +"\" class=\"list-group-item list-group-item-success list-group-item-action\"><span class=\"oi oi-plus\" title=\"plus\" aria-hidden=\"true\"></span> "+ item +"</a>");
-                    $("#addUser" + item).on("click", function () {
-                        addUser(item);
-                        $("#invite_user").val("");
-                    });
-                });
-           });
-          });
-        });
-    </script>
+    <script src="{% static "bootstrap4/jquery-3.2.1.slim.min.js" %}"></script>
+    <script src="{% static "bootstrap4/popper.min.js" %}"></script>
+    <script src="{% static "bootstrap4/bootstrap.min.js" %}"></script>
 </body>
 </html>
