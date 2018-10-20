@@ -116,3 +116,4 @@ If you try this URL before creating a petition you will get an error.
 * requests
 * mysqlclient
 * Pillow
+* beautifulsoup4
