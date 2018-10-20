@@ -281,6 +281,15 @@ class PytitionUser(models.Model):
     organizations = models.ManyToManyField(Organization, related_name="members", blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="pytitionuser")
     permission = models.ManyToManyField(Permission, related_name="user", blank=True)
+    invitations = models.ManyToManyField(Organization, related_name="invited", blank=True)
+
+    @property
+    def username(self):
+        return self.user.username
+
+    @property
+    def get_full_name(self):
+        return self.user.get_full_name()
 
 
 @receiver(post_save, sender=User)

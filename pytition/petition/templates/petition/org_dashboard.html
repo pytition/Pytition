@@ -19,6 +19,10 @@
    object-fit: cover;
     }
 
+    .alert .alert-icon-col {
+        min-width: 35px;
+        max-width: 35px;
+    }
     </style>
 </head>
 <body>
@@ -32,14 +36,14 @@
     <ul class="navbar-nav">
         {% if settings.ALLOW_CONNECT %}
         <li class="nav-item">
-            {% if authenticated %}
+            {% if user.is_authenticated %}
             <a href="{% url "admin:logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
             {% else %}
             <a href="{% url "admin:login" %}?next=/" class="nav-link">{% trans "Login" %}</a>
             {% endif %}
         </li>
         {% endif %}
-        {% if settings.ALLOW_REGISTER %}
+        {% if settings.ALLOW_REGISTER and not user.is_authenticated %}
         <li class="nav-item">
         <a href="#" class="nav-link">{% trans "Register" %}</a>
         </li>
@@ -71,7 +75,7 @@
             <h2>{% trans "Members" %}</h2>
             <div class="list-group">
             {% for member in org.members.all %}
-                <a href="{% url "user_profile" member.user.username %}" class="list-group-item list-group-item-action list-group-item-primary"><span class="oi oi-person"></span> {{ member.user.get_full_name }}</a>
+                <a href="{% url "user_profile" member.username %}" class="list-group-item list-group-item-action list-group-item-primary"><span class="oi oi-person"></span> {{ member.get_full_name }}</a>
             {% endfor %}
             </div>
             <br>
@@ -89,6 +93,32 @@
                 <div id="user_search_result" class="list-group">
                 </div>
             </form>
+            {% if user.invitations %}
+            <br>
+            <h4>{% trans "Invitations" %}</h4>
+            <div id="invitations">
+                {% for org in user.invitations.all %}
+                <div class="alert alert-info alert-dismissible show fade" id="invite-alert-{{ org.name }}">
+                    <div class="row">
+                        <div class="col-1 alert-icon-col">
+                            <span class="oi oi-question-mark"></span>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                            {% blocktrans with orgname=org %}
+                                You are invited to <strong>&nbsp;{{ orgname }}</strong>
+                            {% endblocktrans %}
+                            </div>
+                            <div class="row d-flex justify-content-around">
+                                <button class="btn btn-success btn-invitation-join" data-org="{{ org.name }}">{% trans "Join" %}</button>
+                                <button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.name }}">{% trans "Dismiss" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="col-md-10 col-xs-12">
             <div class="row">
@@ -136,23 +166,51 @@
             $.ajax({
                 url: "{% url "org_add_user" org.name %}?user=" + user,
                 dataType: "json",
-                }).done(function(data) {
-                    $("#user_search_result").html("");
-                    if (data.status == "OK") {
-                        var html = `
-                        <div class="alert alert-success alert-dismissible show fade">
+            }).done(function(data) {
+                $("#user_search_result").html("");
+                var html = `
+                <div class="alert alert-success alert-dismissible show fade">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <div class="row">
+                    <div class="col-1 alert-icon-col">
+                        <span class="oi oi-check"></span>
+                    </div>
+                <div class="col">
+                ` + data.message + "</div></div></div>";
+                $("#user_search_result").append(html);
+            }).fail(function($xhr) {
+                var data = $xhr.responseJSON;
+                console.log(data);
+                $("#user_search_result").html("");
+                var html;
+                if (typeof data === "undefined") {
+                    html = `
+                    <div class="alert alert-danger alert-dismissible show fade">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        {% trans "You sent an invitation to join the organization" %}</div>
-                        `
-                        $("#user_search_result").append(html);
-                    } else {
-                        var html = `
-                        <div class="alert alert-danger alert-dismissible show fade">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        {% trans "Error while sending the invitation, please try again later or check that wthis user still exists" %}</div>
-                        `
-                        $("#user_search_result").append(html);
-                    }
+                        <div class="row">
+                            <div class="col-1 alert-icon-col">
+                                <span class="oi oi-warning"></span>
+                            </div>
+                            <div class="col">
+                                {% blocktrans with orgname=org.name %}
+                                An unknown error happened. We could not invite this user to <strong>{{ orgname }}</strong>
+                                {% endblocktrans %}
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                } else {
+                    html = `
+                    <div class="alert alert-danger alert-dismissible show fade">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <div class="row">
+                        <div class="col-1 alert-icon-col">
+                            <span class="oi oi-warning"></span>
+                        </div>
+                        <div class="col">
+                    ` + data.message + "</div></div></div>";
+                }
+                $("#user_search_result").append(html);
             });
         }
 
@@ -172,6 +230,25 @@
                 });
            });
           });
+        });
+
+        $(document).ready(function() {
+            $(".btn-invitation-join").on("click", function() {
+                var org = $(this).data("org");
+                $.ajax({
+                url: "{% url "invite_accept" %}?org_name=" + org,
+                }).done(function() {
+                    $(".btn-invitation-join").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $(".btn-invitation-join").closest(".alert").on("closed.bs.alert", function() {
+                if ($("#invitations").find(".alert").length == 0) {
+                        location.reload(true);
+                }
+            });
         });
     </script>
 </body>

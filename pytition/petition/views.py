@@ -11,6 +11,7 @@ from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.utils.html import format_html
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser
@@ -48,7 +49,7 @@ def index(request):
     return render(request, 'petition/index.html', {'petitions': petitions, 'title': title,
                                                    'authenticated': authenticated, 'q': q})
 
-
+@login_required
 def get_csv_signature(request, petition_id, only_confirmed):
     petition = petition_from_id(petition_id)
 
@@ -161,7 +162,7 @@ def detail(request, petition_id):
     sign_form = SignatureForm(petition=petition)
     return render(request, 'petition/detail2.html', {'petition': petition, 'form': sign_form})
 
-
+@login_required
 def org_dashboard(request, org_name):
     if not request.user.is_authenticated:
         raise HttpResponseForbidden(_("You must log-in first"))
@@ -175,10 +176,10 @@ def org_dashboard(request, org_name):
     except User.DoesNotExist:
         raise Http404(_("not found"))
 
-    other_orgs = pytitionuser.organizations.filter(~Q(name=org.name))
-    return render(request, 'petition/org_dashboard.html', {'org': org, 'user': request.user, "other_orgs": other_orgs})
+    other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
+    return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs})
 
-
+@login_required
 def user_dashboard(request, user_name):
     if not request.user.is_authenticated:
         raise HttpResponseForbidden(_("You must log-in first"))
@@ -188,7 +189,7 @@ def user_dashboard(request, user_name):
         raise Http404(_("not found"))
     return render(request, 'petition/user_dashboard.html', {'pytitionuser': pytitionuser})
 
-
+@login_required
 def user_profile(request, user_name):
     try:
         profile = PytitionUser.objects.get(user__username=user_name)
@@ -196,7 +197,7 @@ def user_profile(request, user_name):
         raise Http404(_("not found"))
     return render(request, 'petition/user_profile.html', {'profile': profile, 'user': request.user})
 
-
+@login_required
 def leave_org(request, org_name):
     try:
         org = Organization.objects.get(name=org_name)
@@ -235,14 +236,59 @@ def get_user_list(request):
     }
     return JsonResponse(userdict)
 
+@login_required
 def org_add_user(request, org_name):
     user = request.GET.get('user', '')
-    print("on rajoute {}".format(user))
 
-    if user != "":
-        users = PytitionUser.objects.get(user__username=user)
+    try:
+        user = PytitionUser.objects.get(user__username=user)
+    except PytitionUser.DoesNotExist:
+        message = _("This user does not exist (anylonger?)")
+        return JsonResponse({"message": message}, status=404)
 
-    if users is None:
-        return JsonResponse({"status": "KO"})
-    else:
-        return JsonResponse({"status": "OK"})
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        message = _("This organization does not exist (anylonger?)")
+        return JsonResponse({"message": message}, status=404)
+
+    if org in user.organizations.all():
+        message = _("User is already member of {orgname} organization".format(orgname=org.name))
+        return JsonResponse({"message": message}, status=500)
+
+    try:
+        user.invitations.add(org)
+        user.save()
+    except:
+        message = _("An error occured")
+        return JsonResponse({"message": message}, status=500)
+
+    message = _("You sent an invitation to join {orgname}".format(orgname=org.name))
+    return JsonResponse({"message": message})
+
+@login_required
+def invite_accept(request):
+    org_name = request.GET.get('org_name', '')
+
+    if org_name == "":
+        return JsonResponse({}, status=500)
+
+    try:
+        user = PytitionUser.objects.get(user__username=request.user)
+    except PytitionUser.DoesNotExist:
+        return JsonResponse({}, status=404)
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        return JsonResponse({}, status=404)
+
+    if org in user.invitations.all():
+        try:
+            user.invitations.remove(org)
+            user.organizations.add(org)
+            user.save()
+        except:
+            return JsonResponse({}, status=500)
+
+    return JsonResponse({})

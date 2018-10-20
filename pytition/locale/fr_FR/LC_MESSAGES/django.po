@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-19 14:04+0200\n"
-"PO-Revision-Date: 2018-10-19 14:04+0200\n"
+"POT-Creation-Date: 2018-10-20 20:30+0200\n"
+"PO-Revision-Date: 2018-10-20 20:31+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -551,44 +551,88 @@ msgid "Please correct the errors below."
 msgstr "Corrigez les erreurs ci-dessous s'il vous plaît."
 
 #: petition/templates/petition/index.html:35
-#: petition/templates/petition/org_dashboard.html:35
+#: petition/templates/petition/org_dashboard.html:40
 #: petition/templates/petition/user_profile.html:35
 msgid "Logout"
 msgstr "Déconnexion"
 
 #: petition/templates/petition/index.html:37
-#: petition/templates/petition/org_dashboard.html:37
+#: petition/templates/petition/org_dashboard.html:42
 #: petition/templates/petition/user_profile.html:37
 msgid "Login"
 msgstr "Connexion"
 
 #: petition/templates/petition/index.html:43
-#: petition/templates/petition/org_dashboard.html:43
+#: petition/templates/petition/org_dashboard.html:48
 #: petition/templates/petition/user_profile.html:43
 msgid "Register"
 msgstr "S'enregistrer"
 
 #: petition/templates/petition/index.html:54
-#: petition/templates/petition/org_dashboard.html:54
+#: petition/templates/petition/org_dashboard.html:59
 #: petition/templates/petition/user_profile.html:54
 msgid "Search"
 msgstr "Rechercher"
 
 #: petition/templates/petition/index.html:75
-#: petition/templates/petition/org_dashboard.html:98
+#: petition/templates/petition/org_dashboard.html:141
 #: petition/templates/petition/user_profile.html:98
 msgid "Sign!"
 msgstr "Signer !"
 
-#: petition/templates/petition/org_dashboard.html:72
+#: petition/templates/petition/org_dashboard.html:75
 #: petition/templates/petition/user_profile.html:72
 msgid "Members"
 msgstr "Membres"
 
-#: petition/templates/petition/org_dashboard.html:77
+#: petition/templates/petition/org_dashboard.html:82
 #: petition/templates/petition/user_profile.html:77
 msgid "Invite user"
 msgstr "Inviter un utilisateur à devenir membre"
+
+#: petition/templates/petition/org_dashboard.html:85
+msgid "User"
+msgstr "Utilisateur"
+
+#: petition/templates/petition/org_dashboard.html:90
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: petition/templates/petition/org_dashboard.html:98
+msgid "Invitations"
+msgstr "Invitations"
+
+#: petition/templates/petition/org_dashboard.html:108
+#, python-format
+msgid ""
+"\n"
+"                                You are invited to <strong>&nbsp;"
+"%(orgname)s</strong>\n"
+"                            "
+msgstr ""
+"\n"
+"Vous êtes invité à rejoindre l'organisation <strong>&nbsp;%(orgname)s</"
+"strong>"
+
+#: petition/templates/petition/org_dashboard.html:113
+msgid "Join"
+msgstr "Rejoindre"
+
+#: petition/templates/petition/org_dashboard.html:114
+msgid "Dismiss"
+msgstr "Rejeter"
+
+#: petition/templates/petition/org_dashboard.html:195
+#, python-format
+msgid ""
+"\n"
+"                                An unknown error happened. We could not "
+"invite this user to <strong>%(orgname)s</strong>\n"
+"                                "
+msgstr ""
+"\n"
+"Une erreur inconnue est survenue. Nous n'avons pas pu inviter cet "
+"utilisateur dans <strong>%(orgname)s</strong>"
 
 #: petition/templates/petition/petition_change_form.html:43
 msgid "Generate confirmed signatures CSV file"
@@ -618,19 +662,19 @@ msgstr "Organisations"
 msgid "Quit"
 msgstr "Quitter"
 
-#: petition/views.py:26
+#: petition/views.py:27
 msgid "Petition does not exist"
 msgstr "Cette pétition n'existe pas"
 
-#: petition/views.py:33
+#: petition/views.py:34
 msgid "This Petition is not published yet!"
 msgstr "Cette pétition n'est pas encore publiée !"
 
-#: petition/views.py:81
+#: petition/views.py:82
 msgid "Confirm your signature to our petition"
 msgstr "Confirmez votre signature à notre pétition"
 
-#: petition/views.py:129
+#: petition/views.py:130
 msgid ""
 "Thank you for signing this petition, an email has just been sent to you at "
 "your address '{}' in order to confirm your signature.<br>You will need to "
@@ -643,23 +687,45 @@ msgstr ""
 "vous ne trouvez pas l'e-mail dans votre boite de réception, regardez dans "
 "votre dossier spam/indésirable svp."
 
-#: petition/views.py:148
+#: petition/views.py:149
 msgid ""
 "Error: This confirmation code is invalid. Maybe you've already confirmed?"
 msgstr ""
 "Erreur : ce code de confirmation est invalide. Peut-être avez-vous déjà "
 "confirmé ?"
 
-#: petition/views.py:154
+#: petition/views.py:155
 msgid "Error: This confirmation code is invalid."
 msgstr "Erreur : ce code de confirmation est invalide."
 
-#: petition/views.py:167 petition/views.py:184 petition/views.py:207
+#: petition/views.py:168 petition/views.py:185 petition/views.py:208
 msgid "You must log-in first"
 msgstr "Vous devez d'abord vous identifier"
 
-#: petition/views.py:171 petition/views.py:176 petition/views.py:188
-#: petition/views.py:196 petition/views.py:204 petition/views.py:212
-#: petition/views.py:217
+#: petition/views.py:172 petition/views.py:177 petition/views.py:189
+#: petition/views.py:197 petition/views.py:205 petition/views.py:213
+#: petition/views.py:218
 msgid "not found"
 msgstr "introuvable"
+
+#: petition/views.py:246
+msgid "This user does not exist (anylonger?)"
+msgstr "Cet utilisateur n'existe pas (plus ?)"
+
+#: petition/views.py:252
+msgid "This organization does not exist (anylonger?)"
+msgstr "Cette organisation n'existe pas (plus ?)"
+
+#: petition/views.py:256
+#, python-brace-format
+msgid "User is already member of {orgname} organization"
+msgstr "L'utilisateur est déjà membre de l'organisation {orgname}"
+
+#: petition/views.py:263
+msgid "An error occured"
+msgstr "Une erreur est survenue"
+
+#: petition/views.py:266
+#, python-brace-format
+msgid "You sent an invitation to join {orgname}"
+msgstr "Vous avez envoyé une invitation à rejoindre {orgname}"
