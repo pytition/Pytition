@@ -1,5 +1,32 @@
 # Pytition
 
+## Why using Pytition?
+
+* Because it allows you to host petitions without compromising the private life of your signatories.
+* No tracking, ever: CSS, JS and all resources are self-hosted. Pytition does not use CDN.
+* Nice UI: Bootstrap 4 + JQuery 3.
+* Based on solid backend technology: Django.
+* Responsive UI: works well on phones/tablets/laptops/desktops.
+* If you host an instance of Pytition, you can guarantee your signatories that their informations won't leak to third parties.
+* It is Open Source and Free Software.
+
+## Features
+
+* [x] Multi-lingual UI with i18n. For now only English and French translations available but you can send a Pull Request :)
+* [x] You can pre-visualize petitions before publishing them.
+* [x] Easy to use: petition content is typed-in via TinyMCE editors (like WordPress).
+* [x] You can setup real SMTP account for the confirmation e-mail so that it is less likely considered as SPAM.
+* [x] Supports Open Graph tags to provide description and image to allow nice cards to be shown when people post the petition link on social networks.
+* [x] You can propose your signatories to subscribe to a newsletter/mailinglist (via HTTP GET/POST or EMAIL methods).
+* [x] You can export signatures in CSV format.
+
+## Future features
+
+* [ ] Support for several organizations on the same Pytition instance [v2.0](https://github.com/fallen/Pytition/milestone/2)
+* [ ] Support for multi-lingual petition content: [v3.0](https://github.com/fallen/Pytition/milestone/3)
+* [ ] Support for adding several petition templates: [v4.0](https://github.com/fallen/Pytition/milestone/4)
+* [ ] Add optional Mastodon/Diaspora share-icons
+
 ## Installing
 
 ### Setup virtualenv and clone the code
