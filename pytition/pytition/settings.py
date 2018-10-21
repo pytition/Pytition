@@ -137,6 +137,7 @@ LOCALE_PATHS = (
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = '/admin/login/'
 
 TINYMCE_JS_URL = '/static/tinymce/js/tinymce/tinymce.min.js'
 TINYMCE_DEFAULT_CONFIG = {

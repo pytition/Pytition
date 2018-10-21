@@ -164,8 +164,8 @@ def detail(request, petition_id):
 
 @login_required
 def org_dashboard(request, org_name):
-    if not request.user.is_authenticated:
-        raise HttpResponseForbidden(_("You must log-in first"))
+    q = request.GET.get('q', '')
+
     try:
         org = Organization.objects.get(name=org_name)
     except Organization.DoesNotExist:
@@ -175,6 +175,12 @@ def org_dashboard(request, org_name):
         pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
     except User.DoesNotExist:
         raise Http404(_("not found"))
+
+    if q != "":
+        petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
+    else:
+        petitions = Petition.objects.filter(published=True)
+
 
     other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs})
