@@ -1,0 +1,24 @@
+{% load static %}
+{% load i18n %}
+{% for petition in petitions %}
+<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 text-center sb-preview">
+    <div class="card h-100">
+        <a href="#" class="sb-preview-img">
+            {% if not petition.twitter_image%}
+            <img class="card-img-top img-fluid img-thumbnail" src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
+            {% else %}
+            <img class="card-img-top img-fluid img-thumbnail" src="{{ petition.twitter_image }}">
+            {% endif %}
+        </a>
+        <div class="card-body d-flex flex-column">
+            <h4 class="card-title">{{ petition.title|striptags }}</h4>
+            <p class="card-text">{{ petition.twitter_description|safe }}</p>
+            <div class="card-footer mt-auto">
+                <a href="{% url "detail" petition.id %}" class="btn btn-outline-success">
+                {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

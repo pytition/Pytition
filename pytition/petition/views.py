@@ -14,8 +14,8 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
-from .models import Petition, Signature, Organization, PytitionUser
-from .forms import SignatureForm
+from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate
+from .forms import SignatureForm, PetitionTemplateForm
 
 import requests
 import csv
@@ -177,23 +177,27 @@ def org_dashboard(request, org_name):
         raise Http404(_("not found"))
 
     if q != "":
-        petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
+        petitions = org.petitions.filter(Q(title__icontains=q) | Q(text__icontains=q))
     else:
-        petitions = Petition.objects.filter(published=True)
+        petitions = org.petitions
 
 
     other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
-    return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs})
+    return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
+                                                           'petitions': petitions})
 
 @login_required
 def user_dashboard(request, user_name):
     if not request.user.is_authenticated:
         raise HttpResponseForbidden(_("You must log-in first"))
     try:
-        pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
+        user = PytitionUser.objects.get(user__username=request.user.username)
     except User.DoesNotExist:
         raise Http404(_("not found"))
-    return render(request, 'petition/user_dashboard.html', {'pytitionuser': pytitionuser})
+
+    if user.user != request.user:
+        raise HttpResponseForbidden(_("You are not allowed to view this users' dashboard"))
+    return render(request, 'petition/user_dashboard.html', {'user': user})
 
 @login_required
 def user_profile(request, user_name):
@@ -298,3 +302,88 @@ def invite_accept(request):
             return JsonResponse({}, status=500)
 
     return JsonResponse({})
+
+@login_required()
+def org_new_template(request, org_name):
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    try:
+        user = PytitionUser.objects.get(user__username=request.user)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    if org not in user.organizations.all():
+        raise HttpResponseForbidden(_("You are not allowed to view this organization dashboard"))
+
+    form = PetitionTemplateForm()
+    return render(request, "petition/org_new_template.html", {'org': org, 'user': user, 'form': form})
+
+@login_required()
+def user_new_template(request, user_name):
+
+    try:
+        user = PytitionUser.objects.get(user__username=user_name)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    if user.user != request.user:
+        raise HttpResponseForbidden(_("You are not allowed to create a template for this user"))
+
+    form = PetitionTemplateForm()
+    return render(request, "petition/user_new_template.html", {'user': user, 'form': form})
+
+@login_required()
+def create_petition_template(request, org_name):
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    try:
+        user = PytitionUser.objects.get(user__username=request.user)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    if request.method == "POST":
+        form = PetitionTemplateForm(data=request.POST)
+        if not form.is_valid():
+            return render(request, 'petition/org_new_template.html', {'org': org, 'user': user,
+                                                                      'form': form})
+
+        template = form.save()
+        template.save()
+        org.petition_templates.add(template)
+        org.save()
+        messages.success(request, _("Hourra !"))
+    else:
+        form = PetitionTemplateForm()
+        return render(request, "petition/org_new_template.html", {'user': user, 'org': org, 'form': form})
+
+    return redirect('org_dashboard', org_name)
+
+@login_required()
+def user_create_petition_template(request, user_name):
+
+    try:
+        user = PytitionUser.objects.get(user__username=request.user)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    if request.method == "POST":
+        form = PetitionTemplateForm(data=request.POST)
+        if not form.is_valid():
+            return render(request, 'petition/user_new_template.html', {'user': user, 'form': form})
+        template = form.save()
+        template.save()
+        user.petition_templates.add(template)
+        user.save()
+        messages.success(request, _("Hourra !"))
+    else:
+        form = PetitionTemplateForm()
+        return render(request, "petition/user_new_template.html", {'user': user, 'form': form})
+    return redirect('user_dashboard', user_name)

@@ -1,54 +1,233 @@
 {% load i18n %}
+{% load static %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <meta charset="UTF-8">
-    <title>{{ pytitionuser.user.get_full_name }} dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{{ title }}</title>
+    <!-- Bootstrap -->
+    <link href="{% static "bootstrap-4.1.3/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap-4.1.3/css/open-iconic-bootstrap.min.css" %}" rel="stylesheet">
+    <style>
+  .card-img-top{
+   width: 100%!important;
+   height: 200px!important;
+   object-fit: cover;
+    }
+
+    .alert .alert-icon-col {
+        min-width: 35px;
+        max-width: 35px;
+    }
+    </style>
 </head>
 <body>
-    <div class="container">
-
-        <header class="page-header">
-        <h1>{{ pytitionuser.user.get_full_name }} dashboard</h1>
-        </header>
-
-        <section class="row">
-        <h2>{% trans "Petitions" %}</h2>
-        <ul>
-            {% for petition in pytitionuser.petitions.all %}
-            <li>
-                <a href="{% url "detail" petition.id %}">{{ petition.raw_title }}</a> ({{ petition.signature_number }})
-            </li>
-            {% endfor %}
-        </ul>
-        </section>
-
-        <section class="row">
-        <h2>{% trans "Organizations" %}</h2>
-        <ul>
-            {% for org in pytitionuser.organizations.all %}
-            <li>
-                <a href="{% url "org_dashboard" org.name %}">{{ org.name }}</a>
-                <form action="{% url "leave_org" org.name %}">
-                    <input type="submit" value="{% trans "Quit" %}">
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
-        </section>
-
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">{{ org.name }}</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    Menu <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="{% url "admin:logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
+        </li>
+    </ul>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <form class="form-inline my-2 my-lg-0" action="{% url "org_dashboard" org.name %}" method="GET">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">?</span>
+          </div>
+          <input type="text" class="form-control mr-sm-2" placeholder="..." name="q" value="{{ q }}">
+            <input type="submit" class="btn my-2 my-sm-0" value="{% trans "Search" %}">
+        </div>
+      </form>
+    </nav>
+    <p></p>
+
+    <div class="row">
+        <div class="col-md-2 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-person"></span> {{ user.get_full_name }}</button>
+            <div class="dropdown-menu">
+                {% for org in user.organizations.all %}
+                    <a href="{% url "org_dashboard" org.name %}" class="dropdown-item"><span class="oi oi-people"></span> {{ org.name }}</a>
+                {% endfor %}
+            </div>
+            <hr>
+            <button type="button" class="btn btn-outline-success"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</button>
+            <hr>
+            <h4>{% trans "Organizations" %}</h4>
+            <div class="list-group">
+            {% for org in user.organizations.all %}
+                <div class="d-flex justify-content-between align-items-stretch">
+                    <a href="{% url "org_profile" org.name %}" class="list-group-item list-group-item-action list-group-item-primary">
+                        <span class="oi oi-person"></span> {{ org.name }}
+                    </a>
+                     <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
+                    <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
+                    <!--<button class="btn btn-danger"><span class="oi oi-delete"></span></button>-->
+                    <!--<button class="btn btn-secondary"><span class="oi oi-wrench"></span></button>-->
+                </div>
+            {% endfor %}
+            </div>
+            <br>
+            <h4>{% trans "Invite user" %}</h4>
+            <form>
+                <div class="form-group">
+                    <label for="invite_user" class="invisible">{% trans "User" %} : </label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><span class="oi oi-person"></span></span>
+                        </div>
+                        <input class="form-control" type="text" id="invite_user" placeholder="{% trans "Username" %}">
+                    </div>
+                </div>
+                <div id="user_search_result" class="list-group">
+                </div>
+            </form>
+            {% if user.invitations.all %}
+            <hr>
+            <h4>{% trans "Invitations" %}</h4>
+            <div id="invitations">
+                {% for org in user.invitations.all %}
+                <div class="alert alert-info alert-dismissible show fade" id="invite-alert-{{ org.name }}">
+                    <div class="row">
+                        <div class="col-1 alert-icon-col">
+                            <span class="oi oi-question-mark"></span>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                            {% blocktrans with orgname=org %}
+                                You are invited to <strong>&nbsp;{{ orgname }}</strong>
+                            {% endblocktrans %}
+                            </div>
+                            <div class="row d-flex justify-content-around">
+                                <button class="btn btn-success btn-invitation-join" data-org="{{ org.name }}">{% trans "Join" %}</button>
+                                <button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.name }}">{% trans "Dismiss" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <hr>
+            <div class="d-flex align-items-start">
+                <h4>{% trans "Petition templates" %}</h4>
+                <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+            </div>
+            {% if user.petition_templates.all %}
+                {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
+            {% endif %}
+        </div>
+        <div class="col-md-10 col-xs-12">
+            <div class="row">
+                {% include "petition/petition_list.html" with petitions=petitions.all %}
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "bootstrap-4.1.3/js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "bootstrap-4.1.3/js/popper.min.js" %}"></script>
+    <script src="{% static "bootstrap-4.1.3/js/bootstrap.min.js" %}"></script>
+    <script>
+        function addUser(user) {
+            $("#user_search_result").html("<span class=\"oi oi-cog\" title=\"waiting\" aria-hidden=\"true\"></span>");
+            $.ajax({
+                url: "{% url "org_add_user" org.name %}?user=" + user,
+                dataType: "json",
+            }).done(function(data) {
+                $("#user_search_result").html("");
+                var html = `
+                <div class="alert alert-success alert-dismissible show fade">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <div class="row">
+                    <div class="col-1 alert-icon-col">
+                        <span class="oi oi-check"></span>
+                    </div>
+                <div class="col">
+                ` + data.message + "</div></div></div>";
+                $("#user_search_result").append(html);
+            }).fail(function($xhr) {
+                var data = $xhr.responseJSON;
+                console.log(data);
+                $("#user_search_result").html("");
+                var html;
+                if (typeof data === "undefined") {
+                    html = `
+                    <div class="alert alert-danger alert-dismissible show fade">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <div class="row">
+                            <div class="col-1 alert-icon-col">
+                                <span class="oi oi-warning"></span>
+                            </div>
+                            <div class="col">
+                                {% blocktrans with orgname=org.name %}
+                                An unknown error happened. We could not invite this user to <strong>{{ orgname }}</strong>
+                                {% endblocktrans %}
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                } else {
+                    html = `
+                    <div class="alert alert-danger alert-dismissible show fade">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <div class="row">
+                        <div class="col-1 alert-icon-col">
+                            <span class="oi oi-warning"></span>
+                        </div>
+                        <div class="col">
+                    ` + data.message + "</div></div></div>";
+                }
+                $("#user_search_result").append(html);
+            });
+        }
+
+        $(document).ready(function(){
+          $("#invite_user").on("keyup", function() {
+           $.ajax({
+           url: "{% url "get_user_list" %}?q=" + $("#invite_user").val(),
+           dataType: "json",
+           }).done(function(data) {
+                $("#user_search_result").html("");
+                data.values.forEach(function(item, index) {
+                    $("#user_search_result").append("<a href=\"#\" id=\"addUser"+ item +"\" class=\"list-group-item list-group-item-success list-group-item-action\"><span class=\"oi oi-plus\" title=\"plus\" aria-hidden=\"true\"></span> "+ item +"</a>");
+                    $("#addUser" + item).on("click", function () {
+                        addUser(item);
+                        $("#invite_user").val("");
+                    });
+                });
+           });
+          });
+        });
+
+        $(document).ready(function() {
+            $(".btn-invitation-join").on("click", function() {
+                var org = $(this).data("org");
+                $.ajax({
+                url: "{% url "invite_accept" %}?org_name=" + org,
+                }).done(function() {
+                    $(".btn-invitation-join").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $(".btn-invitation-join").closest(".alert").on("closed.bs.alert", function() {
+                if ($("#invitations").find(".alert").length == 0) {
+                        location.reload(true);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

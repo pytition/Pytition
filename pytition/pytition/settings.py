@@ -149,6 +149,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'insert_toolbar': 'forecolor backcolor',
     'entity_encoding': 'raw',
 }
+TINYMCE_INCLUDE_JQUERY = False
 
 SITE_NAME = "Pytition"
 ALLOW_REGISTER = True

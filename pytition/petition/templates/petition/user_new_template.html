@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load widget_tweaks %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
@@ -24,6 +25,7 @@
         max-width: 35px;
     }
     </style>
+    {{ form.media }}
 </head>
 <body>
 <div class="container-fluid">
@@ -70,10 +72,10 @@
                     <a href="{% url "user_profile" member.username %}" class="list-group-item list-group-item-action list-group-item-primary">
                         <span class="oi oi-person"></span> {{ member.get_full_name }}
                     </a>
-                     <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
+                    <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
                     <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
-                    <!--<button class="btn btn-danger"><span class="oi oi-delete"></span></button>-->
-                    <!--<button class="btn btn-secondary"><span class="oi oi-wrench"></span></button>-->
+                    <!--<button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>-->
+                    <!--<button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>-->
                 </div>
             {% endfor %}
             </div>
@@ -121,16 +123,27 @@
             <hr>
             <div class="d-flex align-items-start">
                 <h4>{% trans "Petition templates" %}</h4>
-                <a href="{% url "org_new_template" org.name %}" class="btn btn-outline-success"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+                <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
             {% if org.petition_templates.all %}
-                {% include "petition/template_list.html" with templates=org.petition_templates.all owner=org %}
+                {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
             {% endif %}
         </div>
         <div class="col-md-10 col-xs-12">
-            <div class="row">
-                {% include "petition/petition_list.html" with petitions=petitions.all default_template=user.default_template %}
-            </div>
+                <p class="alert alert-info">
+                    {% blocktrans %}
+                    The information you put in the following formular will be used as default values (template) for a
+                    new petition.<br />
+                    This allows to have petition "models" (or "<strong>templates</strong>") and for instance directly have the correct
+                    <strong>SMTP credentials</strong> or <strong>footer text</strong> setup when creating a new petition!
+                    {% endblocktrans %}
+                </p>
+                <form action="{% url "user_create_petition_template" user.name %}" class="form-group" method="POST">
+                    {% csrf_token %}
+
+                    {% include 'petition/bs4_form.html' with form=form %}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
         </div>
     </div>
 </div>
@@ -139,6 +152,7 @@
     <script src="{% static "bootstrap-4.1.3/js/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "bootstrap-4.1.3/js/popper.min.js" %}"></script>
     <script src="{% static "bootstrap-4.1.3/js/bootstrap.min.js" %}"></script>
+
     <script>
         function addUser(user) {
             $("#user_search_result").html("<span class=\"oi oi-cog\" title=\"waiting\" aria-hidden=\"true\"></span>");
@@ -229,6 +243,13 @@
                 }
             });
         });
+
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
+
+    <script src="{% static "tinymce/js/tinymce/tinymce.min.js" %}"></script>
+    <script src="{% static "django_tinymce/init_tinymce.js" %}"></script>
 </body>
 </html>

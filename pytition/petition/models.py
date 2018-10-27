@@ -194,16 +194,14 @@ class PetitionTemplate(models.Model):
         (GET,  "GET")
     )
 
-    background = models.ImageField(blank=True)
-    mobile_background = models.ImageField(blank=True)
-    top_picture = models.ImageField(blank=True)
+    name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"), primary_key=True)
     side_text = tinymce_models.HTMLField(blank=True)
-    target = models.IntegerField(default=500)
+    target = models.IntegerField(blank=True, null=True)
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
     gradient_from = ColorField(blank=True)
     gradient_to = ColorField(blank=True)
     bgcolor = ColorField(blank=True)
-    footer_text = tinymce_models.HTMLField(default=_("This petition is hosted on RAP website."))
+    footer_text = tinymce_models.HTMLField(blank=True)
     footer_links = tinymce_models.HTMLField(blank=True)
     twitter_description = models.CharField(max_length=200, blank=True)
     twitter_image = models.CharField(max_length=500, blank=True)
@@ -216,23 +214,22 @@ class PetitionTemplate(models.Model):
     newsletter_subscribe_mail_to = models.CharField(max_length=500, blank=True)
     newsletter_subscribe_method = models.CharField(choices=NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, max_length=4,
                                                    default=MAIL)
-    newsletter_subscribe_mail_smtp_host = models.CharField(max_length=100, default='localhost')
+    newsletter_subscribe_mail_smtp_host = models.CharField(max_length=100, default='localhost', blank=True)
     newsletter_subscribe_mail_smtp_port = models.IntegerField(default=25)
     newsletter_subscribe_mail_smtp_user = models.CharField(max_length=200, blank=True)
     newsletter_subscribe_mail_smtp_password = models.CharField(max_length=200, blank=True)
     newsletter_subscribe_mail_smtp_tls = models.BooleanField(default=False)
     newsletter_subscribe_mail_smtp_starttls = models.BooleanField(default=False)
-    org_twitter_handle = models.CharField(max_length=20)
+    org_twitter_handle = models.CharField(max_length=20, blank=True)
     newsletter_text = models.CharField(max_length=1000, blank=True)
     sign_form_footer = models.TextField(blank=True)
-    confirmation_email_sender = models.CharField(max_length=100)
-    confirmation_email_smtp_host = models.CharField(max_length=100, default='localhost')
-    confirmation_email_smtp_port = models.IntegerField(default=25)
+    confirmation_email_sender = models.CharField(max_length=100, blank=True)
+    confirmation_email_smtp_host = models.CharField(max_length=100, default='localhost', blank=True)
+    confirmation_email_smtp_port = models.IntegerField(default=25, blank=True)
     confirmation_email_smtp_user = models.CharField(max_length=200, blank=True)
     confirmation_email_smtp_password = models.CharField(max_length=200, blank=True)
     confirmation_email_smtp_tls = models.BooleanField(default=False)
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
-    name = models.CharField(max_length=50, primary_key=True, verbose_name=ugettext_lazy("Name"))
 
     def __str__(self):
         return self.name
@@ -243,8 +240,11 @@ class PetitionTemplate(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"))
-    petition_templates = models.ManyToManyField(PetitionTemplate, blank=True, verbose_name=ugettext_lazy("Petition templates"))
+    petition_templates = models.ManyToManyField(PetitionTemplate, blank=True,
+                                                verbose_name=ugettext_lazy("Petition templates"))
     petitions = models.ManyToManyField(Petition, blank=True, verbose_name=ugettext_lazy("Petitions"))
+    default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
+                                         verbose_name=ugettext_lazy("Default petition template"))
 
     def __str__(self):
         return self.name
@@ -282,6 +282,14 @@ class PytitionUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="pytitionuser")
     permission = models.ManyToManyField(Permission, related_name="user", blank=True)
     invitations = models.ManyToManyField(Organization, related_name="invited", blank=True)
+    petition_templates = models.ManyToManyField(PetitionTemplate, blank=True,
+                                                verbose_name=ugettext_lazy("Petition templates"))
+    default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
+                                         verbose_name=ugettext_lazy("Default petition template"))
+
+    @property
+    def name(self):
+        return self.username
 
     @property
     def username(self):
