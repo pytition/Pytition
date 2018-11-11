@@ -229,6 +229,37 @@
                 }
             });
         });
+
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        $(function () {
+           $('[data-action="template-delete"]').on("click", function() {
+            var template_id = $(this).closest("[data-template]").data("template");
+            //alert("template id: " + template_id);
+            $.ajax("{% url "template_delete" %}?id=" + template_id).done(function() {
+                location.reload(true);
+                //$('[data-template="'+template_id+'"]').addClass("d-none").removeClass("d-flex");
+            });
+           });
+        });
+
+        $(function () {
+           $('[data-action="template-edit"]').on("click", function() {
+            var template_id = $(this).closest("[data-template]").data("template");
+                window.location = "{% url "org_edit_template" org.name %}?id=" + template_id;
+           });
+        });
+
+        $(function () {
+            $('[data-fav-toggle="true"]').on("click", function () {
+                var template_id = $(this).closest("[data-template]").data("template");
+                $.ajax("{% url "org_ptemplate_fav_toggle" org.name %}?id=" + template_id).done(function() {
+                    location.reload(true);
+                });
+            });
+        });
     </script>
 </body>
 </html>

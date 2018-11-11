@@ -2,16 +2,16 @@
 {% load static %}
 <div class="list-group">
 {% for template in templates %}
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between" data-template="{{ template.id }}">
         {% if owner.default_template == template %}
-        <button class="btn btn-outline-danger" data-owner="{{ owner.name }}" data-toggle="tooltip" title="{% trans "This is the default template. Click here to unmark it as default" %}"><span class="oi oi-heart"></span></button>
+        <button class="btn btn-outline-danger" data-fav-toggle="true" data-toggle="tooltip" title="{% trans "This is the default template. Click here to unmark it as default" %}"><span class="oi oi-heart"></span></button>
         {% else %}
-        <button class="btn btn-outline-info" data-owner="{{ owner.name }}" data-toggle="tooltip" title="{% trans "Mark this template as default" %}"><span class="oi oi-heart"></span></button>
+        <button class="btn btn-outline-info" data-fav-toggle="true" data-toggle="tooltip" title="{% trans "Mark this template as default" %}"><span class="oi oi-heart"></span></button>
         {% endif %}
         <div class="list-group-item list-group-item-action list-group-item-primary">{{ template.name }} </div>
-        <button class="btn btn-outline-danger" data-toggle="tooltip" title="{% trans "Delete template" %}"><span class="oi oi-delete"></span></button>
-        <button class="btn btn-outline-warning" data-toggle="tooltip" title="{% trans "Edit template" %}"><span class="oi oi-pencil"></span></button>
-        <button class="btn btn-outline-success" data-toggle="tooltip" title="{% trans "Create a new petition using this template" %}"><span class="oi oi-plus""></span> <span class="oi oi-clipboard"></span></button>
+        <button class="btn btn-outline-danger" data-action="template-delete" data-toggle="tooltip" title="{% trans "Delete template" %}"><span class="oi oi-delete"></span></button>
+        <button class="btn btn-outline-warning" data-action="template-edit" data-toggle="tooltip" title="{% trans "Edit template" %}"><span class="oi oi-pencil"></span></button>
+        <button class="btn btn-outline-success" data-action="template-instanciate" data-toggle="tooltip" title="{% trans "Create a new petition using this template" %}"><span class="oi oi-plus""></span> <span class="oi oi-clipboard"></span></button>
     </div>
 {% endfor %}
 </div>

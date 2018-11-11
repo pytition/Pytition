@@ -194,7 +194,7 @@ class PetitionTemplate(models.Model):
         (GET,  "GET")
     )
 
-    name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"), primary_key=True)
+    name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"), db_index=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(blank=True, null=True)
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
@@ -237,14 +237,18 @@ class PetitionTemplate(models.Model):
     def __repr__(self):
         return self.name
 
+    class Meta:
+        index_together = ["id", ]
+
 
 class Organization(models.Model):
     name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"))
-    petition_templates = models.ManyToManyField(PetitionTemplate, blank=True,
+    petition_templates = models.ManyToManyField(PetitionTemplate, through='TemplateOwnership',
+                                                through_fields=['organization', 'template'], blank=True,
                                                 verbose_name=ugettext_lazy("Petition templates"))
     petitions = models.ManyToManyField(Petition, blank=True, verbose_name=ugettext_lazy("Petitions"))
     default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
-                                         verbose_name=ugettext_lazy("Default petition template"))
+                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id')
 
     def __str__(self):
         return self.name
@@ -282,10 +286,11 @@ class PytitionUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="pytitionuser")
     permission = models.ManyToManyField(Permission, related_name="user", blank=True)
     invitations = models.ManyToManyField(Organization, related_name="invited", blank=True)
-    petition_templates = models.ManyToManyField(PetitionTemplate, blank=True,
+    petition_templates = models.ManyToManyField(PetitionTemplate, blank=True, through='TemplateOwnership',
+                                                through_fields=['user', 'template'],
                                                 verbose_name=ugettext_lazy("Petition templates"))
     default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
-                                         verbose_name=ugettext_lazy("Default petition template"))
+                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id')
 
     @property
     def name(self):
@@ -315,3 +320,15 @@ def save_user_profile(sender, instance, **kwargs):
 def post_delete_user(sender, instance, *args, **kwargs):
     if instance.user:  # just in case user is not specified
         instance.user.delete()
+
+class TemplateOwnership(models.Model):
+    user = models.ForeignKey(PytitionUser, blank=True, null=True, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, blank=True, null=True, on_delete=models.CASCADE)
+    template = models.ForeignKey(PetitionTemplate, to_field='id', on_delete=models.CASCADE)
+
+    def clean(self):
+        if self.user is None and self.organization is None:
+            raise ValidationError(_("The template needs to be owned by a User or an Organization."
+                                    "It cannot hang around alone by itself."))
+    #class Meta:
+    #    unique_together = (("user", "template"), ("organization", "template"))

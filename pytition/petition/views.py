@@ -14,12 +14,23 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
-from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate
+from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership
 from .forms import SignatureForm, PetitionTemplateForm
 
 import requests
 import csv
 
+def get_session_user(request):
+    try:
+        pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
+    except User.DoesNotExist:
+        raise Http404(_("not found"))
+    return pytitionuser
+
+def check_user_in_orga(user, orga):
+    if orga not in user.organizations.all():
+        return HttpResponseForbidden(_("You are not part of this organization"))
+    return None
 
 def petition_from_id(id):
     petition = Petition.by_id(id)
@@ -176,6 +187,9 @@ def org_dashboard(request, org_name):
     except User.DoesNotExist:
         raise Http404(_("not found"))
 
+    if org not in pytitionuser.organizations.all():
+        return HttpResponseForbidden(_("You are not part of this organization."))
+
     if q != "":
         petitions = org.petitions.filter(Q(title__icontains=q) | Q(text__icontains=q))
     else:
@@ -189,14 +203,14 @@ def org_dashboard(request, org_name):
 @login_required
 def user_dashboard(request, user_name):
     if not request.user.is_authenticated:
-        raise HttpResponseForbidden(_("You must log-in first"))
+        return HttpResponseForbidden(_("You must log-in first"))
     try:
-        user = PytitionUser.objects.get(user__username=request.user.username)
+        user = PytitionUser.objects.get(user__username=user_name)
     except User.DoesNotExist:
         raise Http404(_("not found"))
 
     if user.user != request.user:
-        raise HttpResponseForbidden(_("You are not allowed to view this users' dashboard"))
+        return HttpResponseForbidden(_("You are not allowed to view this users' dashboard"))
     return render(request, 'petition/user_dashboard.html', {'user': user})
 
 @login_required
@@ -215,7 +229,7 @@ def leave_org(request, org_name):
         raise Http404(_("not found"))
 
     if not request.user.is_authenticated:
-        raise HttpResponseForbidden(_("You must log-in first"))
+        return HttpResponseForbidden(_("You must log-in first"))
 
     try:
         pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
@@ -248,10 +262,10 @@ def get_user_list(request):
 
 @login_required
 def org_add_user(request, org_name):
-    user = request.GET.get('user', '')
+    adduser = request.GET.get('user', '')
 
     try:
-        user = PytitionUser.objects.get(user__username=user)
+        adduser = PytitionUser.objects.get(user__username=adduser)
     except PytitionUser.DoesNotExist:
         message = _("This user does not exist (anylonger?)")
         return JsonResponse({"message": message}, status=404)
@@ -262,13 +276,16 @@ def org_add_user(request, org_name):
         message = _("This organization does not exist (anylonger?)")
         return JsonResponse({"message": message}, status=404)
 
-    if org in user.organizations.all():
+    if org not in pytitionuser.organizations.all():
+        return HttpResponseForbidden(_("You are not part of this organization."))
+
+    if org in adduser.organizations.all():
         message = _("User is already member of {orgname} organization".format(orgname=org.name))
         return JsonResponse({"message": message}, status=500)
 
     try:
-        user.invitations.add(org)
-        user.save()
+        adduser.invitations.add(org)
+        adduser.save()
     except:
         message = _("An error occured")
         return JsonResponse({"message": message}, status=500)
@@ -317,9 +334,38 @@ def org_new_template(request, org_name):
         raise Http404(_("User does not exist"))
 
     if org not in user.organizations.all():
-        raise HttpResponseForbidden(_("You are not allowed to view this organization dashboard"))
+        return HttpResponseForbidden(_("You are not allowed to view this organization dashboard"))
 
     form = PetitionTemplateForm()
+    return render(request, "petition/org_new_template.html", {'org': org, 'user': user, 'form': form})
+
+@login_required()
+def org_edit_template(request, org_name):
+
+    id = request.GET.get('id', '')
+
+    if id == '':
+        return HttpResponseForbidden(_("You need to provide the template id to modify"))
+
+    try:
+        template = PetitionTemplate.objects.get(pk=id)
+    except:
+        raise Http404(_("This template does not exist"))
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    try:
+        user = PytitionUser.objects.get(user__username=request.user)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    if org not in user.organizations.all():
+        return HttpResponseForbidden(_("You are not allowed to view this organization dashboard"))
+
+    form = PetitionTemplateForm(instance=template)
     return render(request, "petition/org_new_template.html", {'org': org, 'user': user, 'form': form})
 
 @login_required()
@@ -331,13 +377,13 @@ def user_new_template(request, user_name):
         raise Http404(_("User does not exist"))
 
     if user.user != request.user:
-        raise HttpResponseForbidden(_("You are not allowed to create a template for this user"))
+        return HttpResponseForbidden(_("You are not allowed to create a template for this user"))
 
     form = PetitionTemplateForm()
     return render(request, "petition/user_new_template.html", {'user': user, 'form': form})
 
 @login_required()
-def create_petition_template(request, org_name):
+def org_create_petition_template(request, org_name):
 
     try:
         org = Organization.objects.get(name=org_name)
@@ -350,15 +396,23 @@ def create_petition_template(request, org_name):
         raise Http404(_("User does not exist"))
 
     if request.method == "POST":
-        form = PetitionTemplateForm(data=request.POST)
+        print("post: {}".format(request.POST))
+        edit = request.POST['edit'] == '1'
+        if edit:
+            print("ON EDIT")
+            pt = PetitionTemplate.objects.get(pk=request.POST['pk'])
+            form = PetitionTemplateForm(data=request.POST, instance=pt)
+        else:
+            print("C EST DU NOUVEAU")
+            form = PetitionTemplateForm(data=request.POST)
         if not form.is_valid():
             return render(request, 'petition/org_new_template.html', {'org': org, 'user': user,
                                                                       'form': form})
-
         template = form.save()
         template.save()
-        org.petition_templates.add(template)
-        org.save()
+        if not edit:
+            to = TemplateOwnership(organization=org, template=template)
+            to.save()
         messages.success(request, _("Hourra !"))
     else:
         form = PetitionTemplateForm()
@@ -370,9 +424,12 @@ def create_petition_template(request, org_name):
 def user_create_petition_template(request, user_name):
 
     try:
-        user = PytitionUser.objects.get(user__username=request.user)
+        user = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         raise Http404(_("User does not exist"))
+
+    if user.user != request.user:
+        return HttpResponseForbidden(_("You are not allowed to create templates for this user"))
 
     if request.method == "POST":
         form = PetitionTemplateForm(data=request.POST)
@@ -380,10 +437,104 @@ def user_create_petition_template(request, user_name):
             return render(request, 'petition/user_new_template.html', {'user': user, 'form': form})
         template = form.save()
         template.save()
-        user.petition_templates.add(template)
-        user.save()
+        to = TemplateOwnership(user=user, template=template)
+        to.save()
         messages.success(request, _("Hourra !"))
     else:
         form = PetitionTemplateForm()
         return render(request, "petition/user_new_template.html", {'user': user, 'form': form})
     return redirect('user_dashboard', user_name)
+
+@login_required()
+def user_del_template(request, user_name):
+
+    try:
+        user = PytitionUser.objects.get(user__username=user_name)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    if user.user != request.user:
+        return HttpResponseForbidden(_("You are not allowed to delete this users' templates"))
+
+    template = PetitionTemplate.objects.get(name=request.GET['name'])
+
+    user.petition_templates.remove(template)
+    user.save()
+
+    return JsonResponse({})
+
+@login_required()
+def template_delete(request):
+    id = request.GET.get('id', '')
+
+    if id == '':
+        return JsonResponse({}, status=500)
+
+    try:
+        user = PytitionUser.objects.get(user__username=request.user)
+    except PytitionUser.DoesNotExist:
+        return JsonResponse({}, status=404)
+
+    try:
+        template = PetitionTemplate.objects.get(pk=id)
+    except:
+        return JsonResponse({}, status=404)
+
+    try:
+        templateOwnership = TemplateOwnership.objects.get(template=template)
+    except:
+        return JsonResponse({}, status=404)
+
+    org_owner = templateOwnership.organization
+    user_owner = templateOwnership.user
+
+    if user != user_owner and org_owner not in user.organizations.all():
+        return JsonResponse({}, status=403)  # User cannot delete a template if it's not his
+
+    try:
+        template.delete()
+    except:
+        return JsonResponse({}, status=500)
+
+    return JsonResponse({})
+
+@login_required()
+def org_ptemplate_fav_toggle(request, org_name):
+    id = request.GET.get('id', '')
+
+    if id == '':
+        return JsonResponse({}, status=500)
+
+    try:
+        user = PytitionUser.objects.get(user__username=request.user)
+    except PytitionUser.DoesNotExist:
+        return JsonResponse({}, status=404)
+
+    try:
+        template = PetitionTemplate.objects.get(pk=id)
+    except:
+        return JsonResponse({}, status=404)
+
+    try:
+        templateOwnership = TemplateOwnership.objects.get(template=template)
+    except:
+        return JsonResponse({}, status=404)
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        return JsonResponse({}, status=404)
+
+
+    org_owner = templateOwnership.organization
+
+    if org_owner != org or org not in user.organizations.all():
+        return JsonResponse({}, status=403)  # Forbidden
+
+    if org.default_template == template:
+        org.default_template = None
+    else:
+        org.default_template = template
+    org.save()
+
+    return JsonResponse({})
