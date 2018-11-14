@@ -248,7 +248,8 @@ class Organization(models.Model):
                                                 verbose_name=ugettext_lazy("Petition templates"))
     petitions = models.ManyToManyField(Petition, blank=True, verbose_name=ugettext_lazy("Petitions"))
     default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
-                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id')
+                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id',
+                                         on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
@@ -290,7 +291,8 @@ class PytitionUser(models.Model):
                                                 through_fields=['user', 'template'],
                                                 verbose_name=ugettext_lazy("Petition templates"))
     default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
-                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id')
+                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id',
+                                         on_delete=models.SET_NULL)
 
     @property
     def name(self):

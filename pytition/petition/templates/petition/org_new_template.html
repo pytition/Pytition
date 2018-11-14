@@ -63,7 +63,7 @@
                 {% endfor %}
             </div>
             <hr>
-            <button type="button" class="btn btn-outline-success"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</button>
+            <a class="btn btn-outline-success" href="{% url "org_new_petition" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
             <h4>{% trans "Members" %}</h4>
             <div class="list-group">

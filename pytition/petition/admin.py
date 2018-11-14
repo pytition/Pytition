@@ -61,7 +61,7 @@ class SignatureAdmin(admin.ModelAdmin):
     change_form_template = 'petition/signature_change_form.html'
 
 
-class PetitionForm(ModelForm):
+class PetitionAdminForm(ModelForm):
     class Meta:
         model = Petition
         fields = '__all__'
@@ -152,7 +152,7 @@ class PetitionForm(ModelForm):
 @admin.register(Petition)
 class PetitionAdmin(admin.ModelAdmin):
     change_form_template = 'petition/petition_change_form.html'
-    form = PetitionForm
+    form = PetitionAdminForm
     search_fields = ('title', )
     list_display = ('raw_title', 'non_confirmed_signature_number', 'confirmed_signature_number')
     fieldsets = (

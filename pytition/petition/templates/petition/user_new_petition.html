@@ -55,43 +55,27 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-people"></span> {{ org.name }}</button>
+            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-person"></span> {{ user.get_full_name }}</button>
             <div class="dropdown-menu">
-                <a href="{% url "user_dashboard" user.username %}" class="dropdown-item"><span class="oi oi-person"></span> {{ user.get_full_name }}</a>
-                {% for org in other_orgs %}
+                {% for org in user.organizations.all %}
                     <a href="{% url "org_dashboard" org.name %}" class="dropdown-item"><span class="oi oi-people"></span> {{ org.name }}</a>
                 {% endfor %}
             </div>
             <hr>
-            <a class="btn btn-outline-success"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
+            <a class="btn btn-outline-success" href="{% url "user_new_petition" user.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
-            <h4>{% trans "Members" %}</h4>
+            <h4>{% trans "Organizations" %}</h4>
             <div class="list-group">
-            {% for member in org.members.all %}
+            {% for org in user.organizations.all %}
                 <div class="d-flex justify-content-between align-items-stretch">
-                    <a href="{% url "user_profile" member.username %}" class="list-group-item list-group-item-action list-group-item-primary">
-                        <span class="oi oi-person"></span> {{ member.get_full_name }}
+                    <a href="{% url "org_profile" org.name %}" class="list-group-item list-group-item-action list-group-item-primary">
+                        <span class="oi oi-people"></span> {{ org.name }}
                     </a>
-                    <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
+                     <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
                     <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
                 </div>
             {% endfor %}
             </div>
-            <br>
-            <h4>{% trans "Invite user" %}</h4>
-            <form>
-                <div class="form-group">
-                    <label for="invite_user" class="invisible">{% trans "User" %} : </label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span class="oi oi-person"></span></span>
-                        </div>
-                        <input class="form-control" type="text" id="invite_user" placeholder="{% trans "Username" %}">
-                    </div>
-                </div>
-                <div id="user_search_result" class="list-group">
-                </div>
-            </form>
             {% if user.invitations.all %}
             <hr>
             <h4>{% trans "Invitations" %}</h4>
@@ -121,24 +105,10 @@
             <hr>
             <div class="d-flex align-items-start">
                 <h4>{% trans "Petition templates" %}</h4>
-                <a href="{% url "org_new_template" org.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+                <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
-            {% if org.petition_templates.all %}
-            <div class="list-group">
-            {% for template in org.petition_templates.all %}
-                <div class="d-flex justify-content-between">
-                    {% if org.default_template == template %}
-                    <button class="btn btn-outline-danger" data-org="{{ org.name }}" data-toggle="tooltip" title="{% trans "This is the default template. Click here to unmark it as default" %}"><span class="oi oi-heart"></span></button>
-                    {% else %}
-                    <button class="btn btn-outline-info" data-org="{{ org.name }}" data-toggle="tooltip" title="{% trans "Mark this template as default" %}"><span class="oi oi-heart"></span></button>
-                    {% endif %}
-                    <div class="list-group-item list-group-item-action list-group-item-primary">{{ template.name }} </div>
-                    <button class="btn btn-outline-danger" data-toggle="tooltip" title="{% trans "Delete template" %}"><span class="oi oi-delete"></span></button>
-                    <button class="btn btn-outline-warning" data-toggle="tooltip" title="{% trans "Edit template" %}"><span class="oi oi-pencil"></span></button>
-                    <button class="btn btn-outline-success" data-toggle="tooltip" title="{% trans "Create a new petition using this template" %}"><span class="oi oi-plus""></span> <span class="oi oi-clipboard"></span></button>
-                </div>
-            {% endfor %}
-            </div>
+            {% if user.petition_templates.all %}
+                {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
             {% endif %}
         </div>
         <div class="col-md-10 col-xs-12">
@@ -146,6 +116,8 @@
                     {% csrf_token %}
 
                     {% include 'petition/bs4_form.html' with form=form %}
+                    <input type="hidden" name="edit" value="{{ form.instance.pk|yesno:'1,0' }}">
+                    <input type="hidden" name="pk" value="{{ form.instance.pk }}">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
         </div>
@@ -250,7 +222,18 @@
 
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+        $(function () {
+           $('[data-action="template-delete"]').on("click", function() {
+            var template_id = $(this).closest("[data-template]").data("template");
+            //alert("template id: " + template_id);
+            $.ajax("{% url "template_delete" %}?id=" + template_id).done(function() {
+                location.reload(true);
+                //$('[data-template="'+template_id+'"]').addClass("d-none").removeClass("d-flex");
+            });
+           });
+        });
     </script>
 
     <script src="{% static "tinymce/js/tinymce/tinymce.min.js" %}"></script>

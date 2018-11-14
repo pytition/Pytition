@@ -55,45 +55,29 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-people"></span> {{ org.name }}</button>
+            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-person"></span> {{ user.get_full_name }}</button>
             <div class="dropdown-menu">
-                <a href="{% url "user_dashboard" user.username %}" class="dropdown-item"><span class="oi oi-person"></span> {{ user.get_full_name }}</a>
-                {% for org in other_orgs %}
+                {% for org in user.organizations.all %}
                     <a href="{% url "org_dashboard" org.name %}" class="dropdown-item"><span class="oi oi-people"></span> {{ org.name }}</a>
                 {% endfor %}
             </div>
             <hr>
-            <button type="button" class="btn btn-outline-success"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</button>
+            <a class="btn btn-outline-success" href="{% url "user_new_petition" user.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
-            <h4>{% trans "Members" %}</h4>
+            <h4>{% trans "Organizations" %}</h4>
             <div class="list-group">
-            {% for member in org.members.all %}
+            {% for org in user.organizations.all %}
                 <div class="d-flex justify-content-between align-items-stretch">
-                    <a href="{% url "user_profile" member.username %}" class="list-group-item list-group-item-action list-group-item-primary">
-                        <span class="oi oi-person"></span> {{ member.get_full_name }}
+                    <a href="{% url "org_profile" org.name %}" class="list-group-item list-group-item-action list-group-item-primary">
+                        <span class="oi oi-people"></span> {{ org.name }}
                     </a>
-                    <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
+                     <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
                     <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
-                    <!--<button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>-->
-                    <!--<button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>-->
+                    <!--<button class="btn btn-danger"><span class="oi oi-delete"></span></button>-->
+                    <!--<button class="btn btn-secondary"><span class="oi oi-wrench"></span></button>-->
                 </div>
             {% endfor %}
             </div>
-            <br>
-            <h4>{% trans "Invite user" %}</h4>
-            <form>
-                <div class="form-group">
-                    <label for="invite_user" class="invisible">{% trans "User" %} : </label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span class="oi oi-person"></span></span>
-                        </div>
-                        <input class="form-control" type="text" id="invite_user" placeholder="{% trans "Username" %}">
-                    </div>
-                </div>
-                <div id="user_search_result" class="list-group">
-                </div>
-            </form>
             {% if user.invitations.all %}
             <hr>
             <h4>{% trans "Invitations" %}</h4>
@@ -125,7 +109,7 @@
                 <h4>{% trans "Petition templates" %}</h4>
                 <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
-            {% if org.petition_templates.all %}
+            {% if user.petition_templates.all %}
                 {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
             {% endif %}
         </div>
@@ -142,6 +126,8 @@
                     {% csrf_token %}
 
                     {% include 'petition/bs4_form.html' with form=form %}
+                    <input type="hidden" name="edit" value="{{ form.instance.pk|yesno:'1,0' }}">
+                    <input type="hidden" name="pk" value="{{ form.instance.pk }}">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
         </div>
@@ -246,7 +232,7 @@
 
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
 
         $(function () {
            $('[data-action="template-delete"]').on("click", function() {

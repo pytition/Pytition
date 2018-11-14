@@ -60,14 +60,14 @@
                 {% endfor %}
             </div>
             <hr>
-            <button type="button" class="btn btn-outline-success"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</button>
+            <a class="btn btn-outline-success" href="{% url "user_new_petition" user.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
             <h4>{% trans "Organizations" %}</h4>
             <div class="list-group">
             {% for org in user.organizations.all %}
                 <div class="d-flex justify-content-between align-items-stretch">
                     <a href="{% url "org_profile" org.name %}" class="list-group-item list-group-item-action list-group-item-primary">
-                        <span class="oi oi-person"></span> {{ org.name }}
+                        <span class="oi oi-people"></span> {{ org.name }}
                     </a>
                      <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
                     <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
@@ -76,21 +76,6 @@
                 </div>
             {% endfor %}
             </div>
-            <br>
-            <h4>{% trans "Invite user" %}</h4>
-            <form>
-                <div class="form-group">
-                    <label for="invite_user" class="invisible">{% trans "User" %} : </label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span class="oi oi-person"></span></span>
-                        </div>
-                        <input class="form-control" type="text" id="invite_user" placeholder="{% trans "Username" %}">
-                    </div>
-                </div>
-                <div id="user_search_result" class="list-group">
-                </div>
-            </form>
             {% if user.invitations.all %}
             <hr>
             <h4>{% trans "Invitations" %}</h4>

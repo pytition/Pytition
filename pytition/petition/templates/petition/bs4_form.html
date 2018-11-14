@@ -1,4 +1,5 @@
 {% load widget_tweaks %}
+{% load petition_extras %}
 
 {% for hidden_field in form.hidden_fields %}
   {{ hidden_field }}
@@ -18,17 +19,17 @@
 
     {% if form.is_bound %}
       {% if field.errors %}
-        {% render_field field class="form-control is-invalid" %}
+        {% render_field field|bootstrap class="is-invalid" %}
         {% for error in field.errors %}
           <div class="invalid-feedback">
             {{ error }}
           </div>
         {% endfor %}
       {% else %}
-        {% render_field field class="form-control is-valid" %}
+        {% render_field field|bootstrap class="is-valid" %}
       {% endif %}
     {% else %}
-      {% render_field field class="form-control" %}
+      {% render_field field|bootstrap %}
     {% endif %}
 
     {% if field.help_text %}
