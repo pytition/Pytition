@@ -71,22 +71,22 @@
             {% endif %}
         </div>
         <div class="col-md-10 col-xs-12">
-                <p class="alert alert-info">
-                    {% blocktrans %}
-                    The information you put in the following formular will be used as default values (template) for a
-                    new petition.<br />
-                    This allows to have petition "models" (or "<strong>templates</strong>") and for instance directly have the correct
-                    <strong>SMTP credentials</strong> or <strong>footer text</strong> setup when creating a new petition!
-                    {% endblocktrans %}
-                </p>
-                <form action="{% url "user_create_petition_template" user.name %}" class="form-group" method="POST">
-                    {% csrf_token %}
+            <p class="alert alert-info">
+                {% blocktrans %}
+                The information you put in the following formular will be used as default values (template) for a
+                new petition.<br />
+                This allows to have petition "models" (or "<strong>templates</strong>") and for instance directly have the correct
+                <strong>SMTP credentials</strong> or <strong>footer text</strong> setup when creating a new petition!
+                {% endblocktrans %}
+            </p>
+            <form action="{% url "user_create_petition_template" user.name %}" class="form-group" method="POST">
+                {% csrf_token %}
 
-                    {% include 'petition/bs4_form.html' with form=form %}
-                    <input type="hidden" name="edit" value="{{ form.instance.pk|yesno:'1,0' }}">
-                    <input type="hidden" name="pk" value="{{ form.instance.pk }}">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                {% include 'petition/bs4_form.html' with form=form %}
+                <input type="hidden" name="edit" value="{{ form.instance.pk|yesno:'1,0' }}">
+                <input type="hidden" name="pk" value="{{ form.instance.pk }}">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </div>
 </div>
