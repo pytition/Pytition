@@ -7,8 +7,6 @@ from django.core.exceptions import ValidationError
 from .models import Signature, Petition, Organization, PytitionUser, PetitionTemplate
 from .views import send_confirmation_email
 
-#admin.register(Organization)
-
 
 @admin.register(PytitionUser)
 class PytitionUserAdmin(admin.ModelAdmin):

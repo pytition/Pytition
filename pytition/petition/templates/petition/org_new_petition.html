@@ -122,12 +122,12 @@
             {% endif %}
         </div>
         <div class="col-md-10 col-xs-12">
-                <form action="{% url "org_create_petition" org.name %}" class="form-group" method="POST">
-                    {% csrf_token %}
+            <form action="{% url "org_create_petition" org.name %}" class="form-group" method="POST">
+                {% csrf_token %}
 
-                    {% include 'petition/bs4_form.html' with form=form %}
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                {% include 'petition/bs4_form.html' with form=form %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </div>
 </div>
