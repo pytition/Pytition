@@ -1,0 +1,15 @@
+{% load i18n %}
+<h4>{% trans "Invite user" %}</h4>
+<form>
+    <div class="form-group">
+        <label for="invite_user" class="invisible">{% trans "User" %} : </label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><span class="oi oi-person"></span></span>
+            </div>
+            <input class="form-control" type="text" id="invite_user" placeholder="{% trans "Username" %}">
+        </div>
+    </div>
+    <div id="user_search_result" class="list-group">
+    </div>
+</form>

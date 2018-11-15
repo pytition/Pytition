@@ -53,75 +53,18 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-people"></span> {{ org.name }}</button>
-            <div class="dropdown-menu">
-                <a href="{% url "user_dashboard" user.username %}" class="dropdown-item"><span class="oi oi-person"></span> {{ user.get_full_name }}</a>
-                {% for org in other_orgs %}
-                    <a href="{% url "org_dashboard" org.name %}" class="dropdown-item"><span class="oi oi-people"></span> {{ org.name }}</a>
-                {% endfor %}
-            </div>
+            {% include "petition/identity_selector.html" with orgs=other_orgs owner=org user=user %}
             <hr>
             <a class="btn btn-outline-success" href="{% url "org_new_petition" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
-            <h4>{% trans "Members" %}</h4>
-            <div class="list-group">
-            {% for member in org.members.all %}
-                <div class="d-flex justify-content-between align-items-stretch">
-                    <a href="{% url "user_profile" member.username %}" class="list-group-item list-group-item-action list-group-item-primary">
-                        <span class="oi oi-person"></span> {{ member.get_full_name }}
-                    </a>
-                     <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
-                    <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
-                    <!--<button class="btn btn-danger"><span class="oi oi-delete"></span></button>-->
-                    <!--<button class="btn btn-secondary"><span class="oi oi-wrench"></span></button>-->
-                </div>
-            {% endfor %}
-            </div>
-            <br>
-            <h4>{% trans "Invite user" %}</h4>
-            <form>
-                <div class="form-group">
-                    <label for="invite_user" class="invisible">{% trans "User" %} : </label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span class="oi oi-person"></span></span>
-                        </div>
-                        <input class="form-control" type="text" id="invite_user" placeholder="{% trans "Username" %}">
-                    </div>
-                </div>
-                <div id="user_search_result" class="list-group">
-                </div>
-            </form>
-            {% if user.invitations.all %}
+            {% include "petition/org_member_list.html" with org=org %}
             <hr>
-            <h4>{% trans "Invitations" %}</h4>
-            <div id="invitations">
-                {% for org in user.invitations.all %}
-                <div class="alert alert-info alert-dismissible show fade" id="invite-alert-{{ org.name }}">
-                    <div class="row">
-                        <div class="col-1 alert-icon-col">
-                            <span class="oi oi-question-mark"></span>
-                        </div>
-                        <div class="col">
-                            <div class="row">
-                            {% blocktrans with orgname=org %}
-                                You are invited to <strong>&nbsp;{{ orgname }}</strong>
-                            {% endblocktrans %}
-                            </div>
-                            <div class="row d-flex justify-content-around">
-                                <button class="btn btn-success btn-invitation-join" data-org="{{ org.name }}">{% trans "Join" %}</button>
-                                <button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.name }}">{% trans "Dismiss" %}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+            {% include "petition/org_invite_user.html" with org=org %}
+            {% include "petition/user_invitations.html" with user=user %}
             <hr>
             <div class="d-flex align-items-start">
                 <h4>{% trans "Petition templates" %}</h4>
-                <a href="{% url "org_new_template" org.name %}" class="btn btn-outline-success"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+                <a href="{% url "org_new_template" org.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
             {% if org.petition_templates.all %}
                 {% include "petition/template_list.html" with templates=org.petition_templates.all owner=org %}
@@ -248,14 +191,14 @@
         $(function () {
            $('[data-action="template-edit"]').on("click", function() {
             var template_id = $(this).closest("[data-template]").data("template");
-                window.location = "{% url "org_edit_template" org.name %}?id=" + template_id;
+                window.location = "{% url "edit_template" %}?id=" + template_id;
            });
         });
 
         $(function () {
             $('[data-fav-toggle="true"]').on("click", function () {
                 var template_id = $(this).closest("[data-template]").data("template");
-                $.ajax("{% url "org_ptemplate_fav_toggle" org.name %}?id=" + template_id).done(function() {
+                $.ajax("{% url "ptemplate_fav_toggle" %}?id=" + template_id).done(function() {
                     location.reload(true);
                 });
             });

@@ -38,6 +38,7 @@ class SignatureForm(ModelForm):
             object.save()
         return object
 
+
 class PetitionTemplateForm(ModelForm):
     class Meta:
         model = PetitionTemplate

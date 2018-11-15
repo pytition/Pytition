@@ -55,15 +55,9 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-people"></span> {{ org.name }}</button>
-            <div class="dropdown-menu">
-                <a href="{% url "user_dashboard" user.username %}" class="dropdown-item"><span class="oi oi-person"></span> {{ user.get_full_name }}</a>
-                {% for org in other_orgs %}
-                    <a href="{% url "org_dashboard" org.name %}" class="dropdown-item"><span class="oi oi-people"></span> {{ org.name }}</a>
-                {% endfor %}
-            </div>
+            {% include "petition/identity_selector.html" with orgs=other_orgs owner=org user=user %}
             <hr>
-            <a class="btn btn-outline-success"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
+            <a class="btn btn-outline-success" href="{% url "org_new_petition" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
             <h4>{% trans "Members" %}</h4>
             <div class="list-group">
@@ -124,21 +118,7 @@
                 <a href="{% url "org_new_template" org.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
             {% if org.petition_templates.all %}
-            <div class="list-group">
-            {% for template in org.petition_templates.all %}
-                <div class="d-flex justify-content-between">
-                    {% if org.default_template == template %}
-                    <button class="btn btn-outline-danger" data-org="{{ org.name }}" data-toggle="tooltip" title="{% trans "This is the default template. Click here to unmark it as default" %}"><span class="oi oi-heart"></span></button>
-                    {% else %}
-                    <button class="btn btn-outline-info" data-org="{{ org.name }}" data-toggle="tooltip" title="{% trans "Mark this template as default" %}"><span class="oi oi-heart"></span></button>
-                    {% endif %}
-                    <div class="list-group-item list-group-item-action list-group-item-primary">{{ template.name }} </div>
-                    <button class="btn btn-outline-danger" data-toggle="tooltip" title="{% trans "Delete template" %}"><span class="oi oi-delete"></span></button>
-                    <button class="btn btn-outline-warning" data-toggle="tooltip" title="{% trans "Edit template" %}"><span class="oi oi-pencil"></span></button>
-                    <button class="btn btn-outline-success" data-toggle="tooltip" title="{% trans "Create a new petition using this template" %}"><span class="oi oi-plus""></span> <span class="oi oi-clipboard"></span></button>
-                </div>
-            {% endfor %}
-            </div>
+                {% include "petition/template_list.html" with templates=org.petition_templates.all owner=org %}
             {% endif %}
         </div>
         <div class="col-md-10 col-xs-12">
@@ -250,7 +230,34 @@
 
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+        $(function () {
+           $('[data-action="template-delete"]').on("click", function() {
+            var template_id = $(this).closest("[data-template]").data("template");
+            //alert("template id: " + template_id);
+            $.ajax("{% url "template_delete" %}?id=" + template_id).done(function() {
+                location.reload(true);
+                //$('[data-template="'+template_id+'"]').addClass("d-none").removeClass("d-flex");
+            });
+           });
+        });
+
+        $(function () {
+           $('[data-action="template-edit"]').on("click", function() {
+            var template_id = $(this).closest("[data-template]").data("template");
+                window.location = "{% url "edit_template" %}?id=" + template_id;
+           });
+        });
+
+        $(function () {
+            $('[data-fav-toggle="true"]').on("click", function () {
+                var template_id = $(this).closest("[data-template]").data("template");
+                $.ajax("{% url "ptemplate_fav_toggle" %}?id=" + template_id).done(function() {
+                    location.reload(true);
+                });
+            });
+        });
     </script>
 
     <script src="{% static "tinymce/js/tinymce/tinymce.min.js" %}"></script>

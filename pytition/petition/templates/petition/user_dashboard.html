@@ -28,7 +28,7 @@
 <body>
 <div class="container-fluid">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">{{ org.name }}</a>
+    <a class="navbar-brand" href="#">{{ user.get_full_name }}</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     Menu <span class="navbar-toggler-icon"></span>
     </button>
@@ -39,7 +39,7 @@
         </li>
     </ul>
     </div>
-        <form class="form-inline my-2 my-lg-0" action="{% url "org_dashboard" org.name %}" method="GET">
+        <form class="form-inline my-2 my-lg-0" action="{% url "user_dashboard" user.name %}" method="GET">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">?</span>
@@ -53,59 +53,16 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-person"></span> {{ user.get_full_name }}</button>
-            <div class="dropdown-menu">
-                {% for org in user.organizations.all %}
-                    <a href="{% url "org_dashboard" org.name %}" class="dropdown-item"><span class="oi oi-people"></span> {{ org.name }}</a>
-                {% endfor %}
-            </div>
+            {% include "petition/identity_selector.html" with orgs=user.organizations.all owner=user user=user %}
             <hr>
             <a class="btn btn-outline-success" href="{% url "user_new_petition" user.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
-            <h4>{% trans "Organizations" %}</h4>
-            <div class="list-group">
-            {% for org in user.organizations.all %}
-                <div class="d-flex justify-content-between align-items-stretch">
-                    <a href="{% url "org_profile" org.name %}" class="list-group-item list-group-item-action list-group-item-primary">
-                        <span class="oi oi-people"></span> {{ org.name }}
-                    </a>
-                     <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
-                    <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
-                    <!--<button class="btn btn-danger"><span class="oi oi-delete"></span></button>-->
-                    <!--<button class="btn btn-secondary"><span class="oi oi-wrench"></span></button>-->
-                </div>
-            {% endfor %}
-            </div>
-            {% if user.invitations.all %}
-            <hr>
-            <h4>{% trans "Invitations" %}</h4>
-            <div id="invitations">
-                {% for org in user.invitations.all %}
-                <div class="alert alert-info alert-dismissible show fade" id="invite-alert-{{ org.name }}">
-                    <div class="row">
-                        <div class="col-1 alert-icon-col">
-                            <span class="oi oi-question-mark"></span>
-                        </div>
-                        <div class="col">
-                            <div class="row">
-                            {% blocktrans with orgname=org %}
-                                You are invited to <strong>&nbsp;{{ orgname }}</strong>
-                            {% endblocktrans %}
-                            </div>
-                            <div class="row d-flex justify-content-around">
-                                <button class="btn btn-success btn-invitation-join" data-org="{{ org.name }}">{% trans "Join" %}</button>
-                                <button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.name }}">{% trans "Dismiss" %}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+            {% include "petition/user_org_list.html" with user=user %}
+            {% include "petition/user_invitations.html" with user=user %}
             <hr>
             <div class="d-flex align-items-start">
                 <h4>{% trans "Petition templates" %}</h4>
-                <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+                <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
             {% if user.petition_templates.all %}
                 {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
@@ -123,78 +80,8 @@
     <script src="{% static "bootstrap-4.1.3/js/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "bootstrap-4.1.3/js/popper.min.js" %}"></script>
     <script src="{% static "bootstrap-4.1.3/js/bootstrap.min.js" %}"></script>
+
     <script>
-        function addUser(user) {
-            $("#user_search_result").html("<span class=\"oi oi-cog\" title=\"waiting\" aria-hidden=\"true\"></span>");
-            $.ajax({
-                url: "{% url "org_add_user" org.name %}?user=" + user,
-                dataType: "json",
-            }).done(function(data) {
-                $("#user_search_result").html("");
-                var html = `
-                <div class="alert alert-success alert-dismissible show fade">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <div class="row">
-                    <div class="col-1 alert-icon-col">
-                        <span class="oi oi-check"></span>
-                    </div>
-                <div class="col">
-                ` + data.message + "</div></div></div>";
-                $("#user_search_result").append(html);
-            }).fail(function($xhr) {
-                var data = $xhr.responseJSON;
-                console.log(data);
-                $("#user_search_result").html("");
-                var html;
-                if (typeof data === "undefined") {
-                    html = `
-                    <div class="alert alert-danger alert-dismissible show fade">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <div class="row">
-                            <div class="col-1 alert-icon-col">
-                                <span class="oi oi-warning"></span>
-                            </div>
-                            <div class="col">
-                                {% blocktrans with orgname=org.name %}
-                                An unknown error happened. We could not invite this user to <strong>{{ orgname }}</strong>
-                                {% endblocktrans %}
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                } else {
-                    html = `
-                    <div class="alert alert-danger alert-dismissible show fade">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <div class="row">
-                        <div class="col-1 alert-icon-col">
-                            <span class="oi oi-warning"></span>
-                        </div>
-                        <div class="col">
-                    ` + data.message + "</div></div></div>";
-                }
-                $("#user_search_result").append(html);
-            });
-        }
-
-        $(document).ready(function(){
-          $("#invite_user").on("keyup", function() {
-           $.ajax({
-           url: "{% url "get_user_list" %}?q=" + $("#invite_user").val(),
-           dataType: "json",
-           }).done(function(data) {
-                $("#user_search_result").html("");
-                data.values.forEach(function(item, index) {
-                    $("#user_search_result").append("<a href=\"#\" id=\"addUser"+ item +"\" class=\"list-group-item list-group-item-success list-group-item-action\"><span class=\"oi oi-plus\" title=\"plus\" aria-hidden=\"true\"></span> "+ item +"</a>");
-                    $("#addUser" + item).on("click", function () {
-                        addUser(item);
-                        $("#invite_user").val("");
-                    });
-                });
-           });
-          });
-        });
-
         $(document).ready(function() {
             $(".btn-invitation-join").on("click", function() {
                 var org = $(this).data("org");
@@ -227,6 +114,31 @@
                 //$('[data-template="'+template_id+'"]').addClass("d-none").removeClass("d-flex");
             });
            });
+        });
+
+        $(function () {
+           $('[data-action="template-edit"]').on("click", function() {
+            var template_id = $(this).closest("[data-template]").data("template");
+                window.location = "{% url "edit_template" %}?id=" + template_id;
+           });
+        });
+
+        $(function () {
+            $('[data-fav-toggle="true"]').on("click", function () {
+                var template_id = $(this).closest("[data-template]").data("template");
+                $.ajax("{% url "ptemplate_fav_toggle" %}?id=" + template_id).done(function() {
+                    location.reload(true);
+                });
+            });
+        });
+
+        $(function () {
+            $('[data-action="leave_org"]').on("click", function() {
+                var org_name = $(this).closest("[data-org]").data("org");
+                $.ajax("{% url "leave_org" %}?org=" + org_name).done(function() {
+                    location.reload(true);
+                });
+            });
         });
     </script>
 </body>

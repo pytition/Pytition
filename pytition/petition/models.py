@@ -257,6 +257,14 @@ class Organization(models.Model):
     def __repr__(self):
         return self.name
 
+    @property
+    def kind(self):
+        return "org"
+
+    @property
+    def fullname(self):
+        return self.name
+
 
 #class PetitionAccess(models.Model):
 #    owner = models.BigIntegerField(verbose_name=ugettext_lazy("key"))
@@ -305,6 +313,14 @@ class PytitionUser(models.Model):
     @property
     def get_full_name(self):
         return self.user.get_full_name()
+
+    @property
+    def fullname(self):
+        return self.get_full_name
+
+    @property
+    def kind(self):
+        return "user"
 
 
 @receiver(post_save, sender=User)

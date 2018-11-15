@@ -1,0 +1,13 @@
+{% load i18n %}
+<h4>{% trans "Members" %}</h4>
+<div class="list-group">
+{% for member in org.members.all %}
+    <div class="d-flex justify-content-between align-items-stretch">
+        <a href="{% url "user_profile" member.username %}" class="list-group-item list-group-item-action list-group-item-primary">
+            <span class="oi oi-person"></span> {{ member.get_full_name }}
+        </a>
+        <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
+        <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
+    </div>
+{% endfor %}
+</div>

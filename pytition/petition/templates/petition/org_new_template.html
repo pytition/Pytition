@@ -55,13 +55,7 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"><span class="oi oi-people"></span> {{ org.name }}</button>
-            <div class="dropdown-menu">
-                <a href="{% url "user_dashboard" user.username %}" class="dropdown-item"><span class="oi oi-person"></span> {{ user.get_full_name }}</a>
-                {% for org in other_orgs %}
-                    <a href="{% url "org_dashboard" org.name %}" class="dropdown-item"><span class="oi oi-people"></span> {{ org.name }}</a>
-                {% endfor %}
-            </div>
+            {% include "petition/identity_selector.html" with orgs=other_orgs owner=org user=user %}
             <hr>
             <a class="btn btn-outline-success" href="{% url "org_new_petition" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
@@ -74,8 +68,6 @@
                     </a>
                     <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
                     <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
-                    <!--<button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>-->
-                    <!--<button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>-->
                 </div>
             {% endfor %}
             </div>
@@ -258,6 +250,24 @@
                 //$('[data-template="'+template_id+'"]').addClass("d-none").removeClass("d-flex");
             });
            });
+        });
+
+        $(function () {
+           $('[data-action="template-edit"]').on("click", function() {
+            var template_id = $(this).closest("[data-template]").data("template");
+                window.location = "{% url "edit_template" %}?id=" + template_id;
+           });
+        });
+
+        $(function () {
+            $('[data-fav-toggle="true"]').on("click", function () {
+                var template_id = $(this).closest("[data-template]").data("template");
+                $.ajax("{% url "ptemplate_fav_toggle" %}?id=" + template_id).done(function() {
+                    // Check if deleting currently edited template
+                    // if so, redirect to org dasboard
+                    location.reload(true);
+                });
+            });
         });
     </script>
 
