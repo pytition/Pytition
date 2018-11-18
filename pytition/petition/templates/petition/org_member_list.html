@@ -8,9 +8,9 @@
             <span class="oi oi-person"></span> {{ member.get_full_name }}
         </a>
         </div>
-        <div>
-            <button class="btn btn-outline-danger"><span class="oi oi-delete"></span></button>
-            <button class="btn btn-outline-secondary"><span class="oi oi-wrench"></span></button>
+        <div data-member="{{ member.username }}">
+            <button class="btn btn-outline-danger" data-action="delete-member" data-toggle="tooltip" title="{% trans "Remove this member from the organization" %}"><span class="oi oi-delete"></span></button>
+            <button class="btn btn-outline-secondary" data-action="edit-member-permissions" data-toggle="tooltip" title="{% trans "Edit this member's permissions" %}"><span class="oi oi-wrench"></span></button>
         </div>
     </div>
 {% endfor %}
