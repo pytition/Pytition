@@ -70,4 +70,16 @@ $(document).ready(function(){
   });
 });
 
+$(function () {
+    $('[data-action="delete-member"]').on('click', function () {
+       var member_name = $(this).closest("[data-member]").data("member");
+       $.ajax("{% url "org_delete_member" org.name %}?member=" + member_name).done(function () {
+        if (member_name == "{{ user.name }}")
+            window.location = "{% url "user_dashboard" user.name %}";
+        else
+            location.reload(true);
+       });
+    });
+});
+
 {% include "petition/generic.js" %}

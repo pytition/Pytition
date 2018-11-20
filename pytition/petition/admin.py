@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 
-from .models import Signature, Petition, Organization, PytitionUser, PetitionTemplate
+from .models import Signature, Petition, Organization, PytitionUser, PetitionTemplate, Permission
 from .views import send_confirmation_email
 
 
@@ -330,3 +330,8 @@ class PetitionTemplateAdmin(admin.ModelAdmin):
               'fields': ('twitter_description', 'twitter_image', 'org_twitter_handle')
           }),
     )
+
+
+@admin.register(Permission)
+class PermissionAdmin(admin.ModelAdmin):
+    pass

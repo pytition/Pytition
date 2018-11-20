@@ -14,7 +14,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
-from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership
+from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
 from .forms import SignatureForm, PetitionTemplateForm
 
 import requests
@@ -628,3 +628,33 @@ def user_create_petition(request, user_name):
 
     if pytitionuser.user != request.user:
         return HttpResponseForbidden(_("You are not allowed to create petitions for this user"))
+
+@login_required
+def org_delete_member(request, org_name):
+    member_name = request.GET.get('member', '')
+    try:
+        member = PytitionUser.objects.get(user__username=member_name)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    pytitionuser = get_session_user(request)
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    try:
+        permissions = pytitionuser.permission.get(organization=org)
+    except Permission.DoesNoeExist:
+        return JsonResponse({}, status=500)
+
+    if permissions.can_remove_members or pytitionuser == member:
+        if org in member.organizations.all():
+            member.organizations.remove(org)
+        else:
+            return JsonResponse({}, status=404)
+    else:
+        return JsonResponse({}, status=403)  # Forbidden
+
+    return JsonResponse({}, status=200)

@@ -278,7 +278,8 @@ class Organization(models.Model):
 #         return type(self.ownerClass).objects.get(pk=self.key)
 
 class Permission(models.Model):
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE,
+                                     verbose_name=ugettext_lazy("Organization related to these permissions"))
     can_add_members = models.BooleanField()
     can_remove_members = models.BooleanField()
     can_create_petitions = models.BooleanField()

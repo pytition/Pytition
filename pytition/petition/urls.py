@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^ptemplate_fav_toggle$', views.ptemplate_fav_toggle, name='ptemplate_fav_toggle'),
     url(r'^org/(?P<org_name>[^/]+)/new_petition$', views.org_new_petition, name='org_new_petition'),
     url(r'^org/(?P<org_name>[^/]+)/create_petition$', views.org_create_petition, name='org_create_petition'),
+    url(r'^org/(?P<org_name>[^/]+)/delete_member$', views.org_delete_member, name='org_delete_member'),
     url(r'^user/(?P<user_name>[^/]+)$', views.user_profile, name='user_profile'),
     url(r'^user/(?P<user_name>[^/]+)/dashboard$', views.user_dashboard, name='user_dashboard'),
     url(r'^user/(?P<user_name>[^/]+)/new_template$', views.user_new_template, name='user_new_template'),
