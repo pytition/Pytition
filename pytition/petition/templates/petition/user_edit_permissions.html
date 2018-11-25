@@ -1,0 +1,130 @@
+{% load i18n %}
+<form action="{% url "org_set_user_perms" org.name member.name %}" method="POST">
+{% csrf_token %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+<table class="table table-hover table-striped table-sm">
+    <caption style="caption-side: top">
+    {% blocktrans %}
+        <h2>{{ org }}: permissions of member {{ member }}</h2>
+    {% endblocktrans %}
+    </caption>
+    <thead>
+        <tr>
+            <th scope="col">{% trans "Permission name" %}</th>
+            <th scope="col">{% trans "Authorized?" %}</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>{% trans "Can remove member?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_remove_members %} active {% endif %}">
+                <input type="radio" name="can_remove_members" value="1" id="can_remove_members_yes" autocomplete="off" {% if permissions.can_remove_members %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_remove_members %} active {% endif %}">
+                <input type="radio" name="can_remove_members" value="0" id="can_remove_members_no" autocomplete="off" {% if not permissions.can_remove_members %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can invite new members?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_add_members %} active {% endif %}">
+                <input type="radio" name="can_add_members" value="1" id="can_add_members_yes" autocomplete="off" {% if permissions.can_add_members %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_add_members %} active {% endif %}">
+                <input type="radio" name="can_add_members" value="0" id="can_add_members_no" autocomplete="off" {% if not permissions.can_add_members %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can create petitions?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_create_petitions %} active {% endif %}">
+                <input type="radio" name="can_create_petitions" value="1" id="can_create_petitions_yes" autocomplete="off" {% if permissions.can_create_petitions %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_create_petitions %} active {% endif %}">
+                <input type="radio" name="can_create_petitions" value="0" id="can_create_petitions_no" autocomplete="off" {% if not permissions.can_create_petitions %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can modify petitions?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_modify_petitions %} active {% endif %}">
+                <input type="radio" name="can_modify_petitions" value="1" id="can_modify_petitions_yes" autocomplete="off" {% if permissions.can_modify_petitions %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_modify_petitions %} active {% endif %}">
+                <input type="radio" name="can_modify_petitions" value="0" id="can_modify_petitions_no" autocomplete="off" {% if not permissions.can_modify_petitions %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can delete petitions?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_delete_petitions %} active {% endif %}">
+                <input type="radio" name="can_delete_petitions" value="1" id="can_delete_petitions_yes" autocomplete="off" {% if permissions.can_delete_petitions %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_delete_petitions %} active {% endif %}">
+                <input type="radio" name="can_delete_petitions" value="0" id="can_delete_petitions_no" autocomplete="off" {% if not permissions.can_delete_petitions %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can view signatures?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_view_signatures %} active {% endif %}">
+                <input type="radio" name="can_view_signatures" value="1" id="can_view_signatures_yes" autocomplete="off" {% if permissions.can_view_signatures %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_view_signatures %} active {% endif %}">
+                <input type="radio" name="can_view_signatures" value="0" id="can_view_signatures_no" autocomplete="off" {% if not permissions.can_view_signatures %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can view signatures?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_modify_signatures %} active {% endif %}">
+                <input type="radio" name="can_modify_signatures" value="1" id="can_modify_signatures_yes" autocomplete="off" {% if permissions.can_modify_signatures %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_modify_signatures %} active {% endif %}">
+                <input type="radio" name="can_modify_signatures" value="0" id="can_modify_signatures_no" autocomplete="off" {% if not permissions.can_modify_signatures %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can delete signatures?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_delete_signatures %} active {% endif %}">
+                <input type="radio" name="can_delete_signatures" value="1" id="can_delete_signatures_yes" autocomplete="off" {% if permissions.can_delete_signatures %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_delete_signatures %} active {% endif %}">
+                <input type="radio" name="can_delete_signatures" value="0" id="can_delete_signatures_no" autocomplete="off" {% if not permissions.can_delete_signatures %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+</table>
+<button class="btn btn-primary" type="submit">{% trans "Validate those new permissions" %}</button>
+<a class="btn btn-info" href="{% url "org_dashboard" org.name %}">{% trans "Return to dashboard" %}</a>
+</form>

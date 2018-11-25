@@ -10,7 +10,7 @@
         </div>
         <div data-member="{{ member.username }}">
             <button class="btn btn-outline-danger" data-action="delete-member" data-toggle="tooltip" title="{% trans "Remove this member from the organization" %}"><span class="oi oi-delete"></span></button>
-            <button class="btn btn-outline-secondary" data-action="edit-member-permissions" data-toggle="tooltip" title="{% trans "Edit this member's permissions" %}"><span class="oi oi-wrench"></span></button>
+            <a href="{% url "org_edit_user_perms" org.name member.username %}" class="btn btn-outline-secondary" data-action="edit-member-permissions" data-toggle="tooltip" title="{% trans "Edit this member's permissions" %}"><span class="oi oi-wrench"></span></a>
         </div>
     </div>
 {% endfor %}

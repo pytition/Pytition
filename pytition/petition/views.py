@@ -658,3 +658,71 @@ def org_delete_member(request, org_name):
         return JsonResponse({}, status=403)  # Forbidden
 
     return JsonResponse({}, status=200)
+
+
+@login_required
+def org_edit_user_perms(request, org_name, user_name):
+    """Shows the page which lists the user permissions."""
+    pytitionuser = get_session_user(request)
+
+    try:
+        member = PytitionUser.objects.get(user__username=user_name)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    if org not in member.organizations.all():
+        return HttpResponse(status=500)
+
+    try:
+        permissions = member.permission.get(organization=org)
+    except Permission.DoesNotExist:
+        return HttpResponse(status=500)
+
+    return render(request, "petition/org_edit_user_perms.html", {'org': org, 'member': member, 'user': pytitionuser,
+                                                                 'permissions': permissions})
+
+@login_required
+def org_set_user_perms(request, org_name, user_name):
+    """Actually do the modification of user permissions.
+    Data come from "org_edit_user_perms" view's form.
+    """
+
+    pytitionuser = get_session_user(request)
+
+    try:
+        member = PytitionUser.objects.get(user__username=user_name)
+    except PytitionUser.DoesNotExist:
+        raise Http404(_("User does not exist"))
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    if org not in member.organizations.all():
+        return HttpResponse(status=500)
+
+    try:
+        permissions = member.permission.get(organization=org)
+    except Permission.DoesNotExist:
+        return HttpResponse(status=500)
+
+    if request.method == "POST":
+        print(request.POST)
+        post = request.POST
+        permissions.can_remove_members = bool(int(post['can_remove_members']))
+        permissions.can_add_members = bool(int(post['can_add_members']))
+        permissions.can_create_petitions = bool(int(post['can_create_petitions']))
+        permissions.can_modify_petitions = bool(int(post['can_modify_petitions']))
+        permissions.can_delete_petitions = bool(int(post['can_delete_petitions']))
+        permissions.can_view_signatures = bool(int(post['can_view_signatures']))
+        permissions.can_modify_signatures = bool(int(post['can_modify_signatures']))
+        permissions.can_delete_signatures = bool(int(post['can_delete_signatures']))
+        permissions.save()
+        messages.success(request, _("Permissions successfully changed!"))
+    return redirect(reverse("org_edit_user_perms", args=[org_name, user_name]))
