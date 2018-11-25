@@ -54,7 +54,7 @@
     <p></p>
 
     <div class="row">
-        <div class="col-md-2 col-xs-12">
+        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-6 col-12 tool-bar">
             {% include "petition/identity_selector.html" with orgs=user.organizations.all owner=user user=user %}
             <hr>
             <a class="btn btn-outline-success" href="{% url "user_new_petition" user.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
@@ -62,15 +62,17 @@
             {% include "petition/user_org_list.html" with user=user %}
             {% include "petition/user_invitations.html" with user=user %}
             <hr>
-            <div class="d-flex align-items-start">
+            <div class="d-flex align-items-baseline justify-content-between">
                 <h4>{% trans "Petition templates" %}</h4>
                 <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
+            <br />
             {% if user.petition_templates.all %}
                 {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
             {% endif %}
+            <hr>
         </div>
-        <div class="col-md-10 col-xs-12">
+        <div class="col-xl-9 col-lg-7 col-md-7 col-sm-6 col-12">
             <form action="{% url "user_create_petition" user.name %}" class="form-group" method="POST">
                 {% csrf_token %}
 
