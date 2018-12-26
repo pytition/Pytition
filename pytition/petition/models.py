@@ -265,36 +265,36 @@ class Organization(models.Model):
     def fullname(self):
         return self.name
 
-
-#class PetitionAccess(models.Model):
-#    owner = models.BigIntegerField(verbose_name=ugettext_lazy("key"))
-#    can_read_signatures = models.BooleanField()
-#    can_modify_petition = models.BooleanField()
-#    can_modify_signatures = models.BooleanField()
-#    can_delete_petition = models.BooleanField()
-#     ownerClass = models.CharField(max_length=20, verbose_name=ugettext_lazy("Owner class"))
-#
-#     def get(self):
-#         return type(self.ownerClass).objects.get(pk=self.key)
-
 class Permission(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE,
                                      verbose_name=ugettext_lazy("Organization related to these permissions"))
-    can_add_members = models.BooleanField()
-    can_remove_members = models.BooleanField()
-    can_create_petitions = models.BooleanField()
-    can_modify_petitions = models.BooleanField()
-    can_delete_petitions = models.BooleanField()
-    can_view_signatures = models.BooleanField()
-    can_modify_signatures = models.BooleanField()
-    can_delete_signatures = models.BooleanField()
+    can_add_members = models.BooleanField(default=False)
+    can_remove_members = models.BooleanField(default=False)
+    can_create_petitions = models.BooleanField(default=False)
+    can_modify_petitions = models.BooleanField(default=False)
+    can_delete_petitions = models.BooleanField(default=False)
+    can_view_signatures = models.BooleanField(default=False)
+    can_modify_signatures = models.BooleanField(default=False)
+    can_delete_signatures = models.BooleanField(default=False)
+    can_modify_permissions = models.BooleanField(default=False)
+
+    def __str__(self):
+        ret = "{orgname} : ".format(orgname=self.organization.name)
+        if self.user.count() > 0:
+            ret = ret + "{username}".format(username=self.user.all()[0].name)
+        else:
+            ret = ret + "None"
+        return ret
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class PytitionUser(models.Model):
     petitions = models.ManyToManyField(Petition, blank=True)
     organizations = models.ManyToManyField(Organization, related_name="members", blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="pytitionuser")
-    permission = models.ManyToManyField(Permission, related_name="user", blank=True)
+    permissions = models.ManyToManyField(Permission, related_name="user", blank=True)
     invitations = models.ManyToManyField(Organization, related_name="invited", blank=True)
     petition_templates = models.ManyToManyField(PetitionTemplate, blank=True, through='TemplateOwnership',
                                                 through_fields=['user', 'template'],

@@ -196,10 +196,16 @@ def org_dashboard(request, org_name):
     else:
         petitions = org.petitions
 
+    try:
+        permissions = pytitionuser.permissions.get(organization=org)
+    except:
+        return HttpResponse(
+            _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+              .format(orgname=org.name)), status=500)
 
     other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
-                                                           'petitions': petitions})
+                                                           'petitions': petitions, 'user_permissions': permissions})
 
 @login_required
 def user_dashboard(request, user_name):
@@ -296,7 +302,7 @@ def org_add_user(request, org_name):
         return JsonResponse({"message": message}, status=500)
 
     try:
-        permissions = pytitionuser.permission.get(organization=org)
+        permissions = pytitionuser.permissions.get(organization=org)
     except:
         message = _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')".
                     format(orgname=org.name))
@@ -355,8 +361,16 @@ def org_new_template(request, org_name):
     if org not in pytitionuser.organizations.all():
         return HttpResponseForbidden(_("You are not allowed to view this organization dashboard"))
 
+    try:
+        permissions = pytitionuser.permissions.get(organization=org)
+    except:
+        return HttpResponse(
+            _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+              .format(orgname=org_name)), status=500)
+
     form = PetitionTemplateForm()
-    return render(request, "petition/org_new_template.html", {'org': org, 'user': pytitionuser, 'form': form})
+    return render(request, "petition/org_new_template.html", {'org': org, 'user': pytitionuser, 'form': form,
+                                                              'user_permissions': permissions})
 
 
 @login_required()
@@ -391,6 +405,13 @@ def edit_template(request):
         return HttpResponse(status=500)
 
     if owner_type == "org":
+        try:
+            permissions = pytitionuser.permissions.get(organization=owner)
+        except:
+            return HttpResponse(
+                _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+                  .format(orgname=owner.name)), status=500)
+        context['user_permissions'] = permissions
         if owner not in pytitionuser.organizations.all():
             return HttpResponseForbidden(_("You are not allowed to edit this organization's templates"))
         context['org'] = owner
@@ -600,7 +621,15 @@ def org_new_petition(request, org_name):
     admin = PetitionAdmin(Petition, None)
     form = admin.get_form(request)
 
-    return render(request, "petition/org_new_petition.html", {'org': org, 'user': pytitionuser, 'form': form})
+    try:
+        permissions = pytitionuser.permissions.get(organization=org)
+    except:
+        return HttpResponse(
+            _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+              .format(orgname=org.name)), status=500)
+
+    return render(request, "petition/org_new_petition.html", {'org': org, 'user': pytitionuser, 'form': form,
+                                                              'user_permissions': permissions})
 
 
 @login_required
@@ -656,7 +685,7 @@ def org_delete_member(request, org_name):
         raise Http404(_("Organization does not exist"))
 
     try:
-        permissions = pytitionuser.permission.get(organization=org)
+        permissions = pytitionuser.permissions.get(organization=org)
     except Permission.DoesNoeExist:
         return JsonResponse({}, status=500)
 
@@ -679,23 +708,36 @@ def org_edit_user_perms(request, org_name, user_name):
     try:
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
-        raise Http404(_("User does not exist"))
+        messages.error(request, _("User '{name}' does not exist".format(name=user_name)))
+        return redirect(reverse("org_dashboard", args=[org_name]))
 
     try:
         org = Organization.objects.get(name=org_name)
     except Organization.DoesNotExist:
-        raise Http404(_("Organization does not exist"))
+        raise Http404(_("Organization '{name}' does not exist".format(name=org_name)))
 
     if org not in member.organizations.all():
-        return HttpResponse(status=500)
+        messages.error(request, _("The user '{username}' is not member of this organization ({orgname}).".
+                                  format(username=user_name, orgname=org_name)))
+        return redirect(reverse("org_dashboard", args=[org_name]))
 
     try:
-        permissions = member.permission.get(organization=org)
+        permissions = member.permissions.get(organization=org)
     except Permission.DoesNotExist:
-        return HttpResponse(status=500)
+        messages.error(request,
+                       _("Internal error, this member does not have permissions attached to this organization."))
+        return redirect(reverse("org_dashboard", args=[org_name]))
+
+    try:
+        user_permissions = pytitionuser.permissions.get(organization=org)
+    except:
+        return HttpResponse(
+            _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+              .format(orgname=org.name)), status=500)
 
     return render(request, "petition/org_edit_user_perms.html", {'org': org, 'member': member, 'user': pytitionuser,
-                                                                 'permissions': permissions})
+                                                                 'permissions': permissions,
+                                                                 'user_permissions': user_permissions})
 
 @login_required
 def org_set_user_perms(request, org_name, user_name):
@@ -708,7 +750,9 @@ def org_set_user_perms(request, org_name, user_name):
     try:
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
-        raise Http404(_("User does not exist"))
+        messages.error(request, _("User does not exist"))
+        return redirect(reverse("org_dashboard", args=[org_name]))
+        #raise Http404(_("User does not exist"))
 
     try:
         org = Organization.objects.get(name=org_name)
@@ -716,24 +760,35 @@ def org_set_user_perms(request, org_name, user_name):
         raise Http404(_("Organization does not exist"))
 
     if org not in member.organizations.all():
-        return HttpResponse(status=500)
+        messages.error(request, _("This user is not part of organization \'{orgname}\'".format(orgname=org.name)))
+        return redirect(reverse("org_dashboard", args=[org_name]))
 
     try:
-        permissions = member.permission.get(organization=org)
+        permissions = member.permissions.get(organization=org)
     except Permission.DoesNotExist:
-        return HttpResponse(status=500)
+        messages.error(request, _("PLOP"));
+        return redirect(reverse("org_dashboard", args=[org_name]))
+
+    try:
+        userperms = pytitionuser.permissions.get(organization=org)
+    except:
+        messages.error(request, _("PLAP"));
+        return redirect(reverse("org_dashboard", args=[org_name]))
 
     if request.method == "POST":
-        print(request.POST)
-        post = request.POST
-        permissions.can_remove_members = bool(int(post['can_remove_members']))
-        permissions.can_add_members = bool(int(post['can_add_members']))
-        permissions.can_create_petitions = bool(int(post['can_create_petitions']))
-        permissions.can_modify_petitions = bool(int(post['can_modify_petitions']))
-        permissions.can_delete_petitions = bool(int(post['can_delete_petitions']))
-        permissions.can_view_signatures = bool(int(post['can_view_signatures']))
-        permissions.can_modify_signatures = bool(int(post['can_modify_signatures']))
-        permissions.can_delete_signatures = bool(int(post['can_delete_signatures']))
-        permissions.save()
-        messages.success(request, _("Permissions successfully changed!"))
+        if not userperms.can_modify_permissions:
+            messages.error(request, _("You are not allowed to modify this organization members' permissions"))
+        else:
+            post = request.POST
+            permissions.can_remove_members = bool(int(post['can_remove_members']))
+            permissions.can_add_members = bool(int(post['can_add_members']))
+            permissions.can_create_petitions = bool(int(post['can_create_petitions']))
+            permissions.can_modify_petitions = bool(int(post['can_modify_petitions']))
+            permissions.can_delete_petitions = bool(int(post['can_delete_petitions']))
+            permissions.can_view_signatures = bool(int(post['can_view_signatures']))
+            permissions.can_modify_signatures = bool(int(post['can_modify_signatures']))
+            permissions.can_delete_signatures = bool(int(post['can_delete_signatures']))
+            permissions.can_modify_permissions = bool(int(post['can_modify_permissions']))
+            permissions.save()
+            messages.success(request, _("Permissions successfully changed!"))
     return redirect(reverse("org_edit_user_perms", args=[org_name, user_name]))

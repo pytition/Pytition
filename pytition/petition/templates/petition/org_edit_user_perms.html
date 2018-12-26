@@ -57,7 +57,7 @@
             <hr>
             <a class="btn btn-outline-success" href="{% url "org_new_petition" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
-            {% include "petition/org_member_list.html" with org=org %}
+            {% include "petition/org_member_list.html" with org=org user_permissions=user_permissions %}
             <hr>
             {% include "petition/org_invite_user.html" with org=org %}
             {% include "petition/user_invitations.html" with user=user %}

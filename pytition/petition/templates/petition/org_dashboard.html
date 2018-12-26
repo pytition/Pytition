@@ -57,7 +57,7 @@
             <hr>
             <a class="btn btn-outline-success" href="{% url "org_new_petition" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
-            {% include "petition/org_member_list.html" with org=org %}
+            {% include "petition/org_member_list.html" with org=org user_permissions=user_permissions %}
             <hr>
             {% include "petition/org_invite_user.html" with org=org %}
             {% include "petition/user_invitations.html" with user=user %}
@@ -73,6 +73,31 @@
             <hr>
         </div>
         <div class="col-xl-9 col-lg-7 col-md-7 col-sm-6 col-12">
+            <div class="row">
+                    {% if messages %}
+                    {% for message in messages %}
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                            <div class="alert alert-danger alert-dismissible show fade">
+                        {% else %}
+                            <div class="alert alert-success alert-dismissible show fade">
+                        {% endif %}
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <div class="row">
+                                    <div class="col-1 alert-icon-col">
+                                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                        <span class="oi oi-warning"></span>
+                                        {% else %}
+                                        <span class="oi oi-thumb-up"></span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            </div>
+                    {% endfor%}
+                    {% endif %}
+            </div>
             {% include "petition/petition_list.html" with petitions=petitions.all default_template=user.default_template %}
         </div>
     </div>

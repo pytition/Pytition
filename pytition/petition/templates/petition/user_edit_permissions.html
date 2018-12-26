@@ -3,10 +3,14 @@
 {% csrf_token %}
 {% if messages %}
 {% for message in messages %}
-<div class="alert alert-success">
-    {{ message }}
-</div>
-{% endfor %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger">
+    {% else %}
+        <div class="alert alert-success">
+    {% endif %}
+        {{ message }}
+    </div>
+    {% endfor %}
 {% endif %}
 <table class="table table-hover table-striped table-sm">
     <caption style="caption-side: top">
@@ -120,6 +124,19 @@
               </label>
               <label class="btn btn-outline-danger {% if not permissions.can_delete_signatures %} active {% endif %}">
                 <input type="radio" name="can_delete_signatures" value="0" id="can_delete_signatures_no" autocomplete="off" {% if not permissions.can_delete_signatures %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
+              </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can modify permissions?" %}</td>
+        <td>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-success {% if permissions.can_modify_permissions %} active {% endif %}">
+                <input type="radio" name="can_modify_permissions" value="1" id="can_modify_permissions_yes" autocomplete="off" {% if permissions.can_modify_permissions %} checked {% endif %}> <span class="oi oi-circle-check text-dark"></span>
+              </label>
+              <label class="btn btn-outline-danger {% if not permissions.can_modify_permissions %} active {% endif %}">
+                <input type="radio" name="can_modify_permissions" value="0" id="can_modify_permissions_no" autocomplete="off" {% if not permissions.can_modify_permissions %} checked {% endif %}> <span class="oi oi-circle-x text-dark"></span>
               </label>
             </div>
         </td>

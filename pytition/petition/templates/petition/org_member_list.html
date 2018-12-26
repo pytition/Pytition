@@ -9,8 +9,26 @@
         </a>
         </div>
         <div data-member="{{ member.username }}">
-            <button class="btn btn-outline-danger" data-action="delete-member" data-toggle="tooltip" title="{% trans "Remove this member from the organization" %}"><span class="oi oi-delete"></span></button>
-            <a href="{% url "org_edit_user_perms" org.name member.username %}" class="btn btn-outline-secondary" data-action="edit-member-permissions" data-toggle="tooltip" title="{% trans "Edit this member's permissions" %}"><span class="oi oi-wrench"></span></a>
+            <button class="btn btn-outline-danger"
+                    {% if not user_permissions.can_remove_members %}
+                        disabled
+                        title="{% trans "You cannot remove this member from the organization, you don\'t have the correct permission" %}"
+                        aria-disabled="true"
+                    {% else %}
+                        title="{% trans "Remove this member from the organization." %}"
+                    {% endif %}
+                    data-action="delete-member" data-toggle="tooltip"><span class="oi oi-delete"></span></button>
+            <a href="{% url "org_edit_user_perms" org.name member.username %}"
+                    {% if not user_permissions.can_modify_permissions %}
+                        title="{% trans "You cannot edit this member's permissions, you don\'t have the correct permission" %}"
+                        aria-disabled="true"
+                        class="btn btn-outline-secondary disabled"
+                    {% else %}
+                        title="{% trans "Edit this member's permissions" %}"
+                        class="btn btn-outline-secondary"
+                    {% endif %}
+                    data-action="edit-member-permissions" data-toggle="tooltip">
+            <span class="oi oi-wrench"></span></a>
         </div>
     </div>
 {% endfor %}
