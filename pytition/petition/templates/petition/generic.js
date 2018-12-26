@@ -1,9 +1,12 @@
+var joined = false;
+
 $(document).ready(function() {
     $(".btn-invitation-join").on("click", function() {
         var org = $(this).data("org");
         $.ajax({
         url: "{% url "invite_accept" %}?org_name=" + org,
         }).done(function() {
+            joined = true;
             $(".btn-invitation-join").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
         });
     });
@@ -12,8 +15,20 @@ $(document).ready(function() {
 $(document).ready(function() {
     $(".btn-invitation-join").closest(".alert").on("closed.bs.alert", function() {
         if ($("#invitations").find(".alert").length == 0) {
-                location.reload(true);
+                if (joined)
+                    location.reload(true);
         }
+    });
+});
+
+$(function () {
+    $(".btn-invitation-dismiss").on("click", function () {
+        var org = $(this).data("org");
+        $.ajax({
+        url: "{% url "invite_dismiss" %}?org_name=" + org,
+        }).done(function() {
+            $(".btn-invitation-dismiss").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
+        });
     });
 });
 

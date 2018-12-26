@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^template_delete$', views.template_delete, name='template_delete'),
     url(r'^get_user_list', views.get_user_list, name='get_user_list'),
     url(r'^invite_accept/$', views.invite_accept, name='invite_accept'),
+    url(r'^invite_dismiss/$', views.invite_dismiss, name='invite_dismiss'),
 ]

@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
@@ -339,11 +340,37 @@ def invite_accept(request):
 
     if org in pytitionuser.invitations.all():
         try:
-            pytitionuser.invitations.remove(org)
-            pytitionuser.organizations.add(org)
-            pytitionuser.save()
+            with transaction.atomic():
+                pytitionuser.invitations.remove(org)
+                org.add_member(pytitionuser)
         except:
             return JsonResponse({}, status=500)
+    else:
+        return JsonResponse({}, status=404)
+
+    return JsonResponse({})
+
+@login_required
+def invite_dismiss(request):
+    org_name = request.GET.get('org_name', '')
+
+    if org_name == "":
+        return JsonResponse({}, status=500)
+
+    pytitionuser = get_session_user(request)
+
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        return JsonResponse({}, status=404)
+
+    if org in pytitionuser.invitations.all():
+        try:
+            pytitionuser.invitations.remove(org)
+        except:
+            return JsonResponse({}, status=500)
+    else:
+        return JsonResponse({}, status=404)
 
     return JsonResponse({})
 

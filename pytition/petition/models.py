@@ -251,6 +251,13 @@ class Organization(models.Model):
                                          verbose_name=ugettext_lazy("Default petition template"), to_field='id',
                                          on_delete=models.SET_NULL)
 
+    def add_member(self, member):
+        member.organizations.add(self)
+        permission = Permission.objects.create(organization=self)
+        permission.save()
+        member.permissions.add(permission)
+        member.save()
+
     def __str__(self):
         return self.name
 
