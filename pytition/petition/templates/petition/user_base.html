@@ -1,0 +1,91 @@
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{{ title }}</title>
+    <!-- Bootstrap -->
+    <link href="{% static "bootstrap-4.1.3/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap-4.1.3/css/open-iconic-bootstrap.min.css" %}" rel="stylesheet">
+    <style>
+  .card-img-top{
+   width: 100%!important;
+   height: 200px!important;
+   object-fit: cover;
+    }
+
+    .alert .alert-icon-col {
+        min-width: 35px;
+        max-width: 35px;
+    }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">{{ user.get_full_name }}</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    Menu <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="{% url "admin:logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
+        </li>
+    </ul>
+    </div>
+        <form class="form-inline my-2 my-lg-0" action="{% url "user_dashboard" user.name %}" method="GET">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">?</span>
+          </div>
+          <input type="text" class="form-control mr-sm-2" placeholder="..." name="q" value="{{ q }}">
+            <input type="submit" class="btn my-2 my-sm-0" value="{% trans "Search" %}">
+        </div>
+      </form>
+    </nav>
+    <p></p>
+
+    <div class="row">
+        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-6 col-12 tool-bar">
+            {% include "petition/identity_selector.html" with orgs=user.organizations.all owner=user user=user %}
+            <hr>
+            <a class="btn btn-outline-success" href="{% url "user_new_petition" user.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
+            <hr>
+            {% include "petition/user_org_list.html" with user=user %}
+            {% include "petition/user_invitations.html" with user=user %}
+            <hr>
+            <div class="d-flex align-items-baseline justify-content-between">
+                <h4>{% trans "Petition templates" %}</h4>
+                <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+            </div>
+            <br />
+            {% if user.petition_templates.all %}
+                {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
+            {% endif %}
+            <hr>
+        </div>
+        <div class="col-xl-9 col-lg-7 col-md-7 col-sm-6 col-12">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "bootstrap-4.1.3/js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "bootstrap-4.1.3/js/popper.min.js" %}"></script>
+    <script src="{% static "bootstrap-4.1.3/js/bootstrap.min.js" %}"></script>
+
+    <script>
+        {% include "petition/user.js" %}
+    </script>
+    {% block extrajs %}
+    {% endblock %}
+</body>
+</html>
