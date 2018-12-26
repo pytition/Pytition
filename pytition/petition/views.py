@@ -296,6 +296,17 @@ def org_add_user(request, org_name):
         return JsonResponse({"message": message}, status=500)
 
     try:
+        permissions = pytitionuser.permission.get(organization=org)
+    except:
+        message = _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')".
+                    format(orgname=org.name))
+        return JsonResponse({"message": message}, status=500)
+
+    if not permissions.can_add_members:
+        message = _("You are not allowed to invite new members into this organization.")
+        return JsonResponse({"message": message}, status=403)
+
+    try:
         adduser.invitations.add(org)
         adduser.save()
     except:
