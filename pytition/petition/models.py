@@ -39,7 +39,7 @@ class Petition(models.Model):
         (GET,  "GET")
     )
 
-    title = tinymce_models.HTMLField(verbose_name=ugettext_lazy("Title"))
+    title = models.TextField(verbose_name=ugettext_lazy("Title"))
     text = tinymce_models.HTMLField(blank=True)
     background = models.ImageField(blank=True)
     mobile_background = models.ImageField(blank=True)
