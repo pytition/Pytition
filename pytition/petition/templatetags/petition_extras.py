@@ -11,6 +11,10 @@ def addstr(arg1, arg2):
     return str(arg1) + str(arg2)
 
 @register.filter
+def getitem(array, item):
+    return array[item]
+
+@register.filter
 def bootstrap(field):
     if hasattr(field, 'field') and hasattr(field.field, 'widget') and field.field.widget:
         widget = field.field.widget.__class__.__name__.lower()

@@ -646,7 +646,7 @@ def org_new_petition(request, org_name):
     pytitionuser = get_session_user(request)
 
     admin = PetitionAdmin(Petition, None)
-    form = admin.get_form(request)
+    form = admin.get_form(request)()
 
     try:
         permissions = pytitionuser.permissions.get(organization=org)
@@ -654,6 +654,17 @@ def org_new_petition(request, org_name):
         return HttpResponse(
             _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
               .format(orgname=org.name)), status=500)
+
+    #form = form()
+    print(form)
+    print(form.__class__)
+    print(dir(form))
+    #print("visible fields: {}".format(form.visible_fields()))
+    #print("fields: {}".format(form.fields))
+    print("form.fields['title'] = {}".format(form.fields['title']))
+    field = form.fields['title']
+    #label_tag = field.label_tag
+    #print("title tag: {}".format(label_tag))
 
     return render(request, "petition/org_new_petition.html", {'org': org, 'user': pytitionuser, 'form': form,
                                                               'user_permissions': permissions})

@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 {% load widget_tweaks %}
+{% load petition_extras %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
@@ -77,8 +78,21 @@
         <div class="col-xl-9 col-lg-7 col-md-7 col-sm-6 col-12">
             <form action="{% url "org_create_petition" org.name %}" class="form-group" method="POST">
                 {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                  {{ hidden_field }}
+                {% endfor %}
 
-                {% include 'petition/bs4_form.html' with form=form %}
+                {% if form.non_field_errors %}
+                  <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {% render_field form.fields|getitem:'title'|bootstrap class="is-invalid" %}
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
