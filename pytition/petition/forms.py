@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Signature, PetitionTemplate
 
 import uuid
+from tinymce.widgets import TinyMCE
 
 
 class SignatureForm(ModelForm):
@@ -154,3 +155,16 @@ class PetitionTemplateForm(ModelForm):
             'newsletter_subscribe_mail_smtp_tls': _('SMTP via TLS?'),
             'newsletter_subscribe_mail_smtp_starttls': _('SMTP via STARTTLS?'),
         }
+
+
+class PetitionCreationStep1(forms.Form):
+    ### Ask for title ###
+    title = forms.CharField(max_length=200)
+
+class PetitionCreationStep2(forms.Form):
+    ### Ask for content ###
+    message = forms.CharField(widget=TinyMCE)
+
+class PetitionCreationStep3(forms.Form):
+    ### Ask for publication ###
+    publish = forms.BooleanField()

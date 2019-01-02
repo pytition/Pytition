@@ -18,6 +18,8 @@ from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
 from .forms import SignatureForm, PetitionTemplateForm
 
+from formtools.wizard.views import SessionWizardView
+
 import requests
 import csv
 
@@ -666,7 +668,7 @@ def org_new_petition(request, org_name):
     #label_tag = field.label_tag
     #print("title tag: {}".format(label_tag))
 
-    return render(request, "petition/org_new_petition.html", {'org': org, 'user': pytitionuser, 'form': form,
+    return render(request, "petition/org_new_petition_step1.html", {'org': org, 'user': pytitionuser, 'form': form,
                                                               'user_permissions': permissions})
 
 
@@ -830,3 +832,45 @@ def org_set_user_perms(request, org_name, user_name):
             permissions.save()
             messages.success(request, _("Permissions successfully changed!"))
     return redirect(reverse("org_edit_user_perms", args=[org_name, user_name]))
+
+from .forms import PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
+
+WizardTemplates = {"step1": "petition/org_new_petition_step1.html",
+                    "step2": "petition/org_new_petition_step2.html",
+                    "step3": "petition/org_new_petition_step3.html"}
+
+WizardForms = [("step1", PetitionCreationStep1),
+         ("step2", PetitionCreationStep2),
+         ("step3", PetitionCreationStep3)]
+
+# FIXME: add equivalent of @login_required here
+class PetitionCreationWizard(SessionWizardView):
+    def get_template_names(self):
+        print("step: {}".format(self.steps.current))
+        return [WizardTemplates[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        return render(self.request, 'petition/petition_create_done.html', {
+            'form_data': [form.cleaned_data for form in form_list],
+        })
+
+    def get_context_data(self, form, **kwargs):
+        context = super(PetitionCreationWizard, self).get_context_data(form=form, **kwargs)
+        try:
+            org = Organization.objects.get(name=self.kwargs['org_name'])
+        except Organization.DoesNotExist:
+            raise Http404(_("Organization does not exist"))
+
+        from petition.admin import PetitionAdmin
+        pytitionuser = get_session_user(self.request)
+
+        try:
+            permissions = pytitionuser.permissions.get(organization=org)
+        except:
+            return HttpResponse(
+                _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+                  .format(orgname=org.name)), status=500)
+        context.update({'org': org, 'user': pytitionuser, 'form': form,
+                        'user_permissions': permissions})
+        return context
+

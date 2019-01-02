@@ -1,6 +1,8 @@
 from django.conf.urls import url
 
 from . import views
+from .forms import PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
+from .views import PetitionCreationWizard
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -39,4 +41,6 @@ urlpatterns = [
     url(r'^get_user_list', views.get_user_list, name='get_user_list'),
     url(r'^invite_accept/$', views.invite_accept, name='invite_accept'),
     url(r'^invite_dismiss/$', views.invite_dismiss, name='invite_dismiss'),
+    url(r'^wizard/(?P<org_name>[^/]+)/new_petition$', PetitionCreationWizard.as_view(views.WizardForms),
+        name='petition_wizard'),
 ]

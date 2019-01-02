@@ -3,6 +3,9 @@ from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django import forms
+
+from tinymce.widgets import TinyMCE
 
 from .models import Signature, Petition, Organization, PytitionUser, PetitionTemplate, Permission
 from .views import send_confirmation_email

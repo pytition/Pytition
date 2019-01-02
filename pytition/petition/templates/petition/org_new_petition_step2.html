@@ -1,0 +1,74 @@
+{% extends 'petition/org_base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load petition_extras %}
+{% load static %}
+{% block media %}
+    {{ form.media }}
+{% endblock %}
+{% block extracss %}
+    <link href="{%  static 'smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
+
+    <div id="smartwizard">
+        <ul>
+            <li><a href="#step-1">{% trans "Title" %}<br /><small>{%  trans "Donnez un titre à votre pétition" %}</small></a></li>
+            <li><a href="#step-2">{% trans "Content" %}<br /><small>{% trans "Ecrivez le contenu de votre pétition" %}</small></a></li>
+            <li><a href="#step-3">{% trans "Publish" %}<br /><small>{%  trans "Sauvegardez votre pétition et publiez la si elle est prête" %}</small></a></li>
+        </ul>
+
+        <div>
+            <div id="step-2" class="">
+                <form action="" method="POST">{% csrf_token %}
+                    {{ wizard.management_form }}
+                    <div class="form-group">
+                    {% with form.message as field %}
+                        {{ field.label_tag }}
+                        {% if form.is_bound %}
+                          {% if field.errors %}
+                            {% render_field field|bootstrap class="is-invalid" %}
+                            {% for error in field.errors %}
+                              <div class="invalid-feedback">
+                                {{ error }}
+                              </div>
+                            {% endfor %}
+                          {% else %}
+                            {% render_field field|bootstrap class="is-valid" %}
+                          {% endif %}
+                        {% else %}
+                          {% render_field field|bootstrap %}
+                        {% endif %}
+
+                        {% if field.help_text %}
+                          <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    {% endwith %}
+                    </div>
+                {% if wizard.steps.prev %}
+                    <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
+                    <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+                {% endif %}
+                    <button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{%  static 'smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('#smartwizard').smartWizard({
+                                    theme: 'arrows',
+                                    toolbarSettings: {
+                                        showNextButton: false,
+                                        showPreviousButton: false,
+                                    },
+                                    });
+    });
+    document.location = "{% url 'petition_wizard' org %}#step-2";
+    </script>
+{% endblock %}
