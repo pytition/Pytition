@@ -24,8 +24,9 @@
                     <div class="card-footer mt-auto">
                         <button class="btn btn-outline-warning"
                                 title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></button>
-                        <button class="btn btn-outline-danger" data-action="petition-delete"
+                        <button class="btn btn-outline-danger"
                                 title="{% trans "Delete the petition" %}"
+                                data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
                                 aria-disabled="true"><span class="oi oi-delete"></span></button>
                         <a href="{% url "detail" petition.id %}" class="btn btn-outline-success"
                            title="{% trans "Sign the petition" %}" aria-disabled="true">
@@ -35,5 +36,28 @@
                 </div>
             </div>
         </div>
+
+    <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{% trans "Delete petition?" %}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            {% blocktrans with title=petition.title|striptags %}
+              Do you really want to delete petition '{{ title }}'
+            {% endblocktrans %}
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-action="petition-delete" data-dismiss="modal">{% trans "Delete" %}</button>
+            <button type="button" class="btn btn-info" data-dismiss="modal">{% trans "Cancel" %}</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
     {% endfor %}
 </div>
