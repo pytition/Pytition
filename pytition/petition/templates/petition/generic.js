@@ -62,3 +62,12 @@ $(function () {
         });
     });
 });
+
+$(function () {
+   $('[data-action="petition-delete"]').on("click", function() {
+    var petition_id = $(this).closest("[data-petition]").data("petition");
+    $.ajax("{% url "petition_delete" %}?id=" + petition_id).done(function() {
+        location.reload(true);
+    });
+   });
+});

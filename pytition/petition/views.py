@@ -874,3 +874,30 @@ class PetitionCreationWizard(SessionWizardView):
                         'user_permissions': permissions})
         return context
 
+@login_required
+def petition_delete(request):
+    petition_id = request.GET.get('id', '')
+    petition = petition_from_id(petition_id)
+    pytitionuser = get_session_user(request)
+
+    petition = petition_from_id(petition_id)
+
+    if petition in pytitionuser.petitions.all():
+        print("La pétition appartient bien à cet utilisateur {}".format(pytitionuser))
+        petition.delete()
+        return JsonResponse({})
+    else:
+        for org in pytitionuser.organizations.all():
+            if petition in org.petitions.all():
+                print("La pétition appartient à l'orga {orga} dont l'utilisateur {user} est bien membre"
+                      .format(orga=org, user=pytitionuser))
+                userperms = pytitionuser.permissions.get(organization=org)
+                if userperms.can_delete_petitions:
+                    print("L'utilisateur {user} a bien le droit de supprimer des pétitions dans l'orga {orga}"
+                          .format(user=pytitionuser, orga=org))
+                    petition.delete()
+                    return JsonResponse({})
+                else:
+                    print("L'utilisateur n'a pas les droits, dans cette orga, de supprimer une pétition")
+
+    return JsonResponse({}, status=403)
