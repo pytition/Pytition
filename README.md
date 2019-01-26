@@ -110,9 +110,9 @@ If you try this URL before creating a petition you will get an error.
 
 Those are external projects that are needed and used by Pytition, but included in Pytition source tree:
 
-* Bootstrap 4.1.3
+* Bootstrap 4.2.1
 * JQuery 3.3.1
-* Popper 1.14.3
+* Popper 1.14.6
 * Open Iconic 1.1.1
 * TinyMCE 4.7.0
 * jQuery Smart Wizard 4
