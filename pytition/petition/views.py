@@ -820,15 +820,15 @@ def org_set_user_perms(request, org_name, user_name):
             messages.error(request, _("You are not allowed to modify this organization members' permissions"))
         else:
             post = request.POST
-            permissions.can_remove_members = bool(int(post['can_remove_members']))
-            permissions.can_add_members = bool(int(post['can_add_members']))
-            permissions.can_create_petitions = bool(int(post['can_create_petitions']))
-            permissions.can_modify_petitions = bool(int(post['can_modify_petitions']))
-            permissions.can_delete_petitions = bool(int(post['can_delete_petitions']))
-            permissions.can_view_signatures = bool(int(post['can_view_signatures']))
-            permissions.can_modify_signatures = bool(int(post['can_modify_signatures']))
-            permissions.can_delete_signatures = bool(int(post['can_delete_signatures']))
-            permissions.can_modify_permissions = bool(int(post['can_modify_permissions']))
+            permissions.can_remove_members = post.get('can_remove_members', '') == 'on'
+            permissions.can_add_members = post.get('can_add_members', '') == 'on'
+            permissions.can_create_petitions = post.get('can_create_petitions', '') == 'on'
+            permissions.can_modify_petitions = post.get('can_modify_petitions', '') == 'on'
+            permissions.can_delete_petitions = post.get('can_delete_petitions', '') == 'on'
+            permissions.can_view_signatures = post.get('can_view_signatures', '') == 'on'
+            permissions.can_modify_signatures = post.get('can_modify_signatures', '') == 'on'
+            permissions.can_delete_signatures = post.get('can_delete_signatures', '') == 'on'
+            permissions.can_modify_permissions = post.get('can_modify_permissions', '') == 'on'
             permissions.save()
             messages.success(request, _("Permissions successfully changed!"))
     return redirect(reverse("org_edit_user_perms", args=[org_name, user_name]))
