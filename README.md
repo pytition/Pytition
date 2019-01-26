@@ -106,6 +106,16 @@ Then when the petition is created, you can access it via http://petition.yourdom
 
 If you try this URL before creating a petition you will get an error.
 
+## Included dependencies
+
+Those are external projects that are needed and used by Pytition, but included in Pytition source tree:
+
+* Bootstrap 4.1.3
+* JQuery 3.3.1
+* Popper 1.14.3
+* Open Iconic 1.1.1
+* TinyMCE 4.7.0
+* jQuery Smart Wizard 4
 
 ## Dependencies
 
@@ -116,3 +126,5 @@ If you try this URL before creating a petition you will get an error.
 * requests
 * mysqlclient
 * Pillow
+* beautifulsoup4
+* django-formtools
