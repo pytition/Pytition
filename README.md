@@ -141,7 +141,7 @@ Those are external projects that are needed and used by Pytition, but included i
 * JQuery 3.3.1
 * Popper 1.14.6
 * Open Iconic 1.1.1
-* TinyMCE 4.7.0
+* TinyMCE 4.9.2
 * jQuery Smart Wizard 4
 
 ## Dependencies
