@@ -109,6 +109,14 @@ class Petition(models.Model):
         else:
             return None
 
+    def publish(self):
+        self.published = True
+        self.save()
+
+    def unpublish(self):
+        self.published = False
+        self.save()
+
     @property
     def signature_number(self):
         return self.get_signature_number(True)

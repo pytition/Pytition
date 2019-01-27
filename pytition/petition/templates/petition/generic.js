@@ -1,3 +1,4 @@
+{% load i18n %}
 var joined = false;
 
 $(document).ready(function() {
@@ -69,5 +70,51 @@ $(function () {
     $.ajax("{% url "petition_delete" %}?id=" + petition_id).done(function() {
         location.reload(true);
     });
+   });
+});
+
+$(function () {
+   $('[data-action="publish"]').find('input:checkbox').on("change", function() {
+    var petition_id = $(this).closest("[data-petition]").data("petition");
+    var box = $(this);
+    var checked = box.prop('checked');
+    var label = box.siblings('label');
+    var custom_switch = box.closest('.custom-switch');
+    box.prop('disabled', true);
+    if (checked) {
+        label.text("{% trans "Published" %}");
+        custom_switch.removeClass("text-danger");
+        custom_switch.addClass("text-success");
+        $.ajax("{% url "petition_publish" %}?id=" + petition_id
+        ).done(function(){
+            box.prop('disabled', false);
+        }).fail(function () { // reset checkbox state upon failure
+            setTimeout(function(){
+                box.prop('checked', false);
+                label.text("{% trans "Not published" %}");
+                custom_switch.removeClass("text-success");
+                custom_switch.addClass("text-danger");
+                box.prop('disabled', false);
+            }, 1000);
+            //FIXME: show an alert message to the user about the failure
+        });
+    } else {
+        label.text("{% trans "Not published" %}");
+        custom_switch.removeClass("text-success");
+        custom_switch.addClass("text-danger");
+        $.ajax("{% url "petition_unpublish" %}?id=" + petition_id
+        ).done(function(){
+            box.prop('disabled', false);
+        }).fail(function () { // reset checkbox state upon failure
+            setTimeout(function() {
+                box.prop('checked', true);
+                label.text("{% trans "Published" %}");
+                custom_switch.removeClass("text-danger");
+                custom_switch.addClass("text-success");
+                box.prop('disabled', false);
+            }, 1000);
+            //FIXME: show an alert message to the user about the failure
+        });
+    }
    });
 });

@@ -899,5 +899,43 @@ def petition_delete(request):
                     return JsonResponse({})
                 else:
                     print("L'utilisateur n'a pas les droits, dans cette orga, de supprimer une pétition")
+    return JsonResponse({}, status=403)
+
+
+@login_required
+def petition_publish(request):
+    petition_id = request.GET.get('id', '')
+    pytitionuser = get_session_user(request)
+    petition = petition_from_id(petition_id)
+
+    if petition in pytitionuser.petitions.all():
+        petition.publish()
+        return JsonResponse({})
+    else:
+        for org in pytitionuser.organizations.all():
+            if petition in org.petitions.all():
+                userperms = pytitionuser.permissions.get(organization=org)
+                if userperms.can_modify_petitions:
+                    petition.publish()
+                    return JsonResponse({})
+
+    return JsonResponse({}, status=403)
+
+@login_required
+def petition_unpublish(request):
+    petition_id = request.GET.get('id', '')
+    pytitionuser = get_session_user(request)
+    petition = petition_from_id(petition_id)
+
+    if petition in pytitionuser.petitions.all():
+        petition.unpublish()
+        return JsonResponse({})
+    else:
+        for org in pytitionuser.organizations.all():
+            if petition in org.petitions.all():
+                userperms = pytitionuser.permissions.get(organization=org)
+                if userperms.can_modify_petitions:
+                    petition.unpublish()
+                    return JsonResponse({})
 
     return JsonResponse({}, status=403)

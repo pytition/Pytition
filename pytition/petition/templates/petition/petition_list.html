@@ -32,6 +32,26 @@
                            title="{% trans "Sign the petition" %}" aria-disabled="true">
                         {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
                         </a>
+                        <p>
+                        <div class="custom-control custom-switch
+                                    {% if not petition.published %}
+                                        text-danger
+                                    {% else %}
+                                        text-success
+                                    {% endif %}" data-action="publish">
+                            <input type="checkbox" class="custom-control-input"
+                                   name="petition_published_{{ petition.id }}"
+                                   id="petition_published_{{ petition.id }}" autocomplete="off"
+                                    {% if petition.published %} checked {% endif %}>
+                            <label class="custom-control-label" for="petition_published_{{ petition.id }}">
+                            {% if not petition.published %}
+                                {% trans "Not published" %}
+                            {% else %}
+                                {% trans "Published" %}
+                            {% endif %}
+                            </label>
+                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
