@@ -10,7 +10,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>{{ title }}</title>
     <!-- Bootstrap -->
-    <link href="{% static "bootstrap-4.1.3/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap-4.2.1/css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "open-iconic-1.1.1/font/css/open-iconic-bootstrap.min.css" %}" rel="stylesheet">
     {% block media %}
     {% endblock %}
@@ -75,6 +75,31 @@
             <hr>
         </div>
         <div class="col-xl-9 col-lg-7 col-md-7 col-sm-6 col-12">
+            <div class="row">
+                    {% if messages %}
+                    {% for message in messages %}
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                            <div class="alert alert-danger alert-dismissible show fade">
+                        {% else %}
+                            <div class="alert alert-success alert-dismissible show fade">
+                        {% endif %}
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <div class="row">
+                                    <div class="col-1 alert-icon-col">
+                                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                        <span class="oi oi-warning"></span>
+                                        {% else %}
+                                        <span class="oi oi-thumb-up"></span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            </div>
+                    {% endfor%}
+                    {% endif %}
+            </div>
             {% block content %}
             {% endblock %}
         </div>
@@ -84,8 +109,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "jquery-3.3.1/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "popper-1.14.6/popper.min.js" %}"></script>
-    <script src="{% static "bootstrap-4.1.3/js/bootstrap.min.js" %}"></script>
-
+    <script src="{% static "bootstrap-4.2.1/js/bootstrap.min.js" %}"></script>
     <script>
         {% include "petition/user.js" %}
     </script>
