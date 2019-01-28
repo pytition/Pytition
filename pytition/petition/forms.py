@@ -167,4 +167,5 @@ class PetitionCreationStep2(forms.Form):
 
 class PetitionCreationStep3(forms.Form):
     ### Ask for publication ###
-    publish = forms.BooleanField()
+    publish = forms.BooleanField(required=False, label=_("Publish the petition now?"))
+    configure = forms.BooleanField(required=False, label=_("Save & Configure"))

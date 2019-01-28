@@ -211,16 +211,8 @@ def org_dashboard(request, org_name):
                                                            'petitions': petitions, 'user_permissions': permissions})
 
 @login_required
-def user_dashboard(request, user_name):
-    try:
-        user = PytitionUser.objects.get(user__username=user_name)
-    except User.DoesNotExist:
-        raise Http404(_("not found"))
-
+def user_dashboard(request):
     pytitionuser = get_session_user(request)
-
-    if user.user != request.user:
-        return HttpResponseForbidden(_("You are not allowed to view this users' dashboard"))
 
     q = request.GET.get('q', '')
     if q != "":
@@ -525,7 +517,7 @@ def user_create_petition_template(request, user_name):
     else:
         form = PetitionTemplateForm()
         return render(request, "petition/user_new_template.html", {'user': pytitionuser, 'form': form})
-    return redirect('user_dashboard', user_name)
+    return redirect('user_dashboard')
 
 
 @login_required()
@@ -850,29 +842,58 @@ class PetitionCreationWizard(SessionWizardView):
         return [WizardTemplates[self.steps.current]]
 
     def done(self, form_list, **kwargs):
-        return render(self.request, 'petition/petition_create_done.html', {
-            'form_data': [form.cleaned_data for form in form_list],
-        })
-
-    def get_context_data(self, form, **kwargs):
-        context = super(PetitionCreationWizard, self).get_context_data(form=form, **kwargs)
-        try:
-            org = Organization.objects.get(name=self.kwargs['org_name'])
-        except Organization.DoesNotExist:
-            raise Http404(_("Organization does not exist"))
-
-        from petition.admin import PetitionAdmin
+        org_petition = "org_name" in self.kwargs
+        title = self.get_cleaned_data_for_step("step1")["title"]
+        message = self.get_cleaned_data_for_step("step2")["message"]
         pytitionuser = get_session_user(self.request)
 
-        try:
-            permissions = pytitionuser.permissions.get(organization=org)
-        except:
-            return HttpResponse(
-                _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
-                  .format(orgname=org.name)), status=500)
-        context.update({'org': org, 'user': pytitionuser, 'form': form,
-                        'user_permissions': permissions})
+        if org_petition:
+            org_name = self.kwargs['org_name']
+            try:
+                org = Organization.objects.get(name=self.kwargs['org_name'])
+            except Organization.DoesNotExist:
+                raise Http404(_("Organization does not exist"))
+
+            try:
+                permissions = pytitionuser.permissions.get(organization=org)
+            except Permission.DoesNotExist:
+                return redirect(reverse("org_dashboard", args=[org_name]))
+
+            if pytitionuser in org.members.all() and permissions.can_create_petitions:
+                petition = Petition.objects.create(title=title, text=message)
+                org.petitions.add(petition)
+                petition.save()
+                return redirect(reverse("org_dashboard", args=[org_name]))
+        else:
+            return redirect(reverse("user_dashboard"))
+
+    def get_context_data(self, form, **kwargs):
+        org_petition = "org_name" in self.kwargs
+        context = super(PetitionCreationWizard, self).get_context_data(form=form, **kwargs)
+        if org_petition:
+            try:
+                org = Organization.objects.get(name=self.kwargs['org_name'])
+            except Organization.DoesNotExist:
+                raise Http404(_("Organization does not exist"))
+
+        pytitionuser = get_session_user(self.request)
+        context.update({'user': pytitionuser})
+
+        if org_petition:
+            try:
+                permissions = pytitionuser.permissions.get(organization=org)
+            except:
+                return HttpResponse(
+                    _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+                      .format(orgname=org.name)), status=500)
+            context.update({'org': org, #'form': form,
+                            'user_permissions': permissions})
+
+        if self.steps.current == "step3":
+            context.update(self.get_cleaned_data_for_step("step1"))
+            context.update(self.get_cleaned_data_for_step("step2"))
         return context
+
 
 @login_required
 def petition_delete(request):

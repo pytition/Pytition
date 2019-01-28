@@ -23,5 +23,4 @@ def bootstrap(field):
             return add_class(field, "form-control")
         if widget == "checkboxinput":
             return add_class(field, "form-check")
-        return add_class(field, "blah-" + widget)
     return field

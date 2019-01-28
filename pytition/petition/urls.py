@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^org/(?P<org_name>[^/]+)/set_user_permissions/(?P<user_name>[^/]+)$', views.org_set_user_perms,
         name='org_set_user_perms'),
     url(r'^user/(?P<user_name>[^/]+)$', views.user_profile, name='user_profile'),
-    url(r'^user/(?P<user_name>[^/]+)/dashboard$', views.user_dashboard, name='user_dashboard'),
+    url(r'^user/dashboard$', views.user_dashboard, name='user_dashboard'),
     url(r'^user/(?P<user_name>[^/]+)/new_template$', views.user_new_template, name='user_new_template'),
     url(r'^user/(?P<user_name>[^/]+)/user_create_petition_template$', views.user_create_petition_template,
         name='user_create_petition_template'),

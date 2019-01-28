@@ -62,7 +62,7 @@
             <a href="#switch-list" data-toggle="collapse" data-target="#switch-list">{{ org.name }} ></a>
             <div class="collapse" id="switch-list">
                 <div class="list-group">
-                    <a href="{% url "user_dashboard" user.username %}" class="list-group-item list-group-item-primary">{{ user.get_full_name }}</a>
+                    <a href="{% url "user_dashboard" %}" class="list-group-item list-group-item-primary">{{ user.get_full_name }}</a>
                     {% for org in other_orgs %}
                         <a href="{% url "org_dashboard" org.name %}" class="list-group-item list-group-item-primary">{{ org.name }}</a>
                     {% endfor %}

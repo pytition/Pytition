@@ -75,7 +75,7 @@ $(function () {
        var member_name = $(this).closest("[data-member]").data("member");
        $.ajax("{% url "org_delete_member" org.name %}?member=" + member_name).done(function () {
         if (member_name == "{{ user.name }}")
-            window.location = "{% url "user_dashboard" user.name %}";
+            window.location = "{% url "user_dashboard" %}";
         else
             location.reload(true);
        });
