@@ -1,0 +1,60 @@
+{% extends 'petition/org_base.html' %}
+{% load i18n %}
+{% load static %}
+{% load petition_extras %}
+{% block media %}
+    {{ content_form.media }}
+    {{ email_form.media }}
+    {{ newsletter_form.media }}
+    {{ social_network_form.media }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col text-center">
+        <h1>{% trans "Petition settings" %}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a href="#content_form" class="list-group-item list-group-item-info list-group-item-action"
+            data-toggle="list" aria-controls="content_form"><span class="oi oi-clipboard"></span> {% trans "Content" %}</a>
+            <a href="#social_network_form" class="list-group-item list-group-item-info list-group-item-action"
+            data-toggle="list" aria-controls="social_network_form"><span class="oi oi-share-boxed"></span> {% trans "Social Network Metadata" %}</a>
+            <a href="#email_form" class="list-group-item list-group-item-info list-group-item-action"
+            data-toggle="list" aria-controls="email_form"><span class="oi oi-envelope-closed"></span> {% trans "E-mail setup" %}</a>
+            <a href="#newsletter_form" class="list-group-item list-group-item-info list-group-item-action"
+            data-toggle="list" aria-controls="newsletter_form"><span class="oi oi-rss"></span> {% trans "Newsletter setup" %}</a>
+        </div>
+    </div>
+    <div class="col">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="content_form" role="tabpanel"
+                 aria-labelledby="list-content-form-list">
+                <form action="" method="POST">{% csrf_token %}
+                    {% include "petition/bs4_form.html" with form=content_form %}
+                </form>
+            </div>
+            <div class="tab-pane fade" id="social_network_form" role="tabpanel"
+                 aria-labelledby="list-social-network-form-list">
+                <form action="" method="POST">{% csrf_token %}
+                    {% include "petition/bs4_form.html" with form=social_network_form %}
+                </form>
+            </div>
+            <div class="tab-pane fade" id="email_form" role="tabpanel"
+                aria-labelledby="list-email-form-list">
+                <form action="" method="POST">{% csrf_token %}
+                    {% include "petition/bs4_form.html" with form=email_form %}
+                </form>
+            </div>
+            <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
+                aria-labelledby="list-newsletter-form-list">
+                <form action="" method="POST">{% csrf_token %}
+                    {% include "petition/bs4_form.html" with form=newsletter_form %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

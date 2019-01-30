@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Signature, PetitionTemplate
+from .models import Signature, PetitionTemplate, Petition
 
 import uuid
 from tinymce.widgets import TinyMCE
@@ -169,3 +169,49 @@ class PetitionCreationStep3(forms.Form):
     ### Ask for publication ###
     publish = forms.BooleanField(required=False, label=_("Publish the petition now?"))
     configure = forms.BooleanField(required=False, label=_("Save & Configure"))
+
+class ContentForm(forms.Form):
+    ### Content of a Petition ###
+    title = forms.CharField(max_length=200)
+    texte = forms.CharField(widget=TinyMCE)
+    side_text = forms.CharField(widget=TinyMCE, required=False)
+    footer_text = forms.CharField(widget=TinyMCE, required=False)
+    footer_links = forms.CharField(widget=TinyMCE, required=False)
+    sign_form_footer = forms.CharField(required=False)
+
+class EmailForm(forms.Form):
+    ### E-mail settings of Petition ###
+    confirmation_email_sender = forms.EmailField(max_length=100)
+    confirmation_email_smtp_host = forms.CharField(max_length=100)
+    confirmation_email_smtp_port = forms.IntegerField()
+    confirmation_email_smtp_user = forms.CharField(max_length=200)
+    confirmation_email_smtp_password = forms.CharField(max_length=200)
+    confirmation_email_smtp_tls = forms.BooleanField()
+    confirmation_email_smtp_starttls = forms.BooleanField()
+
+    confirmation_email_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})
+
+class SocialNetworkForm(forms.Form):
+    ### Social Network settings of Petition ###
+    twitter_description = forms.CharField(max_length=200)
+    twitter_image = forms.CharField(max_length=500)
+    org_twitter_handle = forms.CharField(max_length=20)
+
+class NewsletterForm(forms.Form):
+    ### Newsletter settings of Petition ###
+    has_newsletter = forms.BooleanField()
+    newsletter_subscribe_http_data = forms.CharField()
+    newsletter_subscribe_http_mailfield = forms.CharField(max_length=100)
+    newsletter_subscribe_http_url = forms.CharField(max_length=1000)
+    newsletter_subscribe_mail_subject = forms.CharField(max_length=1000)
+    newsletter_subscribe_mail_from = forms.EmailField()
+    newsletter_subscribe_mail_to = forms.EmailField()
+    newsletter_subscribe_method = forms.ChoiceField(choices=Petition.NEWSLETTER_SUBSCRIBE_METHOD_CHOICES)
+    newsletter_subscribe_mail_smtp_host = forms.CharField(max_length=100)
+    newsletter_subscribe_mail_smtp_port = forms.IntegerField()
+    newsletter_subscribe_mail_smtp_user = forms.CharField(max_length=200)
+    newsletter_subscribe_mail_smtp_password = forms.CharField(max_length=200)
+    newsletter_subscribe_mail_smtp_tls = forms.BooleanField()
+    newsletter_subscribe_mail_smtp_starttls = forms.BooleanField()
+
+    newsletter_subscribe_mail_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})

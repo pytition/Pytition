@@ -33,6 +33,8 @@ urlpatterns = [
         name='org_edit_user_perms'),
     url(r'^org/(?P<org_name>[^/]+)/set_user_permissions/(?P<user_name>[^/]+)$', views.org_set_user_perms,
         name='org_set_user_perms'),
+    url(r'^org/(?P<org_name>[^/]+)/edit_petition/(?P<petition_id>[0-9]+)$', views.org_edit_petition,
+        name='org_edit_petition'),
     url(r'^user/(?P<user_name>[^/]+)$', views.user_profile, name='user_profile'),
     url(r'^user/dashboard$', views.user_dashboard, name='user_dashboard'),
     url(r'^user/(?P<user_name>[^/]+)/new_template$', views.user_new_template, name='user_new_template'),

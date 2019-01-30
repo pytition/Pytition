@@ -16,7 +16,7 @@ from django.db import transaction
 
 from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
-from .forms import SignatureForm, PetitionTemplateForm
+from .forms import SignatureForm, PetitionTemplateForm, ContentForm, EmailForm, NewsletterForm, SocialNetworkForm
 
 from formtools.wizard.views import SessionWizardView
 
@@ -901,8 +901,6 @@ def petition_delete(request):
     petition = petition_from_id(petition_id)
     pytitionuser = get_session_user(request)
 
-    petition = petition_from_id(petition_id)
-
     if petition in pytitionuser.petitions.all():
         print("La pétition appartient bien à cet utilisateur {}".format(pytitionuser))
         petition.delete()
@@ -960,3 +958,37 @@ def petition_unpublish(request):
                     return JsonResponse({})
 
     return JsonResponse({}, status=403)
+
+@login_required
+def org_edit_petition(request, org_name, petition_id):
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    pytitionuser = get_session_user(request)
+
+    if pytitionuser not in org.members.all():
+        return HttpResponseForbidden(_("You are not a member of this organization"))
+
+    try:
+        permissions = pytitionuser.permissions.get(organization=org)
+    except:
+        return HttpResponse(
+            _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+              .format(orgname=org.name)), status=500)
+
+    if not permissions.can_modify_permissions:
+        return HttpResponseForbidden(_("You don't have permission to edit petitions in this organization"))
+
+    content_form = ContentForm()
+    email_form = EmailForm()
+    social_network_form = SocialNetworkForm()
+    newsletter_form = NewsletterForm()
+
+    return render(request, "petition/org_edit_petition.html", {'org': org, 'user': pytitionuser,
+                                                               'user_permissions': permissions,
+                                                               'content_form': content_form,
+                                                               'email_form': email_form,
+                                                               'social_network_form': social_network_form,
+                                                               'newsletter_form': newsletter_form})
