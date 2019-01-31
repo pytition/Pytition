@@ -80,6 +80,7 @@ class Petition(models.Model):
     confirmation_email_smtp_password = models.CharField(max_length=200, blank=True)
     confirmation_email_smtp_tls = models.BooleanField(default=False)
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
+    use_custom_email_settings = models.BooleanField(default=False)
 
     @classmethod
     def by_id(cls, id):

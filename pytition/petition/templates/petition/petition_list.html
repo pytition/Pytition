@@ -22,7 +22,7 @@
                     <h4 class="card-title">{{ petition.title|striptags }}</h4>
                     <p class="card-text">{{ petition.twitter_description|safe }}</p>
                     <div class="card-footer mt-auto">
-                        <a href="{% url "org_edit_petition" org petition.id %}" class="btn btn-outline-warning"
+                        <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning"
                                 title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></a>
                         <button class="btn btn-outline-danger"
                                 title="{% trans "Delete the petition" %}"

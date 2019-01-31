@@ -3,6 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Signature, PetitionTemplate, Petition
+from .widgets import SwitchField
 
 import uuid
 from tinymce.widgets import TinyMCE
@@ -173,45 +174,54 @@ class PetitionCreationStep3(forms.Form):
 class ContentForm(forms.Form):
     ### Content of a Petition ###
     title = forms.CharField(max_length=200)
-    texte = forms.CharField(widget=TinyMCE)
+    text = forms.CharField(widget=TinyMCE)
     side_text = forms.CharField(widget=TinyMCE, required=False)
     footer_text = forms.CharField(widget=TinyMCE, required=False)
     footer_links = forms.CharField(widget=TinyMCE, required=False)
     sign_form_footer = forms.CharField(required=False)
 
+
 class EmailForm(forms.Form):
     ### E-mail settings of Petition ###
-    confirmation_email_sender = forms.EmailField(max_length=100)
-    confirmation_email_smtp_host = forms.CharField(max_length=100)
-    confirmation_email_smtp_port = forms.IntegerField()
-    confirmation_email_smtp_user = forms.CharField(max_length=200)
-    confirmation_email_smtp_password = forms.CharField(max_length=200)
-    confirmation_email_smtp_tls = forms.BooleanField()
-    confirmation_email_smtp_starttls = forms.BooleanField()
+    use_custom_email_settings = SwitchField(required=False, label=_("Use custom e-mail settings?"))
+    confirmation_email_sender = forms.EmailField(max_length=100, required=False)
+    confirmation_email_smtp_host = forms.CharField(max_length=100, required=False)
+    confirmation_email_smtp_port = forms.IntegerField(required=False)
+    confirmation_email_smtp_user = forms.CharField(max_length=200, required=False)
+    confirmation_email_smtp_password = forms.CharField(max_length=200, required=False)
+    confirmation_email_smtp_tls = SwitchField(required=False, label=_("Use TLS?"))
+    confirmation_email_smtp_starttls = SwitchField(required=False, label=_("Use STARTTLS?"))
 
     confirmation_email_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})
 
+    def clean(self):
+        cleaned_data = super(EmailForm, self).clean()
+        data = {}
+        for field in self.base_fields:
+            data[field] = cleaned_data.get(field)
+        # FIXME: WIP
+
 class SocialNetworkForm(forms.Form):
     ### Social Network settings of Petition ###
-    twitter_description = forms.CharField(max_length=200)
-    twitter_image = forms.CharField(max_length=500)
-    org_twitter_handle = forms.CharField(max_length=20)
+    twitter_description = forms.CharField(max_length=200, required=False)
+    twitter_image = forms.CharField(max_length=500, required=False)
+    org_twitter_handle = forms.CharField(max_length=20, required=False)
 
 class NewsletterForm(forms.Form):
     ### Newsletter settings of Petition ###
-    has_newsletter = forms.BooleanField()
-    newsletter_subscribe_http_data = forms.CharField()
-    newsletter_subscribe_http_mailfield = forms.CharField(max_length=100)
-    newsletter_subscribe_http_url = forms.CharField(max_length=1000)
-    newsletter_subscribe_mail_subject = forms.CharField(max_length=1000)
-    newsletter_subscribe_mail_from = forms.EmailField()
-    newsletter_subscribe_mail_to = forms.EmailField()
-    newsletter_subscribe_method = forms.ChoiceField(choices=Petition.NEWSLETTER_SUBSCRIBE_METHOD_CHOICES)
-    newsletter_subscribe_mail_smtp_host = forms.CharField(max_length=100)
-    newsletter_subscribe_mail_smtp_port = forms.IntegerField()
-    newsletter_subscribe_mail_smtp_user = forms.CharField(max_length=200)
-    newsletter_subscribe_mail_smtp_password = forms.CharField(max_length=200)
-    newsletter_subscribe_mail_smtp_tls = forms.BooleanField()
-    newsletter_subscribe_mail_smtp_starttls = forms.BooleanField()
+    has_newsletter = SwitchField(required=False, label=_("Does this petition have a newsletter?"))
+    newsletter_subscribe_http_data = forms.CharField(required=False)
+    newsletter_subscribe_http_mailfield = forms.CharField(max_length=100,required=False)
+    newsletter_subscribe_http_url = forms.CharField(max_length=1000, required=False)
+    newsletter_subscribe_mail_subject = forms.CharField(max_length=1000, required=False)
+    newsletter_subscribe_mail_from = forms.EmailField(required=False)
+    newsletter_subscribe_mail_to = forms.EmailField(required=False)
+    newsletter_subscribe_method = forms.ChoiceField(choices=Petition.NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, required=False)
+    newsletter_subscribe_mail_smtp_host = forms.CharField(max_length=100, required=False)
+    newsletter_subscribe_mail_smtp_port = forms.IntegerField(required=False)
+    newsletter_subscribe_mail_smtp_user = forms.CharField(max_length=200, required=False)
+    newsletter_subscribe_mail_smtp_password = forms.CharField(max_length=200, required=False)
+    newsletter_subscribe_mail_smtp_tls = SwitchField(required=False, label=_("Use TLS?"))
+    newsletter_subscribe_mail_smtp_starttls = SwitchField(required=False, label=_("Use STARTTLS?"))
 
     newsletter_subscribe_mail_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})

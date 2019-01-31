@@ -19,7 +19,6 @@ def bootstrap(field):
     if hasattr(field, 'field') and hasattr(field.field, 'widget') and field.field.widget:
         widget = field.field.widget.__class__.__name__.lower()
         if widget in ["textinput", "textarea", "select", "numberinput"]:
-            print(widget)
             return add_class(field, "form-control")
         if widget == "checkboxinput":
             return add_class(field, "form-check")

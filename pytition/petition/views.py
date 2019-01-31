@@ -212,7 +212,7 @@ def org_dashboard(request, org_name):
 
 @login_required
 def user_dashboard(request):
-    pytitionuser = get_session_user(request)
+    user = get_session_user(request)
 
     q = request.GET.get('q', '')
     if q != "":
@@ -220,7 +220,7 @@ def user_dashboard(request):
     else:
         petitions = user.petitions
 
-    return render(request, 'petition/user_dashboard.html', {'user': pytitionuser, 'petitions': petitions})
+    return render(request, 'petition/user_dashboard.html', {'user': user, 'petitions': petitions})
 
 
 @login_required
@@ -960,35 +960,62 @@ def petition_unpublish(request):
     return JsonResponse({}, status=403)
 
 @login_required
-def org_edit_petition(request, org_name, petition_id):
-    try:
-        org = Organization.objects.get(name=org_name)
-    except Organization.DoesNotExist:
-        raise Http404(_("Organization does not exist"))
+def edit_petition(request, petition_id):
+    petition = petition_from_id(petition_id)
+
+    org = None
+    user = None
+    if petition.organization_set.count() > 0:
+        org = petition.organization_set.get()
+    elif petition.pytitionuser_set.count() > 0:
+        user = petition.pytitionuser_set.get()
+    else:
+        return HttpResponse(status=500)
 
     pytitionuser = get_session_user(request)
 
-    if pytitionuser not in org.members.all():
-        return HttpResponseForbidden(_("You are not a member of this organization"))
+    if org:
 
-    try:
-        permissions = pytitionuser.permissions.get(organization=org)
-    except:
-        return HttpResponse(
-            _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
-              .format(orgname=org.name)), status=500)
 
-    if not permissions.can_modify_permissions:
-        return HttpResponseForbidden(_("You don't have permission to edit petitions in this organization"))
+        if pytitionuser not in org.members.all():
+            return HttpResponseForbidden(_("You are not a member of this organization"))
 
-    content_form = ContentForm()
-    email_form = EmailForm()
-    social_network_form = SocialNetworkForm()
-    newsletter_form = NewsletterForm()
+        try:
+            permissions = pytitionuser.permissions.get(organization=org)
+        except:
+            return HttpResponse(
+                _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+                  .format(orgname=org.name)), status=500)
 
-    return render(request, "petition/org_edit_petition.html", {'org': org, 'user': pytitionuser,
-                                                               'user_permissions': permissions,
-                                                               'content_form': content_form,
-                                                               'email_form': email_form,
-                                                               'social_network_form': social_network_form,
-                                                               'newsletter_form': newsletter_form})
+        if not permissions.can_modify_permissions:
+            return HttpResponseForbidden(_("You don't have permission to edit petitions in this organization"))
+
+    if user:
+        if user != pytitionuser:
+            return HttpResponseForbidden(_("You are not the owner of this petition"))
+
+
+    if request.method == "POST":
+        content_form = ContentForm(request.POST)
+        email_form = EmailForm(request.POST)
+        social_network_form = SocialNetworkForm(request.POST)
+        newsletter_form = NewsletterForm(request.POST)
+    else:
+        content_form = ContentForm({f: getattr(petition, f) for f in ContentForm.base_fields})
+        email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
+        social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
+        newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
+
+    ctx = {'user': pytitionuser,
+           'user_permissions': permissions,
+           'content_form': content_form,
+           'email_form': email_form,
+           'social_network_form': social_network_form,
+           'newsletter_form': newsletter_form,
+           'petition': petition}
+
+    if org:
+        ctx.update({'org': org})
+        return render(request, "petition/org_edit_petition.html", ctx)
+    if user:
+        return render(request, "petition/user_edit_petition.html", ctx)
