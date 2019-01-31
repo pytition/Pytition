@@ -1007,7 +1007,6 @@ def edit_petition(request, petition_id):
         newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
     ctx = {'user': pytitionuser,
-           'user_permissions': permissions,
            'content_form': content_form,
            'email_form': email_form,
            'social_network_form': social_network_form,
@@ -1015,7 +1014,8 @@ def edit_petition(request, petition_id):
            'petition': petition}
 
     if org:
-        ctx.update({'org': org})
+        ctx.update({'org': org,
+                    'user_permissions': permissions})
         return render(request, "petition/org_edit_petition.html", ctx)
     if user:
         return render(request, "petition/user_edit_petition.html", ctx)
