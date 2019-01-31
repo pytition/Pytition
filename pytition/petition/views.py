@@ -1015,7 +1015,10 @@ def edit_petition(request, petition_id):
 
     if org:
         ctx.update({'org': org,
-                    'user_permissions': permissions})
-        return render(request, "petition/org_edit_petition.html", ctx)
+                    'user_permissions': permissions,
+                    'base_template': 'petition/org_base.html'})
+
     if user:
-        return render(request, "petition/user_edit_petition.html", ctx)
+        ctx.update({'base_template': 'petition/user_base.html'})
+
+    return render(request, "petition/edit_petition.html", ctx)
