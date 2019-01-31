@@ -27,7 +27,11 @@
 * [ ] Support for adding several petition templates: [v4.0](https://github.com/fallen/Pytition/milestone/4)
 * [ ] Add optional Mastodon/Diaspora share-icons
 
-## Installing
+## Install development environment
+
+See [dev/CONTRIBUTE.md](dev/CONTRIBUTE.md)
+
+## Installing in production
 
 ### Setup virtualenv and clone the code
 
