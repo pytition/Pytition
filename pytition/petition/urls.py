@@ -1,8 +1,9 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 from . import views
 from .forms import PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
 from .views import PetitionCreationWizard
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -47,4 +48,6 @@ urlpatterns = [
         name='org_petition_wizard'),
     url(r'^wizard/user/new_petition$', PetitionCreationWizard.as_view(views.WizardForms),
         name='user_petition_wizard'),
+    url('^', include('django.contrib.auth.urls')),
+
 ]

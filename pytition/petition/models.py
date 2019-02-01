@@ -320,6 +320,10 @@ class PytitionUser(models.Model):
                                          on_delete=models.SET_NULL)
 
     @property
+    def is_authenticated(self):
+        return self.user.is_authenticated
+
+    @property
     def name(self):
         return self.username
 

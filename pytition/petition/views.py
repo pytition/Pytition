@@ -253,10 +253,12 @@ def leave_org(request):
     return JsonResponse({})
 
 
+@login_required
 def org_profile(request, org_name):
     pass
 
 
+@login_required
 def get_user_list(request):
     q = request.GET.get('q', '')
     if q != "":
@@ -369,7 +371,7 @@ def invite_dismiss(request):
     return JsonResponse({})
 
 
-@login_required()
+@login_required
 def org_new_template(request, org_name):
 
     try:
@@ -394,7 +396,7 @@ def org_new_template(request, org_name):
                                                               'user_permissions': permissions})
 
 
-@login_required()
+@login_required
 def edit_template(request):
     id = request.GET.get('id', '')
 
@@ -447,7 +449,7 @@ def edit_template(request):
     return render(request, "petition/"+owner_type+"_new_template.html", context)
 
 
-@login_required()
+@login_required
 def user_new_template(request, user_name):
 
     pytitionuser = get_session_user(request)
@@ -459,7 +461,7 @@ def user_new_template(request, user_name):
     return render(request, "petition/user_new_template.html", {'user': pytitionuser, 'form': form})
 
 
-@login_required()
+@login_required
 def org_create_petition_template(request, org_name):
 
     try:
@@ -495,7 +497,7 @@ def org_create_petition_template(request, org_name):
     return redirect('org_dashboard', org_name)
 
 
-@login_required()
+@login_required
 def user_create_petition_template(request, user_name):
 
     try:
@@ -520,7 +522,7 @@ def user_create_petition_template(request, user_name):
     return redirect('user_dashboard')
 
 
-@login_required()
+@login_required
 def user_del_template(request, user_name):
 
     try:
@@ -539,7 +541,7 @@ def user_del_template(request, user_name):
     return JsonResponse({})
 
 
-@login_required()
+@login_required
 def template_delete(request):
     id = request.GET.get('id', '')
 
@@ -572,7 +574,7 @@ def template_delete(request):
     return JsonResponse({})
 
 
-@login_required()
+@login_required
 def ptemplate_fav_toggle(request):
     id = request.GET.get('id', '')
 

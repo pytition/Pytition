@@ -9,6 +9,8 @@
     <div class="container">
 {% endblock container_type %}
 
+{% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
+
     {% block main_grid %}
     <div class="row">
         {% for petition in petitions %}

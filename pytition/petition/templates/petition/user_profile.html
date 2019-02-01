@@ -32,9 +32,9 @@
         {% if settings.ALLOW_CONNECT %}
         <li class="nav-item">
             {% if user.is_authenticated %}
-            <a href="{% url "admin:logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
+            <a href="{% url "logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
             {% else %}
-            <a href="{% url "admin:login" %}?next=/" class="nav-link">{% trans "Login" %}</a>
+            <a href="{% url "login" %}?next=/" class="nav-link">{% trans "Login" %}</a>
             {% endif %}
         </li>
         {% endif %}
