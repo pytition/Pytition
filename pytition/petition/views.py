@@ -629,68 +629,6 @@ def ptemplate_fav_toggle(request):
 
 
 @login_required
-def org_new_petition(request, org_name):
-
-    try:
-        org = Organization.objects.get(name=org_name)
-    except Organization.DoesNotExist:
-        raise Http404(_("Organization does not exist"))
-
-    from petition.admin import PetitionAdmin
-    pytitionuser = get_session_user(request)
-
-    admin = PetitionAdmin(Petition, None)
-    form = admin.get_form(request)()
-
-    try:
-        permissions = pytitionuser.permissions.get(organization=org)
-    except:
-        return HttpResponse(
-            _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
-              .format(orgname=org.name)), status=500)
-
-    #form = form()
-    print(form)
-    print(form.__class__)
-    print(dir(form))
-    #print("visible fields: {}".format(form.visible_fields()))
-    #print("fields: {}".format(form.fields))
-    print("form.fields['title'] = {}".format(form.fields['title']))
-    field = form.fields['title']
-    #label_tag = field.label_tag
-    #print("title tag: {}".format(label_tag))
-
-    return render(request, "petition/org_new_petition_step1.html", {'org': org, 'user': pytitionuser, 'form': form,
-                                                              'user_permissions': permissions})
-
-
-@login_required
-def org_create_petition(request, org_name):
-    try:
-        org = Organization.objects.get(name=org_name)
-    except Organization.DoesNotExist:
-        raise Http404(_("Organization does not exist"))
-
-
-@login_required
-def user_new_petition(request, user_name):
-    try:
-        pytitionuser = PytitionUser.objects.get(user__username=user_name)
-    except PytitionUser.DoesNotExist:
-        raise Http404(_("User does not exist"))
-
-    if pytitionuser.user != request.user:
-        return HttpResponseForbidden(_("You are not allowed to create petitions for this user"))
-
-    from petition.admin import PetitionAdmin
-
-    admin = PetitionAdmin(Petition, None)
-    form = admin.get_form(request)
-
-    return render(request, "petition/user_new_petition.html", {'user': pytitionuser, 'form': form})
-
-
-@login_required
 def user_create_petition(request, user_name):
 
     try:
