@@ -1,4 +1,4 @@
-{% extends 'petition/org_base.html' %}
+{% extends base_template %}
 {% load i18n %}
 {% load widget_tweaks %}
 {% load petition_extras %}
@@ -78,6 +78,10 @@
                                     },
                                     });
     });
-    document.location = "{% url 'petition_wizard' org %}#step-1";
+    {% if org %}
+    document.location = "{% url 'org_petition_wizard' org %}#step-1";
+    {% else %}
+    document.location = "{% url 'user_petition_wizard' %}#step-1";
+    {% endif %}
     </script>
 {% endblock %}

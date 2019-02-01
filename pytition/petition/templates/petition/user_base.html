@@ -59,7 +59,7 @@
         <div class="col-xl-3 col-lg-5 col-md-5 col-sm-6 col-12 tool-bar">
             {% include "petition/identity_selector.html" with orgs=user.organizations.all owner=user user=user %}
             <hr>
-            <a class="btn btn-outline-success" href="{% url "user_new_petition" user.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
+            <a class="btn btn-outline-success" href="{% url "user_petition_wizard" %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
             {% include "petition/user_org_list.html" with user=user %}
             {% include "petition/user_invitations.html" with user=user %}

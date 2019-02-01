@@ -701,6 +701,7 @@ def user_create_petition(request, user_name):
     if pytitionuser.user != request.user:
         return HttpResponseForbidden(_("You are not allowed to create petitions for this user"))
 
+
 @login_required
 def org_delete_member(request, org_name):
     member_name = request.GET.get('member', '')
@@ -827,13 +828,14 @@ def org_set_user_perms(request, org_name, user_name):
 
 from .forms import PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
 
-WizardTemplates = {"step1": "petition/org_new_petition_step1.html",
-                    "step2": "petition/org_new_petition_step2.html",
-                    "step3": "petition/org_new_petition_step3.html"}
+WizardTemplates = {"step1": "petition/new_petition_step1.html",
+                    "step2": "petition/new_petition_step2.html",
+                    "step3": "petition/new_petition_step3.html"}
 
 WizardForms = [("step1", PetitionCreationStep1),
          ("step2", PetitionCreationStep2),
          ("step3", PetitionCreationStep3)]
+
 
 # FIXME: add equivalent of @login_required here
 class PetitionCreationWizard(SessionWizardView):
@@ -865,19 +867,26 @@ class PetitionCreationWizard(SessionWizardView):
                 petition.save()
                 return redirect(reverse("org_dashboard", args=[org_name]))
         else:
+            petition = Petition.objects.create(title=title, text=message)
+            pytitionuser.petitions.add(petition)
+            petition.save()
             return redirect(reverse("user_dashboard"))
 
     def get_context_data(self, form, **kwargs):
         org_petition = "org_name" in self.kwargs
         context = super(PetitionCreationWizard, self).get_context_data(form=form, **kwargs)
         if org_petition:
+            base_template = 'petition/org_base.html'
             try:
                 org = Organization.objects.get(name=self.kwargs['org_name'])
             except Organization.DoesNotExist:
                 raise Http404(_("Organization does not exist"))
+        else:
+            base_template = 'petition/user_base.html'
 
         pytitionuser = get_session_user(self.request)
-        context.update({'user': pytitionuser})
+        context.update({'user': pytitionuser,
+                        'base_template': base_template})
 
         if org_petition:
             try:
@@ -886,7 +895,7 @@ class PetitionCreationWizard(SessionWizardView):
                 return HttpResponse(
                     _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
                       .format(orgname=org.name)), status=500)
-            context.update({'org': org, #'form': form,
+            context.update({'org': org,
                             'user_permissions': permissions})
 
         if self.steps.current == "step3":
@@ -940,6 +949,7 @@ def petition_publish(request):
 
     return JsonResponse({}, status=403)
 
+
 @login_required
 def petition_unpublish(request):
     petition_id = request.GET.get('id', '')
@@ -958,6 +968,7 @@ def petition_unpublish(request):
                     return JsonResponse({})
 
     return JsonResponse({}, status=403)
+
 
 @login_required
 def edit_petition(request, petition_id):
