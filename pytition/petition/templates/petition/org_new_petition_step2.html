@@ -10,52 +10,63 @@
     <link href="{%  static 'smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block content %}
+    <div class="row">
+        <div class="col">
+            {% include "petition/back_to_dashboard.html" %}
+        </div>
+        <div class="col-10 text-center">
+            <h1>
+                {% trans "Create a new petition!" %}
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="smartwizard">
+            <ul>
+                <li><a href="#step-1" id="step1_link">{% trans "Title" %}<br /><small>{%  trans "Donnez un titre à votre pétition" %}</small></a></li>
+                <li><a href="#step-2">{% trans "Content" %}<br /><small>{% trans "Ecrivez le contenu de votre pétition" %}</small></a></li>
+                <li><a href="#step-3">{% trans "Publish" %}<br /><small>{%  trans "Sauvegardez votre pétition et publiez la si elle est prête" %}</small></a></li>
+            </ul>
 
-    <div id="smartwizard">
-        <ul>
-            <li><a href="#step-1" id="step1_link">{% trans "Title" %}<br /><small>{%  trans "Donnez un titre à votre pétition" %}</small></a></li>
-            <li><a href="#step-2">{% trans "Content" %}<br /><small>{% trans "Ecrivez le contenu de votre pétition" %}</small></a></li>
-            <li><a href="#step-3">{% trans "Publish" %}<br /><small>{%  trans "Sauvegardez votre pétition et publiez la si elle est prête" %}</small></a></li>
-        </ul>
+            <div>
+                <div id="step-2" class="">
+                    <form action="" method="POST">{% csrf_token %}
+                        {{ wizard.management_form }}
+                        <div class="form-group">
+                        {% with form.message as field %}
+                            {{ field.label_tag }}
+                            {% if form.is_bound %}
+                              {% if field.errors %}
+                                {% render_field field|bootstrap class="is-invalid" %}
+                                {% for error in field.errors %}
+                                  <div class="invalid-feedback">
+                                    {{ error }}
+                                  </div>
+                                {% endfor %}
+                              {% else %}
+                                {% render_field field|bootstrap class="is-valid" %}
+                              {% endif %}
+                            {% else %}
+                              {% render_field field|bootstrap %}
+                            {% endif %}
 
-        <div>
-            <div id="step-2" class="">
-                <form action="" method="POST">{% csrf_token %}
-                    {{ wizard.management_form }}
-                    <div class="form-group">
-                    {% with form.message as field %}
-                        {{ field.label_tag }}
-                        {% if form.is_bound %}
-                          {% if field.errors %}
-                            {% render_field field|bootstrap class="is-invalid" %}
-                            {% for error in field.errors %}
-                              <div class="invalid-feedback">
-                                {{ error }}
-                              </div>
-                            {% endfor %}
-                          {% else %}
-                            {% render_field field|bootstrap class="is-valid" %}
-                          {% endif %}
-                        {% else %}
-                          {% render_field field|bootstrap %}
-                        {% endif %}
-
-                        {% if field.help_text %}
-                          <small class="form-text text-muted">{{ field.help_text }}</small>
-                        {% endif %}
-                    {% endwith %}
-                    </div>
-                <p>
-                {% if wizard.steps.prev %}
-                    <button name="wizard_goto_step" id="go_prev" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
-                {% endif %}
-                    <button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
-                </p>
-                </form>
+                            {% if field.help_text %}
+                              <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        {% endwith %}
+                        </div>
+                    <p>
+                    {% if wizard.steps.prev %}
+                        <button name="wizard_goto_step" id="go_prev" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+                    {% endif %}
+                        <button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
+                    </p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-
 {% endblock %}
 
 {% block extrajs %}

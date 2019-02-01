@@ -975,8 +975,6 @@ def edit_petition(request, petition_id):
     pytitionuser = get_session_user(request)
 
     if org:
-
-
         if pytitionuser not in org.members.all():
             return HttpResponseForbidden(_("You are not a member of this organization"))
 

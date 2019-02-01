@@ -1,0 +1,6 @@
+{% load i18n %}
+{% if org %}
+    <a href="{% url "org_dashboard" org %}" class="btn btn-primary"><span class="oi oi-dashboard"></span> {% trans "Back to dashboard" %}</a>
+{% else %}
+    <a href="{% url "user_dashboard" %}" class="btn btn-primary"><span class="oi oi-dashboard"></span> {% trans "Back to dashboard" %}</a>
+{% endif %}
