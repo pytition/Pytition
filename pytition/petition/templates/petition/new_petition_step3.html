@@ -78,6 +78,7 @@
 {% endblock %}
 
 {% block extrajs %}
+    {{ block.super }}
     <script type="text/javascript" src="{%  static 'smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
     <script type="text/javascript">
     $(document).ready(function(){

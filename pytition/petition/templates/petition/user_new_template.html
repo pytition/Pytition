@@ -23,6 +23,7 @@
 {% endblock %}
 
 {% block extrajs %}
+    {{ block.super }}
     <script src="{% static "tinymce/js/tinymce/tinymce.min.js" %}"></script>
     <script src="{% static "django_tinymce/init_tinymce.js" %}"></script>
 {% endblock %}

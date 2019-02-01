@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load static %}
 {% load widget_tweaks %}
-{% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
     <p class="alert alert-info">
@@ -23,6 +22,7 @@
 {% endblock %}
 
 {% block extrajs %}
+    {{ block.super }}
     <script src="{% static "tinymce/js/tinymce/tinymce.min.js" %}"></script>
     <script src="{% static "django_tinymce/init_tinymce.js" %}"></script>
 {% endblock %}
