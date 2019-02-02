@@ -49,13 +49,6 @@ $(function () {
 });
 
 $(function () {
-   $('[data-action="template-edit"]').on("click", function() {
-    var template_id = $(this).closest("[data-template]").data("template");
-        window.location = "{% url "edit_template" %}?id=" + template_id;
-   });
-});
-
-$(function () {
     $('[data-fav-toggle="true"]').on("click", function () {
         var template_id = $(this).closest("[data-template]").data("template");
         $.ajax("{% url "ptemplate_fav_toggle" %}?id=" + template_id).done(function() {

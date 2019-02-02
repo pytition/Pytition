@@ -399,9 +399,8 @@ def org_new_template(request, org_name):
 
 
 @login_required
-def edit_template(request):
-    id = request.GET.get('id', '')
-
+def edit_template(request, template_id):
+    id = template_id
     if id == '':
         return HttpResponseForbidden(_("You need to provide the template id to modify"))
 

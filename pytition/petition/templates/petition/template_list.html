@@ -13,7 +13,8 @@
                 <button class="btn btn-outline-info" data-fav-toggle="true" data-toggle="tooltip" title="{% trans "Mark this template as default" %}"><span class="oi oi-heart"></span></button>
                 {% endif %}
                 <button class="btn btn-outline-danger" data-action="template-delete" data-toggle="tooltip" title="{% trans "Delete template" %}"><span class="oi oi-delete"></span></button>
-                <button class="btn btn-outline-warning" data-action="template-edit" data-toggle="tooltip" title="{% trans "Edit template" %}"><span class="oi oi-pencil"></span></button>
+                <a class="btn btn-outline-warning" data-action="template-edit" data-toggle="tooltip" title="{% trans "Edit template" %}"
+                 href="{% url "edit_template" template.id %}"><span class="oi oi-pencil"></span></a>
                 <button class="btn btn-outline-success" data-action="template-instanciate" data-toggle="tooltip" title="{% trans "Create a new petition using this template" %}"><span class="oi oi-plus"></span> <span class="oi oi-clipboard"></span></button>
             </div>
 

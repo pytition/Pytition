@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^leave_org$', views.leave_org, name="leave_org"),
     url(r'^org/(?P<org_name>[^/]+)/add_user$', views.org_add_user, name='org_add_user'),
     url(r'^org/(?P<org_name>[^/]+)/new_template$', views.org_new_template, name='org_new_template'),
-    url(r'^edit_template$', views.edit_template, name='edit_template'),
+    url(r'^edit_template/(?P<template_id>[^/]+)$', views.edit_template, name='edit_template'),
     url(r'^org/(?P<org_name>[^/]+)/org_create_petition_template$', views.org_create_petition_template,
         name='org_create_petition_template'),
     url(r'^ptemplate_fav_toggle$', views.ptemplate_fav_toggle, name='ptemplate_fav_toggle'),
