@@ -7,7 +7,7 @@
 
 {% block main_grid %}
 <div class="row justify-content-center">
-    <div class="col-*">
+    <div class="col-* text-center">
         {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
         {% endif %}
@@ -39,6 +39,7 @@
         <br/>
         <p>{% trans "No account?" %}
         <a href="{% url "register" %}">{% trans "Register!" %}</a></p>
+        <p><a href="{% url "password_reset" %}">{% trans "I forgot my password!" %}</a></p>
     </div>
 </div>
 {% endblock main_grid %}
