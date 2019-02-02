@@ -157,7 +157,7 @@ SITE_NAME = "Pytition"
 ALLOW_REGISTER = True
 LOGIN_REDIRECT_URL = reverse_lazy("user_dashboard")
 ALLOW_CONNECT = True
-DEFAULT_INDEX_THUMBNAIL = ""  # fill-in the blank!
+DEFAULT_INDEX_THUMBNAIL = "/petition_icon.svg"
 
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")
