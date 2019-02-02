@@ -109,9 +109,6 @@ class PetitionAdminForm(ModelForm):
         labels = {
             'title': ugettext_lazy('Petition title'),
             'text': ugettext_lazy('Petition text'),
-            'background': ugettext_lazy('Background image (non-working)'),
-            'mobile_background': ugettext_lazy('Mobile phone background image (non-working)'),
-            'top_picture': ugettext_lazy('Top of text picture (non-working)'),
             'side_text': ugettext_lazy('Side text, on top of form'),
             'target': ugettext_lazy('Signature target number'),
             'linear_gradient_direction': ugettext_lazy('Direction of linear gradient for background color'),
@@ -254,9 +251,6 @@ class PetitionTemplateForm(ModelForm):
         labels = {
             'title': ugettext_lazy('Petition title'),
             'text': ugettext_lazy('Petition text'),
-            'background': ugettext_lazy('Background image (non-working)'),
-            'mobile_background': ugettext_lazy('Mobile phone background image (non-working)'),
-            'top_picture': ugettext_lazy('Top of text picture (non-working)'),
             'side_text': ugettext_lazy('Side text, on top of form'),
             'target': ugettext_lazy('Signature target number'),
             'linear_gradient_direction': ugettext_lazy('Direction of linear gradient for background color'),

@@ -117,9 +117,6 @@ class PetitionTemplateForm(ModelForm):
         labels = {
             'title': _('Petition title'),
             'text': _('Petition text'),
-            'background': _('Background image (non-working)'),
-            'mobile_background': _('Mobile phone background image (non-working)'),
-            'top_picture': _('Top of text picture (non-working)'),
             'side_text': _('Side text, on top of form'),
             'target': _('Signature target number'),
             'linear_gradient_direction': _('Direction of linear gradient for background color'),
