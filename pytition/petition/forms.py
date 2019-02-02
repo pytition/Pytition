@@ -1,6 +1,8 @@
 from django.forms import ModelForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.contrib.auth import get_user_model
 
 from .models import Signature, PetitionTemplate, Petition
 from .widgets import SwitchField
@@ -225,3 +227,14 @@ class NewsletterForm(forms.Form):
     newsletter_subscribe_mail_smtp_starttls = SwitchField(required=False, label=_("Use STARTTLS?"))
 
     newsletter_subscribe_mail_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})
+
+class PytitionUserCreationForm(UserCreationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ("username", "first_name", "last_name", "email")
+        field_classes = {'username': UsernameField}
+
+    def __init__(self, *args, **kwargs):
+        super(PytitionUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['email'].required = True

@@ -18,8 +18,10 @@ def getitem(array, item):
 def bootstrap(field):
     if hasattr(field, 'field') and hasattr(field.field, 'widget') and field.field.widget:
         widget = field.field.widget.__class__.__name__.lower()
-        if widget in ["textinput", "textarea", "select", "numberinput"]:
+        if widget in ["passwordinput", "textinput", "textarea", "select", "numberinput", "emailinput"]:
             return add_class(field, "form-control")
-        if widget == "checkboxinput":
-            return add_class(field, "form-check")
+        if widget in ["checkboxinput", "radioselect"]:
+            return add_class(field, "form-check-input")
+        if widget == "fileinput":
+            return add_class(field, "form-control-file")
     return field

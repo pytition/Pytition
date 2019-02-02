@@ -36,6 +36,9 @@
         <button type="submit" class="btn btn-primary">{% trans "Login" %}</button>
         <input type="hidden" name="next" value="{{ next }}" />
         </form>
+        <br/>
+        <p>{% trans "No account?" %}
+        <a href="{% url "register" %}">{% trans "Register!" %}</a></p>
     </div>
 </div>
 {% endblock main_grid %}

@@ -1,0 +1,18 @@
+{% extends "petition/base.html" %}
+{% load i18n %}
+
+{% block container_type %}
+<div class="container">
+{% endblock container_type %}
+
+{% block main_grid %}
+<div class="row justify-content-center">
+    <div class="col-*">
+        <form action="" method="POST" novalidate="novalidate">{% csrf_token %}
+            {% include "petition/bs4_form.html" with form=form %}
+            {% comment %}{{ form }}{% endcomment %}
+            <button class="btn btn-primary" type="submit">{% trans "Register" %}</button>
+        </form>
+    </div>
+</div>
+{% endblock main_grid %}

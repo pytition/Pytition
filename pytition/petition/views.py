@@ -6,13 +6,15 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.utils.html import format_html
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
