@@ -156,6 +156,5 @@ Those are external projects that are needed and used by Pytition, but included i
 * django-colorfield
 * requests
 * mysqlclient
-* Pillow
 * beautifulsoup4
 * django-formtools

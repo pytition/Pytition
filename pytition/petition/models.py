@@ -41,9 +41,6 @@ class Petition(models.Model):
 
     title = models.TextField(verbose_name=ugettext_lazy("Title"))
     text = tinymce_models.HTMLField(blank=True)
-    background = models.ImageField(blank=True)
-    mobile_background = models.ImageField(blank=True)
-    top_picture = models.ImageField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(default=500)
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
