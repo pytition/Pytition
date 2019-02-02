@@ -32,6 +32,16 @@
     </style>
 </head>
 <body>
+
+{% block toasts %}
+<div aria-live="polite" aria-atomic="true" style="position: relative; z-index: 1;">
+  <div style="position: fixed; bottom: 0; left: 0;" id="toastContainer">
+
+  </div>
+</div>
+{% endblock toasts %}
+
+
 {% block container_type %}
 <div class="container-fluid">
 {% endblock container_type %}

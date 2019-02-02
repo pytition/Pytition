@@ -7,6 +7,19 @@ function addUser(user) {
     }).done(function(data) {
         $("#user_search_result").html("");
         var html = `
+        <!--<div class="toast bg-success" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+              <div class="toast-header">
+                    <div class="rounded mr-2">
+                        <span class="oi oi-check"></span>
+                    </div>
+                <strong class="mr-auto">Pytition</strong>
+                <small>{% trans "just now" %}</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="toast-body">` + data.message + `</div></div>//-->
+        
         <div class="alert alert-success alert-dismissible show fade">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <div class="row">
@@ -16,13 +29,32 @@ function addUser(user) {
         <div class="col">
         ` + data.message + "</div></div></div>";
         $("#user_search_result").append(html);
+        $('.toast').toast('show');
     }).fail(function($xhr) {
         var data = $xhr.responseJSON;
-        console.log(data);
         $("#user_search_result").html("");
         var html;
         if (typeof data === "undefined") {
             html = `
+<!--
+            <div class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+              <div class="toast-header">
+                    <div class="rounded mr-2">
+                        <span class="oi oi-warning"></span>
+                    </div>
+                <strong class="mr-auto">Pytition</strong>
+                <small>{% trans "just now" %}</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="toast-body">
+                        {% blocktrans with orgname=org.name %}
+                        An unknown error happened. We could not invite this user to <strong>{{ orgname }}</strong>
+                        {% endblocktrans %}
+              </div>
+            </div>//-->
+            
             <div class="alert alert-danger alert-dismissible show fade">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <div class="row">
@@ -38,7 +70,21 @@ function addUser(user) {
             </div>
             `;
         } else {
-            html = `
+            html = `<!--
+            <div class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+              <div class="toast-header">
+                    <div class="rounded mr-2">
+                        <span class="oi oi-warning"></span>
+                    </div>
+                <strong class="mr-auto">Pytition</strong>
+                <small>{% trans "just now" %}</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="toast-body">
+              ` + data.message + `</div></div>//-->
+            
             <div class="alert alert-danger alert-dismissible show fade">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <div class="row">
@@ -49,6 +95,8 @@ function addUser(user) {
             ` + data.message + "</div></div></div>";
         }
         $("#user_search_result").append(html);
+        //$("#toastContainer").append(html);
+        $('.toast').toast('show');
     });
 }
 
