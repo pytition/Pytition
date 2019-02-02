@@ -1,9 +1,10 @@
 from django.conf.urls import url, include
 
 from . import views
-from .forms import PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
+from .forms import PytitionUserCreationForm
 from .views import PetitionCreationWizard
-from django.contrib.auth import views as auth_views
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -49,5 +50,7 @@ urlpatterns = [
     url(r'^wizard/user/new_petition$', PetitionCreationWizard.as_view(views.WizardForms),
         name='user_petition_wizard'),
     url('^', include('django.contrib.auth.urls')),
-
+    url('^register/',
+        CreateView.as_view(template_name='registration/register.html', form_class=PytitionUserCreationForm,
+                           success_url=reverse_lazy("login")), name="register"),
 ]

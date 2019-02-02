@@ -5,10 +5,10 @@ from django.utils.translation import ugettext_lazy
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.conf import settings
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
-from django.contrib.auth.models import User
 
 import html
 
@@ -309,7 +309,7 @@ class Permission(models.Model):
 class PytitionUser(models.Model):
     petitions = models.ManyToManyField(Petition, blank=True)
     organizations = models.ManyToManyField(Organization, related_name="members", blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="pytitionuser")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pytitionuser")
     permissions = models.ManyToManyField(Permission, related_name="user", blank=True)
     invitations = models.ManyToManyField(Organization, related_name="invited", blank=True)
     petition_templates = models.ManyToManyField(PetitionTemplate, blank=True, through='TemplateOwnership',
@@ -349,13 +349,13 @@ class PytitionUser(models.Model):
     def __repr__(self):
         return self.get_full_name
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         PytitionUser.objects.create(user=instance)
 
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
     instance.pytitionuser.save()
 
