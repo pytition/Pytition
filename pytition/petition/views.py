@@ -946,10 +946,66 @@ def edit_petition(request, petition_id):
 
 
     if request.method == "POST":
-        content_form = ContentForm(request.POST)
-        email_form = EmailForm(request.POST)
-        social_network_form = SocialNetworkForm(request.POST)
-        newsletter_form = NewsletterForm(request.POST)
+
+        if 'content_form_submitted' in request.POST:
+            content_form = ContentForm(request.POST)
+            if content_form.is_valid():
+                petition.title = content_form.cleaned_data['title']
+                petition.text = content_form.cleaned_data['text']
+                petition.side_text = content_form.cleaned_data['side_text']
+                petition.footer_text = content_form.cleaned_data['footer_text']
+                petition.footer_links = content_form.cleaned_data['footer_links']
+                petition.sign_form_footer = content_form.cleaned_data['sign_form_footer']
+                petition.save()
+        else:
+            content_form = ContentForm({f: getattr(petition, f) for f in ContentForm.base_fields})
+
+
+        if 'email_form_submitted' in request.POST:
+            email_form = EmailForm(request.POST)
+            if email_form.is_valid():
+                petition.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
+                petition.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
+                petition.confirmation_email_smtp_host = email_form.cleaned_data['confirmation_email_smtp_host']
+                petition.confirmation_email_smtp_port = email_form.cleaned_data['confirmation_email_smtp_port']
+                petition.confirmation_email_smtp_user = email_form.cleaned_data['confirmation_email_smtp_user']
+                petition.confirmation_email_smtp_password = email_form.cleaned_data['confirmation_email_smtp_password']
+                petition.confirmation_email_smtp_tls = email_form.cleaned_data['confirmation_email_smtp_tls']
+                petition.confirmation_email_smtp_starttls = email_form.cleaned_data['confirmation_email_smtp_starttls']
+                petition.save()
+        else:
+            email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
+
+        if 'social_network_form_submitted' in request.POST:
+            social_network_form = SocialNetworkForm(request.POST)
+            if social_network_form.is_valid():
+                petition.twitter_description = social_network_form.cleaned_data['twitter_description']
+                petition.twitter_image = social_network_form.cleaned_data['twitter_image']
+                petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
+                petition.save()
+        else:
+            social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
+
+        if 'newsletter_form_submitted' in request.POST:
+            newsletter_form = NewsletterForm(request.POST)
+            if newsletter_form.is_valid():
+                petition.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
+                petition.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
+                petition.newsletter_subscribe_http_mailfield = newsletter_form.cleaned_data['newsletter_subscribe_http_mailfield']
+                petition.newsletter_subscribe_http_url = newsletter_form.cleaned_data['newsletter_subscribe_http_url']
+                petition.newsletter_subscribe_mail_subject = newsletter_form.cleaned_data['newsletter_subscribe_mail_subject']
+                petition.newsletter_subscribe_mail_from = newsletter_form.cleaned_data['newsletter_subscribe_mail_from']
+                petition.newsletter_subscribe_mail_to = newsletter_form.cleaned_data['newsletter_subscribe_mail_to']
+                petition.newsletter_subscribe_method = newsletter_form.cleaned_data['newsletter_subscribe_method']
+                petition.newsletter_subscribe_mail_smtp_host = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_host']
+                petition.newsletter_subscribe_mail_smtp_port = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_port']
+                petition.newsletter_subscribe_mail_smtp_user = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_user']
+                petition.newsletter_subscribe_mail_smtp_password = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_password']
+                petition.newsletter_subscribe_mail_smtp_tls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_tls']
+                petition.newsletter_subscribe_mail_smtp_starttls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_starttls']
+                petition.save()
+        else:
+            newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
     else:
         content_form = ContentForm({f: getattr(petition, f) for f in ContentForm.base_fields})
         email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})

@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm, UsernameField
@@ -194,11 +194,15 @@ class EmailForm(forms.Form):
     confirmation_email_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})
 
     def clean(self):
+        # FIXME: WIP
         cleaned_data = super(EmailForm, self).clean()
         data = {}
         for field in self.base_fields:
             data[field] = cleaned_data.get(field)
-        # FIXME: WIP
+
+        if data['confirmation_email_smtp_tls'] and data['confirmation_email_smtp_starttls']:
+            self.add_error('confirmation_email_smtp_tls', ValidationError(_("You cannot select both TLS and STARTTLS."), code="invalid"))
+        return self.cleaned_data
 
 class SocialNetworkForm(forms.Form):
     ### Social Network settings of Petition ###
@@ -224,6 +228,17 @@ class NewsletterForm(forms.Form):
     newsletter_subscribe_mail_smtp_starttls = SwitchField(required=False, label=_("Use STARTTLS?"))
 
     newsletter_subscribe_mail_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})
+
+    def clean(self):
+        # FIXME: WIP
+        cleaned_data = super(NewsletterForm, self).clean()
+        data = {}
+        for field in self.base_fields:
+            data[field] = cleaned_data.get(field)
+
+        if data['newsletter_subscribe_mail_smtp_tls'] and data['newsletter_subscribe_mail_smtp_starttls']:
+            self.add_error('newsletter_subscribe_mail_smtp_tls', ValidationError(_("You cannot select both TLS and STARTTLS."), code="invalid"))
+        return self.cleaned_data
 
 class PytitionUserCreationForm(UserCreationForm):
     class Meta:

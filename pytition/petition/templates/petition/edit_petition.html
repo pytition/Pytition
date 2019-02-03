@@ -9,6 +9,15 @@
     {{ social_network_form.media }}
 {% endblock %}
 
+{% block extracss %}
+{{ block.super }}
+    <style>
+    .custom-switch ~ .invalid-feedback {
+        display: block;
+    }
+    </style>
+{% endblock extracss %}
+
 {% comment %}
 # FIXME: Don't forget to make sure form is submited if something is modified and user changed tab.
 {% endcomment %}
@@ -43,28 +52,28 @@
                  aria-labelledby="list-content-form-list">
                 <form action="" method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=content_form %}
-                    <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+                    <button name="content_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="social_network_form" role="tabpanel"
                  aria-labelledby="list-social-network-form-list">
                 <form action="" method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=social_network_form %}
-                    <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+                    <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="email_form" role="tabpanel"
                 aria-labelledby="list-email-form-list">
                 <form action="" method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=email_form %}
-                    <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+                    <button name="email_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
                 aria-labelledby="list-newsletter-form-list">
                 <form action="" method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=newsletter_form %}
-                    <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+                    <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade embed-responsive embed-responsive-4by3" id="preview" role="tabpanel"
@@ -77,6 +86,7 @@
 {% endblock %}
 
 {% block extrajs %}
+    {{ block.super }}
 <script>
 $(function (){
 $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
@@ -89,9 +99,71 @@ $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     }
 });
 });
-
+// FIXME: This is because the checkbox+label gets ugly green color if is-valid
 $(function (){
-    $(".custom-switch input[type='checkbox']").removeClass('is-valid').removeClass('is-invalid');
-})
+    $(".custom-switch input[type='checkbox']").removeClass('is-valid');
+});
+
+function hide_others_than(elem, do_hide) {
+    var parent_form_group = elem.closest('.form-group');
+    var all_form_groups = parent_form_group.siblings('.form-group');
+    var all_except_this = all_form_groups.not(parent_form_group);
+    if (do_hide)
+        all_except_this.hide();
+    else
+        all_except_this.show();
+}
+
+$(function () {
+   var email_box =  $('#id_use_custom_email_settings');
+   var newsletter_box =  $('#id_has_newsletter');
+   if (!email_box.is(':checked'))
+       hide_others_than(email_box, true);
+   if (!newsletter_box.is(':checked'))
+       hide_others_than(newsletter_box, true);
+});
+
+$(function () {
+   $('#id_use_custom_email_settings').on("change", function() {
+        var box = $(this);
+        var checked = box.prop('checked');
+        if (!checked)
+            hide_others_than(box, true);
+        else
+            hide_others_than(box, false)
+   });
+});
+
+$(function () {
+   $('#id_has_newsletter').on("change", function() {
+        var box = $(this);
+        var checked = box.prop('checked');
+        if (!checked)
+            hide_others_than(box, true);
+        else
+            hide_others_than(box, false)
+   });
+});
+
+// Javascript to enable link to tab
+$(function () {
+    var hash = document.location.hash;
+    var prefix = "tab_";
+    if (hash) {
+        $('.list-group a[href="' + hash.replace(prefix, "") + '"]').tab('show');
+    }
+
+// Change hash for page-reload
+    $('.list-group a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash.replace("#", "#" + prefix);
+    });
+});
+
+//show first tab pane where there is an :invalid field
+$(function () {
+    var pane_id = $('input.is-invalid').closest('.tab-pane').attr('id');
+    $('.list-group a[href="#' + pane_id + '"]').tab('show');
+});
+
 </script>
 {% endblock %}
