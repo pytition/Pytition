@@ -3,6 +3,7 @@
 {% load static %}
 {% load petition_extras %}
 {% block media %}
+    {{ block.super }}
     {{ content_form.media }}
     {{ email_form.media }}
     {{ newsletter_form.media }}

@@ -151,10 +151,10 @@ Those are external projects that are needed and used by Pytition, but included i
 ## Dependencies
 
 * Python 3
-* Django
-* django-tinymce
-* django-colorfield
-* requests
-* mysqlclient
-* beautifulsoup4
-* django-formtools
+* Django 2.1.x
+* django-tinymce 2.8.0
+* django-colorfield 0.1.15
+* requests 2.20.x
+* mysqlclient 1.3.12
+* beautifulsoup4 4.6.3
+* django-formtools 2.1

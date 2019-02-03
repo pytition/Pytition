@@ -3,6 +3,11 @@
 {% load static %}
 {% load widget_tweaks %}
 
+{% block media %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock media %}
+
 {% block content %}
     <p class="alert alert-info">
         {% blocktrans %}
@@ -19,10 +24,4 @@
         <input type="hidden" name="pk" value="{{ form.instance.pk }}">
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-{% endblock %}
-
-{% block extrajs %}
-    {{ block.super }}
-    <script src="{% static "tinymce/js/tinymce/tinymce.min.js" %}"></script>
-    <script src="{% static "django_tinymce/init_tinymce.js" %}"></script>
 {% endblock %}

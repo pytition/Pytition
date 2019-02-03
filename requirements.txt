@@ -1,8 +1,8 @@
-Django~=1.11.0
-django-colorfield==0.1.14
-django-tinymce==2.6.0
+Django~=2.1.0
+django-colorfield==0.1.15
+django-tinymce==2.8.0
 requests~=2.20.0
 mysqlclient==1.3.12
-django-widget-tweaks==1.4.2
+django-widget-tweaks==1.4.3
 beautifulsoup4~=4.6.3
 django-formtools==2.1
