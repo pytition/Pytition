@@ -2,7 +2,7 @@
 
 ## Why using Pytition?
 
-* Because it allows you to host petitions without compromising the private life of your signatories.
+* Because it allows you to host petitions without compromising the privacy of your signatories.
 * No tracking, ever: CSS, JS and all resources are self-hosted. Pytition does not use CDN.
 * Nice UI: Bootstrap 4 + JQuery 3.
 * Based on solid backend technology: Django.
