@@ -202,6 +202,10 @@ class EmailForm(forms.Form):
 
         if data['confirmation_email_smtp_tls'] and data['confirmation_email_smtp_starttls']:
             self.add_error('confirmation_email_smtp_tls', ValidationError(_("You cannot select both TLS and STARTTLS."), code="invalid"))
+
+        if data['confirmation_email_smtp_port'] < 1 or data['confirmation_email_smtp_port'] > 65535:
+            self.add_error('confirmation_email_smtp_port', ValidationError(_("SMTP port must be >= 1 and <= 65535"),
+                                                                           code="invalid"))
         return self.cleaned_data
 
 class SocialNetworkForm(forms.Form):
@@ -238,6 +242,11 @@ class NewsletterForm(forms.Form):
 
         if data['newsletter_subscribe_mail_smtp_tls'] and data['newsletter_subscribe_mail_smtp_starttls']:
             self.add_error('newsletter_subscribe_mail_smtp_tls', ValidationError(_("You cannot select both TLS and STARTTLS."), code="invalid"))
+
+        if data['newsletter_subscribe_mail_smtp_port'] < 1 or data['newsletter_subscribe_mail_smtp_port'] > 65535:
+            self.add_error('newsletter_subscribe_mail_smtp_port', ValidationError(_("SMTP port must be >= 1 and <= 65535"),
+                                                                                  code="invalid"))
+
         return self.cleaned_data
 
 class PytitionUserCreationForm(UserCreationForm):
