@@ -4,19 +4,21 @@ class SwitchWidget(forms.CheckboxInput):
     template_name = "petition/widgets/SwitchInput.html"
 
     def get_context(self, name, value, attrs):
+        if attrs == None:
+            attrs = {}
         if 'class' in attrs:
             attrs['class'] = attrs['class'] + " custom-control-input"
         else:
             attrs.update({'class': 'custom-control-input'})
 
-        ctx = super(forms.CheckboxInput, self).get_context(name, value, attrs)
+        ctx = super(SwitchWidget, self).get_context(name, value, attrs)
         ctx['widget'].update({'label': self.label})
         return ctx
 
     def __init__(self, *args, **kwargs):
+        super(SwitchWidget, self).__init__(*args, **kwargs)
         if 'label' in kwargs:
             self.label = kwargs.pop('label')
-        super(SwitchWidget, self).__init__()
 
 class SwitchField(forms.BooleanField):
     widget = SwitchWidget
