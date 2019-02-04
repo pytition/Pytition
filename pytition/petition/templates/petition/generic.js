@@ -17,7 +17,7 @@ $(document).ready(function() {
     $(".btn-invitation-join").closest(".alert").on("closed.bs.alert", function() {
         if ($("#invitations").find(".alert").length == 0) {
                 if (joined)
-                    location.reload(true);
+                    window.location = window.location.href;
         }
     });
 });
@@ -40,10 +40,13 @@ $(function () {
 $(function () {
    $('[data-action="template-delete"]').on("click", function() {
     var template_id = $(this).closest("[data-template]").data("template");
-    //alert("template id: " + template_id);
-    $.ajax("{% url "template_delete" %}?id=" + template_id).done(function() {
-        location.reload(true);
-        //$('[data-template="'+template_id+'"]').addClass("d-none").removeClass("d-flex");
+    $.ajax("{% url "template_delete" %}?id=" + template_id).done(function() {
+       if (window.location.href.endsWith('edit_template/' + template_id)) {
+           // If we were on this template edit page and the user clicks on delete
+           // we cannot reload the edit page, we then reload the dashboard
+           window.location = "{{ dashboard }}";
+       } else
+           window.location = window.location.href;
     });
    });
 });
@@ -52,7 +55,7 @@ $(function () {
     $('[data-fav-toggle="true"]').on("click", function () {
         var template_id = $(this).closest("[data-template]").data("template");
         $.ajax("{% url "ptemplate_fav_toggle" %}?id=" + template_id).done(function() {
-            location.reload(true);
+            window.location = window.location.href;
         });
     });
 });
@@ -61,7 +64,13 @@ $(function () {
    $('[data-action="petition-delete"]').on("click", function() {
     var petition_id = $(this).closest("[data-petition]").data("petition");
     $.ajax("{% url "petition_delete" %}?id=" + petition_id).done(function() {
-        location.reload(true);
+        if (window.location.href.endsWith('edit_petition/' + petition_id)) {
+           // If we were on this petition edit page and the user clicks on delete
+           // we cannot reload the edit page, we then reload the dashboard
+           // NOTE: today there is no delete button from petition edit page. This is hypothetical.
+           window.location = "{{ dashboard }}";
+       } else
+           window.location = window.location.href;
     });
    });
 });

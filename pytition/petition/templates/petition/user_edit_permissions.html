@@ -28,7 +28,7 @@
         <td>{% trans "Can remove member?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" name="can_remove_members" id="can_remove_members" autocomplete="off" {% if permissions.can_remove_members %} checked {% endif %}>
+              <input type="checkbox" class="custom-control-input" name="can_remove_members" id="can_remove_members" {% if permissions.can_remove_members %} checked {% endif %}>
               <label class="custom-control-label" for="can_remove_members"></label>
             </div>
         </td>
@@ -37,7 +37,7 @@
         <td>{% trans "Can invite new members?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_add_members" id="can_add_members" autocomplete="off" {% if permissions.can_add_members %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_add_members" id="can_add_members" {% if permissions.can_add_members %} checked {% endif %}>
                 <label class="custom-control-label" for="can_add_members"></label>
             </div>
         </td>
@@ -46,7 +46,7 @@
         <td>{% trans "Can create petitions?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_create_petitions" id="can_create_petitions" autocomplete="off" {% if permissions.can_create_petitions %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_create_petitions" id="can_create_petitions" {% if permissions.can_create_petitions %} checked {% endif %}>
                 <label class="custom-control-label" for="can_create_petitions"></label>
             </div>
         </td>
@@ -55,7 +55,7 @@
         <td>{% trans "Can modify petitions?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_modify_petitions" id="can_modify_petitions" autocomplete="off" {% if permissions.can_modify_petitions %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_modify_petitions" id="can_modify_petitions" {% if permissions.can_modify_petitions %} checked {% endif %}>
                 <label class="custom-control-label" for="can_modify_petitions"></label>
             </div>
         </td>
@@ -64,8 +64,35 @@
         <td>{% trans "Can delete petitions?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_delete_petitions" id="can_delete_petitions" autocomplete="off" {% if permissions.can_delete_petitions %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_delete_petitions" id="can_delete_petitions" {% if permissions.can_delete_petitions %} checked {% endif %}>
                 <label class="custom-control-label" for="can_delete_petitions"></label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can create petition templates?" %}</td>
+        <td>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" name="can_create_templates" id="can_create_templates" {% if permissions.can_create_templates %} checked {% endif %}>
+                <label class="custom-control-label" for="can_create_templates"></label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can modify petition templates?" %}</td>
+        <td>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" name="can_modify_templates" id="can_modify_templates" {% if permissions.can_modify_templates %} checked {% endif %}>
+                <label class="custom-control-label" for="can_modify_templates"></label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans "Can delete petition templates?" %}</td>
+        <td>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" name="can_delete_templates" id="can_delete_templates" {% if permissions.can_delete_templates %} checked {% endif %}>
+                <label class="custom-control-label" for="can_delete_templates"></label>
             </div>
         </td>
     </tr>
@@ -73,7 +100,7 @@
         <td>{% trans "Can view signatures?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_view_signatures" id="can_view_signatures" autocomplete="off" {% if permissions.can_view_signatures %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_view_signatures" id="can_view_signatures" {% if permissions.can_view_signatures %} checked {% endif %}>
                 <label class="custom-control-label" for="can_view_signatures"></label>
             </div>
         </td>
@@ -82,7 +109,7 @@
         <td>{% trans "Can modify signatures?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_modify_signatures" id="can_modify_signatures" autocomplete="off" {% if permissions.can_modify_signatures %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_modify_signatures" id="can_modify_signatures" {% if permissions.can_modify_signatures %} checked {% endif %}>
                 <label class="custom-control-label" for="can_modify_signatures"></label>
             </div>
         </td>
@@ -91,7 +118,7 @@
         <td>{% trans "Can delete signatures?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_delete_signatures" id="can_delete_signatures" autocomplete="off" {% if permissions.can_delete_signatures %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_delete_signatures" id="can_delete_signatures" {% if permissions.can_delete_signatures %} checked {% endif %}>
                 <label class="custom-control-label" for="can_delete_signatures"></label>
             </div>
         </td>
@@ -100,7 +127,7 @@
         <td>{% trans "Can modify permissions?" %}</td>
         <td>
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" name="can_modify_permissions" id="can_modify_permissions" autocomplete="off" {% if permissions.can_modify_permissions %} checked {% endif %}>
+                <input type="checkbox" class="custom-control-input" name="can_modify_permissions" id="can_modify_permissions" {% if permissions.can_modify_permissions %} checked {% endif %}>
                 <label class="custom-control-label" for="can_modify_permissions"></label>
             </div>
         </td>

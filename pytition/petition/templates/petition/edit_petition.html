@@ -29,7 +29,10 @@
         {% include "petition/back_to_dashboard.html" %}
     </div>
     <div class="col text-center">
-        <h1>{% trans "Petition settings" %}</h1>
+        <h1>{% block main_title %}
+            {% trans "Petition settings" %}
+            {% endblock main_title %}
+        </h1>
     </div>
 </div>
 <div class="row">
@@ -51,28 +54,28 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="content_form" role="tabpanel"
                  aria-labelledby="list-content-form-list">
-                <form action="" method="POST">{% csrf_token %}
+                <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=content_form %}
                     <button name="content_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="social_network_form" role="tabpanel"
                  aria-labelledby="list-social-network-form-list">
-                <form action="" method="POST">{% csrf_token %}
+                <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=social_network_form %}
                     <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="email_form" role="tabpanel"
                 aria-labelledby="list-email-form-list">
-                <form action="" method="POST">{% csrf_token %}
+                <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=email_form %}
                     <button name="email_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
                 aria-labelledby="list-newsletter-form-list">
-                <form action="" method="POST">{% csrf_token %}
+                <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=newsletter_form %}
                     <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
                 </form>

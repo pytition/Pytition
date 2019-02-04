@@ -201,6 +201,7 @@ class PetitionTemplate(models.Model):
     )
 
     name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"), db_index=True)
+    text = tinymce_models.HTMLField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(blank=True, null=True)
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
@@ -236,6 +237,7 @@ class PetitionTemplate(models.Model):
     confirmation_email_smtp_password = models.CharField(max_length=200, blank=True)
     confirmation_email_smtp_tls = models.BooleanField(default=False)
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
+    use_custom_email_settings = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -286,6 +288,9 @@ class Permission(models.Model):
     can_create_petitions = models.BooleanField(default=False)
     can_modify_petitions = models.BooleanField(default=False)
     can_delete_petitions = models.BooleanField(default=False)
+    can_create_templates = models.BooleanField(default=False)
+    can_modify_templates = models.BooleanField(default=False)
+    can_delete_templates = models.BooleanField(default=False)
     can_view_signatures = models.BooleanField(default=False)
     can_modify_signatures = models.BooleanField(default=False)
     can_delete_signatures = models.BooleanField(default=False)

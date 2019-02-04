@@ -77,9 +77,10 @@ $(function () {
         if (member_name == "{{ user.name }}")
             window.location = "{% url "user_dashboard" %}";
         else
-            location.reload(true);
+            window.location = window.location.href;
        });
     });
 });
 
-{% include "petition/generic.js" %}
+{% url "org_dashboard" org.name as dashboard_url %}
+{% include "petition/generic.js" with dashboard=dashboard_url %}

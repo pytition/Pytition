@@ -1,0 +1,43 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block content %}
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h2>{% trans "Create a petition template" %}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-info alert-dismissible show fade" role="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <div class="row">
+                    <div class="col-1 alert-icon-col">
+                        <span class="oi oi-warning"></span>
+                    </div>
+                    <div class="col">
+                      <h4 class="alert-heading">{% trans "Beware, you are creating a template, not a petition!" %}</h4>
+                      {% blocktrans %}
+                          <p class="mb-0">A petition template allows you to put default values for future petitions.<br/>
+                          For instance you might want to re-use the same e-mail SMTP account accross several petitions.</p>
+                      {% endblocktrans %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                   <label for="template_name">{% trans "Template name" %}</label>
+                    <input type="text" class="form-control" id="template_name" name="template_name"
+                           placeholder="{% trans "My template name" %}" required>
+                    <small id="template_name_help" class="form-text text-muted">{% trans "Each template must have a different name" %}</small>
+                </div>
+                <input class="btn btn-primary" type="submit" value="{% trans "Create" %}">
+            </form>
+        </div>
+    </div>
+{% endblock content %}

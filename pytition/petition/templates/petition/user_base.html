@@ -19,7 +19,7 @@
             <hr>
             <div class="d-flex align-items-baseline justify-content-between">
                 <h4>{% trans "Petition templates" %}</h4>
-                <a href="{% url "user_new_template" user.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+                <a href="{% url "user_new_template" %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
             <br />
             {% if user.petition_templates.all %}

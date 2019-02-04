@@ -92,6 +92,7 @@ class PetitionAdminForm(ModelForm):
             'newsletter_text': ugettext_lazy('E.g.: I want to receive updates or informations from this organization.'),
             'sign_form_footer': ugettext_lazy('E.g.: Your data will stay strictly confidential and will not be sold, given away or exchanged with third parties. Informations about this campaign as well as other news about this organization will be sent to you if you checked the checkbox. You can unsubscribe at any moment.'),
             'org_twitter_handle': ugettext_lazy('The twitter account handle of the organization, starting with the \'@\' symbol. E.g.: @RAP_Asso. This is necessary in order to attribute the \'Twitter Card\' to the correct account. See https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary'),
+            'use_custom_email_settings': ugettext_lazy('Check if you want to use your own E-Mail SMTP account.'),
             'confirmation_email_sender': ugettext_lazy('e.g.: petition@mydomain.tld'),
             'confirmation_email_smtp_host': ugettext_lazy('If you don\'t have a real email account, leave \'localhost\'.'),
             'confirmation_email_smtp_port': ugettext_lazy('25 for cleartext connection, 587 for STARTTLS, 465 for TLS. Prefer TLS if the email server supports it.'),
@@ -131,6 +132,7 @@ class PetitionAdminForm(ModelForm):
             'newsletter_text': ugettext_lazy('Form label text of newsletter subscription checkbox'),
             'sign_form_footer': ugettext_lazy('Sign form footer text'),
             'org_twitter_handle': ugettext_lazy('Organization Twitter handle'),
+            'use_custom_email_settings': ugettext_lazy('Use custom E-Mail settings?'),
             'confirmation_email_sender': ugettext_lazy('Confirmation email sender address'),
             'confirmation_email_smtp_host': ugettext_lazy('SMTP server hostname'),
             'confirmation_email_smtp_port': ugettext_lazy('SMTP port'),
@@ -177,7 +179,8 @@ class PetitionAdmin(admin.ModelAdmin):
          ),
         (ugettext_lazy('Confirmation email setup'),
          {
-             'fields': ('confirmation_email_sender', 'confirmation_email_smtp_host', 'confirmation_email_smtp_port',
+             'fields': ('use_custom_email_settings',
+                        'confirmation_email_sender', 'confirmation_email_smtp_host', 'confirmation_email_smtp_port',
                         'confirmation_email_smtp_user', 'confirmation_email_smtp_password',
                         'confirmation_email_smtp_tls', 'confirmation_email_smtp_starttls')
          }
@@ -234,6 +237,7 @@ class PetitionTemplateForm(ModelForm):
             'newsletter_text': ugettext_lazy('E.g.: I want to receive updates or informations from this organization.'),
             'sign_form_footer': ugettext_lazy('E.g.: Your data will stay strictly confidential and will not be sold, given away or exchanged with third parties. Informations about this campaign as well as other news about this organization will be sent to you if you checked the checkbox. You can unsubscribe at any moment.'),
             'org_twitter_handle': ugettext_lazy('The twitter account handle of the organization, starting with the \'@\' symbol. E.g.: @RAP_Asso. This is necessary in order to attribute the \'Twitter Card\' to the correct account. See https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary'),
+            'use_custom_email_settings': ugettext_lazy('Check if you want to use your own E-Mail SMTP account.'),
             'confirmation_email_sender': ugettext_lazy('e.g.: petition@mydomain.tld'),
             'confirmation_email_smtp_host': ugettext_lazy('If you don\'t have a real email account, leave \'localhost\'.'),
             'confirmation_email_smtp_port': ugettext_lazy('25 for cleartext connection, 587 for STARTTLS, 465 for TLS. Prefer TLS if the email server supports it.'),
@@ -249,7 +253,7 @@ class PetitionTemplateForm(ModelForm):
             'newsletter_subscribe_mail_smtp_starttls': ugettext_lazy('Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas cocher les 2. Les 2 réglages sont mutuellement exclusifs.'),
         }
         labels = {
-            'title': ugettext_lazy('Petition title'),
+            'name': ugettext_lazy('Petition teplate name'),
             'text': ugettext_lazy('Petition text'),
             'side_text': ugettext_lazy('Side text, on top of form'),
             'target': ugettext_lazy('Signature target number'),
@@ -273,6 +277,7 @@ class PetitionTemplateForm(ModelForm):
             'newsletter_text': ugettext_lazy('Form label text of newsletter subscription checkbox'),
             'sign_form_footer': ugettext_lazy('Sign form footer text'),
             'org_twitter_handle': ugettext_lazy('Organization Twitter handle'),
+            'use_custom_email_settings': ugettext_lazy('Use custom E-Mail settings?'),
             'confirmation_email_sender': ugettext_lazy('Confirmation email sender address'),
             'confirmation_email_smtp_host': ugettext_lazy('SMTP server hostname'),
             'confirmation_email_smtp_port': ugettext_lazy('SMTP port'),
@@ -296,7 +301,7 @@ class PetitionTemplateAdmin(admin.ModelAdmin):
     fieldsets = (
          (ugettext_lazy('Content of the petition'),
           {
-           'fields': ('side_text', 'footer_text', 'footer_links', 'sign_form_footer', 'target')
+           'fields': ('name', 'text', 'side_text', 'footer_text', 'footer_links', 'sign_form_footer', 'target')
           }
          ),
          (ugettext_lazy('Background color'),
@@ -317,7 +322,8 @@ class PetitionTemplateAdmin(admin.ModelAdmin):
           ),
          (ugettext_lazy('Confirmation email setup'),
           {
-              'fields': ('confirmation_email_sender', 'confirmation_email_smtp_host', 'confirmation_email_smtp_port',
+              'fields': ('use_custom_email_settings',
+                         'confirmation_email_sender', 'confirmation_email_smtp_host', 'confirmation_email_smtp_port',
                          'confirmation_email_smtp_user', 'confirmation_email_smtp_password',
                          'confirmation_email_smtp_tls', 'confirmation_email_smtp_starttls')
           }

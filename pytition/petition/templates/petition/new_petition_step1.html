@@ -34,7 +34,7 @@
 
                 <div>
                     <div id="step-1" class="">
-                        <form action="" method="POST">{% csrf_token %}
+                        <form method="POST">{% csrf_token %}
                             {{ wizard.management_form }}
                             <div class="form-group">
                             {% with form.title as field %}
