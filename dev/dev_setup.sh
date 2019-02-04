@@ -56,7 +56,7 @@ then
     read skip_sql_creation
 fi
 
-if [ "${skip_sql_creation}" != "n" ]
+if [ "${skip_sql_creation}" != "y" ]
 then
 
 sql_pytition_pass=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;)
