@@ -38,5 +38,11 @@ This creates two containers, one for the database using postgresql, another for 
 
 ```
 docker-compose up --build
-docker-compose exec web python pytition/manage.py migrate
+docker-compose exec web ./dev/initialize.sh
 ```
+
+This script will
+
+* Run database migration
+* Create superuser account
+* Insert data into the development database
