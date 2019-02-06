@@ -86,13 +86,16 @@ WSGI_APPLICATION = 'pytition.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/home/petition/www/my.cnf',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
+
+if os.environ.get('USE_POSTGRESQL', ''):
+    from .pgsql import DATABASES
 
 
 # Password validation
