@@ -16,6 +16,8 @@ Don't hesitate to open new [issues](https://github.com/fallen/pytition/issues) w
 
 ## Install a development environment
 
+### With a script
+
 You can use [this script](https://github.com/fallen/Pytition/blob/master/dev/dev_setup.sh) to:
 
 * Install all system requirements
@@ -26,6 +28,21 @@ You can use [this script](https://github.com/fallen/Pytition/blob/master/dev/dev
 * Create superuser account
 * Insert data into the development database
   * Create dummy Organizations, Users and Petitions.
- 
- This script is only proven to work on a fresh Ubuntu 18.04 install.
- You can use VirtualBox, Docker, qemu or whatever virtualisation/containerization technology you prefer.
+
+This script is only proven to work on a fresh Ubuntu 18.04 install.
+You can use VirtualBox, Docker, qemu or whatever virtualisation/containerization technology you prefer.
+
+### With docker-compose
+
+This creates two containers, one for the database using postgresql, another for the django project.
+
+```
+docker-compose up --build
+docker-compose exec web ./dev/initialize.sh
+```
+
+This script will
+
+* Run database migration
+* Create superuser account
+* Insert data into the development database
