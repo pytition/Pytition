@@ -1049,3 +1049,36 @@ def edit_petition(request, petition_id):
         ctx.update({'base_template': 'petition/user_base.html'})
 
     return render(request, "petition/edit_petition.html", ctx)
+
+def show_signatures(request, petition_id):
+    petition = petition_from_id(petition_id)
+    pytitionuser = get_session_user(request)
+    ctx = {}
+
+    if petition in pytitionuser.petitions.all():
+        base_template = 'petition/user_base.html'
+    else:
+        org = None
+        for o in pytitionuser.organizations.all():
+            if petition in o.petitions.all():
+                base_template = 'petition/org_base.html'
+                org = o
+                other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
+                try:
+                    permissions = pytitionuser.permissions.get(organization=org)
+                except:
+                    return HttpResponse(
+                        _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
+                          .format(orgname=org.name)), status=500)
+                ctx.update({'org': org, 'other_orgs': other_orgs,
+                            'user_permissions': permissions})
+        if org is None:
+            return HttpResponse(status=500)
+
+    signatures = petition.signature_set.all()
+
+    ctx.update({'petition': petition, 'user': pytitionuser,
+                'base_template': base_template,
+                'signatures': signatures})
+
+    return render(request, "petition/signature_data.html", ctx)

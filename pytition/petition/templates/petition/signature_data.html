@@ -1,0 +1,62 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block content %}
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h2>{% trans "Signatures" %}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>
+                <a href="{% url "get_csv_signature" petition.id %}" class="btn btn-primary">
+                    {% trans "Export <strong>ALL</strong> signatures as CSV" %}
+                </a>
+                <a href="{% url "get_csv_confirmed_signature" petition.id %}" class="btn btn-primary">
+                    {% trans "Export <strong>confirmed</strong> signatures as CSV" %}
+                </a>
+            </p>
+            <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>{% trans "First name" %}</th>
+                    <th>{% trans "Last name" %}</th>
+                    <th>{% trans "E-Mail" %}</th>
+                    <th>{% trans "Phone" %}</th>
+                    <th>{% trans "Confirmed?" %}</th>
+                    <th>{% trans "Subscribed to newsletter?" %}</th>
+                    <th>{% trans "Date" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for signature in signatures %}
+                <tr>
+                    <td>
+                        {{ signature.first_name }}
+                    </td>
+                    <td>
+                        {{ signature.last_name }}
+                    </td>
+                    <td>
+                        {{ signature.email }}
+                    </td>
+                    <td>
+                        {{ signature.phone }}
+                    </td>
+                    <td>
+                        {{ signature.confirmed }}
+                    </td>
+                    <td>
+                        {{ signature.subscribed_to_mailinglist }}
+                    </td>
+                    <td>
+                        {{ signature.date }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
