@@ -224,13 +224,15 @@ def user_dashboard(request):
     return render(request, 'petition/user_dashboard.html', {'user': user, 'petitions': petitions})
 
 
-@login_required
 def user_profile(request, user_name):
     try:
-        profile = PytitionUser.objects.get(user__username=user_name)
+        user = PytitionUser.objects.get(user__username=user_name)
     except User.DoesNotExist:
         raise Http404(_("not found"))
-    return render(request, 'petition/user_profile.html', {'profile': profile, 'user': request.user})
+
+    ctx = {'user': user,
+           'petitions': user.petitions.all()}
+    return render(request, 'petition/profile.html', ctx)
 
 
 @login_required
@@ -254,9 +256,15 @@ def leave_org(request):
     return JsonResponse({})
 
 
-@login_required
 def org_profile(request, org_name):
-    pass
+    try:
+        org = Organization.objects.get(name=org_name)
+    except Organization.DoesNotExist:
+        raise Http404(_("not found"))
+
+    ctx = {'org': org,
+           'petitions': org.petitions.all()}
+    return render(request, "petition/profile.html", ctx)
 
 
 @login_required
