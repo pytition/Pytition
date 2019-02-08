@@ -45,10 +45,18 @@
                         {{ signature.phone }}
                     </td>
                     <td>
-                        {{ signature.confirmed }}
+                        {% if signature.confirmed %}
+                            <span class="oi oi-circle-check text-success"></span>
+                        {% else %}
+                            <span class="oi oi-circle-x text-danger"></span>
+                        {% endif %}
                     </td>
                     <td>
-                        {{ signature.subscribed_to_mailinglist }}
+                        {% if signature.subscribed_to_mailinglist %}
+                            <span class="oi oi-circle-check text-success"></span>
+                        {% else %}
+                            <span class="oi oi-circle-x text-danger"></span>
+                        {% endif %}
                     </td>
                     <td>
                         {{ signature.date }}
