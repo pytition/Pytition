@@ -47,12 +47,12 @@ msgid ""
 "gradient color. If not, the background color will be a monochrome background "
 "color."
 msgstr ""
-"C'est un gradient de couleur. Si sélectionné, la couleur de fond sera un "
-"gradient de couleur. Sinon, la couleur de fond sera une couleur unie."
+"C'est un dégradé de couleur. Si sélectionné, la couleur de fond sera un "
+"dégradé de couleur. Sinon, la couleur de fond sera une couleur unie."
 
 #: petition/admin.py:70 petition/admin.py:71
 msgid "Only used if gradient is selected"
-msgstr "Seulement utilisé si un gradient est sélectionné"
+msgstr "Seulement utilisé si un dégradé est sélectionné"
 
 #: petition/admin.py:72
 msgid ""
@@ -69,7 +69,7 @@ msgid ""
 "https://cards-dev.twitter.com/validator and https://developers.facebook.com/"
 "tools/debug/"
 msgstr ""
-"C'est la description de la pétition, elle sera affichée dans les affichettes "
+"C'est la description de la pétition, elle apparaîtra dans les affichettes "
 "Twitter/Facebook quand le lien est posté sur les réseaux sociaux. A tester "
 "avec https://cards-dev.twitter.com/validator et https://developers.facebook."
 "com/tools/debug/"
@@ -81,15 +81,15 @@ msgid ""
 "and https://developers.facebook.com/tools/debug/"
 msgstr ""
 "Image dans les affichettes Twitter/Facebook quand le lien de la pétition est "
-"posté sur les réseaux sociaux. A tester avec https://cards-dev.twitter.com/"
+"posté sur les réseaux sociaux. À tester avec https://cards-dev.twitter.com/"
 "validator et https://developers.facebook.com/tools/debug/"
 
 #: petition/admin.py:75
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
-"Permet de choisir si la case à cocher d'inscription à la liste de diffusion "
-"est affichée ou pas"
+"Permet de choisir si la case à cocher pour s’inscrire à la liste de diffusion "
+"est affichée ou non"
 
 #: petition/admin.py:76
 msgid ""
@@ -122,7 +122,7 @@ msgid ""
 msgstr ""
 "Seulement quand la méthode d'abonnement utilisée est HTTP POST ou GET. Nom "
 "du champ à envoyer via GET ou POST, contenant l'adresse e-mail à abonner. En "
-"suivant l'exemple du champs précédent, il s'agirait de 'your-email'"
+"suivant l'exemple du champ précédent, il s'agirait de 'your-email'"
 
 #: petition/admin.py:85
 msgid ""
@@ -170,7 +170,7 @@ msgid ""
 "POST or via sending EMAIL to the newsletter admin address"
 msgstr ""
 "Sélectionne la méthode d'abonnement à la liste de diffusion. Peut-être soit "
-"HTTP GET ou POST ou via un envoie d'EMAIL à l'adresse d'administration de la "
+"HTTP GET ou POST ou via un envoi d'EMAIL à l'adresse d'administration de la "
 "liste de diffusion"
 
 #: petition/admin.py:90
@@ -232,7 +232,7 @@ msgstr ""
 
 #: petition/admin.py:97 petition/admin.py:98 petition/admin.py:103
 #: petition/admin.py:104
-msgid "Leave empty if you don't use any account autentication."
+msgid "Leave empty if you don't use any account authentication."
 msgstr ""
 "Laissez vide si vous n'utilisez pas d'identification pour votre compte."
 
@@ -271,11 +271,11 @@ msgstr "Texte de la pétition"
 
 #: petition/admin.py:111
 msgid "Background image (non-working)"
-msgstr "Image d'arrière plan (non fonctionnel)"
+msgstr "Image d'arrière-plan (non fonctionnel)"
 
 #: petition/admin.py:112
 msgid "Mobile phone background image (non-working)"
-msgstr "Image d'arrière plan sur mobile (non fonctionnel)"
+msgstr "Image d'arrière-plan sur mobile (non fonctionnel)"
 
 #: petition/admin.py:113
 msgid "Top of text picture (non-working)"
@@ -283,7 +283,7 @@ msgstr "Image de début de texte (non fonctionnel)"
 
 #: petition/admin.py:114
 msgid "Side text, on top of form"
-msgstr "Texte à-côté, au dessus du formulaire"
+msgstr "Texte latéral, au dessus du formulaire"
 
 #: petition/admin.py:115
 msgid "Signature target number"
@@ -295,11 +295,11 @@ msgstr "Direction du dégradé linéaire de la couleur de fond"
 
 #: petition/admin.py:117
 msgid "Source color for linear gradient"
-msgstr "Couleur source pour le gradient linéaire de couleur"
+msgstr "Couleur source pour le dégradé linéaire de couleur"
 
 #: petition/admin.py:118
-msgid "Destinatoin color for linear gradient"
-msgstr "Couleur de destination pour le gradient linéaire de couleur"
+msgid "Destination color for linear gradient"
+msgstr "Couleur de destination pour le dégradé linéaire de couleur"
 
 #: petition/admin.py:119
 msgid "Color for monochrome background color"
@@ -331,7 +331,7 @@ msgid ""
 "Data structure to be sent in order to subscribe someone to the newsletter in "
 "case of HTTP method"
 msgstr ""
-"Structure de donnée à envoyer afin d'abonner quelqu'un à la liste de "
+"Structure de données à envoyer afin d'abonner quelqu'un à la liste de "
 "diffusion, dans le cas de l'utilisation de la méthode HTTP"
 
 #: petition/admin.py:126
@@ -339,7 +339,7 @@ msgid ""
 "Name of the field which should contain the email value in the PHP data "
 "structure"
 msgstr ""
-"Nom du champs qui doit contenir l'adresse e-mail dans la structure de donnée "
+"Nom du champ qui doit contenir l'adresse e-mail dans la structure de données "
 "PHP"
 
 #: petition/admin.py:127
@@ -369,13 +369,13 @@ msgid "Newsletter subscription method"
 msgstr "Méthode d'inscription à la liste de diffusion"
 
 #: petition/admin.py:132
-msgid "Puslibhed"
+msgid "Published"
 msgstr "Publiée"
 
 #: petition/admin.py:133
 msgid "Form label text of newsletter subscription checkbox"
 msgstr ""
-"Texte du label de la case à cocher d'inscription à la liste de diffusion"
+"Texte du label de la case à cocher pour s’inscrire à la liste de diffusion"
 
 #: petition/admin.py:134
 msgid "Sign form footer text"
@@ -431,7 +431,7 @@ msgstr "Paramétrage de l'e-mail de confirmation"
 
 #: petition/admin.py:187
 msgid "Petition meta-data for social networks"
-msgstr "Méta-données de la pétition pour les réseaux sociaux"
+msgstr "Métadonnées de la pétition pour les réseaux sociaux"
 
 #: petition/admin.py:191
 msgid "Publish the petition"
@@ -507,7 +507,7 @@ msgstr "Vous avez déjà signé la pétition"
 
 #: petition/models.py:246
 msgid "Petition templates"
-msgstr "Gabarit de pétition"
+msgstr "Modèles de pétition"
 
 #: petition/models.py:247 petition/templates/petition/user_dashboard.html:26
 msgid "Petitions"
@@ -542,13 +542,13 @@ msgstr "Afficher sur le site"
 #: petition/templates/petition/petition_change_form.html:61
 #: petition/templates/petition/signature_change_form.html:52
 msgid "Please correct the error below."
-msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
+msgstr "Veuillez corriger l'erreur ci-dessous."
 
 #: petition/templates/petition/change_form.html:52
 #: petition/templates/petition/petition_change_form.html:61
 #: petition/templates/petition/signature_change_form.html:52
 msgid "Please correct the errors below."
-msgstr "Corrigez les erreurs ci-dessous s'il vous plaît."
+msgstr "Veuillez corriger les erreurs ci-dessous.."
 
 #: petition/templates/petition/index.html:35
 #: petition/templates/petition/org_dashboard.html:40
@@ -684,8 +684,8 @@ msgstr ""
 "Nous vous remercions d'avoir signé cette pétition, un e-mail vous a été "
 "envoyé à votre adresse '{}' pour que vous puissiez confirmer votre signature."
 "<br>Vous devrez cliquer sur le lien de confirmation dans cet e-mail.<br>Si "
-"vous ne trouvez pas l'e-mail dans votre boite de réception, regardez dans "
-"votre dossier spam/indésirable svp."
+"vous ne trouvez pas l'e-mail dans votre boite de réception, veuillez regarder dans "
+"votre dossier spam/indésirable."
 
 #: petition/views.py:149
 msgid ""
