@@ -46,3 +46,14 @@ This script will
 * Run database migration
 * Create superuser account
 * Insert data into the development database
+
+## Run tests
+
+It uses coverage to evaluate tests coverage.
+
+```
+coverage run pytition/manage.py test petition
+coverage report -m
+```
+
+Add `docker-compose exec web` before each command to use it with docker.
