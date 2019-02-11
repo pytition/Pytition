@@ -155,5 +155,14 @@ LOGIN_REDIRECT_URL = reverse_lazy("user_dashboard")
 ALLOW_CONNECT = True
 DEFAULT_INDEX_THUMBNAIL = "/petition_icon.svg"
 
+#INDEX_PAGE_ORGA = "RAP"
+#INDEX_PAGE_USER = "admin"
+#INDEX_PAGE = "ALL_PETITIONS"
+#INDEX_PAGE = "ORGA_PETITIONS"
+#INDEX_PAGE = "USER_PETITIONS"
+#INDEX_PAGE = "ORGA_PROFILE"
+#INDEX_PAGE = "USER_PROFILE"
+INDEX_PAGE = "LOGIN_REGISTER"
+
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")

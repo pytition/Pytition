@@ -57,12 +57,52 @@ def settings_context_processor(request):
 
 
 def index(request):
+
+    if not hasattr(settings, 'INDEX_PAGE'):
+        raise Http404(_("You must set an INDEX_PAGE config in your settings"))
+
+    if settings.INDEX_PAGE in ['USER_PETITIONS', 'USER_PROFILE']:
+        try:
+            user_name = settings.INDEX_PAGE_USER
+        except:
+            raise Http404(_("You must set an INDEX_PAGE_USER config in your settings"))
+    elif settings.INDEX_PAGE in ['ORGA_PETITIONS', 'ORGA_PROFILE']:
+        try:
+            org_name = settings.INDEX_PAGE_ORGA
+        except:
+            raise Http404(_("You must set an INDEX_PAGE_ORGA config in your settings"))
+
+    if settings.INDEX_PAGE == 'ALL_PETITIONS':
+        petitions = Petition.objects.filter(published=True)
+    elif settings.INDEX_PAGE == 'ORGA_PETITIONS':
+        org_name = settings.INDEX_PAGE_ORGA
+        try:
+            org = Organization.objects.get(name=org_name)
+        except Organization.DoesNotExist:
+            raise Http404(_("not found"))
+        petitions = org.petitions.all()
+    elif settings.INDEX_PAGE == 'USER_PETITIONS':
+        try:
+            user = PytitionUser.objects.get(user__username=user_name)
+        except PytitionUser.DoesNotExist:
+            raise Http404(_("not found"))
+        petitions = user.petitions.all()
+    elif settings.INDEX_PAGE == 'ORGA_PROFILE':
+        return redirect(reverse("org_profile", args=[org_name]))
+    elif settings.INDEX_PAGE == 'USER_PROFILE':
+        return redirect(reverse("user_profile", args=[user_name]))
+    elif settings.INDEX_PAGE == 'LOGIN_REGISTER':
+        if request.user.is_authenticated:
+            return redirect(reverse("user_dashboard"))
+        else:
+            return redirect(reverse("login"))
+    else:
+        raise Http404(_("You must set a correct value to INDEX_PAGE config in your settings"))
+
     authenticated = request.user.is_authenticated
     q = request.GET.get('q', '')
     if q != "":
-        petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
-    else:
-        petitions = Petition.objects.filter(published=True)
+        petitions = petitions.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
     title = "Pétitions Résistance à l'agression publicitaire"
     return render(request, 'petition/index.html', {'petitions': petitions, 'title': title,
                                                    'authenticated': authenticated, 'q': q})
