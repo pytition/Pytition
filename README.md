@@ -158,3 +158,4 @@ Those are external projects that are needed and used by Pytition, but included i
 * mysqlclient 1.3.12
 * beautifulsoup4 4.6.3
 * django-formtools 2.1
+* bcrypt
