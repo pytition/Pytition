@@ -13,6 +13,7 @@ from django.utils.html import format_html
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.contrib.auth.hashers import check_password, make_password
 
 from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
@@ -23,6 +24,17 @@ from formtools.wizard.views import SessionWizardView
 
 import requests
 import csv
+from datetime import datetime
+import time
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 
 def get_session_user(request):
@@ -182,14 +194,25 @@ def create_signature(request, petition_id):
         if not form.is_valid():
             return render(request, 'petition/detail2.html', {'petition': petition, 'form': form})
 
-        signature = form.save()
-        send_confirmation_email(request, signature)
-        messages.success(request,
-            format_html(_("Thank you for signing this petition, an email has just been sent to you at your address \'{}\'" \
-            " in order to confirm your signature.<br>" \
-            "You will need to click on the confirmation link in the email.<br>" \
-            "If you cannot find the email in your Inbox, please have a look in your Spam box.")\
-            , signature.email))
+        ipaddr = get_client_ip(request)
+        one_day_ago = datetime.fromtimestamp(time.time() - settings.SIGNATURE_THROTTLE_TIMING)
+        signatures = Signature.objects.filter(petition=petition,
+                                              ipaddress=make_password(ipaddr, salt=petition.salt),
+                                              date__gt=one_day_ago)
+        if signatures.count() > settings.SIGNATURE_THROTTLE:
+            messages.error(request, _("Too many signatures from your IP address, please try again later."))
+            return render(request, 'petition/detail2.html', {'petition': petition, 'form': form})
+        else:
+            signature = form.save()
+            signature.ipaddress = make_password(ipaddr, salt=petition.salt)
+            signature.save()
+            send_confirmation_email(request, signature)
+            messages.success(request,
+                format_html(_("Thank you for signing this petition, an email has just been sent to you at your address \'{}\'" \
+                " in order to confirm your signature.<br>" \
+                "You will need to click on the confirmation link in the email.<br>" \
+                "If you cannot find the email in your Inbox, please have a look in your Spam box.")\
+                , signature.email))
 
         if petition.has_newsletter and signature.subscribed_to_mailinglist:
             subscribe_to_newsletter(petition, signature.email)

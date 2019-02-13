@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
+from django.contrib.auth.hashers import get_hasher
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
@@ -78,6 +79,13 @@ class Petition(models.Model):
     confirmation_email_smtp_tls = models.BooleanField(default=False)
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
     use_custom_email_settings = models.BooleanField(default=False)
+    salt = models.TextField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.salt:
+            hasher = get_hasher()
+            self.salt = hasher.salt()
+        super().save(*args, **kwargs)
 
     @classmethod
     def by_id(cls, id):
@@ -148,6 +156,7 @@ class Signature(models.Model):
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE, verbose_name=ugettext_lazy("Petition"))
     subscribed_to_mailinglist = models.BooleanField(default=False, verbose_name=ugettext_lazy("Subscribed to mailing list"))
     date = models.DateTimeField(blank=True, auto_now_add=True, verbose_name=ugettext_lazy("Date"))
+    ipaddress = models.TextField(blank=True, null=True)
 
     def clean(self):
         if self.petition.already_signed(self.email):

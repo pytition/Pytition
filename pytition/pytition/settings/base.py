@@ -164,5 +164,8 @@ DEFAULT_INDEX_THUMBNAIL = "/petition_icon.svg"
 #INDEX_PAGE = "USER_PROFILE"
 INDEX_PAGE = "LOGIN_REGISTER"
 
+SIGNATURE_THROTTLE = 5
+SIGNATURE_THROTTLE_TIMING = 60*60*24
+
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")
