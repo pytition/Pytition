@@ -7,3 +7,4 @@ django-widget-tweaks==1.4.3
 beautifulsoup4~=4.6.3
 django-formtools==2.1
 coverage==4.5.2
+bcrypt
