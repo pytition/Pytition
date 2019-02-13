@@ -37,7 +37,6 @@ urlpatterns = [
     url(r'^user/dashboard$', views.user_dashboard, name='user_dashboard'),
     url(r'^user/new_template$', views.new_template, name='user_new_template'),
     url(r'^user/(?P<user_name>[^/]+)$', views.user_profile, name='user_profile'),
-    url(r'^user/(?P<user_name>[^/]+)/create_petition$', views.user_create_petition, name='user_create_petition'),
     url(r'^template_delete$', views.template_delete, name='template_delete'),
     url(r'^get_user_list', views.get_user_list, name='get_user_list'),
     url(r'^invite_accept/$', views.invite_accept, name='invite_accept'),
