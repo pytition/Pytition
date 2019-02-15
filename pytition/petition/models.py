@@ -81,6 +81,13 @@ class Petition(models.Model):
     use_custom_email_settings = models.BooleanField(default=False)
     salt = models.TextField(blank=True)
 
+    def prepopulate_from_template(self, template):
+        for field in self._meta.fields:
+            if hasattr(self, field.name) and hasattr(template, field.name):
+                template_value = getattr(template, field.name)
+                if template_value is not None and template_value != "":
+                    setattr(self, field.name, template_value)
+
     def save(self, *args, **kwargs):
         if not self.salt:
             hasher = get_hasher()

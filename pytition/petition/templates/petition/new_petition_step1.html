@@ -82,10 +82,7 @@
                                     },
                                     });
     });
-    {% if org %}
-    document.location = "{% url 'org_petition_wizard' org %}#step-1";
-    {% else %}
-    document.location = "{% url 'user_petition_wizard' %}#step-1";
-    {% endif %}
+
+    document.location.hash = "step-1";
     </script>
 {% endblock %}

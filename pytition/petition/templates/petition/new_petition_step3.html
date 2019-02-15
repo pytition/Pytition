@@ -96,10 +96,7 @@
     $("#step2_link").on("click", function () {
         $("#go_prev").click();
     });
-    {% if org %}
-    document.location = "{% url 'org_petition_wizard' org %}#step-3";
-    {% else %}
-    document.location = "{% url 'user_petition_wizard' %}#step-3";
-    {% endif %}
+
+    document.location.hash = "step-3";
     </script>
 {% endblock %}

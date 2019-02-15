@@ -910,11 +910,25 @@ class PetitionCreationWizard(SessionWizardView):
 
             if pytitionuser in org.members.all() and permissions.can_create_petitions:
                 petition = Petition.objects.create(title=title, text=message)
+                if "template_id" in self.kwargs:
+                    template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+                    if template in org.petition_templates.all():
+                        petition.prepopulate_from_template(template)
+                    else:
+                        messages.error(self.request, _("This template does not belong to your organization"))
+                        return redirect(reverse("org_dashboard"), args=[org_name])
                 org.petitions.add(petition)
                 petition.save()
                 return redirect(reverse("org_dashboard", args=[org_name]))
         else:
             petition = Petition.objects.create(title=title, text=message)
+            if "template_id" in self.kwargs:
+                template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+                if template in pytitionuser.petition_templates.all():
+                    petition.prepopulate_from_template(template)
+                else:
+                    messages.error(self.request, _("This template does not belong to you"))
+                    return redirect(reverse("user_dashboard"))
             pytitionuser.petitions.add(petition)
             petition.save()
             return redirect(reverse("user_dashboard"))
