@@ -13,7 +13,7 @@ from django.utils.html import format_html
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import make_password
 
 from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
