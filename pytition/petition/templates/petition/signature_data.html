@@ -116,6 +116,10 @@
             $("#action").val("re-send-all");
             $("#signatureForm").submit();
         });
+
+        $("#select-all").on("change", function() {
+           $(":checkbox").prop('checked', $(this).prop('checked'));
+        });
     });
     </script>
 {% endblock extrajs %}
