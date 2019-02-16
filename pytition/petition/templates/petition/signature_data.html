@@ -13,14 +13,17 @@
         <div class="col">
             <p>
                 <a href="{% url "get_csv_signature" petition.id %}" class="btn btn-primary">
+                    <span class="oi oi-spreadsheet"></span>
                     {% trans "Export <strong>ALL</strong> signatures as CSV" %}
                 </a>
                 <a href="{% url "get_csv_confirmed_signature" petition.id %}" class="btn btn-primary">
+                    <span class="oi oi-spreadsheet"></span>
                     {% trans "Export <strong>confirmed</strong> signatures as CSV" %}
                 </a>
             </p>
             <p>
                 <button class="btn btn-success" id="re-send-all">
+                    <span class="oi oi-envelope-closed"></span>
                     {% trans "Re-send confirmation e-mail to all unconfirmed" %}</button>
             </p>
             <p>
