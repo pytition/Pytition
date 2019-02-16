@@ -24,7 +24,7 @@
                     <h4 class="card-title">{{ petition.title|striptags }}</h4>
                     <p class="card-text">{{ petition.twitter_description|safe }}</p>
                     <div class="card-footer mt-auto">
-                    <div class="d-flex flex-column align-items-stretch">
+                    <div class="d-inline-flex flex-column">
                         <div>
                             <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning"
                                     title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></a>
@@ -37,7 +37,7 @@
                             {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
                             </a>
                         </div>
-                        <div>
+                        <div class="d-flex justify-content-start" style="margin-top: 5px">
                             <a href="{% url "show_signatures" petition.id %}" class="btn btn-outline-info"
                              title="{% trans "View signatures" %}" aria-disabled="true">
                                 <span class="oi oi-spreadsheet"></span>
