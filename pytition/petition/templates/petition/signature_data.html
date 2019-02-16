@@ -8,6 +8,8 @@
         </div>
     </div>
     <div class="row">
+        <form method="POST">
+        {% csrf_token %}
         <div class="col">
             <p>
                 <a href="{% url "get_csv_signature" petition.id %}" class="btn btn-primary">
@@ -17,9 +19,28 @@
                     {% trans "Export <strong>confirmed</strong> signatures as CSV" %}
                 </a>
             </p>
+            <p>
+                <div class="form-row">
+                <div class="col-3">
+                <select class="custom-select" id="action" name="action">
+                    <option value="re-send">{% trans "Re-send confirmation e-mail" %}</option>
+                    <option value="delete">{% trans "Delete selected signatures" %}</option>
+                </select>
+                </div>
+                <div class="col-*">
+                <button type="submit" class="btn btn-info">{% trans "Ok" %}</button>
+                </div>
+                </div>
+            </p>
             <table class="table table-striped">
             <thead class="thead-light">
                 <tr>
+                    <th>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input position-static" id="select-all" name="select-all">
+                            <label class="custom-control-label" for="select-all"></label>
+                        </div>
+                    </th>
                     <th>{% trans "First name" %}</th>
                     <th>{% trans "Last name" %}</th>
                     <th>{% trans "E-Mail" %}</th>
@@ -32,6 +53,13 @@
             <tbody>
                 {% for signature in signatures %}
                 <tr>
+                    <td>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input position-static" id="{{ signature.id }}"
+                                   value="{{ signature.id }}" name="signature_id">
+                            <label class="custom-control-label" for="{{ signature.id }}"></label>
+                        </div>
+                    </td>
                     <td>
                         {{ signature.first_name }}
                     </td>
@@ -66,5 +94,6 @@
             </tbody>
             </table>
         </div>
+    </form>
     </div>
 {% endblock content %}

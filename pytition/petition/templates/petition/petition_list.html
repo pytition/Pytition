@@ -24,17 +24,27 @@
                     <h4 class="card-title">{{ petition.title|striptags }}</h4>
                     <p class="card-text">{{ petition.twitter_description|safe }}</p>
                     <div class="card-footer mt-auto">
-                        <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning"
-                                title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></a>
-                        <button class="btn btn-outline-danger"
-                                title="{% trans "Delete the petition" %}"
-                                data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
-                                aria-disabled="true"><span class="oi oi-delete"></span></button>
-                        <a href="{% url "detail" petition.id %}" class="btn btn-outline-success"
-                           title="{% trans "Sign the petition" %}" aria-disabled="true">
-                        {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
-                        </a>
-                        <p>
+                    <div class="d-flex flex-column align-items-stretch">
+                        <div>
+                            <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning"
+                                    title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></a>
+                            <button class="btn btn-outline-danger"
+                                    title="{% trans "Delete the petition" %}"
+                                    data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
+                                    aria-disabled="true"><span class="oi oi-delete"></span></button>
+                            <a href="{% url "detail" petition.id %}" class="btn btn-outline-success"
+                               title="{% trans "Sign the petition" %}" aria-disabled="true">
+                            {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{% url "show_signatures" petition.id %}" class="btn btn-outline-info"
+                             title="{% trans "View signatures" %}" aria-disabled="true">
+                                <span class="oi oi-spreadsheet"></span>
+                            </a>
+                        </div>
+                    </div>
+                        <p></p>
                         <div class="custom-control custom-switch
                                     {% if not petition.published %}
                                         text-danger

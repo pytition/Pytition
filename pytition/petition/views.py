@@ -1139,6 +1139,8 @@ def edit_petition(request, petition_id):
 
     return render(request, "petition/edit_petition.html", ctx)
 
+
+@login_required
 def show_signatures(request, petition_id):
     petition = petition_from_id(petition_id)
     pytitionuser = get_session_user(request)
@@ -1166,6 +1168,26 @@ def show_signatures(request, petition_id):
 
         ctx.update({'org': org, 'other_orgs': other_orgs,
                     'user_permissions': permissions})
+
+    if request.method == "POST":
+        action = request.POST.get('action', '')
+        if action and action == "delete":
+            selected_signature_ids = request.POST.getlist('signature_id', '')
+            if selected_signature_ids:
+                permissionFailed = False
+                selected_signatures = Signature.objects.filter(pk__in=selected_signature_ids)
+                for s in selected_signatures:
+                    pet = s.petition
+                    if s in petition.signature_set.all() and \
+                    pytitionuser.has_right("can_delete_signatures", petition=pet):
+                        s.delete()
+                    else:
+                        permissionFailed = True
+                if permissionFailed:
+                    messages.error(request, _("You don't have permission to delete some or all of selected signatures"))
+                else:
+                    messages.success(request, _("You successfully deleted all selected signatures"))
+        return redirect(reverse("show_signatures", args=[petition_id]))
 
     signatures = petition.signature_set.all()
 

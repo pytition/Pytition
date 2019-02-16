@@ -337,6 +337,27 @@ class PytitionUser(models.Model):
                                          verbose_name=ugettext_lazy("Default petition template"), to_field='id',
                                          on_delete=models.SET_NULL)
 
+
+    def has_right(self, right, petition=None, org=None):
+        if petition:
+            if petition in self.petitions.all():
+                return True
+            try:
+                if not org:
+                    org = Organization.objects.get(petitions=petition, members=self)
+                permissions = self.permissions.get(organization=org)
+                return getattr(permissions, right)
+            except:
+                return False
+        if org:
+            try:
+                permissions = self.permissions.get(organization=org)
+                return getattr(permissions, right)
+            except:
+                return False
+        return False
+
+
     @property
     def is_authenticated(self):
         return self.user.is_authenticated
