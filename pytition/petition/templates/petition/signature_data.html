@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="row">
-        <form method="POST">
+        <form method="POST" id="signatureForm">
         {% csrf_token %}
         <div class="col">
             <p>
@@ -20,11 +20,18 @@
                 </a>
             </p>
             <p>
+                <button class="btn btn-success" id="re-send-all">
+                    {% trans "Re-send confirmation e-mail to all unconfirmed" %}</button>
+            </p>
+            <p>
                 <div class="form-row">
                 <div class="col-3">
                 <select class="custom-select" id="action" name="action">
-                    <option value="re-send">{% trans "Re-send confirmation e-mail" %}</option>
+                    <option value="re-send">{% trans "Re-send selected confirmation e-mail" %}</option>
                     <option value="delete">{% trans "Delete selected signatures" %}</option>
+                    <option value="re-send-all" hidden>
+                        {% trans "Re-send confirmation e-mail to all unconfirmed" %}
+                    </option>
                 </select>
                 </div>
                 <div class="col-*">
@@ -97,3 +104,15 @@
     </form>
     </div>
 {% endblock content %}
+
+{% block extrajs %}
+    {{ block.super }}
+    <script>
+    $(function() {
+        $("#re-send-all").on("click", function() {
+            $("#action").val("re-send-all");
+            $("#signatureForm").submit();
+        });
+    });
+    </script>
+{% endblock extrajs %}

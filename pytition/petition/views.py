@@ -1171,22 +1171,43 @@ def show_signatures(request, petition_id):
 
     if request.method == "POST":
         action = request.POST.get('action', '')
-        if action and action == "delete":
-            selected_signature_ids = request.POST.getlist('signature_id', '')
-            if selected_signature_ids:
-                permissionFailed = False
-                selected_signatures = Signature.objects.filter(pk__in=selected_signature_ids)
+        selected_signature_ids = request.POST.getlist('signature_id', '')
+        failed = False
+        if selected_signature_ids and action:
+            selected_signatures = Signature.objects.filter(pk__in=selected_signature_ids)
+            if action == "delete":
                 for s in selected_signatures:
                     pet = s.petition
                     if s in petition.signature_set.all() and \
                     pytitionuser.has_right("can_delete_signatures", petition=pet):
                         s.delete()
                     else:
-                        permissionFailed = True
-                if permissionFailed:
+                        failed = True
+                if failed:
                     messages.error(request, _("You don't have permission to delete some or all of selected signatures"))
                 else:
                     messages.success(request, _("You successfully deleted all selected signatures"))
+            if action == "re-send":
+                for s in selected_signatures:
+                    try:
+                        send_confirmation_email(request, s)
+                    except:
+                        failed = True
+                if failed:
+                    messages.error(request, _("An error happened while trying to re-send confirmation emails"))
+                else:
+                    messages.success(request, _("You successfully deleted all selected signatures"))
+        if action == "re-send-all":
+            selected_signatures = Signature.objects.filter(petition=petition)
+            for s in selected_signatures:
+                try:
+                    send_confirmation_email(request, s)
+                except:
+                    failed = True
+            if failed:
+                messages.error(request, _("An error happened while trying to re-send confirmation emails"))
+            else:
+                messages.success(request, _("You successfully deleted all selected signatures"))
         return redirect(reverse("show_signatures", args=[petition_id]))
 
     signatures = petition.signature_set.all()
