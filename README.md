@@ -1,3 +1,5 @@
+[![Build Status](http://jenkins.sionneau.net:8080/buildStatus/icon?job=Pytition/master)](http://jenkins.sionneau.net:8080/job/Pytition/job/master/)
+
 # Pytition
 
 ## Why using Pytition?
