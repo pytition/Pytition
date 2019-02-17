@@ -18,6 +18,7 @@ node {
 
         sh '''
 cd $WORKSPACE
+source venv/bin/activate
 cat <<ENDOFFILE >> my.cnf
 [client]
 database = pytition
@@ -36,7 +37,7 @@ cd pytition && python3 ./manage.py migrate && cd -
 
 echo "Running tests"
 
-cd pytition && coverage run ./manage.py test petition
-
+coverage run ./pytition/manage.py test petition
+deactivate
            '''
 }
