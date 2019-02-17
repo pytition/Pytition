@@ -92,13 +92,13 @@ def index(request):
             org = Organization.objects.get(name=org_name)
         except Organization.DoesNotExist:
             raise Http404(_("not found"))
-        petitions = org.petitions.all()
+        petitions = org.petitions.filter(published=True)
     elif settings.INDEX_PAGE == 'USER_PETITIONS':
         try:
             user = PytitionUser.objects.get(user__username=user_name)
         except PytitionUser.DoesNotExist:
             raise Http404(_("not found"))
-        petitions = user.petitions.all()
+        petitions = user.petitions.filter(published=True)
     elif settings.INDEX_PAGE == 'ORGA_PROFILE':
         return redirect(reverse("org_profile", args=[org_name]))
     elif settings.INDEX_PAGE == 'USER_PROFILE':
