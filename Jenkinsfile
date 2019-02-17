@@ -34,7 +34,9 @@ echo "Running database migrations"
 
 cd pytition && python3 ./manage.py migrate && cd -
 
-echo "Done"
+echo "Running tests"
+
+cd pytition && coverage run ./manage.py test petition
 
            '''
 }
