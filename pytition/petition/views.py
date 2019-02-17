@@ -301,6 +301,7 @@ def user_profile(request, user_name):
 @login_required
 def leave_org(request):
     org_name = request.GET.get('org', '')
+    confirm_drop_org = request.GET.get('confirm', '')
     try:
         org = Organization.objects.get(name=org_name)
     except Organization.DoesNotExist:
@@ -312,7 +313,13 @@ def leave_org(request):
         return JsonResponse({}, status=404)
 
     try:
-        pytitionuser.organizations.remove(org)
+        with transaction.atomic():
+            if org.members.count() > 1 or confirm_drop_org:
+                pytitionuser.organizations.remove(org)
+                if org.members.count() == 0:
+                    org.delete()
+            else:
+                return JsonResponse({}, status=409)  # cannot proceed right now
     except:
         return JsonResponse({}, status=500)
 
