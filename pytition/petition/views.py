@@ -294,7 +294,7 @@ def user_profile(request, user_name):
         raise Http404(_("not found"))
 
     ctx = {'user': user,
-           'petitions': user.petitions.all()}
+           'petitions': user.petitions.filter(published=True)}
     return render(request, 'petition/profile.html', ctx)
 
 
@@ -333,7 +333,7 @@ def org_profile(request, org_name):
         raise Http404(_("not found"))
 
     ctx = {'org': org,
-           'petitions': org.petitions.all()}
+           'petitions': org.petitions.filter(published=True)}
     return render(request, "petition/profile.html", ctx)
 
 
