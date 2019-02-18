@@ -32,6 +32,7 @@
                 <div id="step-3" class="">
                 <form method="POST">{% csrf_token %}
                     {{ wizard.management_form }}
+                    <input type="hidden" name="redirect" id="redirectField" value="0">
                     <p>
                         <div class="col-xl-4 col-lg-6 col-sm-12 col-12 mx-auto text-center sb-preview">
                             <div class="card h-100 align-content-center">
@@ -44,10 +45,10 @@
                                     <div class="card-footer mt-auto">
                                         <div class="btn-toolbar">
                                             <div class="btn-group-toggle">
-                                                <label class="btn btn-outline-warning"
-                                                        title="{% trans "Save & Configure" %}">
+                                                <button class="btn btn-outline-warning"
+                                                        title="{% trans "Save & Configure" %}" id="save_and_edit_btn">
                                                     {{ form.configure }} <span class="oi oi-pencil"></span> {{ form.configure.label }}
-                                                </label>
+                                                </button>
                                                 <button type="submit" class="btn btn-outline-success"
                                                         title="{% trans "Save" %}"><span class="oi oi-clipboard"></span> {% trans "Save" %}</button>
                                             </div>
@@ -97,6 +98,20 @@
         $("#go_prev").click();
     });
 
+    $(function() {
+       $("#save_and_edit_btn").on("click", function(){
+           var redirect = $("#redirectField");
+           redirect.prop("value", "1");
+           redirect.closest("form").submit();
+       });
+    });
+
     document.location.hash = "step-3";
+
+    $(function() {
+        $("form").on("submit", function(){
+           document.location.hash = "";
+        });
+    });
     </script>
 {% endblock %}

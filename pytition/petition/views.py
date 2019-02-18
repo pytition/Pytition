@@ -902,6 +902,7 @@ class PetitionCreationWizard(SessionWizardView):
         title = self.get_cleaned_data_for_step("step1")["title"]
         message = self.get_cleaned_data_for_step("step2")["message"]
         pytitionuser = get_session_user(self.request)
+        _redirect = self.request.POST.get('redirect', '')
 
         if org_petition:
             org_name = self.kwargs['org_name']
@@ -926,7 +927,10 @@ class PetitionCreationWizard(SessionWizardView):
                         return redirect(reverse("org_dashboard"), args=[org_name])
                 org.petitions.add(petition)
                 petition.save()
-                return redirect(reverse("org_dashboard", args=[org_name]))
+                if _redirect and _redirect == '1':
+                    return redirect(reverse("edit_petition", args=[petition.id]))
+                else:
+                    return redirect(reverse("org_dashboard", args=[org_name]))
         else:
             petition = Petition.objects.create(title=title, text=message)
             if "template_id" in self.kwargs:
@@ -938,7 +942,10 @@ class PetitionCreationWizard(SessionWizardView):
                     return redirect(reverse("user_dashboard"))
             pytitionuser.petitions.add(petition)
             petition.save()
-            return redirect(reverse("user_dashboard"))
+            if _redirect and _redirect == '1':
+                return redirect(reverse("edit_petition", args=[petition.id]))
+            else:
+                return redirect(reverse("user_dashboard"))
 
     def get_context_data(self, form, **kwargs):
         org_petition = "org_name" in self.kwargs
