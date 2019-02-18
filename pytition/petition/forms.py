@@ -9,6 +9,7 @@ from .widgets import SwitchField
 
 import uuid
 from tinymce.widgets import TinyMCE
+from colorfield.fields import ColorWidget
 
 
 class SignatureForm(ModelForm):
@@ -61,6 +62,7 @@ class PetitionCreationStep3(forms.Form):
 class ContentFormGeneric(forms.Form):
     ### Content of a Petition ###
     text = forms.CharField(widget=TinyMCE)
+    target = forms.IntegerField(required=False)
     side_text = forms.CharField(widget=TinyMCE, required=False)
     footer_text = forms.CharField(widget=TinyMCE, required=False)
     footer_links = forms.CharField(widget=TinyMCE, required=False)
@@ -148,6 +150,14 @@ class NewsletterForm(forms.Form):
                                                                                   code="invalid"))
 
         return self.cleaned_data
+
+
+class StyleForm(forms.Form):
+    ### Graphical UI style info of Petition ###
+    bgcolor = forms.CharField(widget=ColorWidget)
+    linear_gradient_direction = forms.ChoiceField(choices=Petition.LINEAR_GRADIENT_CHOICES)
+    gradient_from = forms.CharField(widget=ColorWidget)
+    gradient_to = forms.CharField(widget=ColorWidget)
 
 
 class PytitionUserCreationForm(UserCreationForm):

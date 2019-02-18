@@ -8,6 +8,7 @@
     {{ email_form.media }}
     {{ newsletter_form.media }}
     {{ social_network_form.media }}
+    {{ style_form.media }}
 {% endblock %}
 
 {% block extracss %}
@@ -40,6 +41,8 @@
         <div class="list-group" id="list-tab" role="tablist">
             <a href="#content_form" class="list-group-item list-group-item-info list-group-item-action"
             data-toggle="list" aria-controls="content_form" role="tab"><span class="oi oi-clipboard"></span> {% trans "Content" %}</a>
+            <a href="#style_form" class="list-group-item list-group-item-info list-group-item-action"
+            data-toggle="list" aria-controls="style_form" role="tab"><span class="oi oi-brush"></span> {% trans "Style & Look" %}</a>
             <a href="#social_network_form" class="list-group-item list-group-item-info list-group-item-action"
             data-toggle="list" aria-controls="social_network_form" role="tab"><span class="oi oi-share-boxed"></span> {% trans "Social Network Metadata" %}</a>
             <a href="#email_form" class="list-group-item list-group-item-info list-group-item-action"
@@ -64,6 +67,13 @@
                 <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=social_network_form %}
                     <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="style_form" role="tabpanel"
+                 aria-labelledby="style-form-list">
+                <form method="POST">{% csrf_token %}
+                    {% include "petition/bs4_form.html" with form=style_form %}
+                    <button name="style_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="email_form" role="tabpanel"

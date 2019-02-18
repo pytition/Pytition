@@ -18,7 +18,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
-from .forms import PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
+from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
 
 from formtools.wizard.views import SessionWizardView
 
@@ -1130,14 +1130,27 @@ def edit_petition(request, petition_id):
                 petition.save()
         else:
             newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
+
+        if 'style_form_submitted' in request.POST:
+            style_form = StyleForm(request.POST)
+            if style_form.is_valid():
+                petition.bgcolor = style_form.cleaned_data['bgcolor']
+                petition.linear_gradient_direction = style_form.cleaned_data['linear_gradient_direction']
+                petition.gradient_from = style_form.cleaned_data['gradient_from']
+                petition.gradient_to = style_form.cleaned_data['gradient_to']
+                petition.save()
+            else:
+                style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
     else:
         content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
+        style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
         email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
         social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
         newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
     ctx = {'user': pytitionuser,
            'content_form': content_form,
+           'style_form': style_form,
            'email_form': email_form,
            'social_network_form': social_network_form,
            'newsletter_form': newsletter_form,
