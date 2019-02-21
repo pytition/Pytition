@@ -1042,9 +1042,9 @@ def edit_petition(request, petition_id):
 
     org = None
     user = None
-    if petition.organization_set.count() > 0:
+    if petition.organization_set.count() == 1:
         org = petition.organization_set.get()
-    elif petition.pytitionuser_set.count() > 0:
+    elif petition.pytitionuser_set.count() == 1:
         user = petition.pytitionuser_set.get()
     else:
         return HttpResponse(status=500)
@@ -1053,7 +1053,8 @@ def edit_petition(request, petition_id):
 
     if org:
         if pytitionuser not in org.members.all():
-            return HttpResponseForbidden(_("You are not a member of this organization"))
+            messages.error(request, _("You are not a member of the following organization: '{}'".format(org.name)))
+            return redirect("user_dashboard")
 
         try:
             permissions = pytitionuser.permissions.get(organization=org)
@@ -1062,12 +1063,14 @@ def edit_petition(request, petition_id):
                 _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
                   .format(orgname=org.name)), status=500)
 
-        if not permissions.can_modify_permissions:
-            return HttpResponseForbidden(_("You don't have permission to edit petitions in this organization"))
+        if not permissions.can_modify_petitions:
+            messages.error(request, _("You don't have permission to edit petitions in this organization"))
+            return redirect(reverse("org_dashboard", args=[org.name]))
 
     if user:
         if user != pytitionuser:
-            return HttpResponseForbidden(_("You are not the owner of this petition"))
+            messages.error(request, _("You are not the owner of this petition"))
+            return redirect("user_dashboard")
 
 
     if request.method == "POST":
