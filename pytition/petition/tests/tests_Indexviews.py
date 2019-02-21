@@ -5,8 +5,8 @@ from django.contrib.auth import get_user_model
 from petition.models import Organization, Petition, PytitionUser
 
 
-users = ['julia', 'john', 'max']
-orgs = ['RAP', 'Greenpeace', 'Attac']
+users = ['julia', 'john', 'max', 'sarah']
+orgs = ['RAP', 'Greenpeace', 'Attac', 'Les Amis de la Terre']
 
 user_published_petitions = {
     'john': 0,
