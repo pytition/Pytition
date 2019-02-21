@@ -100,14 +100,14 @@ def index(request):
             raise Http404(_("not found"))
         petitions = user.petitions.filter(published=True)
     elif settings.INDEX_PAGE == 'ORGA_PROFILE':
-        return redirect(reverse("org_profile", args=[org_name]))
+        return redirect("org_profile", org_name)
     elif settings.INDEX_PAGE == 'USER_PROFILE':
-        return redirect(reverse("user_profile", args=[user_name]))
+        return redirect("user_profile", user_name)
     elif settings.INDEX_PAGE == 'LOGIN_REGISTER':
         if request.user.is_authenticated:
-            return redirect(reverse("user_dashboard"))
+            return redirect("user_dashboard")
         else:
-            return redirect(reverse("login"))
+            return redirect("login")
     else:
         raise Http404(_("You must set a correct value to INDEX_PAGE config in your settings"))
 
@@ -157,7 +157,7 @@ def go_send_confirmation_email(request, signature_id):
     app_label = Signature._meta.app_label
     signature = Signature.objects.filter(pk=signature_id).get()
     send_confirmation_email(request, signature)
-    return redirect(reverse('admin:{}_signature_change'.format(app_label), args=[signature_id]))
+    return redirect('admin:{}_signature_change'.format(app_label), signature_id)
 
 
 def subscribe_to_newsletter(petition, email):
@@ -493,10 +493,10 @@ def new_template(request, org_name=None):
             else:
                 to = TemplateOwnership(user=pytitionuser, template=template)
             to.save()
-            return redirect(reverse("edit_template", args=[template.id]))
+            return redirect("edit_template", template.id)
         else:
             messages.error(request, _("You need to provide a template name."))
-            return redirect(reverse(redirection))
+            return redirect(redirection)
     else:
         return render(request, "petition/new_template.html", ctx)
 
@@ -791,7 +791,7 @@ def org_edit_user_perms(request, org_name, user_name):
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         messages.error(request, _("User '{name}' does not exist".format(name=user_name)))
-        return redirect(reverse("org_dashboard", args=[org_name]))
+        return redirect("org_dashboard", org_name)
 
     try:
         org = Organization.objects.get(name=org_name)
@@ -801,14 +801,14 @@ def org_edit_user_perms(request, org_name, user_name):
     if org not in member.organizations.all():
         messages.error(request, _("The user '{username}' is not member of this organization ({orgname}).".
                                   format(username=user_name, orgname=org_name)))
-        return redirect(reverse("org_dashboard", args=[org_name]))
+        return redirect("org_dashboard", org_name)
 
     try:
         permissions = member.permissions.get(organization=org)
     except Permission.DoesNotExist:
         messages.error(request,
                        _("Internal error, this member does not have permissions attached to this organization."))
-        return redirect(reverse("org_dashboard", args=[org_name]))
+        return redirect("org_dashboard", org_name)
 
     try:
         user_permissions = pytitionuser.permissions.get(organization=org)
@@ -833,7 +833,7 @@ def org_set_user_perms(request, org_name, user_name):
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         messages.error(request, _("User does not exist"))
-        return redirect(reverse("org_dashboard", args=[org_name]))
+        return redirect("org_dashboard", org_name)
 
     try:
         org = Organization.objects.get(name=org_name)
@@ -842,27 +842,27 @@ def org_set_user_perms(request, org_name, user_name):
 
     if org not in member.organizations.all():
         messages.error(request, _("This user is not part of organization \'{orgname}\'".format(orgname=org.name)))
-        return redirect(reverse("org_dashboard", args=[org_name]))
+        return redirect("org_dashboard", org_name)
 
     try:
         permissions = member.permissions.get(organization=org)
     except Permission.DoesNotExist:
         messages.error(request, _("Fatal error, this user does not have permissions attached for this organization"))
-        return redirect(reverse("org_dashboard", args=[org_name]))
+        return redirect("org_dashboard", org_name)
 
     try:
         userperms = pytitionuser.permissions.get(organization=org)
     except:
         messages.error(request, _("Fatal error, you don't have permissions attached to you for this organization"))
-        return redirect(reverse("org_dashboard", args=[org_name]))
+        return redirect("org_dashboard", org_name)
 
     if pytitionuser not in org.members.all():
         messages.error(request, _("You are not part of this organization"))
-        return redirect(reverse("user_dashboard"))
+        return redirect("user_dashboard")
 
     if not userperms.can_modify_permissions:
         messages.error(request, _("You are not allowed to modify this organization members' permissions"))
-        return redirect(reverse("org_edit_user_perms", args=[org_name, user_name]))
+        return redirect("org_edit_user_perms", org_name, user_name)
 
     if request.method == "POST":
         post = request.POST
@@ -880,7 +880,7 @@ def org_set_user_perms(request, org_name, user_name):
         permissions.can_modify_permissions = post.get('can_modify_permissions', '') == 'on'
         permissions.save()
         messages.success(request, _("Permissions successfully changed!"))
-    return redirect(reverse("org_edit_user_perms", args=[org_name, user_name]))
+    return redirect("org_edit_user_perms", org_name, user_name)
 
 
 WizardTemplates = {"step1": "petition/new_petition_step1.html",
@@ -914,7 +914,7 @@ class PetitionCreationWizard(SessionWizardView):
             try:
                 permissions = pytitionuser.permissions.get(organization=org)
             except Permission.DoesNotExist:
-                return redirect(reverse("org_dashboard", args=[org_name]))
+                return redirect("org_dashboard", org_name)
 
             if pytitionuser in org.members.all() and permissions.can_create_petitions:
                 petition = Petition.objects.create(title=title, text=message)
@@ -924,13 +924,13 @@ class PetitionCreationWizard(SessionWizardView):
                         petition.prepopulate_from_template(template)
                     else:
                         messages.error(self.request, _("This template does not belong to your organization"))
-                        return redirect(reverse("org_dashboard"), args=[org_name])
+                        return redirect("org_dashboard", org_name)
                 org.petitions.add(petition)
                 petition.save()
                 if _redirect and _redirect == '1':
-                    return redirect(reverse("edit_petition", args=[petition.id]))
+                    return redirect("edit_petition", petition.id)
                 else:
-                    return redirect(reverse("org_dashboard", args=[org_name]))
+                    return redirect("org_dashboard", org_name)
         else:
             petition = Petition.objects.create(title=title, text=message)
             if "template_id" in self.kwargs:
@@ -939,13 +939,13 @@ class PetitionCreationWizard(SessionWizardView):
                     petition.prepopulate_from_template(template)
                 else:
                     messages.error(self.request, _("This template does not belong to you"))
-                    return redirect(reverse("user_dashboard"))
+                    return redirect("user_dashboard")
             pytitionuser.petitions.add(petition)
             petition.save()
             if _redirect and _redirect == '1':
-                return redirect(reverse("edit_petition", args=[petition.id]))
+                return redirect("edit_petition", petition.id)
             else:
-                return redirect(reverse("user_dashboard"))
+                return redirect("user_dashboard")
 
     def get_context_data(self, form, **kwargs):
         org_petition = "org_name" in self.kwargs
@@ -1065,7 +1065,7 @@ def edit_petition(request, petition_id):
 
         if not permissions.can_modify_petitions:
             messages.error(request, _("You don't have permission to edit petitions in this organization"))
-            return redirect(reverse("org_dashboard", args=[org.name]))
+            return redirect("org_dashboard", org.name)
 
     if user:
         if user != pytitionuser:
@@ -1184,17 +1184,17 @@ def show_signatures(request, petition_id):
         other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
         if pytitionuser not in org.members.all():
             messages.error(request, _("You are not member of the following organization: \'{}\'".format(org.name)))
-            return redirect(reverse("user_dashboard"))
+            return redirect("user_dashboard")
         try:
             permissions = pytitionuser.permissions.get(organization=org)
         except:
             messages.error(request, _("Internal error, cannot find your permissions attached to this organization"
                                       "(\'{orgname}\')".format(orgname=org.name)))
-            return redirect(reverse("user_dashboard"))
+            return redirect("user_dashboard")
 
         if not permissions.can_view_signatures:
             messages.error(request, _("You are not allowed to view signatures in this organization"))
-            return redirect(reverse("org_dashboard"), args=[org.name])
+            return redirect("org_dashboard", org.name)
 
         ctx.update({'org': org, 'other_orgs': other_orgs,
                     'user_permissions': permissions})
@@ -1238,7 +1238,7 @@ def show_signatures(request, petition_id):
                 messages.error(request, _("An error happened while trying to re-send confirmation emails"))
             else:
                 messages.success(request, _("You successfully deleted all selected signatures"))
-        return redirect(reverse("show_signatures", args=[petition_id]))
+        return redirect("show_signatures", petition_id)
 
     signatures = petition.signature_set.all()
 
