@@ -276,7 +276,8 @@ def org_dashboard(request, org_name):
 
     other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
-                                                           'petitions': petitions, 'user_permissions': permissions})
+                                                           'petitions': petitions, 'user_permissions': permissions,
+                                                           'q': q})
 
 @login_required
 def user_dashboard(request):
@@ -288,7 +289,7 @@ def user_dashboard(request):
     else:
         petitions = user.petitions
 
-    return render(request, 'petition/user_dashboard.html', {'user': user, 'petitions': petitions})
+    return render(request, 'petition/user_dashboard.html', {'user': user, 'petitions': petitions, 'q': q})
 
 
 def user_profile(request, user_name):
