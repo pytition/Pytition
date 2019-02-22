@@ -3,7 +3,11 @@
 
 <div class="row">
     <div class="col text-center">
-        <h2>{% trans "Petitions" %}</h2>
+        {%  if org %}
+        <h2>{% trans "Petitions of" %} '{{ org.name }}' </h2>
+        {% else %}
+        <h2>{% trans "Your petitions" %}</h2>
+        {% endif %}
     </div>
 </div>
 

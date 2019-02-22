@@ -41,16 +41,40 @@
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         {% block brand %}
         <a class="navbar-brand" href="#">{{ settings.SITE_NAME }}</a>
-        {% endblock %}
+        {% endblock brand %}
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav">
-                <li class="nav-item">
+            <ul class="navbar-nav mr-auto">
                     {% if user.is_authenticated %}
-                        <a href="{% url "logout" %}?next=/" class="nav-link">{% trans "Logout" %}</a>
+                <li class="nav-item dropdown">
+                        {% block navdropdown %}
+                        <a class="nav-link dropdown-toggle btn btn-outline-secondary" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="oi oi-person"></span> {{ user.get_full_name }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url "user_dashboard" %}"><span class="oi oi-person"></span>
+                              {% trans "Your dashboard" %}</a>
+                          <div class="dropdown-divider"></div>
+                          {% for org in user.organizations.all %}
+                              <a class="dropdown-item" href="{% url "org_dashboard" org.name %}">
+                                <span class="oi oi-people"></span> {{ org.name }}
+                              </a>
+                          {% endfor %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url "logout" %}?next=/"><span class="oi oi-account-logout"></span>
+                                {% trans "Logout" %}</a>
+                            <a class="dropdown-item" href="#"><span class="oi oi-cog"></span>
+                                {% trans "Account settings" %}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><span class="oi oi-plus"></span>
+                                {% trans "Create an organization" %}</a>
+                        </div>
+                        {% endblock navdropdown %}
                     {% else %}
+                <li class="nav-item">
                         <a href="{% url "login" %}?next={% block login_next %}{{ request.path }}{% endblock login_next %}" class="nav-link">{% trans "Login" %}</a>
                     {% endif %}
                 </li>

@@ -116,8 +116,12 @@ def index(request):
     if q != "":
         petitions = petitions.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
     title = "Pétitions Résistance à l'agression publicitaire"
+    if authenticated:
+        user = get_session_user(request)
+    else:
+        user = request.user
     return render(request, 'petition/index.html', {'petitions': petitions, 'title': title,
-                                                   'authenticated': authenticated, 'q': q})
+                                                   'user': user, 'q': q})
 
 @login_required
 def get_csv_signature(request, petition_id, only_confirmed):

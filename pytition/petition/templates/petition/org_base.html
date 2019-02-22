@@ -9,8 +9,6 @@
     {% block main_grid %}
     <div class="row">
         <div class="col-xl-3 col-lg-5 col-md-5 col-sm-6 col-12 tool-bar">
-            {% include "petition/identity_selector.html" with orgs=other_orgs owner=org user=user %}
-            <hr>
             <a class="btn btn-outline-success" href="{% url "org_petition_wizard" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
             {% include "petition/org_member_list.html" with org=org user_permissions=user_permissions %}
