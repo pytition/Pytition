@@ -8,9 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    {% block title %}
-    <title>{{ settings.SITE_NAME }}</title>
-    {% endblock title %}
+
+    <title>{% block title %}{% trans "Homepage" %}{% endblock title %} – {{ settings.SITE_NAME }}</title>
+
     <!-- Bootstrap -->
     <link href="{% static "bootstrap-4.2.1/css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "open-iconic-1.1.1/font/css/open-iconic-bootstrap.min.css" %}" rel="stylesheet">

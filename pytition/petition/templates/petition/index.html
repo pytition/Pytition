@@ -1,9 +1,8 @@
 {% extends 'petition/base.html' %}
 {% load static %}
 {% load i18n %}
-    {% block title %}
-    <title>{{ title }}</title>
-    {% endblock title %}
+
+    <title>{% block title %}{{ title }}{% endblock title %}</title>
 
 {% block container_type %}container{% endblock container_type %}
 
