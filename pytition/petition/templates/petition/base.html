@@ -14,8 +14,16 @@
     <!-- Bootstrap -->
     <link href="{% static "bootstrap-4.2.1/css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "open-iconic-1.1.1/font/css/open-iconic-bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Extra media -->
     {% block media %}
     {% endblock %}
+
+    <!-- Extra meta -->
+    {% block extrameta %}
+    {% endblock %}
+
+    <!-- Extra styles -->
     {% block extracss %}
     {% endblock %}
     <style>
@@ -90,6 +98,8 @@
         </form>
     </nav>
     <p></p>
+    {% block main_content %}
+    {% endblock %}
     {% block main_grid %}
     {% endblock %}
 </div>
