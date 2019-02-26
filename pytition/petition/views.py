@@ -6,7 +6,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.utils.html import format_html
@@ -14,11 +13,13 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.contrib.auth.hashers import make_password
-
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
-from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3
+from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
+from .forms import DeleteAccountForm
 
 from formtools.wizard.views import SessionWizardView
 
@@ -1252,3 +1253,66 @@ def show_signatures(request, petition_id):
                 'signatures': signatures})
 
     return render(request, "petition/signature_data.html", ctx)
+
+
+def get_update_form(user, data=None):
+    if not data:
+        _data = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email
+        }
+    else:
+        _data = data
+    return UpdateInfoForm(user, _data)
+
+
+@login_required
+def account_settings(request):
+    pytitionuser = get_session_user(request)
+    submitted_ctx = {
+        'update_info_form_submitted': False,
+        'delete_account_form_submitted': False,
+        'password_change_form_submitted': False
+    }
+
+    if request.method == "POST":
+        if 'update_info_form_submitted' in request.POST:
+            update_info_form = UpdateInfoForm(pytitionuser.user, request.POST)
+            submitted_ctx['update_info_form_submitted'] = True
+            if update_info_form.is_valid():
+               update_info_form.save()
+        else:
+            update_info_form = get_update_form(pytitionuser.user)
+
+        if 'delete_account_form_submitted' in request.POST:
+            delete_account_form = DeleteAccountForm(request.POST)
+            submitted_ctx['delete_account_form_submitted'] = True
+            if delete_account_form.is_valid():
+                pytitionuser.drop()
+                return redirect("/")
+        else:
+            delete_account_form = DeleteAccountForm()
+
+        if 'password_change_form_submitted' in request.POST:
+            password_change_form = PasswordChangeForm(pytitionuser.user, request.POST)
+            submitted_ctx['password_change_form_submitted'] = True
+            if password_change_form.is_valid():
+                password_change_form.save()
+                messages.success(request, _("You successfully changed your password!"))
+        else:
+            password_change_form = PasswordChangeForm(pytitionuser.user)
+
+    else:
+        update_info_form = get_update_form(pytitionuser.user)
+        delete_account_form = DeleteAccountForm()
+        password_change_form = PasswordChangeForm(pytitionuser.user)
+
+    ctx = {'user': pytitionuser,
+           'update_info_form': update_info_form,
+           'delete_account_form': delete_account_form,
+           'password_change_form': password_change_form,
+           'base_template': 'petition/user_base.html'}
+    ctx.update(submitted_ctx)
+
+    return render(request, "petition/account_settings.html", ctx)

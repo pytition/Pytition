@@ -7,6 +7,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.hashers import get_hasher
+from django.db import transaction
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
@@ -275,6 +276,16 @@ class Organization(models.Model):
                                          verbose_name=ugettext_lazy("Default petition template"), to_field='id',
                                          on_delete=models.SET_NULL)
 
+    def drop(self):
+        with transaction.atomic():
+            petitions = list(self.petitions.all())
+            templates = list(self.petition_templates.all())
+            self.delete()
+            for petition in petitions:
+                petition.delete()
+            for template in templates:
+                template.delete()
+
     def add_member(self, member):
         member.organizations.add(self)
         permission = Permission.objects.create(organization=self)
@@ -357,6 +368,20 @@ class PytitionUser(models.Model):
                 return False
         return False
 
+
+    def drop(self):
+        with transaction.atomic():
+            orgs = list(self.organizations.all())
+            petitions = list(self.petitions.all())
+            templates = list(self.petition_templates.all())
+            self.delete()
+            for org in orgs:
+                if org.members.count() == 0:
+                    org.drop()
+            for petition in petitions:
+                petition.delete()
+            for template in templates:
+                template.delete()
 
     @property
     def is_authenticated(self):

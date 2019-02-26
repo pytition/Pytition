@@ -53,4 +53,5 @@ urlpatterns = [
     url('^register/',
         CreateView.as_view(template_name='registration/register.html', form_class=PytitionUserCreationForm,
                            success_url=reverse_lazy("login")), name="register"),
+    url('^account_settings$', views.account_settings, name="account_settings"),
 ]

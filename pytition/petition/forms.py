@@ -170,3 +170,34 @@ class PytitionUserCreationForm(UserCreationForm):
         super(PytitionUserCreationForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['email'].required = True
+
+
+class UpdateInfoForm(UserCreationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ("first_name", "last_name", "email")
+
+    def __init__(self, user, *args, **kwargs):
+        super(UpdateInfoForm, self).__init__(*args, **kwargs)
+        self.user = user
+        del self.fields['password1']
+        del self.fields['password2']
+
+    def save(self, commit=True):
+        self.user.email = self.cleaned_data['email']
+        self.user.first_name = self.cleaned_data['first_name']
+        self.user.last_name = self.cleaned_data['last_name']
+        if commit:
+            self.user.save()
+        return self.user
+
+
+class DeleteAccountForm(forms.Form):
+    validation = forms.CharField()
+
+    def clean(self):
+        cleaned_data = super(DeleteAccountForm, self).clean()
+        valid = cleaned_data.get('validation')
+        if valid != _("DROP MY ACCOUNT"):
+            self.add_error('validation', ValidationError(_("You miss-typed the validation code"), code="invalid"))
+        return self.cleaned_data
