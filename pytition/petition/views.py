@@ -871,6 +871,7 @@ def org_set_user_perms(request, org_name, user_name):
         return redirect("org_edit_user_perms", org_name, user_name)
 
     if request.method == "POST":
+        error = False
         post = request.POST
         permissions.can_remove_members = post.get('can_remove_members', '') == 'on'
         permissions.can_add_members = post.get('can_add_members', '') == 'on'
@@ -883,9 +884,29 @@ def org_set_user_perms(request, org_name, user_name):
         permissions.can_view_signatures = post.get('can_view_signatures', '') == 'on'
         permissions.can_modify_signatures = post.get('can_modify_signatures', '') == 'on'
         permissions.can_delete_signatures = post.get('can_delete_signatures', '') == 'on'
-        permissions.can_modify_permissions = post.get('can_modify_permissions', '') == 'on'
+        can_modify_perms = post.get('can_modify_permissions', '') == 'on'
+        with transaction.atomic():
+            # if user is dropping his own permissions
+            if not can_modify_perms and permissions.can_modify_permissions and pytitionuser == member:
+                # get list of people with can_modify_permissions permission on this org
+                owners = PytitionUser.objects.filter(permissions__organization=org,
+                                                     permissions__can_modify_permissions=True)
+                if owners.count() > 1:
+                    permissions.can_modify_permissions = can_modify_perms
+                else:
+                    if org.members.count() > 1:
+                        error = True
+                        messages.error(request, _("You cannot remove your ability to change permissions on this "
+                                                  "Organization because you are the only one left who can do this. "
+                                                  "Give the permission to someone else before removing yours."))
+                    else:
+                        error = True
+                        messages.error(request, _("You cannot remove your ability to change permissions on this "
+                                                  "Organization because you are the only member left."))
+        if not error:
+            messages.success(request, _("Permissions successfully changed!"))
         permissions.save()
-        messages.success(request, _("Permissions successfully changed!"))
+
     return redirect("org_edit_user_perms", org_name, user_name)
 
 
