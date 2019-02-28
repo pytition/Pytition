@@ -107,6 +107,7 @@ class EditPetitionViewTest(TestCase):
         response = self.client.get(reverse("edit_petition", args=[petition.id]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['petition'], petition)
+        self.assertTemplateUsed(response, "petition/edit_petition.html")
 
     def test_edit_loggedout(self):
         """ edit your own petition while being logged out """
@@ -132,6 +133,7 @@ class EditPetitionViewTest(TestCase):
         petition = attac.petitions.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]), follow=True)
         self.assertRedirects(response, reverse("user_dashboard"))
+        self.assertTemplateUsed(response, "petition/user_dashboard.html")
 
     def test_edit_InOrgButNoEditPermission(self):
         """
@@ -143,6 +145,7 @@ class EditPetitionViewTest(TestCase):
         petition = at.petitions.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]), follow=True)
         self.assertRedirects(response, reverse("org_dashboard", args=[at.name]))
+        self.assertTemplateUsed(response, "petition/org_dashboard.html")
 
     def test_edit_InOrgWithEditPerm(self):
         """
