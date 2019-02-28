@@ -1,17 +1,6 @@
 {% load i18n %}
 <form action="{% url "org_set_user_perms" org.name member.name %}" method="POST">
 {% csrf_token %}
-{% if messages %}
-{% for message in messages %}
-    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger">
-    {% else %}
-        <div class="alert alert-success">
-    {% endif %}
-        {{ message }}
-    </div>
-    {% endfor %}
-{% endif %}
 <table class="table table-hover table-striped">
     <caption style="caption-side: top">
     {% blocktrans %}
