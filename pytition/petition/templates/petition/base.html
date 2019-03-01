@@ -49,6 +49,7 @@
 </div>
 <div class="{% block container_type %}container-fluid{% endblock container_type %}">
 
+    {% block navbar %}
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         {% block brand %}
         <a class="navbar-brand" href="#">{{ settings.SITE_NAME }}</a>
@@ -101,9 +102,11 @@
             </div>
         </form>
     </nav>
-    <p></p>
+    {% endblock %}
+
     {% block main_content %}
     {% endblock %}
+
     {% block main_grid %}
     {% endblock %}
 </div>
