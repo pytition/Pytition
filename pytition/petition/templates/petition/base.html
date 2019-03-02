@@ -44,11 +44,9 @@
     {% endblock %}
 </head>
 <body>
-<div id="modalContainer">
+    <div id="modalContainer">
 
-</div>
-<div class="{% block container_type %}container-fluid{% endblock container_type %}">
-
+    </div>
     {% block navbar %}
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         {% block brand %}
@@ -104,12 +102,22 @@
     </nav>
     {% endblock %}
 
-    {% block main_content %}
-    {% endblock %}
+    <div class="{% block container_type %}container-fluid{% endblock container_type %}">
+        {% block main_content %}
+        {% endblock %}
 
-    {% block main_grid %}
+        {% block main_grid %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    {% block footer %}
+    <div class="footer-wrapper">
+        <footer role="contentinfo" class="footer container-fluid">
+            <a href="https://github.com/fallen/Pytition/"><img src="{% static "GitHub_Logo_White.png" %}" width="100" height="41" /></a>
+        </footer>
+    </div>
     {% endblock %}
-</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "jquery-3.3.1/jquery-3.3.1.min.js" %}"></script>
