@@ -21,8 +21,6 @@ p.lead {
 }
 
 h1 {
-    padding-left: 15px;
-    padding-right: 15px;
     color: #000;
     font-weight: 800;
     text-transform: uppercase;
@@ -32,39 +30,7 @@ h1 {
 @media screen and (min-width:768px) {
     h1 {
         font-size: 62px;
-        float: left;
-        width: 60%;
-        padding-left: 30px;
-        padding-right: 30px
     }
-}
-
-@media screen and (min-width:992px) {
-    h1 {
-        width: 66.666%
-    }
-}
-
-@media screen and (min-width:1090px) {
-    h1 {
-        width: 69%
-    }
-}
-
-.content {
-    position: relative;
-    overflow: hidden;
-    overflow-wrap: break-word;
-}
-
-.formular,
-.presentation {
-    min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
-    position: relative;
-    width: 100%;
-    float: right
 }
 
 .counter {
@@ -81,33 +47,6 @@ h1 {
     position: relative
 }
 
-.presentation {
-    padding-bottom: 3em;
-    padding-left: 15px;
-    padding-right: 15px
-}
-
-@media screen and (min-width:768px) {
-    .presentation {
-        float: left;
-        width: 60%;
-        padding-left: 30px;
-        padding-right: 30px
-    }
-}
-
-@media screen and (min-width:992px) {
-    .presentation {
-        width: 66.666%
-    }
-}
-
-@media screen and (min-width:1090px) {
-    .presentation {
-        width: 69%
-    }
-}
-
 .presentation img {
     max-width: 100%;
     object-fit: scale-down
@@ -116,35 +55,10 @@ h1 {
 .formular {
     background-color: #666;
     color: #fff;
-    height: 100%;
-    margin-bottom: 1em
 }
 
 .formular .form-wrapper {
     padding-top: 20px
-}
-
-@media screen and (min-width:768px) {
-    .formular {
-        position: absolute;
-        overflow: auto;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 40%
-    }
-}
-
-@media screen and (min-width:992px) {
-    .formular {
-        width: 33.334%
-    }
-}
-
-@media screen and (min-width:1090px) {
-    .formular {
-        width: 31%
-    }
 }
 
 .show-form {
