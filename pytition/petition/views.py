@@ -256,12 +256,14 @@ def org_dashboard(request, org_name):
     try:
         org = Organization.objects.get(name=org_name)
     except Organization.DoesNotExist:
-        raise Http404(_("not found"))
+        messages.error(request, _("This organization does not exist: '{}'".format(org_name)))
+        return redirect("user_dashboard")
 
     pytitionuser = get_session_user(request)
 
     if org not in pytitionuser.organizations.all():
-        return HttpResponseForbidden(_("You are not part of this organization."))
+        messages.error(request, _("You are not part of this organization: '{}'".format(org_name)))
+        return redirect("user_dashboard")
 
     if q != "":
         petitions = org.petitions.filter(Q(title__icontains=q) | Q(text__icontains=q))
