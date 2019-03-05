@@ -121,19 +121,18 @@
                     </div>
                 {% endfor %}
                 <div class="fields">
-                    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
                     <style>
-                        .fa-check-circle {
+                        .oi-check-circle {
                           width: 15px;
                           margin: -25px 10px;
                           float: right;
                         }
-                        .fa-ban {
+                        .oi-ban {
                           width: 15px;
                           margin: -25px 10px;
                           float: right;
                         }
-                        .fa-question-circle {
+                        .oi-question-circle {
                           width: 15px;
                           margin: -25px 10px;
                           float: right;
@@ -175,7 +174,7 @@
                                 {% if form.is_bound %}
                                     {% if field.errors %}
                                         {{ field|add_class:"is-invalid" }}
-                                <span class="fas fa-question-circle form-control-feedback invalid-feedback"></span>
+                                        <span class="oi oi-question-mark form-control-feedback invalid-feedback"></span>
                                         {% for error in field.errors %}
                                             <span class="invalid-feedback">
                                                 {{ error }}
@@ -183,7 +182,7 @@
                                         {% endfor %}
                                     {% else %}
                                         {{ field|add_class:"is-valid" }}
-                                <span class="far fa-check-circle form-control-feedback valid-feedback"></span>
+                                        <span class="oi oi-circle-check form-control-feedback valid-feedback"></span>
                                     {% endif %}
                                 {% else %}
                                     {{ field }}
