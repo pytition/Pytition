@@ -51,7 +51,6 @@
 {% endblock %}
 
 {% block extracss %}
-    <link href="{% static "typeahead.css" %}" rel="stylesheet" type="text/css">
     <link href="{% static "petition.css" %}" rel="stylesheet" type="text/css">
     <style type="text/css">
     {% if petition.linear_gradient_direction != petition.NO %}
@@ -122,7 +121,6 @@
                     </div>
                 {% endfor %}
                 <div class="fields">
-                    <script type='text/javascript' src='{% static "typeahead.js" %}'></script>
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
                     <style>
                         .fa-check-circle {
