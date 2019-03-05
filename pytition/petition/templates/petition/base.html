@@ -47,77 +47,79 @@
     <div id="modalContainer">
 
     </div>
-    {% block navbar %}
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        {% block brand %}
-        <a class="navbar-brand" href="#">{{ settings.SITE_NAME }}</a>
-        {% endblock brand %}
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav mr-auto">
-                    {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                        {% block navdropdown %}
-                        <a class="nav-link dropdown-toggle btn btn-outline-secondary" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="oi oi-person"></span> {{ user.get_full_name }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" href="{% url "user_dashboard" %}"><span class="oi oi-person"></span>
-                              {% trans "Your dashboard" %}</a>
-                          <div class="dropdown-divider"></div>
-                          {% for org in user.organizations.all %}
-                              <a class="dropdown-item" href="{% url "org_dashboard" org.name %}">
-                                <span class="oi oi-people"></span> {{ org.name }}
-                              </a>
-                          {% endfor %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url "logout" %}?next=/"><span class="oi oi-account-logout"></span>
-                                {% trans "Logout" %}</a>
-                            <a class="dropdown-item" href="{% url "account_settings" %}"><span class="oi oi-cog"></span>
-                                {% trans "Account settings" %}</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><span class="oi oi-plus"></span>
-                                {% trans "Create an organization" %}</a>
-                        </div>
-                        {% endblock navdropdown %}
-                    {% else %}
-                <li class="nav-item">
-                        <a href="{% url "login" %}?next={% block login_next %}{{ request.path }}{% endblock login_next %}" class="nav-link">{% trans "Login" %}</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
-        <form class="form-inline my-2 my-lg-0" action="{{ request.path }}" method="GET">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">?</span>
-              </div>
-              <input type="text" class="form-control mr-sm-2" placeholder="..." name="q" value="{{ q }}">
-              <button type="submit" class="btn btn-sm btn-outline-success my-2 my-sm-0">{% trans "Search" %}</button>
-            </div>
-        </form>
-    </nav>
-    {% endblock %}
 
     <div class="{% block container_type %}container-fluid{% endblock container_type %}">
+
+        {% block navbar %}
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            {% block brand %}
+            <a class="navbar-brand" href="#">{{ settings.SITE_NAME }}</a>
+            {% endblock brand %}
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                            {% block navdropdown %}
+                            <a class="nav-link dropdown-toggle btn btn-outline-secondary" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="oi oi-person"></span> {{ user.get_full_name }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="{% url "user_dashboard" %}"><span class="oi oi-person"></span>
+                                  {% trans "Your dashboard" %}</a>
+                              <div class="dropdown-divider"></div>
+                              {% for org in user.organizations.all %}
+                                  <a class="dropdown-item" href="{% url "org_dashboard" org.name %}">
+                                    <span class="oi oi-people"></span> {{ org.name }}
+                                  </a>
+                              {% endfor %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url "logout" %}?next=/"><span class="oi oi-account-logout"></span>
+                                    {% trans "Logout" %}</a>
+                                <a class="dropdown-item" href="{% url "account_settings" %}"><span class="oi oi-cog"></span>
+                                    {% trans "Account settings" %}</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#"><span class="oi oi-plus"></span>
+                                    {% trans "Create an organization" %}</a>
+                            </div>
+                            {% endblock navdropdown %}
+                        {% else %}
+                    <li class="nav-item">
+                            <a href="{% url "login" %}?next={% block login_next %}{{ request.path }}{% endblock login_next %}" class="nav-link">{% trans "Login" %}</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <form class="form-inline my-2 my-lg-0" action="{{ request.path }}" method="GET">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">?</span>
+                  </div>
+                  <input type="text" class="form-control mr-sm-2" placeholder="..." name="q" value="{{ q }}">
+                  <button type="submit" class="btn btn-sm btn-outline-success my-2 my-sm-0">{% trans "Search" %}</button>
+                </div>
+            </form>
+        </nav>
+        {% endblock %}
+
         {% block main_content %}
         {% endblock %}
 
         {% block main_grid %}
         {% endblock %}
-    </div>
 
-    <!-- Footer -->
-    {% block footer %}
-    <div class="footer-wrapper">
-        <footer role="contentinfo" class="footer container-fluid">
-            <a href="https://github.com/fallen/Pytition/"><img src="{% static "GitHub_Logo_White.png" %}" width="100" height="41" /></a>
-        </footer>
+        <!-- Footer -->
+        {% block footer %}
+        <div class="footer-wrapper">
+            <footer role="contentinfo" class="footer">
+                <a href="https://github.com/fallen/Pytition/"><img src="{% static "GitHub_Logo_White.png" %}" width="100" height="41" /></a>
+            </footer>
+        </div>
+        {% endblock %}
     </div>
-    {% endblock %}
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "jquery-3.3.1/jquery-3.3.1.min.js" %}"></script>

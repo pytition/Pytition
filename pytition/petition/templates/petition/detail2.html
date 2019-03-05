@@ -118,7 +118,7 @@
                     {% else %}
                         class="alert {{ message.tags }}" role="alert">
                     {% endif %}
-                            {{ message }}
+                        {{ message }}
                     </div>
                 {% endfor %}
                 <div class="fields">
@@ -221,7 +221,7 @@
 {% endblock main_content %}
 
 {% block footer %}
-<div class="footer-wrapper container">
+<div class="footer-wrapper">
     <footer role="contentinfo" class="footer d-sm-flex">
         <div class="footer-links flex-grow-1">
             {% autoescape off %}{{ petition.footer_links }}{% endautoescape %}
