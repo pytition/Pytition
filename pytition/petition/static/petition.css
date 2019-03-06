@@ -1,7 +1,8 @@
 body {
     background-position: center top;
     background-attachment: fixed;
-    background-size: cover
+    background-size: cover;
+    background-color: #DDD;
 }
 
 @media screen and (min-width:768px) {
@@ -27,9 +28,31 @@ h1 {
     font-size: 50px
 }
 
+.petition-wrapper,
+.formular {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.formular {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
 @media screen and (min-width:768px) {
     h1 {
         font-size: 62px;
+    }
+    .petition-wrapper {
+        padding: 15px 360px 15px 40px;
+    }
+    .formular {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 320px;
+        margin-left: 0px;
+        margin-right: 0px;
     }
 }
 
@@ -46,7 +69,6 @@ h1 {
     overflow: hidden;
     position: relative
 }
-
 .presentation img {
     max-width: 100%;
     object-fit: scale-down
@@ -105,7 +127,7 @@ h1 {
     font-size: 1.7em
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:767px) {
     .eaFullWidthContent {
         margin-top: 0 !important
     }
@@ -130,15 +152,26 @@ h1 {
     margin-bottom: 10px
 }
 
+.progress-bar {
+    background-color: #ffeb1f;
+}
+
 .btn-primary,
 .eaSubmitButton {
     color: #666;
-    text-shadow: 1px 1px 1px #fff
 }
 
 .eaSubmitButton {
     font-size: 20px;
-    padding: 12px 20px
+    padding: 12px 20px;
+    background-color: #ffeb1f;
+    border-color: #ffe905;
+    text-transform: uppercase;
+}
+
+.btn-block {
+    background-color: #ffeb1f;
+    border-color: #ffe905;
 }
 
 @media screen and (min-width:768px) {
@@ -167,7 +200,7 @@ h1 {
 }
 
 .footer {
-    padding: 20px 0;
+    padding: 20px 15px;
     text-align: left;
     background-color: #020;
     color: #99979c
