@@ -42,7 +42,7 @@ org_members = {
     'Attac': ['john'],
 }
 
-class EditPetitionViewTest(TestCase):
+class OrgDashboardViewTest(TestCase):
     """Test index view"""
     @classmethod
     def setUpTestData(cls):
@@ -117,7 +117,7 @@ class EditPetitionViewTest(TestCase):
         self.assertTemplateUsed(response, "registration/login.html")
         self.assertTemplateUsed(response, "petition/base.html")
 
-    def test_OrgOK(self):
+    def test_OrgOK1(self):
         org_name="Attac"
         john = self.login("john")
         response = self.client.get(reverse("org_dashboard", args=[org_name]))
@@ -127,3 +127,25 @@ class EditPetitionViewTest(TestCase):
         self.assertEqual(len(petitions), 4)
         self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], john)
+
+    def test_OrgOK2(self):
+        org_name="RAP"
+        julia = self.login("julia")
+        response = self.client.get(reverse("org_dashboard", args=[org_name]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/org_dashboard.html")
+        petitions = response.context['petitions'].all()
+        self.assertEqual(len(petitions), 0)
+        self.assertEqual(response.context['q'], "")
+        self.assertEqual(response.context['user'], julia)
+
+    def test_OrgOK3(self):
+        org_name="Les Amis de la Terre"
+        max = self.login("max")
+        response = self.client.get(reverse("org_dashboard", args=[org_name]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/org_dashboard.html")
+        petitions = response.context['petitions'].all()
+        self.assertEqual(len(petitions), 1)
+        self.assertEqual(response.context['q'], "")
+        self.assertEqual(response.context['user'], max)

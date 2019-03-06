@@ -273,9 +273,10 @@ def org_dashboard(request, org_name):
     try:
         permissions = pytitionuser.permissions.get(organization=org)
     except:
-        return HttpResponse(
+        messages.error(request,
             _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
-              .format(orgname=org.name)), status=500)
+              .format(orgname=org.name)))
+        return redirect("user_dashboard")
 
     other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
