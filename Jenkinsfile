@@ -19,7 +19,7 @@ node {
         sh '''
 cd $WORKSPACE
 source venv/bin/activate
-cat <<ENDOFFILE >> my.cnf
+cat <<ENDOFFILE > my.cnf
 [client]
 database = pytition
 user = pytition
