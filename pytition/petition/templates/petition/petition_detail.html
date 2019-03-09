@@ -54,17 +54,8 @@
     <link href="{% static "petition.css" %}" rel="stylesheet" type="text/css">
     <style type="text/css">
     {% if petition.bgcolor != "#FFFFFF" %}
-    body,
-    .progress-bar {
-        background: {{ petition.bgcolor }};
-    }
-    .btn-block,
-    .eaSubmitButton {
-        background: {{ petition.bgcolor }};
-        border-color: {{ petition.bgcolor }};
-    }
-    .sign {
-        color: {{ petition.bgcolor }};
+    body {
+        background-color: {{ petition.bgcolor }};
     }
     {% endif %}
     {% if petition.linear_gradient_direction != petition.NO %}
