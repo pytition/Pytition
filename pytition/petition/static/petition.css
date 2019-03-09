@@ -39,6 +39,9 @@ h1 {
 }
 
 @media screen and (min-width:768px) {
+    .petition-wrapper {
+        min-height: 530px;
+    }
     h1 {
         font-size: 62px;
     }
