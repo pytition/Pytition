@@ -1,9 +1,328 @@
+body {
+    background-position: center top;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #DDD;
+}
+
+@media screen and (min-width:768px) {
+    body {}
+}
+
+a {
+    color: #00f
+}
+
+.share a {
+    color: #ffeb1f
+}
+
+p.lead {
+    line-height: 1.2
+}
+
+h1 {
+    color: #000;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 50px
+}
+
+.petition-wrapper,
+.formular {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.formular {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+@media screen and (min-width:768px) {
+    .petition-wrapper {
+        min-height: 530px;
+    }
+    h1 {
+        font-size: 62px;
+    }
+    .petition-wrapper {
+        padding: 15px 360px 15px 40px;
+    }
+    .formular {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 320px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
+
+.counter {
+    display: none
+}
+
+.counter.show {
+    display: block
+}
+
+.petition-wrapper {
+    background-color: #fff;
+    overflow: hidden;
+    position: relative
+}
+.presentation img {
+    max-width: 100%;
+    object-fit: scale-down
+}
+
+.formular {
+    background-color: #666;
+    color: #fff;
+}
+
+.formular .form-wrapper {
+    padding-top: 20px
+}
+
+.show-form {
+    z-index: 100;
+    background-color: #666;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(-100%)
+}
+
+.show-form .wrapper {
+    padding: 7px 15px
+}
+
+.fixed .show-form {
+    transform: translateY(0);
+    transition: transform .6s
+}
+
+#eaerrors {
+    margin-bottom: 1em
+}
+
+#eaerrors ol,
+#eaerrors ul {
+    padding-left: 0;
+    list-style-type: none
+}
+
+#email_okDiv,
+#utm_campaignDiv,
+#utm_contentDiv,
+#utm_mediumDiv,
+#utm_sourceDiv,
+#utm_termDiv {}
+
+#email_okDiv label {
+    display: inline
+}
+
+.eaErrorMessageHeader {
+    font-size: 1.7em
+}
+
+@media screen and (max-width:767px) {
+    .eaFullWidthContent {
+        margin-top: 0 !important
+    }
+}
+
+.eaFullWidthContent .eaErrorMessage {
+    display: none
+}
+
+.eaFullWidthContent,
+.eaSubmitResetButtonGroup {
+    margin-bottom: 0;
+    display: block
+}
+
+.eaFullWidthContent input[type=submit],
+.eaSubmitResetButtonGroup input[type=submit] {
+    width: 100%
+}
+
+.eaFormField {
+    margin-bottom: 10px
+}
+
+.progress-bar {
+    background-color: #ffeb1f;
+}
+
+.btn-primary,
+.eaSubmitButton {
+    color: #666;
+}
+
+.eaSubmitButton {
+    font-size: 20px;
+    padding: 12px 20px;
+    background-color: #ffeb1f;
+    border-color: #ffe905;
+    text-transform: uppercase;
+}
+
+.btn-block {
+    background-color: #ffeb1f;
+    border-color: #ffe905;
+}
+
+@media screen and (min-width:768px) {
+    .show-form {
+        display: none
+    }
+}
+
+.intro {
+    font-size: 21px;
+    line-height: 1.2
+}
+
+.sign {
+    color: #ffeb1f
+}
+
+.counter {
+    margin-top: 18px
+}
+
+.reassurance {
+    padding-bottom: 30px;
+    padding-top: 20px;
+    font-size: 11px
+}
+
+.footer {
+    padding: 20px 15px;
+    text-align: left;
+    background-color: #020;
+    color: #99979c
+}
+
+.footer .footer-links {
+    padding: 0
+}
+
+.footer li {
+    display: inline-block;
+    padding-right: 20px
+}
+
+.footer li a {
+    color: #fff
+}
+
+.footer p a,
+.footer p a:hover {
+    color: #99979c
+}
+
+.footer p a:hover {
+    text-decoration: underline
+}
+
+input[type=email],
+input[type=tel],
+input[type=text] {
+    padding: 5px 6px;
+    color: #555
+}
+
+.share-top {
+    clear: both;
+    padding: 12px 15px 20px
+}
+
+@media screen and (min-width:768px) {
+    .share-top {
+        padding-left: 30px;
+        padding-right: 30px
+    }
+}
+
+.share-top .share-item {
+    color: #fff;
+    padding: 2px 6px;
+    display: inline;
+    font-weight: 700;
+    margin-right: 4px;
+    font-size: 14px
+}
+
+.share-top .share-item#share-facebook {
+    background-color: #4865b5
+}
+
+.share-top .share-item#share-twitter {
+    background-color: #00acee
+}
+
+.share .share-item {
+    text-align: center;
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+    margin: 0 3px;
+    font-size: 4em
+}
+
+a.share-item:active,
+a.share-item:focus,
+a.share-item:hover {
+    text-decoration: none
+}
+
+.progress {
+    height: 10px;
+    border-radius: 0
+}
+
+.assos {
+    border-top: 1px solid #666;
+    padding-top: 1.5em;
+    margin: 4em 0 2em;
+    clear: both;
+    overflow: hidden
+}
+
+.assos .asso {
+    float: left;
+    text-align: center;
+    margin: 0 20px;
+    height: 116px
+}
+
+.assos .asso img {
+    width: inherit
+}
+
+.more h3 {
+    cursor: pointer
+}
+
+.more h3 .fa-stack {
+    color: #666
+}
+
+.more h3 .fa-inverse {
+    color: #ffeb1f
+}
+
+.more .more-content {
+    display: none
+}
 .invalid-feedback {
     font-weight: bold;
     color: red;
     font-size: inherit;
-}
-
-.petition {
-    max-width: none;
 }

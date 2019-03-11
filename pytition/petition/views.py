@@ -197,7 +197,7 @@ def create_signature(request, petition_id):
     if request.method == "POST":
         form = SignatureForm(petition=petition, data=request.POST)
         if not form.is_valid():
-            return render(request, 'petition/detail2.html', {'petition': petition, 'form': form})
+            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form})
 
         ipaddr = get_client_ip(request)
         one_day_ago = datetime.fromtimestamp(time.time() - settings.SIGNATURE_THROTTLE_TIMING)
@@ -206,7 +206,7 @@ def create_signature(request, petition_id):
                                               date__gt=one_day_ago)
         if signatures.count() > settings.SIGNATURE_THROTTLE:
             messages.error(request, _("Too many signatures from your IP address, please try again later."))
-            return render(request, 'petition/detail2.html', {'petition': petition, 'form': form})
+            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form})
         else:
             signature = form.save()
             signature.ipaddress = make_password(ipaddr, salt=petition.salt)
@@ -246,7 +246,7 @@ def detail(request, petition_id):
     petition = petition_from_id(petition_id)
     check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
-    return render(request, 'petition/detail2.html', {'petition': petition, 'form': sign_form})
+    return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': sign_form})
 
 
 @login_required

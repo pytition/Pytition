@@ -1,13 +1,10 @@
 {% extends 'petition/base.html' %}
 {% load static %}
 {% load i18n %}
-    {% block title %}
-    <title>{{ title }}</title>
-    {% endblock title %}
 
-{% block container_type %}
-    <div class="container">
-{% endblock container_type %}
+    <title>{% block title %}{{ title }}{% endblock title %}</title>
+
+{% block container_type %}container{% endblock container_type %}
 
 {% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
 
