@@ -939,7 +939,9 @@ class PetitionCreationWizard(SessionWizardView):
             try:
                 org = Organization.objects.get(name=self.kwargs['org_name'])
             except Organization.DoesNotExist:
-                raise Http404(_("Organization does not exist"))
+                messages.error(self.request, _("Cannot find this organization"))
+                return redirect("user_dashboard")
+                #raise Http404(_("Organization does not exist"))
 
             try:
                 permissions = pytitionuser.permissions.get(organization=org)
@@ -961,6 +963,9 @@ class PetitionCreationWizard(SessionWizardView):
                     return redirect("edit_petition", petition.id)
                 else:
                     return redirect("org_dashboard", org_name)
+            else:
+                messages.error(self.request, _("You don't have the permission to create a new petition in this Organization"))
+                return redirect("org_dashboard", org_name)
         else:
             petition = Petition.objects.create(title=title, text=message)
             if "template_id" in self.kwargs:
