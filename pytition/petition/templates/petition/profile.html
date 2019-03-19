@@ -2,11 +2,13 @@
 {% load static %}
 {% load i18n %}
     {% block title %}
-    <title>{{ title }}</title>
+    {% blocktrans with name=user.get_full_name %}
+        {{ name }}'s profile
+    {% endblocktrans %}
     {% endblock title %}
 
 {% block container_type %}
-    <div class="container">
+    container
 {% endblock container_type %}
 
 {% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
