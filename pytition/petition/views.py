@@ -931,6 +931,7 @@ class PetitionCreationWizard(SessionWizardView):
         org_petition = "org_name" in self.kwargs
         title = self.get_cleaned_data_for_step("step1")["title"]
         message = self.get_cleaned_data_for_step("step2")["message"]
+        publish = self.get_cleaned_data_for_step("step3")["publish"]
         pytitionuser = get_session_user(self.request)
         _redirect = self.request.POST.get('redirect', '')
 
@@ -958,6 +959,8 @@ class PetitionCreationWizard(SessionWizardView):
                         messages.error(self.request, _("This template does not belong to your organization"))
                         return redirect("org_dashboard", org_name)
                 org.petitions.add(petition)
+                if publish:
+                    petition.publish()
                 petition.save()
                 if _redirect and _redirect == '1':
                     return redirect("edit_petition", petition.id)
