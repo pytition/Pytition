@@ -19,7 +19,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
 from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
-from .forms import DeleteAccountForm
+from .forms import DeleteAccountForm, OrgCreationForm
 
 from formtools.wizard.views import SessionWizardView
 
@@ -1348,3 +1348,27 @@ def account_settings(request):
     ctx.update(submitted_ctx)
 
     return render(request, "petition/account_settings.html", ctx)
+
+
+@login_required
+def org_create(request):
+    user = get_session_user(request)
+
+    ctx = {'user': user}
+
+    if request.method == "POST":
+        form = OrgCreationForm(request.POST)
+        if form.is_valid():
+            org = form.save()
+            org.add_member(user)
+            perm = Permission.objects.get(organization=org)
+            perm.set_all(True)
+            messages.success(request, _("You successfully created organization '{}'".format(org.name)))
+            return redirect('user_dashboard')
+        else:
+            ctx.update({'form': form})
+            return render(request, "petition/org_create.html", ctx)
+
+    form = OrgCreationForm()
+    ctx.update({'form': form})
+    return render(request, "petition/org_create.html", ctx)

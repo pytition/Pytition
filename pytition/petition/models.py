@@ -323,6 +323,22 @@ class Permission(models.Model):
     can_delete_signatures = models.BooleanField(default=False)
     can_modify_permissions = models.BooleanField(default=False)
 
+    def set_all(self, value):
+        self.can_add_members = value
+        self.can_remove_members = value
+        self.can_create_petitions = value
+        self.can_modify_petitions = value
+        self.can_delete_petitions = value
+        self.can_create_templates = value
+        self.can_modify_templates = value
+        self.can_delete_templates = value
+        self.can_view_signatures = value
+        self.can_modify_signatures = value
+        self.can_delete_signatures = value
+        self.can_modify_permissions = value
+        self.save()
+
+
     def __str__(self):
         ret = "{orgname} : ".format(orgname=self.organization.name)
         if self.user.count() > 0:

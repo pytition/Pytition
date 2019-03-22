@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model
 
-from .models import Signature, PetitionTemplate, Petition
+from .models import Signature, PetitionTemplate, Petition, Organization
 from .widgets import SwitchField
 
 import uuid
@@ -201,3 +201,8 @@ class DeleteAccountForm(forms.Form):
         if valid != _("DROP MY ACCOUNT"):
             self.add_error('validation', ValidationError(_("You miss-typed the validation code"), code="invalid"))
         return self.cleaned_data
+
+class OrgCreationForm(forms.ModelForm):
+    class Meta:
+        model = Organization
+        fields = ('name', )
