@@ -206,3 +206,12 @@ class OrgCreationForm(forms.ModelForm):
     class Meta:
         model = Organization
         fields = ('name', )
+
+    def clean(self):
+        cleaned_data = super(OrgCreationForm, self).clean()
+        name = cleaned_data.get('name')
+        if name in ['..', '.']:
+            self.add_error('name',
+                           ValidationError(_("This is an invalid Organization name. Please try something else."),
+                                           code="invalid"))
+        return self.cleaned_data
