@@ -13,14 +13,18 @@ $(function () {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">{% trans "Delete organization?" %}</h4>
+            <h4 class="modal-title">{% trans "BEWARE: Delete organization?" %}</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
 
           <div class="modal-body">
             {% blocktrans %}
-              Do you really want to DELETE organization '`+ org_name +`'
-            {% endblocktrans %}
+              Do you really want to DELETE organization '`+ org_name +`?'
+            {% endblocktrans %}<br/>
+            {% trans "It will delete all the petitions, signatures and templates hosted by this organization." %}<br/>
+            <div style="color: red; font-weight: bold;">
+            {% trans "Everything will be lost, with no means of getting it back!" %}
+            </div>
           </div>
 
           <div class="modal-footer">
