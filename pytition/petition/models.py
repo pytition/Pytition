@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.html import mark_safe, strip_tags
+from django.utils.text import slugify
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from django.core.exceptions import ValidationError
@@ -8,6 +9,7 @@ from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.hashers import get_hasher
 from django.db import transaction
+from django.urls import reverse
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
@@ -81,6 +83,7 @@ class Petition(models.Model):
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
     use_custom_email_settings = models.BooleanField(default=False)
     salt = models.TextField(blank=True)
+    slugs = models.ManyToManyField('SlugModel', blank=True)
 
     def prepopulate_from_template(self, template):
         for field in self._meta.fields:
@@ -90,10 +93,16 @@ class Petition(models.Model):
                     setattr(self, field.name, template_value)
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if not self.salt:
             hasher = get_hasher()
             self.salt = hasher.salt()
-        super().save(*args, **kwargs)
+            super().save()
+        if self.slugs.count() == 0:
+            slug = SlugModel(slug=slugify(self.raw_title))
+            slug.save()
+            self.slugs.add(slug)
+            super().save()
 
     @classmethod
     def by_id(cls, id):
@@ -152,6 +161,22 @@ class Petition(models.Model):
 
     def __repr__(self):
         return self.raw_title
+
+    @property
+    def url(self):
+        if self.organization_set.count() > 0:
+            #  This petition is owned by an Organization
+            org = self.organization_set.first()
+            return reverse("slug_show_petition",
+                           kwargs={"orgname": org.slugname, "petitionname": self.slugs.first()})
+        elif self.pytitionuser_set.count() > 0:
+            # This petition is owned by a PytitionUser
+            user = self.pytitionuser_set.first()
+            return reverse("slug_show_petition",
+                           kwargs={"username": user.user.username, "petitionname": self.slugs.first()})
+        else:
+            # This is a BUG!
+            raise ValueError(_("This petition is buggy. Sorry about that!"))
 
 
 class Signature(models.Model):
@@ -266,6 +291,16 @@ class PetitionTemplate(models.Model):
         index_together = ["id", ]
 
 
+class SlugModel(models.Model):
+    slug = models.SlugField(max_length=200)
+
+    def __str__(self):
+        return self.slug
+
+    def __repr__(self):
+        return self.slug
+
+
 class Organization(models.Model):
     name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"))
     petition_templates = models.ManyToManyField(PetitionTemplate, through='TemplateOwnership',
@@ -275,6 +310,7 @@ class Organization(models.Model):
     default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
                                          verbose_name=ugettext_lazy("Default petition template"), to_field='id',
                                          on_delete=models.SET_NULL)
+    slugname = models.SlugField(max_length=200)
 
     def drop(self):
         with transaction.atomic():
@@ -299,6 +335,11 @@ class Organization(models.Model):
     def __repr__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slugname:
+            self.slugname = slugify(self.name)
+        super(Organization, self).save(*args, **kwargs)
+
     @property
     def kind(self):
         return "org"
@@ -306,6 +347,11 @@ class Organization(models.Model):
     @property
     def fullname(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slugname = slugify(self.name)
+        super(Organization, self).save(*args, **kwargs)
+
 
 class Permission(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE,

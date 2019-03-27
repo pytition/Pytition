@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+from django.urls import path
 
 from . import views
 from .forms import PytitionUserCreationForm
@@ -55,4 +56,6 @@ urlpatterns = [
                            success_url=reverse_lazy("login")), name="register"),
     url('^account_settings$', views.account_settings, name="account_settings"),
     url('^org_create$', views.org_create, name="org_create"),
+    path('org/<slug:orgname>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
+    path('user/<slug:username>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
 ]

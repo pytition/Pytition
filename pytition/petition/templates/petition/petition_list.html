@@ -36,7 +36,7 @@
                                     title="{% trans "Delete the petition" %}"
                                     data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
                                     aria-disabled="true"><span class="oi oi-delete"></span></button>
-                            <a href="{% url "detail" petition.id %}" class="btn btn-outline-success"
+                            <a href="{{  petition.url }}" class="btn btn-outline-success"
                                title="{% trans "Sign the petition" %}" aria-disabled="true">
                             {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
                             </a>

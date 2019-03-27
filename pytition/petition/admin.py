@@ -7,7 +7,7 @@ from django import forms
 
 from tinymce.widgets import TinyMCE
 
-from .models import Signature, Petition, Organization, PytitionUser, PetitionTemplate, Permission
+from .models import Signature, Petition, Organization, PytitionUser, PetitionTemplate, Permission, SlugModel
 from .views import send_confirmation_email
 
 
@@ -19,6 +19,11 @@ class PytitionUserAdmin(admin.ModelAdmin):
         return pu.user.get_full_name()
 
     name.description = ugettext_lazy("Name")
+
+
+@admin.register(SlugModel)
+class SlugModelAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Organization)
@@ -187,7 +192,7 @@ class PetitionAdmin(admin.ModelAdmin):
         ),
         (ugettext_lazy('Petition meta-data for social networks'),
          {
-             'fields': ('twitter_description', 'twitter_image', 'org_twitter_handle')
+             'fields': ('twitter_description', 'twitter_image', 'org_twitter_handle', 'slugs')
          }),
         (ugettext_lazy('Publish the petition'),
          {

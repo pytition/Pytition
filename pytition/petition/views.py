@@ -1372,3 +1372,16 @@ def org_create(request):
     form = OrgCreationForm()
     ctx.update({'form': form})
     return render(request, "petition/org_create.html", ctx)
+
+
+def slug_show_petition(request, orgname=None, username=None, petitionname=None):
+    pytitionuser = get_session_user(request)
+
+    if orgname:
+        petition = Petition.objects.get(organization__slugname=orgname, slugs__slug=petitionname)
+    else:
+        petition = Petition.objects.get(pytitionuser__user__username=username, slugs__slug=petitionname)
+    sign_form = SignatureForm(petition=petition)
+
+    ctx = {"user": pytitionuser, "petition": petition, "form": sign_form}
+    return render(request, "petition/petition_detail.html", ctx)
