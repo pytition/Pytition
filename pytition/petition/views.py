@@ -1180,8 +1180,8 @@ def edit_petition(request, petition_id):
                 petition.gradient_from = style_form.cleaned_data['gradient_from']
                 petition.gradient_to = style_form.cleaned_data['gradient_to']
                 petition.save()
-            else:
-                style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
+        else:
+            style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
     else:
         content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
         style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
