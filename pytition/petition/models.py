@@ -98,11 +98,27 @@ class Petition(models.Model):
             hasher = get_hasher()
             self.salt = hasher.salt()
             super().save()
+
+    def slugify(self):
         if self.slugs.count() == 0:
-            slug = SlugModel(slug=slugify(self.raw_title))
+            slugtext = slugify(self.raw_title)
+            # let's search for slug collisions
+            filters = {'slugs__slug': slugtext}
+            if self.organization_set.count() > 0:
+                org = self.organization_set.first()
+                filters.update({'organization__name': org.name})
+            else:
+                user = self.pytitionuser_set.first()
+                filters.update({'pytitionuser__user__username': user.user.username})
+            results = Petition.objects.filter(**filters)
+            if results.count() > 0:
+                raise ValueError(_("This slug is already used by another petition from this organization/user"))
+
+            slug = SlugModel(slug=slugify(slugtext))
             slug.save()
             self.slugs.add(slug)
-            super().save()
+            self.save()
+
 
     @classmethod
     def by_id(cls, id):

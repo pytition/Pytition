@@ -927,6 +927,18 @@ class PetitionCreationWizard(SessionWizardView):
     def get_template_names(self):
         return [WizardTemplates[self.steps.current]]
 
+    def get_form_kwargs(self, step=None):
+        if step == "step1":
+            if "org_name" in self.kwargs:
+                org_name = self.kwargs['org_name']
+                kwargs = {"org_name": org_name}
+            else:
+                pytitionuser = get_session_user(self.request)
+                kwargs = {"user_name": pytitionuser.user.username}
+            return kwargs
+        else:
+            return {}
+
     def done(self, form_list, **kwargs):
         org_petition = "org_name" in self.kwargs
         title = self.get_cleaned_data_for_step("step1")["title"]
@@ -961,7 +973,7 @@ class PetitionCreationWizard(SessionWizardView):
                 org.petitions.add(petition)
                 if publish:
                     petition.publish()
-                petition.save()
+                petition.slugify()
                 if _redirect and _redirect == '1':
                     return redirect("edit_petition", petition.id)
                 else:
@@ -979,7 +991,7 @@ class PetitionCreationWizard(SessionWizardView):
                     messages.error(self.request, _("This template does not belong to you"))
                     return redirect("user_dashboard")
             pytitionuser.petitions.add(petition)
-            petition.save()
+            petition.slugify()
             if _redirect and _redirect == '1':
                 return redirect("edit_petition", petition.id)
             else:

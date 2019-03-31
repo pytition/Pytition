@@ -3,11 +3,14 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model
+from django.utils.text import slugify
+from django.utils.html import mark_safe, strip_tags
 
-from .models import Signature, PetitionTemplate, Petition, Organization
+from .models import Signature, PetitionTemplate, Petition, Organization, PytitionUser
 from .widgets import SwitchField
 
 import uuid
+import html
 from tinymce.widgets import TinyMCE
 from colorfield.fields import ColorWidget
 
@@ -46,6 +49,34 @@ class SignatureForm(ModelForm):
 class PetitionCreationStep1(forms.Form):
     ### Ask for title ###
     title = forms.CharField(max_length=200)
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        slugtext = slugify(html.unescape(mark_safe(strip_tags(title).strip())))
+        filters = {'slugs__slug': slugtext}
+        if self.owned_by_org:
+            org = Organization.objects.get(name=self.orgname)
+            filters.update({'organization__name': org.name})
+        else:
+            user = PytitionUser.objects.get(user__username=self.username)
+            filters.update({'pytitionuser__user__username': user.user.username})
+        results = Petition.objects.filter(**filters)
+        if results.count() > 0:
+            self.add_error('title', ValidationError(_("There is already a petition with this title"), code="invalid"))
+
+        return title
+
+    def __init__(self, *args, **kwargs):
+        if "org_name" in kwargs:
+            self.orgname = kwargs.pop("org_name")
+            self.owned_by_org = True
+        elif "user_name" in kwargs:
+            self.owned_by_org = False
+            self.username = kwargs.pop("user_name")
+        else:
+            raise ValueError(_("You should either provide an org name or a user name"))
+        super(PetitionCreationStep1, self).__init__(*args, **kwargs)
+
 
 
 class PetitionCreationStep2(forms.Form):
