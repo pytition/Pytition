@@ -17,7 +17,7 @@
                  href="{% url "edit_template" template.id %}"><span class="oi oi-pencil"></span></a>
                 <a
                         {% if owner.kind == "org" %}
-                        href="{% url "org_petition_wizard_from_template" org.name template.id %}"
+                        href="{% url "org_petition_wizard_from_template" org.slugname template.id %}"
                         {% else %}
                         href="{% url "user_petition_wizard_from_template" template.id %}"
                         {% endif %}

@@ -2,7 +2,7 @@
 function addUser(user) {
     $("#user_search_result").html("<span class=\"oi oi-cog\" title=\"waiting\" aria-hidden=\"true\"></span>");
     $.ajax({
-        url: "{% url "org_add_user" org.name %}?user=" + user,
+        url: "{% url "org_add_user" org.slugname %}?user=" + user,
         dataType: "json",
     }).done(function(data) {
         $("#user_search_result").html("");
@@ -73,7 +73,7 @@ $(document).ready(function(){
 $(function () {
     $('[data-action="delete-member"]').on('click', function () {
        var member_name = $(this).closest("[data-member]").data("member");
-       $.ajax("{% url "org_delete_member" org.name %}?member=" + member_name).done(function () {
+       $.ajax("{% url "org_delete_member" org.slugname %}?member=" + member_name).done(function () {
         if (member_name == "{{ user.name }}")
             window.location = "{% url "user_dashboard" %}";
         else
@@ -82,5 +82,5 @@ $(function () {
     });
 });
 
-{% url "org_dashboard" org.name as dashboard_url %}
+{% url "org_dashboard" org.slugname as dashboard_url %}
 {% include "petition/generic.js" with dashboard=dashboard_url %}

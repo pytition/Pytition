@@ -101,7 +101,8 @@ def index(request):
             raise Http404(_("not found"))
         petitions = user.petitions.filter(published=True)
     elif settings.INDEX_PAGE == 'ORGA_PROFILE':
-        return redirect("org_profile", org_name)
+        org = Organization.objects.get(name=org_name)
+        return redirect("org_profile", org.slugname)
     elif settings.INDEX_PAGE == 'USER_PROFILE':
         return redirect("user_profile", user_name)
     elif settings.INDEX_PAGE == 'LOGIN_REGISTER':
@@ -250,19 +251,19 @@ def detail(request, petition_id):
 
 
 @login_required
-def org_dashboard(request, org_name):
+def org_dashboard(request, orgslugname):
     q = request.GET.get('q', '')
 
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
-        messages.error(request, _("This organization does not exist: '{}'".format(org_name)))
+        messages.error(request, _("This organization does not exist: '{}'".format(orgslugname)))
         return redirect("user_dashboard")
 
     pytitionuser = get_session_user(request)
 
     if org not in pytitionuser.organizations.all():
-        messages.error(request, _("You are not part of this organization: '{}'".format(org_name)))
+        messages.error(request, _("You are not part of this organization: '{}'".format(org.name)))
         return redirect("user_dashboard")
 
     if q != "":
@@ -309,10 +310,10 @@ def user_profile(request, user_name):
 
 @login_required
 def leave_org(request):
-    org_name = request.GET.get('org', '')
+    orgslugname = request.GET.get('org', '')
     confirm_drop_org = request.GET.get('confirm', '')
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         raise Http404(_("not found"))
 
@@ -335,9 +336,9 @@ def leave_org(request):
     return JsonResponse({})
 
 
-def org_profile(request, org_name):
+def org_profile(request, orgslugname):
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         raise Http404(_("not found"))
 
@@ -362,7 +363,7 @@ def get_user_list(request):
 
 
 @login_required
-def org_add_user(request, org_name):
+def org_add_user(request, orgslugname):
     adduser = request.GET.get('user', '')
 
     try:
@@ -372,7 +373,7 @@ def org_add_user(request, org_name):
         return JsonResponse({"message": message}, status=404)
 
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         message = _("This organization does not exist (anylonger?)")
         return JsonResponse({"message": message}, status=404)
@@ -410,7 +411,7 @@ def org_add_user(request, org_name):
 
 @login_required
 def invite_accept(request):
-    org_name = request.GET.get('org_name', '')
+    orgslugname = request.GET.get('org', '')
 
     if org_name == "":
         return JsonResponse({}, status=500)
@@ -418,7 +419,7 @@ def invite_accept(request):
     pytitionuser = get_session_user(request)
 
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         return JsonResponse({}, status=404)
 
@@ -436,15 +437,15 @@ def invite_accept(request):
 
 @login_required
 def invite_dismiss(request):
-    org_name = request.GET.get('org_name', '')
+    orgslugname = request.GET.get('org', '')
 
-    if org_name == "":
+    if orgslugname == "":
         return JsonResponse({}, status=500)
 
     pytitionuser = get_session_user(request)
 
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         return JsonResponse({}, status=404)
 
@@ -460,14 +461,14 @@ def invite_dismiss(request):
 
 
 @login_required
-def new_template(request, org_name=None):
+def new_template(request, orgslugname=None):
     pytitionuser = get_session_user(request)
     ctx = {'user': pytitionuser}
 
-    if org_name:
+    if orgslugname:
         redirection = "org_new_template"
         try:
-            org = Organization.objects.get(name=org_name)
+            org = Organization.objects.get(slugname=orgslugname)
             ctx['org'] = org
         except Organization.DoesNotExist:
             raise Http404(_("Organization does not exist"))
@@ -481,7 +482,7 @@ def new_template(request, org_name=None):
         except:
             return HttpResponse(
                 _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
-                  .format(orgname=org_name)), status=500)
+                  .format(orgname=org.name)), status=500)
 
         if not permissions.can_create_templates:
             return HttpResponseForbidden(_("You don't have the permission to create a Template in this organization"))
@@ -497,7 +498,7 @@ def new_template(request, org_name=None):
         if template_name != '':
             template = PetitionTemplate(name=template_name)
             template.save()
-            if org_name:
+            if orgslugname:
                 to = TemplateOwnership(organization=org, template=template)
             else:
                 to = TemplateOwnership(user=pytitionuser, template=template)
@@ -758,7 +759,7 @@ def ptemplate_fav_toggle(request):
 
 
 @login_required
-def org_delete_member(request, org_name):
+def org_delete_member(request, orgslugname):
     member_name = request.GET.get('member', '')
     try:
         member = PytitionUser.objects.get(user__username=member_name)
@@ -768,7 +769,7 @@ def org_delete_member(request, org_name):
     pytitionuser = get_session_user(request)
 
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         raise Http404(_("Organization does not exist"))
 
@@ -792,7 +793,7 @@ def org_delete_member(request, org_name):
 
 
 @login_required
-def org_edit_user_perms(request, org_name, user_name):
+def org_edit_user_perms(request, orgslugname, user_name):
     """Shows the page which lists the user permissions."""
     pytitionuser = get_session_user(request)
 
@@ -800,24 +801,24 @@ def org_edit_user_perms(request, org_name, user_name):
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         messages.error(request, _("User '{name}' does not exist".format(name=user_name)))
-        return redirect("org_dashboard", org_name)
+        return redirect("org_dashboard", orgslugname)
 
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
-        raise Http404(_("Organization '{name}' does not exist".format(name=org_name)))
+        raise Http404(_("Organization '{name}' does not exist".format(name=orgslugname)))
 
     if org not in member.organizations.all():
         messages.error(request, _("The user '{username}' is not member of this organization ({orgname}).".
-                                  format(username=user_name, orgname=org_name)))
-        return redirect("org_dashboard", org_name)
+                                  format(username=user_name, orgname=org.name)))
+        return redirect("org_dashboard", org.slugname)
 
     try:
         permissions = member.permissions.get(organization=org)
     except Permission.DoesNotExist:
         messages.error(request,
                        _("Internal error, this member does not have permissions attached to this organization."))
-        return redirect("org_dashboard", org_name)
+        return redirect("org_dashboard", org.slugname)
 
     try:
         user_permissions = pytitionuser.permissions.get(organization=org)
@@ -831,7 +832,7 @@ def org_edit_user_perms(request, org_name, user_name):
                                                                  'user_permissions': user_permissions})
 
 @login_required
-def org_set_user_perms(request, org_name, user_name):
+def org_set_user_perms(request, orgslugname, user_name):
     """Actually do the modification of user permissions.
     Data come from "org_edit_user_perms" view's form.
     """
@@ -842,28 +843,28 @@ def org_set_user_perms(request, org_name, user_name):
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         messages.error(request, _("User does not exist"))
-        return redirect("org_dashboard", org_name)
+        return redirect("org_dashboard", orgslugname)
 
     try:
-        org = Organization.objects.get(name=org_name)
+        org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         raise Http404(_("Organization does not exist"))
 
     if org not in member.organizations.all():
         messages.error(request, _("This user is not part of organization \'{orgname}\'".format(orgname=org.name)))
-        return redirect("org_dashboard", org_name)
+        return redirect("org_dashboard", org.slugname)
 
     try:
         permissions = member.permissions.get(organization=org)
     except Permission.DoesNotExist:
         messages.error(request, _("Fatal error, this user does not have permissions attached for this organization"))
-        return redirect("org_dashboard", org_name)
+        return redirect("org_dashboard", org.slugname)
 
     try:
         userperms = pytitionuser.permissions.get(organization=org)
     except:
         messages.error(request, _("Fatal error, you don't have permissions attached to you for this organization"))
-        return redirect("org_dashboard", org_name)
+        return redirect("org_dashboard", org.slugname)
 
     if pytitionuser not in org.members.all():
         messages.error(request, _("You are not part of this organization"))
@@ -871,7 +872,7 @@ def org_set_user_perms(request, org_name, user_name):
 
     if not userperms.can_modify_permissions:
         messages.error(request, _("You are not allowed to modify this organization members' permissions"))
-        return redirect("org_edit_user_perms", org_name, user_name)
+        return redirect("org_edit_user_perms", orgslugname, user_name)
 
     if request.method == "POST":
         error = False
@@ -910,7 +911,7 @@ def org_set_user_perms(request, org_name, user_name):
             messages.success(request, _("Permissions successfully changed!"))
         permissions.save()
 
-    return redirect("org_edit_user_perms", org_name, user_name)
+    return redirect("org_edit_user_perms", orgslugname, user_name)
 
 
 WizardTemplates = {"step1": "petition/new_petition_step1.html",
@@ -940,7 +941,7 @@ class PetitionCreationWizard(SessionWizardView):
             return {}
 
     def done(self, form_list, **kwargs):
-        org_petition = "org_name" in self.kwargs
+        org_petition = "orgslugname" in self.kwargs
         title = self.get_cleaned_data_for_step("step1")["title"]
         message = self.get_cleaned_data_for_step("step2")["message"]
         publish = self.get_cleaned_data_for_step("step3")["publish"]
@@ -948,9 +949,9 @@ class PetitionCreationWizard(SessionWizardView):
         _redirect = self.request.POST.get('redirect', '')
 
         if org_petition:
-            org_name = self.kwargs['org_name']
+            orgslugname = self.kwargs['orgslugname']
             try:
-                org = Organization.objects.get(name=self.kwargs['org_name'])
+                org = Organization.objects.get(slugname=orgslugname)
             except Organization.DoesNotExist:
                 messages.error(self.request, _("Cannot find this organization"))
                 return redirect("user_dashboard")
@@ -959,7 +960,7 @@ class PetitionCreationWizard(SessionWizardView):
             try:
                 permissions = pytitionuser.permissions.get(organization=org)
             except Permission.DoesNotExist:
-                return redirect("org_dashboard", org_name)
+                return redirect("org_dashboard", orgslugname)
 
             if pytitionuser in org.members.all() and permissions.can_create_petitions:
                 petition = Petition.objects.create(title=title, text=message)
@@ -969,7 +970,7 @@ class PetitionCreationWizard(SessionWizardView):
                         petition.prepopulate_from_template(template)
                     else:
                         messages.error(self.request, _("This template does not belong to your organization"))
-                        return redirect("org_dashboard", org_name)
+                        return redirect("org_dashboard", orgslugname)
                 org.petitions.add(petition)
                 if publish:
                     petition.publish()
@@ -977,10 +978,10 @@ class PetitionCreationWizard(SessionWizardView):
                 if _redirect and _redirect == '1':
                     return redirect("edit_petition", petition.id)
                 else:
-                    return redirect("org_dashboard", org_name)
+                    return redirect("org_dashboard", orgslugname)
             else:
                 messages.error(self.request, _("You don't have the permission to create a new petition in this Organization"))
-                return redirect("org_dashboard", org_name)
+                return redirect("org_dashboard", orgslugname)
         else:
             petition = Petition.objects.create(title=title, text=message)
             if "template_id" in self.kwargs:
@@ -998,12 +999,12 @@ class PetitionCreationWizard(SessionWizardView):
                 return redirect("user_dashboard")
 
     def get_context_data(self, form, **kwargs):
-        org_petition = "org_name" in self.kwargs
+        org_petition = "orgslugname" in self.kwargs
         context = super(PetitionCreationWizard, self).get_context_data(form=form, **kwargs)
         if org_petition:
             base_template = 'petition/org_base.html'
             try:
-                org = Organization.objects.get(name=self.kwargs['org_name'])
+                org = Organization.objects.get(slugname=self.kwargs['orgslugname'])
             except Organization.DoesNotExist:
                 raise Http404(_("Organization does not exist"))
         else:
@@ -1115,7 +1116,7 @@ def edit_petition(request, petition_id):
 
         if not permissions.can_modify_petitions:
             messages.error(request, _("You don't have permission to edit petitions in this organization"))
-            return redirect("org_dashboard", org.name)
+            return redirect("org_dashboard", org.slugname)
 
     if user:
         if user != pytitionuser:
@@ -1244,7 +1245,7 @@ def show_signatures(request, petition_id):
 
         if not permissions.can_view_signatures:
             messages.error(request, _("You are not allowed to view signatures in this organization"))
-            return redirect("org_dashboard", org.name)
+            return redirect("org_dashboard", org.slugname)
 
         ctx.update({'org': org, 'other_orgs': other_orgs,
                     'user_permissions': permissions})
@@ -1334,7 +1335,7 @@ def account_settings(request):
             submitted_ctx['delete_account_form_submitted'] = True
             if delete_account_form.is_valid():
                 pytitionuser.drop()
-                return redirect("/")
+                return redirect("index")
         else:
             delete_account_form = DeleteAccountForm()
 
@@ -1386,11 +1387,11 @@ def org_create(request):
     return render(request, "petition/org_create.html", ctx)
 
 
-def slug_show_petition(request, orgname=None, username=None, petitionname=None):
+def slug_show_petition(request, orgslugname=None, username=None, petitionname=None):
     pytitionuser = get_session_user(request)
 
-    if orgname:
-        petition = Petition.objects.get(organization__slugname=orgname, slugs__slug=petitionname)
+    if orgslugname:
+        petition = Petition.objects.get(organization__slugname=orgslugname, slugs__slug=petitionname)
     else:
         petition = Petition.objects.get(pytitionuser__user__username=username, slugs__slug=petitionname)
     sign_form = SignatureForm(petition=petition)

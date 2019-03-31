@@ -4,7 +4,7 @@
 <h4>{% trans "Invitations" %}</h4>
 <div id="invitations">
     {% for org in user.invitations.all %}
-    <div class="alert alert-info alert-dismissible show fade" id="invite-alert-{{ org.name }}">
+    <div class="alert alert-info alert-dismissible show fade" id="invite-alert-{{ org.slugname }}">
         <div class="row">
             <div class="col-1 alert-icon-col">
                 <span class="oi oi-question-mark"></span>
@@ -16,8 +16,8 @@
                 {% endblocktrans %}
                 </div>
                 <div class="row d-flex justify-content-around">
-                    <button class="btn btn-success btn-invitation-join" data-org="{{ org.name }}">{% trans "Join" %}</button>
-                    <button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.name }}">{% trans "Dismiss" %}</button>
+                    <button class="btn btn-success btn-invitation-join" data-org="{{ org.slugname }}">{% trans "Join" %}</button>
+                    <button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.slugname }}">{% trans "Dismiss" %}</button>
                 </div>
             </div>
         </div>

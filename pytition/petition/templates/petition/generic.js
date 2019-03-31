@@ -5,7 +5,7 @@ $(document).ready(function() {
     $(".btn-invitation-join").on("click", function() {
         var org = $(this).data("org");
         $.ajax({
-        url: "{% url "invite_accept" %}?org_name=" + org,
+        url: "{% url "invite_accept" %}?org=" + org,
         }).done(function() {
             joined = true;
             $(".btn-invitation-join").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
@@ -26,7 +26,7 @@ $(function () {
     $(".btn-invitation-dismiss").on("click", function () {
         var org = $(this).data("org");
         $.ajax({
-        url: "{% url "invite_dismiss" %}?org_name=" + org,
+        url: "{% url "invite_dismiss" %}?org=" + org,
         }).done(function() {
             $(".btn-invitation-dismiss").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
         });

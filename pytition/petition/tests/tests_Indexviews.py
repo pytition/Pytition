@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.utils.text import slugify
 
 from petition.models import Organization, Petition, PytitionUser
 
@@ -94,9 +95,10 @@ class IndexViewTest(TestCase):
 
     def test_index_orga_profile(self):
         for org in orgs:
+            orgslugname = slugify(org)
             with self.settings(INDEX_PAGE="ORGA_PROFILE", INDEX_PAGE_ORGA=org):
                 response = self.client.get('/', follow=True)
-                self.assertRedirects(response, reverse("org_profile", args=[org]))
+                self.assertRedirects(response, reverse("org_profile", args=[orgslugname]))
                 self.assertEqual(len(response.context['petitions']), org_published_petitions[org])
 
     def test_index_user_profile(self):

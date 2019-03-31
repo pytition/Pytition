@@ -184,7 +184,7 @@ class Petition(models.Model):
             #  This petition is owned by an Organization
             org = self.organization_set.first()
             return reverse("slug_show_petition",
-                           kwargs={"orgname": org.slugname, "petitionname": self.slugs.first()})
+                           kwargs={"orgslugname": org.slugname, "petitionname": self.slugs.first()})
         elif self.pytitionuser_set.count() > 0:
             # This petition is owned by a PytitionUser
             user = self.pytitionuser_set.first()
@@ -491,6 +491,7 @@ class PytitionUser(models.Model):
     def __repr__(self):
         return self.get_full_name
 
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -500,6 +501,14 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
     instance.pytitionuser.save()
+
+
+@receiver(post_save, sender=Organization)
+def save_user_profile(sender, instance, **kwargs):
+    if not instance.slugname:
+        slugtext = slugify(instance.name)
+        instance.slugname = slugtext
+        instance.save()
 
 
 @receiver(post_delete, sender=PytitionUser)

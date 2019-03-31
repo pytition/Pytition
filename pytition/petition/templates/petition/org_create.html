@@ -1,0 +1,20 @@
+{% extends "petition/user_base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <h2>{% trans "Create an organization" %}</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <form method="POST">
+            {%  csrf_token %}
+            {% include "petition/bs4_form.html" with form=form %}
+            <button class="btn btn-success" type="submit">{% trans "Create" %}</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

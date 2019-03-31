@@ -18,7 +18,7 @@
                         title="{% trans "Remove this member from the organization." %}"
                     {% endif %}
                     data-action="delete-member" data-toggle="tooltip"><span class="oi oi-delete"></span></button>
-            <a href="{% url "org_edit_user_perms" org.name member.username %}"
+            <a href="{% url "org_edit_user_perms" org.slugname member.username %}"
                     {% if not user_permissions.can_modify_permissions %}
                         title="{% trans "You cannot edit this member's permissions, you don\'t have the correct permission" %}"
                         aria-disabled="true"

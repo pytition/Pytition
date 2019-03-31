@@ -75,7 +75,7 @@
                                   {% trans "Your dashboard" %}</a>
                               <div class="dropdown-divider"></div>
                               {% for org in user.organizations.all %}
-                                  <a class="dropdown-item" href="{% url "org_dashboard" org.name %}">
+                                  <a class="dropdown-item" href="{% url "org_dashboard" org.slugname %}">
                                     <span class="oi oi-people"></span> {{ org.name }}
                                   </a>
                               {% endfor %}

@@ -144,7 +144,7 @@ class EditPetitionViewTest(TestCase):
         at = Organization.objects.get(name='Les Amis de la Terre')
         petition = at.petitions.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]), follow=True)
-        self.assertRedirects(response, reverse("org_dashboard", args=[at.name]))
+        self.assertRedirects(response, reverse("org_dashboard", args=[at.slugname]))
         self.assertTemplateUsed(response, "petition/org_dashboard.html")
 
     def test_edit_InOrgWithEditPerm(self):

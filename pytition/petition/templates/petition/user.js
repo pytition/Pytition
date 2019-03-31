@@ -2,14 +2,15 @@
 
 $(function () {
     $('[data-action="leave_org"]').on("click", function() {
-        var org_name = $(this).closest("[data-org]").data("org");
-        $.ajax("{% url "leave_org" %}?org=" + org_name).done(function() {
+        var orgslugname = $(this).closest("[data-orgslugname]").data("orgslugname");
+        var orgname = $(this).closest("[data-orgname]").data("orgname");
+        $.ajax("{% url "leave_org" %}?org=" + orgslugname).done(function() {
             window.location = window.location.href;
         })
         .fail(function (xhr, status, error) {
             if (xhr.status == 409) { // You are the only member left, leaving means DELETING the organization!!
             var modal = `
-    <div class="modal fade" id="org_delete_modal`+ org_name +`">
+    <div class="modal fade" id="org_delete_modal`+ orgslugname +`">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -19,7 +20,7 @@ $(function () {
 
           <div class="modal-body">
             {% blocktrans %}
-              Do you really want to DELETE organization '`+ org_name +`?'
+              Do you really want to DELETE organization '`+ orgname +`?'
             {% endblocktrans %}<br/>
             {% trans "It will delete all the petitions, signatures and templates hosted by this organization." %}<br/>
             <div style="color: red; font-weight: bold;">
@@ -36,9 +37,9 @@ $(function () {
       </div>
     </div>`;
             $('#modalContainer').append(modal);
-            $('#org_delete_modal' + org_name).modal('toggle');
+            $('#org_delete_modal' + orgslugname).modal('toggle');
             $('[data-action="org-delete"]').on('click', function() {
-                $.ajax("{% url "leave_org" %}?org=" + org_name + "&confirm=1").done(function() {
+                $.ajax("{% url "leave_org" %}?org=" + orgslugname + "&confirm=1").done(function() {
                     window.location = window.location.href;
                 });
             });

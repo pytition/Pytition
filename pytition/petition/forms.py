@@ -55,8 +55,8 @@ class PetitionCreationStep1(forms.Form):
         slugtext = slugify(html.unescape(mark_safe(strip_tags(title).strip())))
         filters = {'slugs__slug': slugtext}
         if self.owned_by_org:
-            org = Organization.objects.get(name=self.orgname)
-            filters.update({'organization__name': org.name})
+            org = Organization.objects.get(slugname=self.orgslugname)
+            filters.update({'organization__slugname': org.slugname})
         else:
             user = PytitionUser.objects.get(user__username=self.username)
             filters.update({'pytitionuser__user__username': user.user.username})
@@ -67,8 +67,8 @@ class PetitionCreationStep1(forms.Form):
         return title
 
     def __init__(self, *args, **kwargs):
-        if "org_name" in kwargs:
-            self.orgname = kwargs.pop("org_name")
+        if "orgslugname" in kwargs:
+            self.orgslugname = kwargs.pop("orgslugname")
             self.owned_by_org = True
         elif "user_name" in kwargs:
             self.owned_by_org = False

@@ -1,5 +1,5 @@
 {% load i18n %}
-<form action="{% url "org_set_user_perms" org.name member.name %}" method="POST">
+<form action="{% url "org_set_user_perms" org.slugname member.name %}" method="POST">
 {% csrf_token %}
 <table class="table table-hover table-striped">
     <caption style="caption-side: top">
@@ -123,5 +123,5 @@
     </tr>
 </table>
 <button class="btn btn-primary" type="submit">{% trans "Validate those new permissions" %}</button>
-<a class="btn btn-info" href="{% url "org_dashboard" org.name %}">{% trans "Return to dashboard" %}</a>
+<a class="btn btn-info" href="{% url "org_dashboard" org.slugname %}">{% trans "Return to dashboard" %}</a>
 </form>

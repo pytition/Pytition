@@ -9,7 +9,7 @@
     {% block main_grid %}
     <div class="row">
         <div class="col-xl-3 col-lg-5 col-md-5 col-sm-6 col-12 tool-bar">
-            <a class="btn btn-outline-success" href="{% url "org_petition_wizard" org.name %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
+            <a class="btn btn-outline-success" href="{% url "org_petition_wizard" org.slugname %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
             <hr>
             {% include "petition/org_member_list.html" with org=org user_permissions=user_permissions %}
             <hr>
@@ -18,7 +18,7 @@
             <hr>
             <div class="d-flex align-items-baseline justify-content-between">
                 <h4>{% trans "Petition templates" %}</h4>
-                <a href="{% url "org_new_template" org.name %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+                <a href="{% url "org_new_template" org.slugname %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
             </div>
             <br />
             {% if org.petition_templates.all %}
