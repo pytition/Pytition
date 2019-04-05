@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.utils.html import mark_safe, strip_tags
 
-from .models import Signature, PetitionTemplate, Petition, Organization, PytitionUser
+from .models import Signature, PetitionTemplate, Petition, Organization, PytitionUser, SlugModel
 from .widgets import SwitchField
 
 import uuid
@@ -232,6 +232,7 @@ class DeleteAccountForm(forms.Form):
         if valid != _("DROP MY ACCOUNT"):
             self.add_error('validation', ValidationError(_("You miss-typed the validation code"), code="invalid"))
         return self.cleaned_data
+
 
 class OrgCreationForm(forms.ModelForm):
     class Meta:

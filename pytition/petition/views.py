@@ -15,8 +15,11 @@ from django.db import transaction
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
+from django.urls import reverse
+from django.utils.text import slugify
 
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
+from .models import SlugModel
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
 from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
 from .forms import DeleteAccountForm, OrgCreationForm
@@ -1209,14 +1212,23 @@ def edit_petition(request, petition_id):
            'social_network_form': social_network_form,
            'newsletter_form': newsletter_form,
            'petition': petition}
+    example_url = request.scheme + "://" + request.get_host()
 
     if org:
+        example_url = example_url + reverse("slug_show_petition",
+                                            kwargs={'orgslugname': org.slugname,
+                                                    'petitionname': _("save-the-kittens-from-bad-wolf")})
         ctx.update({'org': org,
                     'user_permissions': permissions,
-                    'base_template': 'petition/org_base.html'})
+                    'base_template': 'petition/org_base.html',
+                    'example_url': example_url})
 
     if user:
-        ctx.update({'base_template': 'petition/user_base.html'})
+        example_url = example_url + reverse("slug_show_petition",
+                                            kwargs={'username': pytitionuser.user.username,
+                                                    'petitionname': _("save-the-kittens-from-bad-wolf")})
+        ctx.update({'base_template': 'petition/user_base.html',
+                    'example_url': example_url})
 
     return render(request, "petition/edit_petition.html", ctx)
 
@@ -1398,3 +1410,54 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
 
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form}
     return render(request, "petition/petition_detail.html", ctx)
+
+
+@login_required
+def add_new_slug(request, petition_id):
+    pytitionuser = get_session_user(request)
+    try:
+        petition = petition_from_id(petition_id)
+    except:
+        messages.error(request, _("This petition does not exist (anymore?)."))
+        return redirect("user_dashboard")
+
+    if request.method == "POST":
+        slugtexts = request.POST.getlist('slugtext', '')
+        if slugtexts == '' or slugtexts == []:
+            messages.error(request, _("You entered an empty slug text"))
+        else:
+            if pytitionuser.has_right("can_modify_petitions", petition):
+                for slugtext in slugtexts:
+                    slug = SlugModel.objects.create(slug=slugify(slugtext[:200]))
+                    petition.slugs.add(slug)
+                    petition.save()
+                messages.success(request, _("Successful addition of a slug!"))
+            else:
+                messages.error(request, _("You don't have the permission to modify petitions"))
+        return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
+    else:
+        return redirect("user_dashboard")
+
+@login_required
+def del_slug(request, petition_id):
+    pytitionuser = get_session_user(request)
+    try:
+        petition = petition_from_id(petition_id)
+    except:
+        messages.error(request, _("This petition does not exist (anymore?)."))
+        return redirect("user_dashboard")
+    if pytitionuser.has_right("can_modify_petitions", petition):
+        slug_id = request.GET.get('slugid', None)
+        if not slug_id:
+            return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
+
+        slug = SlugModel.objects.get(pk=slug_id)
+        slug.delete()
+        messages.success(request, _("Successful deletion of a slug"))
+    else:
+        messages.error(request, _("You don't have the permission to modify petitions"))
+        if petition.owner_type == "org":
+            return redirect("org_dashboard", petition.owner.slugname)
+        else:
+            return redirect("user_dashboard")
+    return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")

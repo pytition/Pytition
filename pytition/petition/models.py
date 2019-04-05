@@ -157,6 +157,24 @@ class Petition(models.Model):
         self.save()
 
     @property
+    def owner_type(self):
+        if self.organization_set.count() > 0:
+            return "org"
+        elif self.pytitionuser_set.count() > 0:
+            return "user"
+        else:
+            return "no_owner"
+
+    @property
+    def owner(self):
+        if self.organization_set.count() > 0:
+            return self.organization_set.first()
+        elif self.pytitionuser_set.count > 0:
+            return self.pytitionuser_set.first()
+        else:
+            return None
+
+    @property
     def signature_number(self):
         return self.get_signature_number(True)
 
