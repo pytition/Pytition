@@ -28,7 +28,7 @@ urlpatterns = [
     path('org/<slug:orgslugname>/new_template', views.new_template, name='org_new_template'),
     url(r'^edit_template/(?P<template_id>[^/]+)$', views.edit_template, name='edit_template'),
     url(r'^ptemplate_fav_toggle$', views.ptemplate_fav_toggle, name='ptemplate_fav_toggle'),
-    path('org/<slug:orgslugname>)/delete_member', views.org_delete_member, name='org_delete_member'),
+    path('org/<slug:orgslugname>/delete_member', views.org_delete_member, name='org_delete_member'),
     path('org/<slug:orgslugname>/edit_user_permissions/<slug:user_name>', views.org_edit_user_perms,
         name='org_edit_user_perms'),
     path('org/<slug:orgslugname>/set_user_permissions/<slug:user_name>', views.org_set_user_perms,
