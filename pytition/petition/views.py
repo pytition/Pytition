@@ -911,6 +911,7 @@ def org_set_user_perms(request, orgslugname, user_name):
                         messages.error(request, _("You cannot remove your ability to change permissions on this "
                                                   "Organization because you are the only member left."))
         if not error:
+            permissions.can_modify_permissions = can_modify_perms
             messages.success(request, _("Permissions successfully changed!"))
         permissions.save()
 
