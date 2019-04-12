@@ -416,7 +416,7 @@ def org_add_user(request, orgslugname):
 def invite_accept(request):
     orgslugname = request.GET.get('org', '')
 
-    if org_name == "":
+    if orgslugname == "":
         return JsonResponse({}, status=500)
 
     pytitionuser = get_session_user(request)
