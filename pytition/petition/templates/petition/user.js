@@ -4,7 +4,7 @@ $(function () {
     $('[data-action="leave_org"]').on("click", function() {
         var orgslugname = $(this).closest("[data-orgslugname]").data("orgslugname");
         var orgname = $(this).closest("[data-orgname]").data("orgname");
-        $.ajax("{% url "leave_org" %}?org=" + orgslugname).done(function() {
+        $.ajax("/petition/org/" + orgslugname + "/leave_org").done(function() {
             window.location = window.location.href;
         })
         .fail(function (xhr, status, error) {
@@ -39,7 +39,7 @@ $(function () {
             $('#modalContainer').append(modal);
             $('#org_delete_modal' + orgslugname).modal('toggle');
             $('[data-action="org-delete"]').on('click', function() {
-                $.ajax("{% url "leave_org" %}?org=" + orgslugname + "&confirm=1").done(function() {
+                $.ajax("/petition/org/" + orgslugname + "/leave_org?confirm=1").done(function() {
                     window.location = window.location.href;
                 });
             });

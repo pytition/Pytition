@@ -31,6 +31,7 @@ import csv
 from datetime import datetime
 import time
 
+#-------------------------------- Help Functions ------------------------------
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -72,11 +73,28 @@ def settings_context_processor(request):
     return {'settings': settings}
 
 
-def index(request):
+def send_confirmation_email(request, signature):
+    petition = signature.petition
+    url = request.build_absolute_uri("/petition/{}/confirm/{}".format(petition.id, signature.confirmation_hash))
+    html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
+    message = strip_tags(html_message)
+    with get_connection(host=petition.confirmation_email_smtp_host, port=petition.confirmation_email_smtp_port,
+                        username=petition.confirmation_email_smtp_user,
+                        password=petition.confirmation_email_smtp_password,
+                        use_ssl=petition.confirmation_email_smtp_tls,
+                        use_tls=petition.confirmation_email_smtp_starttls) as connection:
+        send_mail(_("Confirm your signature to our petition"), message, petition.confirmation_email_sender,
+                     [signature.email], html_message=html_message, connection=connection, fail_silently=False)
 
+
+#------------------------------------ Views -----------------------------------
+
+# Path : /
+# Depending on the settings.INDEX_PAGE, show a list of petitions or
+# redirect to an user/org profile page
+def index(request):
     if not hasattr(settings, 'INDEX_PAGE'):
         raise Http404(_("You must set an INDEX_PAGE config in your settings"))
-
     if settings.INDEX_PAGE in ['USER_PETITIONS', 'USER_PROFILE']:
         try:
             user_name = settings.INDEX_PAGE_USER
@@ -120,14 +138,52 @@ def index(request):
     q = request.GET.get('q', '')
     if q != "":
         petitions = petitions.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
+    # FIXME : dynamic title
     title = "Pétitions Résistance à l'agression publicitaire"
     if authenticated:
         user = get_session_user(request)
     else:
         user = request.user
-    return render(request, 'petition/index.html', {'petitions': petitions, 'title': title,
-                                                   'user': user, 'q': q})
+    return render(
+            request, 'petition/index.html',
+                {
+                    'petitions': petitions, 'title': title,
+                    'user': user, 'q': q
+                }
+    )
 
+
+# /<int:petition_id>/
+# Show information on a petition
+def detail(request, petition_id):
+    petition = petition_from_id(petition_id)
+    check_petition_is_accessible(request, petition)
+    sign_form = SignatureForm(petition=petition)
+    return render(request, 'petition/petition_detail.html',
+            {'petition': petition, 'form': sign_form})
+
+
+# /<int:petition_id>/confirm/<confirmation_hash>
+# Confirm signature to a petition
+def confirm(request, petition_id, confirmation_hash):
+    petition = petition_from_id(petition_id)
+    check_petition_is_accessible(request, petition)
+    try:
+        successmsg = petition.confirm_signature(confirmation_hash)
+        if successmsg is None:
+            messages.error(request, _("Error: This confirmation code is invalid. Maybe you\'ve already confirmed?"))
+        else:
+            messages.success(request, successmsg)
+    except ValidationError as e:
+        messages.error(request, _(e.message))
+    except Signature.DoesNotExist:
+        messages.error(request, _("Error: This confirmation code is invalid."))
+    return redirect('/petition/{}'.format(petition.id))
+
+
+# <int:petition_id>/get_csv_signature
+# <int:petition_id>/get_csv_confirmed_signature
+# returns the CSV files of the list of signatures
 @login_required
 def get_csv_signature(request, petition_id, only_confirmed):
     user = get_session_user(request)
@@ -140,7 +196,8 @@ def get_csv_signature(request, petition_id, only_confirmed):
     signatures = Signature.objects.filter(petition_id = petition_id)
     if only_confirmed:
         signatures = signatures.filter(confirmed = True)
-    signatures = signatures.all()
+    else:
+        signatures = signatures.all()
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment;filename={}'.format(filename).replace('\r\n', '').replace(' ', '%20')
     writer = csv.writer(response)
@@ -151,21 +208,8 @@ def get_csv_signature(request, petition_id, only_confirmed):
         writer.writerow(values)
     return response
 
-
-def send_confirmation_email(request, signature):
-    petition = signature.petition
-    url = request.build_absolute_uri("/petition/{}/confirm/{}".format(petition.id, signature.confirmation_hash))
-    html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
-    message = strip_tags(html_message)
-    with get_connection(host=petition.confirmation_email_smtp_host, port=petition.confirmation_email_smtp_port,
-                        username=petition.confirmation_email_smtp_user,
-                        password=petition.confirmation_email_smtp_password,
-                        use_ssl=petition.confirmation_email_smtp_tls,
-                        use_tls=petition.confirmation_email_smtp_starttls) as connection:
-        send_mail(_("Confirm your signature to our petition"), message, petition.confirmation_email_sender,
-                     [signature.email], html_message=html_message, connection=connection, fail_silently=False)
-
-
+# resend/<int:signature_id>
+# resend the signature confirmation email
 def go_send_confirmation_email(request, signature_id):
     app_label = Signature._meta.app_label
     signature = Signature.objects.filter(pk=signature_id).get()
@@ -197,7 +241,8 @@ def subscribe_to_newsletter(petition, email):
                          petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
                          connection=connection).send(fail_silently=True)
 
-
+# <int:petition_id>/sign
+# Sign a petition
 def create_signature(request, petition_id):
     petition = petition_from_id(petition_id)
     check_petition_is_accessible(request, petition)
@@ -233,31 +278,8 @@ def create_signature(request, petition_id):
     return redirect('/petition/{}'.format(petition.id))
 
 
-def confirm(request, petition_id, confirmation_hash):
-    petition = petition_from_id(petition_id)
-    check_petition_is_accessible(request, petition)
-
-    try:
-        successmsg = petition.confirm_signature(confirmation_hash)
-        if successmsg is None:
-            messages.error(request, _("Error: This confirmation code is invalid. Maybe you\'ve already confirmed?"))
-        else:
-            messages.success(request, successmsg)
-    except ValidationError as e:
-        messages.error(request, _(e.message))
-    except Signature.DoesNotExist:
-        messages.error(request, _("Error: This confirmation code is invalid."))
-    return redirect('/petition/{}'.format(petition.id))
-
-
-def detail(request, petition_id):
-    petition = petition_from_id(petition_id)
-    check_petition_is_accessible(request, petition)
-    sign_form = SignatureForm(petition=petition)
-    return render(request, 'petition/petition_detail.html',
-            {'petition': petition, 'form': sign_form, 'meta': petition_detail_meta(request, petition_id)})
-
-
+# /org/<slug:orgslugname>/dashboard
+# Show the dashboard of an organization
 @login_required
 def org_dashboard(request, orgslugname):
     q = request.GET.get('q', '')
@@ -288,10 +310,14 @@ def org_dashboard(request, orgslugname):
         return redirect("user_dashboard")
 
     other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
-    return render(request, 'petition/org_dashboard.html', {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
-                                                           'petitions': petitions, 'user_permissions': permissions,
-                                                           'q': q})
+    return render(request, 'petition/org_dashboard.html',
+            {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
+            'petitions': petitions, 'user_permissions': permissions,
+            'q': q})
 
+
+# /user/dashboard
+# Dashboard of the logged in user
 @login_required
 def user_dashboard(request):
     user = get_session_user(request)
@@ -305,6 +331,8 @@ def user_dashboard(request):
     return render(request, 'petition/user_dashboard.html', {'user': user, 'petitions': petitions, 'q': q})
 
 
+# /user/<user_name>
+# Show the user profile
 def user_profile(request, user_name):
     try:
         user = PytitionUser.objects.get(user__username=user_name)
@@ -316,9 +344,10 @@ def user_profile(request, user_name):
     return render(request, 'petition/profile.html', ctx)
 
 
+# /org/<slug:orgslugname>/leave_org
+# User is leaving the organisation
 @login_required
-def leave_org(request):
-    orgslugname = request.GET.get('org', '')
+def leave_org(request, orgslugname):
     confirm_drop_org = request.GET.get('confirm', '')
     try:
         org = Organization.objects.get(slugname=orgslugname)
@@ -343,7 +372,8 @@ def leave_org(request):
 
     return JsonResponse({})
 
-
+# /org/<slug:orgslugname>
+# Show the profile of an organization
 def org_profile(request, orgslugname):
     try:
         org = Organization.objects.get(slugname=orgslugname)
@@ -355,6 +385,8 @@ def org_profile(request, orgslugname):
     return render(request, "petition/profile.html", ctx)
 
 
+# /get_user_list
+# get the list of users
 @login_required
 def get_user_list(request):
     q = request.GET.get('q', '')
@@ -468,6 +500,9 @@ def invite_dismiss(request):
     return JsonResponse({})
 
 
+# /org/<slug:orgslugname>/new_template
+# /user/new_template
+# Create a new template
 @login_required
 def new_template(request, orgslugname=None):
     pytitionuser = get_session_user(request)
@@ -519,6 +554,8 @@ def new_template(request, orgslugname=None):
         return render(request, "petition/new_template.html", ctx)
 
 
+# /templates/<int:template_id>/edit
+# Edit a petition template
 @login_required
 def edit_template(request, template_id):
     id = template_id
@@ -665,17 +702,17 @@ def user_del_template(request, user_name):
     return JsonResponse({})
 
 
+# /templates/<int:template_id>/delete
+# Delete a template
 @login_required
-def template_delete(request):
-    id = request.GET.get('id', '')
-
-    if id == '':
+def template_delete(request, template_id):
+    if template_id == '':
         return JsonResponse({}, status=500)
 
     pytitionuser = get_session_user(request)
 
     try:
-        template = PetitionTemplate.objects.get(pk=id)
+        template = PetitionTemplate.objects.get(pk=template_id)
     except:
         return JsonResponse({}, status=404)
 
@@ -709,16 +746,15 @@ def template_delete(request):
 
     return JsonResponse({})
 
-
+# /templates/<int:template_id>/fav
+# Set a template as favourite
 @login_required
-def ptemplate_fav_toggle(request):
-    id = request.GET.get('id', '')
-
-    if id == '':
+def ptemplate_fav_toggle(request, template_id):
+    if template_id == '':
         return JsonResponse({}, status=500)
 
     try:
-        template = PetitionTemplate.objects.get(pk=id)
+        template = PetitionTemplate.objects.get(pk=template_id)
     except PetitionTemplate.DoesNotExist:
         return JsonResponse({}, status=404)
 
@@ -766,6 +802,8 @@ def ptemplate_fav_toggle(request):
     return JsonResponse({})
 
 
+# /org/<slug:orgslugname>/delete_member
+# Remove a member from an organization
 @login_required
 def org_delete_member(request, orgslugname):
     member_name = request.GET.get('member', '')
@@ -1039,9 +1077,10 @@ class PetitionCreationWizard(SessionWizardView):
         return context
 
 
+# /<int:petition_id>/delete
+# Delete a petition
 @login_required
-def petition_delete(request):
-    petition_id = request.GET.get('id', '')
+def petition_delete(request, petition_id):
     petition = petition_from_id(petition_id)
     pytitionuser = get_session_user(request)
 
@@ -1057,10 +1096,10 @@ def petition_delete(request):
 
     return JsonResponse({}, status=403)
 
-
+# /<int:petition_id>/publish
+# Publush a petition
 @login_required
-def petition_publish(request):
-    petition_id = request.GET.get('id', '')
+def petition_publish(request, petition_id):
     pytitionuser = get_session_user(request)
     petition = petition_from_id(petition_id)
 
@@ -1077,9 +1116,10 @@ def petition_publish(request):
     return JsonResponse({}, status=403)
 
 
+# /<int:petition_id>/unpublish
+# Unpublish a petition
 @login_required
-def petition_unpublish(request):
-    petition_id = request.GET.get('id', '')
+def petition_unpublish(request, petition_id):
     pytitionuser = get_session_user(request)
     petition = petition_from_id(petition_id)
 
@@ -1096,6 +1136,8 @@ def petition_unpublish(request):
     return JsonResponse({}, status=403)
 
 
+# /<int:petition_id>/edit
+# Edit a petition
 @login_required
 def edit_petition(request, petition_id):
     petition = petition_from_id(petition_id)
@@ -1239,6 +1281,8 @@ def edit_petition(request, petition_id):
     return render(request, "petition/edit_petition.html", ctx)
 
 
+# /<int:petition_id>/show_signatures
+# Show the signatures of a petition
 @login_required
 def show_signatures(request, petition_id):
     petition = petition_from_id(petition_id)
@@ -1476,3 +1520,4 @@ def petition_detail_meta(request, petition_id):
         petition_path=reverse('detail', args=[petition_id]))
 
     return {'site_url': request.get_host(), 'petition_url': url}
+

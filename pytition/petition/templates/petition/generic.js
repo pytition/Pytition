@@ -40,7 +40,7 @@ $(function () {
 $(function () {
    $('[data-action="template-delete"]').on("click", function() {
     var template_id = $(this).closest("[data-template]").data("template");
-    $.ajax("{% url "template_delete" %}?id=" + template_id).done(function() {
+    $.ajax("/petition/templates/" template_id + "/delete").done(function() {
        if (window.location.href.endsWith('edit_template/' + template_id)) {
            // If we were on this template edit page and the user clicks on delete
            // we cannot reload the edit page, we then reload the dashboard
@@ -54,7 +54,7 @@ $(function () {
 $(function () {
     $('[data-fav-toggle="true"]').on("click", function () {
         var template_id = $(this).closest("[data-template]").data("template");
-        $.ajax("{% url "ptemplate_fav_toggle" %}?id=" + template_id).done(function() {
+        $.ajax("/petition/templates/" + template_id + "/fav").done(function() {
             window.location = window.location.href;
         });
     });
@@ -63,7 +63,7 @@ $(function () {
 $(function () {
    $('[data-action="petition-delete"]').on("click", function() {
     var petition_id = $(this).closest("[data-petition]").data("petition");
-    $.ajax("{% url "petition_delete" %}?id=" + petition_id).done(function() {
+    $.ajax("/petition/" + petition_id + "/delete").done(function() {
         if (window.location.href.endsWith('edit_petition/' + petition_id)) {
            // If we were on this petition edit page and the user clicks on delete
            // we cannot reload the edit page, we then reload the dashboard
@@ -87,7 +87,7 @@ $(function () {
         label.text("{% trans "Published" %}");
         custom_switch.removeClass("text-danger");
         custom_switch.addClass("text-success");
-        $.ajax("{% url "petition_publish" %}?id=" + petition_id
+        $.ajax("/petition/" + petition_id + "/publish"
         ).done(function(){
             box.prop('disabled', false);
         }).fail(function () { // reset checkbox state upon failure
@@ -104,7 +104,7 @@ $(function () {
         label.text("{% trans "Not published" %}");
         custom_switch.removeClass("text-success");
         custom_switch.addClass("text-danger");
-        $.ajax("{% url "petition_unpublish" %}?id=" + petition_id
+        $.ajax("/petition/" + petition_id + "/unpublish"
         ).done(function(){
             box.prop('disabled', false);
         }).fail(function () { // reset checkbox state upon failure
