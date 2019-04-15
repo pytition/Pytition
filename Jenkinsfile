@@ -4,21 +4,13 @@
 // This script is assuming that you're using a multi-branch project but the majority directly translates to a regular pipeline project.
 
 node {
-
-	sh 'cd $WORKSPACE && rm -rf venv && virtualenv -p python3 venv'
-
         checkout scm
 
         sh '''
-            cd $WORKSPACE
-            source venv/bin/activate
-            pip3 install -r requirements.txt 
-            deactivate
-           '''
-
-        sh '''
 cd $WORKSPACE
+rm -rf venv && virtualenv -p python3 venv
 source venv/bin/activate
+pip3 install -r requirements_dev.txt
 cat <<ENDOFFILE > my.cnf
 [client]
 database = pytition
