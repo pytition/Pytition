@@ -25,19 +25,21 @@ urlpatterns = [
     path('<int:petition_id>/add_new_slug', views.add_new_slug, name="add_new_slug"),
     path('<int:petition_id>/del_slug', views.del_slug, name="del_slug"),
     # Organisation
+    path('org/create', views.org_create, name="org_create"),
     path('org/<slug:orgslugname>', views.org_profile, name='org_profile'),
     path('org/<slug:orgslugname>/dashboard', views.org_dashboard, name='org_dashboard'),
     path('org/<slug:orgslugname>/leave_org', views.leave_org, name="leave_org"),
     path('org/<slug:orgslugname>/add_user', views.org_add_user, name='org_add_user'),
     path('org/<slug:orgslugname>/new_template', views.new_template, name='org_new_template'),
     path('org/<slug:orgslugname>/delete_member', views.org_delete_member, name='org_delete_member'),
+    path('org/<slug:orgslugname>/invite_accept', views.invite_accept, name='invite_accept'),
+    path('org/<slug:orgslugname>/invite_dismiss', views.invite_dismiss, name='invite_dismiss'),
     path('org/<slug:orgslugname>/edit_user_permissions/<slug:user_name>', views.org_edit_user_perms, name='org_edit_user_perms'),
     path('org/<slug:orgslugname>/set_user_permissions/<slug:user_name>', views.org_set_user_perms, name='org_set_user_perms'),
     path('org/<slug:orgslugname>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
-    path('org/create', views.org_create, name="org_create"),
     # Templates
     path('templates/<int:template_id>/edit', views.edit_template, name='edit_template'),
-    path('templates/<int:template_id>/fav', views.ptemplate_fav_toggle, name='ptemplate_fav_toggle'),
+    path('templates/<int:template_id>/fav', views.template_fav_toggle, name='template_fav_toggle'),
     path('templates/<int:template_id>/delete', views.template_delete, name='template_delete'),
     # User
     path('user/dashboard', views.user_dashboard, name='user_dashboard'),
@@ -45,9 +47,6 @@ urlpatterns = [
     path('user/<user_name>', views.user_profile, name='user_profile'),
     path('user/<slug:username>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
     path('get_user_list', views.get_user_list, name='get_user_list'),
-    # Invite
-    path('invite_accept/', views.invite_accept, name='invite_accept'),
-    path('invite_dismiss/', views.invite_dismiss, name='invite_dismiss'),
     # Wizard
     path('wizard/org/<slug:orgslugname>/new_petition', PetitionCreationWizard.as_view(views.WizardForms), name='org_petition_wizard'),
     path('wizard/org/<slug:orgslugname>/new_petition/from_template/<int:template_id>', PetitionCreationWizard.as_view(views.WizardForms), name='org_petition_wizard_from_template'),

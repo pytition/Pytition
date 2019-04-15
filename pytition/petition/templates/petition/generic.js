@@ -1,37 +1,4 @@
 {% load i18n %}
-var joined = false;
-
-$(document).ready(function() {
-    $(".btn-invitation-join").on("click", function() {
-        var org = $(this).data("org");
-        $.ajax({
-        url: "{% url "invite_accept" %}?org=" + org,
-        }).done(function() {
-            joined = true;
-            $(".btn-invitation-join").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
-        });
-    });
-});
-
-$(document).ready(function() {
-    $(".btn-invitation-join").closest(".alert").on("closed.bs.alert", function() {
-        if ($("#invitations").find(".alert").length == 0) {
-                if (joined)
-                    window.location = window.location.href;
-        }
-    });
-});
-
-$(function () {
-    $(".btn-invitation-dismiss").on("click", function () {
-        var org = $(this).data("org");
-        $.ajax({
-        url: "{% url "invite_dismiss" %}?org=" + org,
-        }).done(function() {
-            $(".btn-invitation-dismiss").filter('[data-org="'+org+'"]').closest(".alert").alert("close");
-        });
-    });
-});
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -39,9 +6,9 @@ $(function () {
 
 $(function () {
    $('[data-action="template-delete"]').on("click", function() {
-    var template_id = $(this).closest("[data-template]").data("template");
-    $.ajax("/petition/templates/" template_id + "/delete").done(function() {
-       if (window.location.href.endsWith('edit_template/' + template_id)) {
+    var template_delete_url = $(this).closest("[data-template-delete]").data("template-delete");
+    $.ajax(template_delete_url).done(function() {
+       if (window.location.href.endsWith('/edit')) {
            // If we were on this template edit page and the user clicks on delete
            // we cannot reload the edit page, we then reload the dashboard
            window.location = "{{ dashboard }}";
@@ -53,8 +20,8 @@ $(function () {
 
 $(function () {
     $('[data-fav-toggle="true"]').on("click", function () {
-        var template_id = $(this).closest("[data-template]").data("template");
-        $.ajax("/petition/templates/" + template_id + "/fav").done(function() {
+        var template_fav_url = $(this).closest("[data-template-fav]").data("template-fav");
+        $.ajax(template_fav_url).done(function() {
             window.location = window.location.href;
         });
     });
@@ -62,9 +29,9 @@ $(function () {
 
 $(function () {
    $('[data-action="petition-delete"]').on("click", function() {
-    var petition_id = $(this).closest("[data-petition]").data("petition");
-    $.ajax("/petition/" + petition_id + "/delete").done(function() {
-        if (window.location.href.endsWith('edit_petition/' + petition_id)) {
+    var petition_delete_url = $(this).closest("[data-petition-delete]").data("petition-delete");
+    $.ajax(petition_delete_url).done(function() {
+        if (window.location.href.endsWith('/edit')) {
            // If we were on this petition edit page and the user clicks on delete
            // we cannot reload the edit page, we then reload the dashboard
            // NOTE: today there is no delete button from petition edit page. This is hypothetical.
@@ -77,7 +44,8 @@ $(function () {
 
 $(function () {
    $('[data-action="publish"]').find('input:checkbox').on("change", function() {
-    var petition_id = $(this).closest("[data-petition]").data("petition");
+    var petition_publish_url = $(this).closest("[data-petition-publish]").data("petition-publish");
+    var petition_unpublish_url = $(this).closest("[data-petition-unpublish]").data("petition-unpublish");
     var box = $(this);
     var checked = box.prop('checked');
     var label = box.siblings('label');
@@ -87,7 +55,7 @@ $(function () {
         label.text("{% trans "Published" %}");
         custom_switch.removeClass("text-danger");
         custom_switch.addClass("text-success");
-        $.ajax("/petition/" + petition_id + "/publish"
+        $.ajax(petition_publish_url
         ).done(function(){
             box.prop('disabled', false);
         }).fail(function () { // reset checkbox state upon failure
@@ -104,7 +72,7 @@ $(function () {
         label.text("{% trans "Not published" %}");
         custom_switch.removeClass("text-success");
         custom_switch.addClass("text-danger");
-        $.ajax("/petition/" + petition_id + "/unpublish"
+        $.ajax(petition_unpublish_url
         ).done(function(){
             box.prop('disabled', false);
         }).fail(function () { // reset checkbox state upon failure

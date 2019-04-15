@@ -13,7 +13,7 @@
 
 <div class="row">
     {% for petition in petitions %}
-        <div class="col-xl-4 col-lg-6 col-sm-12 col-12 text-center sb-preview" data-petition="{{ petition.id }}">
+        <div class="col-xl-4 col-lg-6 col-sm-12 col-12 text-center sb-preview" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}">
             <div class="card h-100">
                 <a href="#" class="sb-preview-img">
                     {% if not petition.twitter_image%}
@@ -33,6 +33,7 @@
                             <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning"
                                     title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></a>
                             <button class="btn btn-outline-danger"
+                                    id="btn_petition_delete"
                                     title="{% trans "Delete the petition" %}"
                                     data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
                                     aria-disabled="true"><span class="oi oi-delete"></span></button>
@@ -72,7 +73,7 @@
             </div>
         </div>
 
-    <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}">
+    <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}" data-petition-delete="{% url 'petition_delete' petition.id %}">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

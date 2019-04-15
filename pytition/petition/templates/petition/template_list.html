@@ -2,7 +2,7 @@
 {% load static %}
 <div class="list-group">
 {% for template in templates %}
-        <div class="d-flex align-items-baseline justify-content-between list-group-item list-group-item-action list-group-item-primary" data-template="{{ template.id }}">
+<div class="d-flex align-items-baseline justify-content-between list-group-item list-group-item-action list-group-item-primary" data-template-delete="{% url 'template_delete'  template.id %}" data-template-fav="{% url 'template_fav_toggle' template.id %}">
             <div style="white-space: nowrap">
                 <span class="oi oi-bookmark"></span> {{ template.name }}
             </div>
