@@ -1,0 +1,15 @@
+
+nav.navbar {
+  margin-bottom: 2rem;
+}
+
+.card-img-top{
+  width: 100%!important;
+  height: 200px!important;
+  object-fit: cover;
+}
+
+.alert .alert-icon-col {
+    min-width: 35px;
+    max-width: 35px;
+}

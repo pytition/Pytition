@@ -145,7 +145,7 @@ LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"), )
 STATIC_URL = '/static/'
 LOGIN_URL = '/petition/login/'
 
-TINYMCE_JS_URL = '/static/tinymce/js/tinymce/tinymce.min.js'
+TINYMCE_JS_URL = '/static/vendor/tinymce/js/tinymce/tinymce.min.js'
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
     'theme': "modern",
@@ -161,7 +161,7 @@ SITE_NAME = "Pytition"
 ALLOW_REGISTER = True
 LOGIN_REDIRECT_URL = reverse_lazy("user_dashboard")
 ALLOW_CONNECT = True
-DEFAULT_INDEX_THUMBNAIL = "/petition_icon.svg"
+DEFAULT_INDEX_THUMBNAIL = "/img/petition_icon.svg"
 
 #INDEX_PAGE_ORGA = "RAP"
 #INDEX_PAGE_USER = "admin"
