@@ -130,7 +130,11 @@ def index(request):
 
 @login_required
 def get_csv_signature(request, petition_id, only_confirmed):
+    user = get_session_user(request)
     petition = petition_from_id(petition_id)
+
+    if not user.has_right("can_view_signatures", petition):
+        return JsonResponse({}, status=403)
 
     filename = '{}.csv'.format(petition)
     signatures = Signature.objects.filter(petition_id = petition_id)
