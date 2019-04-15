@@ -372,6 +372,7 @@ def leave_org(request, orgslugname):
 
     return JsonResponse({})
 
+
 # /org/<slug:orgslugname>
 # Show the profile of an organization
 def org_profile(request, orgslugname):
@@ -449,19 +450,19 @@ def org_add_user(request, orgslugname):
     return JsonResponse({"message": message})
 
 
+# /org/<slug:orgslugname>/invite_accept
+# Accept an invitation to an organisation
+# Called from /user/dashboard
 @login_required
-def invite_accept(request):
-    orgslugname = request.GET.get('org', '')
-
+def invite_accept(request, orgslugname):
     if orgslugname == "":
-        return JsonResponse({}, status=500)
+        return HttpResponse(status=500)
 
     pytitionuser = get_session_user(request)
-
     try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
-        return JsonResponse({}, status=404)
+        raise Http404(_("not found"))
 
     if org in pytitionuser.invitations.all():
         try:
@@ -469,16 +470,16 @@ def invite_accept(request):
                 pytitionuser.invitations.remove(org)
                 org.add_member(pytitionuser)
         except:
-            return JsonResponse({}, status=500)
+            return HttpResponse(status=500)
     else:
-        return JsonResponse({}, status=404)
+        raise Http404(_("not found"))
+    return redirect('user_dashboard')
 
-    return JsonResponse({})
 
+# /org/<slug:orgslugname>/invite_dismiss
+# Dismiss the invitation to an organisation
 @login_required
-def invite_dismiss(request):
-    orgslugname = request.GET.get('org', '')
-
+def invite_dismiss(request, orgslugname):
     if orgslugname == "":
         return JsonResponse({}, status=500)
 
@@ -487,7 +488,7 @@ def invite_dismiss(request):
     try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
-        return JsonResponse({}, status=404)
+        raise Http404(_("not found"))
 
     if org in pytitionuser.invitations.all():
         try:
@@ -495,9 +496,9 @@ def invite_dismiss(request):
         except:
             return JsonResponse({}, status=500)
     else:
-        return JsonResponse({}, status=404)
+        raise Http404(_("not found"))
 
-    return JsonResponse({})
+    return redirect('user_dashboard')
 
 
 # /org/<slug:orgslugname>/new_template
@@ -749,7 +750,7 @@ def template_delete(request, template_id):
 # /templates/<int:template_id>/fav
 # Set a template as favourite
 @login_required
-def ptemplate_fav_toggle(request, template_id):
+def template_fav_toggle(request, template_id):
     if template_id == '':
         return JsonResponse({}, status=500)
 

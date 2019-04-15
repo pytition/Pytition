@@ -16,8 +16,8 @@
                 {% endblocktrans %}
                 </div>
                 <div class="row d-flex justify-content-around">
-                    <button class="btn btn-success btn-invitation-join" data-org="{{ org.slugname }}">{% trans "Join" %}</button>
-                    <button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.slugname }}">{% trans "Dismiss" %}</button>
+                    <a href="{% url 'invite_accept' org.slugname %}"><button class="btn btn-success">{% trans "Join" %}</button></a>
+                    <a href="{% url 'invite_dismiss' org.slugname %}"><button class="btn btn-danger btn-invitation-dismiss" data-org="{{ org.slugname }}">{% trans "Dismiss" %}</button></a>
                 </div>
             </div>
         </div>
