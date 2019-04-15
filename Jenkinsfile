@@ -12,7 +12,7 @@ node {
         sh '''
             cd $WORKSPACE
             source venv/bin/activate
-            pip3 install -r requirements.txt 
+            pip3 install -r requirements_dev.txt
             deactivate
            '''
 

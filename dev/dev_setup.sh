@@ -27,7 +27,7 @@ source venv/bin/activate
 
 echo "Installing Pytition Python runtime dependencies"
 
-pip3 install -r requirements.txt
+pip3 install -r requirements_dev.txt
 
 echo "Install MariaDB server? (y/n)"
 
