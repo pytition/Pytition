@@ -21,6 +21,10 @@ p.lead {
     line-height: 1.2
 }
 
+nav.navbar {
+  margin-bottom: 1rem;
+}
+
 h1 {
     color: #000;
     font-weight: 800;
