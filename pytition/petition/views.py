@@ -205,7 +205,7 @@ def create_signature(request, petition_id):
     if request.method == "POST":
         form = SignatureForm(petition=petition, data=request.POST)
         if not form.is_valid():
-            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form})
+            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form, 'meta': petition_detail_meta(request, petition_id)})
 
         ipaddr = get_client_ip(request)
         one_day_ago = datetime.fromtimestamp(time.time() - settings.SIGNATURE_THROTTLE_TIMING)
@@ -214,7 +214,7 @@ def create_signature(request, petition_id):
                                               date__gt=one_day_ago)
         if signatures.count() > settings.SIGNATURE_THROTTLE:
             messages.error(request, _("Too many signatures from your IP address, please try again later."))
-            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form})
+            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form, 'meta': petition_detail_meta(request, petition_id)})
         else:
             signature = form.save()
             signature.ipaddress = make_password(ipaddr, salt=petition.salt)
@@ -254,7 +254,8 @@ def detail(request, petition_id):
     petition = petition_from_id(petition_id)
     check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
-    return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': sign_form})
+    return render(request, 'petition/petition_detail.html',
+            {'petition': petition, 'form': sign_form, 'meta': petition_detail_meta(request, petition_id)})
 
 
 @login_required
@@ -1413,7 +1414,7 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
         petition = Petition.objects.get(pytitionuser__user__username=username, slugs__slug=petitionname)
     sign_form = SignatureForm(petition=petition)
 
-    ctx = {"user": pytitionuser, "petition": petition, "form": sign_form}
+    ctx = {"user": pytitionuser, "petition": petition, "form": sign_form, 'meta': petition_detail_meta(request, petition.id)}
     return render(request, "petition/petition_detail.html", ctx)
 
 
@@ -1466,3 +1467,12 @@ def del_slug(request, petition_id):
         else:
             return redirect("user_dashboard")
     return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
+
+
+def petition_detail_meta(request, petition_id):
+    url = "{scheme}://{host}{petition_path}".format(
+        scheme=request.scheme,
+        host=request.get_host(),
+        petition_path=reverse('detail', args=[petition_id]))
+
+    return {'site_url': request.get_host(), 'petition_url': url}

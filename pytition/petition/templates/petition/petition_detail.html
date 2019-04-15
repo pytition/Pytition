@@ -19,8 +19,8 @@
         <meta property="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
     {% endif %}
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://petition.antipub.org/petition/{{ petition.id }}/"/>
-    <meta property="og:site_name" content="petition.antipub.org"/>
+    <meta property="og:url" content="{{ meta.petition_url }}" />
+    <meta property="og:site_name" content="{{ meta.site_url }}" />
     {% if petition.twitter_image %}
         <meta property="og:image" content="{{ petition.twitter_image }}"/>
     {% endif %}
