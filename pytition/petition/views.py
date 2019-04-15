@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.core.mail import get_connection, send_mail
 from django.core.mail.message import EmailMessage
 from django.template.loader import render_to_string
@@ -49,7 +49,11 @@ def index(request):
 
 
 def get_csv_signature(request, petition_id, only_confirmed):
+    authenticated = request.user.is_authenticated
     petition = petition_from_id(petition_id)
+
+    if not authenticated:
+        return JsonResponse({}, status=403)
 
     filename = '{}.csv'.format(petition)
     signatures = Signature.objects.filter(petition_id = petition_id)
