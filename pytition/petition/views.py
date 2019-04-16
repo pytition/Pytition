@@ -252,17 +252,20 @@ def create_signature(request, petition_id):
         if not form.is_valid():
             return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form, 'meta': petition_detail_meta(request, petition_id)})
 
-        ipaddr = get_client_ip(request)
+        ipaddr = make_password(
+                get_client_ip(request),
+                salt=petition.salt.encode('utf-8'))
         one_day_ago = datetime.fromtimestamp(time.time() - settings.SIGNATURE_THROTTLE_TIMING)
-        signatures = Signature.objects.filter(petition=petition,
-                                              ipaddress=make_password(ipaddr, salt=petition.salt),
-                                              date__gt=one_day_ago)
+        signatures = Signature.objects.filter(
+            petition=petition,
+            ipaddress=ipaddr,
+            date__gt=one_day_ago)
         if signatures.count() > settings.SIGNATURE_THROTTLE:
             messages.error(request, _("Too many signatures from your IP address, please try again later."))
             return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form, 'meta': petition_detail_meta(request, petition_id)})
         else:
             signature = form.save()
-            signature.ipaddress = make_password(ipaddr, salt=petition.salt)
+            signature.ipaddress = ipaddr
             signature.save()
             send_confirmation_email(request, signature)
             messages.success(request,
