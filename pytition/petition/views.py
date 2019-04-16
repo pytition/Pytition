@@ -1451,7 +1451,10 @@ def org_create(request):
 
 
 def slug_show_petition(request, orgslugname=None, username=None, petitionname=None):
-    pytitionuser = get_session_user(request)
+    try:
+        pytitionuser = get_session_user(request)
+    except:
+        pytitionuser = None
 
     if orgslugname:
         petition = Petition.objects.get(organization__slugname=orgslugname, slugs__slug=petitionname)
