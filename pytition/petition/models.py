@@ -96,7 +96,7 @@ class Petition(models.Model):
         super().save(*args, **kwargs)
         if not self.salt:
             hasher = get_hasher()
-            self.salt = hasher.salt()
+            self.salt = hasher.salt().decode('utf-8')
             super().save()
 
     def slugify(self):
