@@ -7,7 +7,7 @@
     {{ form.media }}
 {% endblock %}
 {% block extracss %}
-    <link href="{%  static 'smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{%  static 'vendor/smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -37,7 +37,7 @@
                         <div class="col-xl-4 col-lg-6 col-sm-12 col-12 mx-auto text-center sb-preview">
                             <div class="card h-100 align-content-center">
                                 <a href="#" class="sb-preview-img">
-                                    <img class="card-img-top img-fluid img-thumbnail" src="{% static "petition_icon.svg" %}">
+                                    <img class="card-img-top img-fluid img-thumbnail" src="{% static "img/petition_icon.svg" %}">
                                 </a>
                                 <div class="card-body d-flex flex-column">
                                     <h4 class="card-title"> {{ title }}</h4>
