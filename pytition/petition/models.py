@@ -336,7 +336,7 @@ class SlugModel(models.Model):
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"))
+    name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"), unique=True)
     petition_templates = models.ManyToManyField(PetitionTemplate, through='TemplateOwnership',
                                                 through_fields=['organization', 'template'], blank=True,
                                                 verbose_name=ugettext_lazy("Petition templates"))
@@ -344,7 +344,7 @@ class Organization(models.Model):
     default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
                                          verbose_name=ugettext_lazy("Default petition template"), to_field='id',
                                          on_delete=models.SET_NULL)
-    slugname = models.SlugField(max_length=200)
+    slugname = models.SlugField(max_length=200, unique=True)
 
     def drop(self):
         with transaction.atomic():
