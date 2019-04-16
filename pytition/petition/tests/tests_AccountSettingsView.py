@@ -1,9 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import PasswordChangeForm
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import get_user_model
 
 from petition.models import Organization, Petition, PytitionUser
 from petition.views import get_update_form
