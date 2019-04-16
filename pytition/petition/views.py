@@ -1389,7 +1389,7 @@ def account_settings(request):
             update_info_form = UpdateInfoForm(pytitionuser.user, request.POST)
             submitted_ctx['update_info_form_submitted'] = True
             if update_info_form.is_valid():
-               update_info_form.save()
+                update_info_form.save()
         else:
             update_info_form = get_update_form(pytitionuser.user)
 
