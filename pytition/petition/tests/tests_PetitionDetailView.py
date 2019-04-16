@@ -61,4 +61,4 @@ class PetitionDetailViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/petition_detail.html")
 
         self.assertContains(response, text='<meta property="og:site_name" content="testserver" />')
-        self.assertContains(response, text='<meta property="og:url" content="http://testserver/petition/1/" />')
+        self.assertContains(response, text='<meta property="og:url" content="http://testserver/petition/{}/" />'.format(petition.id))

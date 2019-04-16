@@ -160,7 +160,7 @@ def detail(request, petition_id):
     check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
     return render(request, 'petition/petition_detail.html',
-            {'petition': petition, 'form': sign_form})
+            {'petition': petition, 'form': sign_form, 'meta': petition_detail_meta(request, petition_id)})
 
 
 # /<int:petition_id>/confirm/<confirmation_hash>
