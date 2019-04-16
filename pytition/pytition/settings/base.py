@@ -101,9 +101,17 @@ DATABASES = {
     }
 }
 
-if os.environ.get('USE_POSTGRESQL', ''):
+if os.environ.get('USE_POSTGRESQL'):
     from .pgsql import DATABASES
 
+# email backend
+# The default when running manage.py runserver is to use the basic django's email backend
+# when running via wsgi the default is to use 'mailer' that is able to handle mail queuing
+# and retry on failure
+if os.environ.get('EMAIL_BACKEND') == 'mailer':
+    INSTALLED_APPS += ('mailer',)
+    # this enable mailer by default in django.send_email
+    EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
