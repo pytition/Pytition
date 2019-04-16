@@ -107,20 +107,7 @@ def index(request):
             raise Http404(_("You must set an INDEX_PAGE_ORGA config in your settings"))
 
     if settings.INDEX_PAGE == 'ALL_PETITIONS':
-        petitions = Petition.objects.filter(published=True)
-    elif settings.INDEX_PAGE == 'ORGA_PETITIONS':
-        org_name = settings.INDEX_PAGE_ORGA
-        try:
-            org = Organization.objects.get(name=org_name)
-        except Organization.DoesNotExist:
-            raise Http404(_("not found"))
-        petitions = org.petitions.filter(published=True)
-    elif settings.INDEX_PAGE == 'USER_PETITIONS':
-        try:
-            user = PytitionUser.objects.get(user__username=user_name)
-        except PytitionUser.DoesNotExist:
-            raise Http404(_("not found"))
-        petitions = user.petitions.filter(published=True)
+        return redirect("all_petitions")
     elif settings.INDEX_PAGE == 'ORGA_PROFILE':
         org = Organization.objects.get(name=org_name)
         return redirect("org_profile", org.slugname)
@@ -132,25 +119,24 @@ def index(request):
         else:
             return redirect("login")
     else:
-        raise Http404(_("You must set a correct value to INDEX_PAGE config in your settings"))
-
-    authenticated = request.user.is_authenticated
-    q = request.GET.get('q', '')
-    if q != "":
-        petitions = petitions.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)
-    # FIXME : dynamic title
-    title = "Pétitions Résistance à l'agression publicitaire"
-    if authenticated:
-        user = get_session_user(request)
-    else:
-        user = request.user
-    return render(
-            request, 'petition/index.html',
+        authenticated = request.user.is_authenticated
+        if authenticated:
+            user = get_session_user(request)
+        else:
+            user = request.user
+        return render(request, 'petition/index.html',
                 {
-                    'petitions': petitions, 'title': title,
-                    'user': user, 'q': q
+                    'user': user,
                 }
-    )
+        )
+
+
+# /all_petitions
+# Show all the petitions in the database
+def all_petitions(request):
+    petitions = Petition.objects.all()
+    return render(request, 'petition/all_petitions.html',
+            {'petitions': petitions})
 
 
 # /<int:petition_id>/

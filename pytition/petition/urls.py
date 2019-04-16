@@ -24,6 +24,7 @@ urlpatterns = [
     path('<int:petition_id>/edit', views.edit_petition, name='edit_petition'),
     path('<int:petition_id>/add_new_slug', views.add_new_slug, name="add_new_slug"),
     path('<int:petition_id>/del_slug', views.del_slug, name="del_slug"),
+    path('all_petitions', views.all_petitions, name='all_petitions'),
     # Organisation
     path('org/create', views.org_create, name="org_create"),
     path('org/<slug:orgslugname>', views.org_profile, name='org_profile'),
