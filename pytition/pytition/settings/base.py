@@ -151,6 +151,7 @@ LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"), )
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.environ.get('STATIC_ROOT')
 LOGIN_URL = '/petition/login/'
 
 TINYMCE_JS_URL = '/static/vendor/tinymce/js/tinymce/tinymce.min.js'
