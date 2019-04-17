@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 
 from petition.models import Organization, Petition, PytitionUser
-from petition.forms import OrgCreationForm
 
 
 users = ['julia', 'john', 'max', 'sarah']

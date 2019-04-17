@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
@@ -93,16 +93,15 @@ def send_confirmation_email(request, signature):
 # Depending on the settings.INDEX_PAGE, show a list of petitions or
 # redirect to an user/org profile page
 def index(request):
-
-    petitions = Petition.objects.order_by('-id')[:12]
+    petitions = Petition.objects.filter(published=True).order_by('-id')[:12]
     if not hasattr(settings, 'INDEX_PAGE'):
         raise Http404(_("You must set an INDEX_PAGE config in your settings"))
-    if settings.INDEX_PAGE in ['USER_PETITIONS', 'USER_PROFILE']:
+    if settings.INDEX_PAGE == 'USER_PROFILE':
         try:
             user_name = settings.INDEX_PAGE_USER
         except:
             raise Http404(_("You must set an INDEX_PAGE_USER config in your settings"))
-    elif settings.INDEX_PAGE in ['ORGA_PETITIONS', 'ORGA_PROFILE']:
+    elif settings.INDEX_PAGE == 'ORGA_PROFILE':
         try:
             org_name = settings.INDEX_PAGE_ORGA
         except:
@@ -137,7 +136,7 @@ def index(request):
 # /all_petitions
 # Show all the petitions in the database
 def all_petitions(request):
-    petitions = Petition.objects.all()
+    petitions = Petition.objects.filter(published=True).all()
     return render(request, 'petition/all_petitions.html',
             {'petitions': petitions})
 
@@ -353,7 +352,6 @@ def user_profile(request, user_name):
 # User is leaving the organisation
 @login_required
 def leave_org(request, orgslugname):
-    confirm_drop_org = request.GET.get('confirm', '')
     try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
@@ -362,19 +360,23 @@ def leave_org(request, orgslugname):
     pytitionuser = get_session_user(request)
 
     if org not in pytitionuser.organizations.all():
-        return JsonResponse({}, status=404)
-
+        raise Http404(_("not found"))
     try:
         with transaction.atomic():
-            if org.members.count() > 1 or confirm_drop_org:
-                pytitionuser.organizations.remove(org)
-                if org.members.count() == 0:
-                    org.delete()
+            if org.members.count() > 1:
+                owners = PytitionUser.objects.filter(permissions__organization=org, permissions__can_modify_permissions=True)
+                if owners.count() == 1 and pytitionuser in owners:
+                    messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
+                    return redirect(reverse('account_settings') + '#a_org_form')
+                else:
+                    pytitionuser.organizations.remove(org)
             else:
-                return JsonResponse({}, status=409)  # cannot proceed right now
+                # Add an error message
+                messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
+                return redirect(reverse('account_settings') + '#a_org_form')
     except:
-        return JsonResponse({}, status=500)
-    return JsonResponse({})
+        return HttpResponse(status=500)
+    return redirect('account_settings')
 
 
 # /org/<slug:orgslugname>
@@ -1379,6 +1381,8 @@ def get_update_form(user, data=None):
     return UpdateInfoForm(user, _data)
 
 
+# /account_settings
+# Show settings for the user accounts
 @login_required
 def account_settings(request):
     pytitionuser = get_session_user(request)
@@ -1420,11 +1424,25 @@ def account_settings(request):
         delete_account_form = DeleteAccountForm()
         password_change_form = PasswordChangeForm(pytitionuser.user)
 
+    orgs = pytitionuser.organizations.all()
+    # Checking if the user is allowed to leave the organisation
+    for org in orgs:
+        if org.members.count() < 2:
+            org.leave = False
+        else:
+            # More than one user, we need to check owners
+            owners = PytitionUser.objects.filter(permissions__organization=org, permissions__can_modify_permissions=True)
+            if owners.count() == 1 and pytitionuser in owners:
+                org.leave = False
+            else:
+                org.leave = True
+
     ctx = {'user': pytitionuser,
            'update_info_form': update_info_form,
            'delete_account_form': delete_account_form,
            'password_change_form': password_change_form,
-           'base_template': 'petition/user_base.html'}
+           'base_template': 'petition/user_base.html',
+           'orgs': orgs}
     ctx.update(submitted_ctx)
 
     return render(request, "petition/account_settings.html", ctx)
@@ -1486,15 +1504,18 @@ def add_new_slug(request, petition_id):
         else:
             if pytitionuser.has_right("can_modify_petitions", petition):
                 for slugtext in slugtexts:
-                    slug = SlugModel.objects.create(slug=slugify(slugtext[:200]))
-                    petition.slugs.add(slug)
-                    petition.save()
-                messages.success(request, _("Successful addition of a slug!"))
+                    try:
+                        petition.add_slug(slugtext)
+                        petition.save()
+                        messages.success(request, _("Successful addition of the slug '{}'!".format(slugtext)))
+                    except IntegrityError:
+                        messages.error(request, _("The slug '{}' already exists!".format(slugtext)))
             else:
                 messages.error(request, _("You don't have the permission to modify petitions"))
         return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
     else:
         return redirect("user_dashboard")
+
 
 @login_required
 def del_slug(request, petition_id):
@@ -1510,7 +1531,8 @@ def del_slug(request, petition_id):
             return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
 
         slug = SlugModel.objects.get(pk=slug_id)
-        slug.delete()
+        petition.del_slug(slug)
+        petition.save()
         messages.success(request, _("Successful deletion of a slug"))
     else:
         messages.error(request, _("You don't have the permission to modify petitions"))

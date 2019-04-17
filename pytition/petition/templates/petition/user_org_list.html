@@ -2,15 +2,11 @@
 <h4>{% trans "Organizations" %}</h4>
 <div class="list-group">
 {% for org in user.organizations.all %}
-    <div class="d-flex justify-content-between align-items-baseline list-group-item list-group-item-action list-group-item-primary"
-         data-orgname="{{ org.name }}" data-orgslugname="{{ org.slugname }}" data-leaveorg-url="{% url 'leave_org' org.slugname %}">
+    <div class="d-flex justify-content-between align-items-baseline list-group-item list-group-item-action list-group-item-primary">
         <div>
             <a href="{% url "org_profile" org.slugname %}">
             <span class="oi oi-people"></span> {{ org.name }}
         </a>
-        </div>
-        <div>
-            <button class="btn btn-outline-danger" data-action="leave_org"><span class="oi oi-delete"></span></button>
         </div>
     </div>
 {% endfor %}
