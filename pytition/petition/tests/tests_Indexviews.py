@@ -75,38 +75,26 @@ class IndexViewTest(TestCase):
     def test_index_all_petition(self):
         total_published_petitions = sum(org_published_petitions.values()) + sum(user_published_petitions.values())
         with self.settings(INDEX_PAGE="ALL_PETITIONS"):
-            response = self.client.get('/')
-            self.assertEqual(response.status_code, 200)
+            response = self.client.get('/', follow=True)
+            self.assertRedirects(response, reverse("all_petitions"))
             self.assertEqual(len(response.context['petitions']), total_published_petitions)
-
-    def test_index_orga_petitions(self):
-        for org in orgs:
-            with self.settings(INDEX_PAGE="ORGA_PETITIONS", INDEX_PAGE_ORGA=org):
-                response = self.client.get('/')
-                self.assertEqual(response.status_code, 200)
-                self.assertEqual(len(response.context['petitions']), org_published_petitions[org])
-
-    def test_index_user_petitions(self):
-        for user in users:
-            with self.settings(INDEX_PAGE="USER_PETITIONS", INDEX_PAGE_USER=user):
-                response = self.client.get('/')
-                self.assertEqual(response.status_code, 200)
-                self.assertEqual(len(response.context['petitions']), user_published_petitions[user])
 
     def test_index_orga_profile(self):
         for org in orgs:
             orgslugname = slugify(org)
             with self.settings(INDEX_PAGE="ORGA_PROFILE", INDEX_PAGE_ORGA=org):
-                response = self.client.get('/', follow=True)
-                self.assertRedirects(response, reverse("org_profile", args=[orgslugname]))
-                self.assertEqual(len(response.context['petitions']), org_published_petitions[org])
+                with self.subTest(org=org):
+                    response = self.client.get('/', follow=True)
+                    self.assertRedirects(response, reverse("org_profile", args=[orgslugname]))
+                    self.assertEqual(len(response.context['petitions']), org_published_petitions[org])
 
     def test_index_user_profile(self):
         for user in users:
             with self.settings(INDEX_PAGE="USER_PROFILE", INDEX_PAGE_USER=user):
-                response = self.client.get('/', follow=True)
-                self.assertRedirects(response, reverse("user_profile", args=[user]))
-                self.assertEqual(len(response.context['petitions']), user_published_petitions[user])
+                with self.subTest(user=user):
+                    response = self.client.get('/', follow=True)
+                    self.assertRedirects(response, reverse("user_profile", args=[user]))
+                    self.assertEqual(len(response.context['petitions']), user_published_petitions[user])
 
     def test_index_login_register(self):
         with self.settings(INDEX_PAGE="LOGIN_REGISTER"):

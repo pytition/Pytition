@@ -93,16 +93,15 @@ def send_confirmation_email(request, signature):
 # Depending on the settings.INDEX_PAGE, show a list of petitions or
 # redirect to an user/org profile page
 def index(request):
-
-    petitions = Petition.objects.order_by('-id')[:12]
+    petitions = Petition.objects.filter(published=True).order_by('-id')[:12]
     if not hasattr(settings, 'INDEX_PAGE'):
         raise Http404(_("You must set an INDEX_PAGE config in your settings"))
-    if settings.INDEX_PAGE in ['USER_PETITIONS', 'USER_PROFILE']:
+    if settings.INDEX_PAGE == 'USER_PROFILE':
         try:
             user_name = settings.INDEX_PAGE_USER
         except:
             raise Http404(_("You must set an INDEX_PAGE_USER config in your settings"))
-    elif settings.INDEX_PAGE in ['ORGA_PETITIONS', 'ORGA_PROFILE']:
+    elif settings.INDEX_PAGE == 'ORGA_PROFILE':
         try:
             org_name = settings.INDEX_PAGE_ORGA
         except:
@@ -137,7 +136,7 @@ def index(request):
 # /all_petitions
 # Show all the petitions in the database
 def all_petitions(request):
-    petitions = Petition.objects.all()
+    petitions = Petition.objects.filter(published=True).all()
     return render(request, 'petition/all_petitions.html',
             {'petitions': petitions})
 

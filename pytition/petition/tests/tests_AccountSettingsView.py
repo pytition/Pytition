@@ -242,7 +242,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("index"))
+            self.assertRedirects(response, reverse("all_petitions"))
             self.assertTemplateUsed(response, "petition/base.html")
             self.logout()
             try:
@@ -327,7 +327,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("index"))
+            self.assertRedirects(response, reverse("all_petitions"))
             self.assertTemplateUsed(response, "petition/base.html")
             self.logout()
             try:
@@ -412,7 +412,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("index"))
+            self.assertRedirects(response, reverse("all_petitions"))
             self.assertTemplateUsed(response, "petition/base.html")
             self.logout()
             try:
@@ -496,7 +496,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("index"))
+            self.assertRedirects(response, reverse("all_petitions"))
             self.assertTemplateUsed(response, "petition/base.html")
             self.logout()
             try:
