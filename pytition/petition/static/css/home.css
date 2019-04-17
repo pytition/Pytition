@@ -1,0 +1,11 @@
+.jumbotron {
+  background-color: #fff;
+}
+
+.petition-list {
+  padding: 4em 0;
+}
+
+.petition-list .row {
+  margin-top: 2em;
+}
