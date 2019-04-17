@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: nginx-uwsgi/Dockerfile_uwsgi
+    volumes:
+      - .:/code
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    environment:
+      # activate the mailer backend
+      EMAIL_BACKEND: mailer
+      # path to the collected static
+      STATIC_ROOT: /var/pytition/static
