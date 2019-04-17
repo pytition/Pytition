@@ -10,6 +10,8 @@ from django.conf import settings
 from django.contrib.auth.hashers import get_hasher
 from django.db import transaction
 from django.urls import reverse
+from django.db.models import Q
+
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
@@ -83,7 +85,8 @@ class Petition(models.Model):
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
     use_custom_email_settings = models.BooleanField(default=False)
     salt = models.TextField(blank=True)
-    slugs = models.ManyToManyField('SlugModel', blank=True)
+    slugs = models.ManyToManyField('SlugModel', blank=True, through='SlugOwnership')
+
 
     def prepopulate_from_template(self, template):
         for field in self._meta.fields:
@@ -148,6 +151,20 @@ class Petition(models.Model):
         else:
             return None
 
+    def add_slug(self, slugtext):
+        with transaction.atomic():
+            slugtext = slugify(slugtext)
+            slug = SlugModel.objects.create(slug=slugtext)
+            if self.owner_type == "org":
+                SlugOwnership.objects.create(slug=slug, petition=self, organization=self.owner)
+            elif self.owner_type == "user":
+                SlugOwnership.objects.create(slug=slug, petition=self, user=self.owner)
+            else:
+                raise ValueError(_("This petition has no owner, cannot add slug!"))
+
+    def del_slug(self, slug):
+        slug.delete()
+
     def publish(self):
         self.published = True
         self.save()
@@ -211,6 +228,20 @@ class Petition(models.Model):
         else:
             # This is a BUG!
             raise ValueError(_("This petition is buggy. Sorry about that!"))
+
+
+class SlugOwnership(models.Model):
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
+    slug = models.ForeignKey('SlugModel', on_delete=models.CASCADE)
+    user = models.ForeignKey('PytitionUser', on_delete=models.CASCADE, blank=True, null=True, default=None)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, blank=True, null=True, default=None)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['slug', 'organization'], name="unique_slugnameperorg", condition=Q(user=None)),
+            models.UniqueConstraint(fields=['slug', 'user'], name="unique_slugnameperuser",
+                                    condition=Q(organization=None)),
+        ]
 
 
 class Signature(models.Model):
@@ -327,6 +358,11 @@ class PetitionTemplate(models.Model):
 
 class SlugModel(models.Model):
     slug = models.SlugField(max_length=200)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['slug'], name='unique_slugname')
+        ]
 
     def __str__(self):
         return self.slug

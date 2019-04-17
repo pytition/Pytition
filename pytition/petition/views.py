@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.utils.html import format_html
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
@@ -1474,15 +1474,18 @@ def add_new_slug(request, petition_id):
         else:
             if pytitionuser.has_right("can_modify_petitions", petition):
                 for slugtext in slugtexts:
-                    slug = SlugModel.objects.create(slug=slugify(slugtext[:200]))
-                    petition.slugs.add(slug)
-                    petition.save()
-                messages.success(request, _("Successful addition of a slug!"))
+                    try:
+                        petition.add_slug(slugtext)
+                        petition.save()
+                        messages.success(request, _("Successful addition of the slug '{}'!".format(slugtext)))
+                    except IntegrityError:
+                        messages.error(request, _("The slug '{}' already exists!".format(slugtext)))
             else:
                 messages.error(request, _("You don't have the permission to modify petitions"))
         return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
     else:
         return redirect("user_dashboard")
+
 
 @login_required
 def del_slug(request, petition_id):
@@ -1498,7 +1501,8 @@ def del_slug(request, petition_id):
             return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
 
         slug = SlugModel.objects.get(pk=slug_id)
-        slug.delete()
+        petition.del_slug(slug)
+        petition.save()
         messages.success(request, _("Successful deletion of a slug"))
     else:
         messages.error(request, _("You don't have the permission to modify petitions"))
