@@ -9,9 +9,9 @@
         Menu <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
-      <form class="form-inline my-2 my-lg-0 ml-auto" action="{{ request.path }}" method="GET">
+      <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'search' %}" method="GET">
         <div class="input-group input-group-sm">
-          <input type="text" class="form-control" placeholder="{% trans "Search for theme" %}" name="q" value="{{ q }}">
+          <input type="text" class="form-control" placeholder="{% trans "Search for petition" %}" name="q" value="{{ q }}">
           <div class="input-group-append">
             <button type="submit" class="btn btn-outline-secondary">{% trans "Search" %}</button>
           </div>

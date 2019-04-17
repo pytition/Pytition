@@ -141,6 +141,26 @@ def all_petitions(request):
             {'petitions': petitions})
 
 
+# /search?q=QUERY
+# Show results of a search query
+def search(request):
+    q = request.GET.get('q', '')
+    if q != "":
+        petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)[:15]
+        orgs = Organization.objects.filter(name__icontains=q)
+    else:
+        petitions = Petition.objects.filter(published=True)[:15]
+        orgs = []
+    return render(
+        request, 'petition/search.html',
+        {
+            'petitions': petitions,
+            'orgs': orgs,
+            'q': q
+        }
+    )
+
+
 # /<int:petition_id>/
 # Show information on a petition
 def detail(request, petition_id):
@@ -273,8 +293,6 @@ def create_signature(request, petition_id):
 # Show the dashboard of an organization
 @login_required
 def org_dashboard(request, orgslugname):
-    q = request.GET.get('q', '')
-
     try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
@@ -287,10 +305,7 @@ def org_dashboard(request, orgslugname):
         messages.error(request, _("You are not part of this organization: '{}'".format(org.name)))
         return redirect("user_dashboard")
 
-    if q != "":
-        petitions = org.petitions.filter(Q(title__icontains=q) | Q(text__icontains=q))
-    else:
-        petitions = org.petitions
+    petitions = org.petitions
 
     try:
         permissions = pytitionuser.permissions.get(organization=org)
@@ -303,8 +318,7 @@ def org_dashboard(request, orgslugname):
     other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html',
             {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
-            'petitions': petitions, 'user_permissions': permissions,
-            'q': q})
+            'petitions': petitions, 'user_permissions': permissions})
 
 
 # /user/dashboard
@@ -312,14 +326,13 @@ def org_dashboard(request, orgslugname):
 @login_required
 def user_dashboard(request):
     user = get_session_user(request)
+    petitions = user.petitions
 
-    q = request.GET.get('q', '')
-    if q != "":
-        petitions = user.petitions.filter(Q(title__icontains=q) | Q(text__icontains=q))
-    else:
-        petitions = user.petitions
-
-    return render(request, 'petition/user_dashboard.html', {'user': user, 'petitions': petitions, 'q': q})
+    return render(
+        request,
+        'petition/user_dashboard.html',
+        {'user': user, 'petitions': petitions}
+    )
 
 
 # /user/<user_name>

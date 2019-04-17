@@ -1,0 +1,66 @@
+{% extends 'petition/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block container_type %}container{% endblock container_type %}
+
+{% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
+
+{% block main_grid %}
+    <div class="row">
+        <h2>Search results for {{ q }}</h2>
+    </div>
+    {% if orgs|length > 0 %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <h3>Organizations</h3>
+        </div>
+        {% for org in orgs %}
+            <div class="col-md-4 col-xs-6 text-center sb-preview">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <a href="{% url "org_profile" org.slugname %}"><h4 class="card-title">{{ org.name }}</h4></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="row">
+        {% if orgs|length > 0 %}
+            <div class="col-md-12 col-xs-12">
+                <h3>Petitions</h3>
+            </div>
+        {% endif %}
+        {% if petitions|length > 0 %}
+        {% for petition in petitions %}
+            <div class="col-md-4 col-xs-6 text-center sb-preview">
+                <div class="card h-100">
+                    <a href="{% url "detail" petition.id %}" class="sb-preview-img">
+                        {% if not petition.twitter_image%}
+                        <img class="card-img-top img-fluid img-thumbnail" src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
+                        {% else %}
+                        <img class="card-img-top img-fluid img-thumbnail" src="{{ petition.twitter_image }}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <a href="{% url "detail" petition.id %}"><h4 class="card-title">{{ petition.title }}</h4></a>
+                        <p class="card-text">{{ petition.twitter_description|safe }}</p>
+                        <div class="card-footer mt-auto">
+                            <a href="{% url "detail" petition.id %}" class="btn btn-success">
+                            {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+        </div>
+        <p></p>
+        <div class="row">
+        {% endif %}
+    {% endfor %}
+    {% else %}
+        <i>{% trans "No petition was found" %}</i>
+    {% endif %}
+    </div>
+    {% endblock main_grid %}
