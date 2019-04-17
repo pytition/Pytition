@@ -8,15 +8,15 @@
 {% block main_grid %}
   <section class="jumbotron text-center">
     <div class="container">
-      <h1 class="jumbotron-heading">Bienvenue sur Pytition</h1>
-      <p class="lead text-muted">Mobilisez-vous pour faire changer les choses !</p>
-      <p><a href="#" class="btn btn-primary">Créer une pétition</a></p>
+      <h1 class="jumbotron-heading">{% trans "Welcome to Pytition"%}</h1>
+      <p class="lead text-muted">{% trans "Make things change!" %}</p>
+      <p><a href="#" class="btn btn-primary">{% trans "Create a petition" %}</a></p>
     </div>
   </section>
 </div>
 <section class="petition-list bg-light">
   <div class="text-center container">
-    <h2>Consultez nos dernières pétitions</h2>
+    <h2>{% trans "View latest petitions" %}</h2>
     <div class="row">
       {% for petition in petitions %}
         <div class="col-md-4 col-xs-6 text-center sb-preview">
@@ -48,7 +48,7 @@
       {% endfor %}
     </div>
     <div class="text-center">
-      <a href="{% url "all_petitions" %}" class="btn btn-primary">Voir toutes les pétitions</a>
+      <a href="{% url "all_petitions" %}" class="btn btn-primary">{% trans "View all petitions" %}</a>
     </div>
   </section>
 
