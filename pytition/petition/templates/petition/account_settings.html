@@ -1,48 +1,82 @@
-{% extends "petition/user_base.html" %}
+{% extends "petition/base.html" %}
 {% load i18n %}
+{% block container_type %}container{% endblock container_type %}
 
-{% block content %}
+{% block main_grid %}
     <div class="row">
-    <div class="col text-center">
-    <h2>{% trans "Account settings" %}</h2>
-    </div>
-    </div>
-
-    <div class="row">
-    <div class="col-2">
+    <div class="col-4">
         <div class="list-group" id="list-tab" role="tablist">
-            <a href="#update_info_form" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="update_info_form" role="tab"><span class="oi oi-person"></span>
-                {% trans "Update personal information" %}</a>
-            <a href="#password_change_form" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="password_change_form" role="tab"><span class="oi oi-key"></span>
-                {% trans "Change password" %}</a>
-            <a href="#delete_account_form" class="list-group-item list-group-item-info list-group-item-action
-            list-group-item-danger"
-            data-toggle="list" aria-controls="delete_account_form" role="tab"><span class="oi oi-trash"></span>
-                {% trans "Delete your account" %}</a>
+            <span class="list-group-item disabled"><b>{% trans "Personal Settings" %}</b></span>
+            <a href="#update_info_form" class="list-group-item list-group-item-action active" data-toggle="list" id="a_update_info_form" aria-controls="update_info_form" role="tab"><span class="oi oi-person"></span>  {% trans "Personal Information" %}</a>
+            <a href="#password_change_form" class="list-group-item list-group-item-action" data-toggle="list" id="a_password_change" aria-controls="password_change_form" role="tab"><span class="oi oi-key"></span>  {% trans "Change Password" %}</a>
+            <a href="#org_form" class="list-group-item list-group-item-action" data-toggle="list" aria-controls="org_form" id="a_org_form" role="tab"><span class="oi oi-people"></span>  {% trans "Organizations" %}</a>
+            <a href="#delete_account_form" class="list-group-item list-group-item-action" data-toggle="list" id="a_delete_account" aria-controls="delete_account_form" role="tab"><span class="oi oi-trash"></span>  {% trans "Delete your account" %}</a>
         </div>
     </div>
-    <div class="col">
+    <div class="col-8">
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="update_info_form" role="tabpanel"
                  aria-labelledby="update-info-form-list">
+                <h3 class="mb-4">{% trans "Personal Information" %}</h3>
                 <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=update_info_form %}
-                    <button name="update_info_form_submitted" class="btn btn-primary" value="yes" type="submit">
-                        {% trans "Update" %}</button>
+                    <div class="text-center">
+                        <button name="update_info_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Update" %}</button>
+                    </div>
                 </form>
             </div>
             <div class="tab-pane fade" id="password_change_form" role="tabpanel"
                  aria-labelledby="password-change-form-list">
+                <h3 class="mb-4">{% trans "Password Change" %}</h3>
                 <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=password_change_form %}
-                    <button name="password_change_form_submitted" class="btn btn-primary" value="yes" type="submit">
-                        {% trans "Change password" %}</button>
+                    <div class="text-center">
+                        <button name="password_change_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Change password" %}</button>
+                    </div>
                 </form>
+            </div>
+            <div class="tab-pane fade" id="org_form" role="tabpanel">
+                <div>
+                    <h3 class="mb-4">{% trans "Organizations" %}</h3>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if orgs|length > 0 %}
+                <div class="list-group">
+                    {% for org in orgs %}
+                        <a href="{% url 'org_dashboard' org.slugname %}"  class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mt-2 mb-2">{{org.name }}</h5>
+                                {% if org.leave %}
+                                <button type="button" class="btn btn-light btn-delete-org" data-orgname="{{org.name}}" data-leaveurl="{% url 'leave_org' org.slugname%}">Leave</button>
+                                {% else %}
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{% trans 'You cannot leave an organization where you are the last administrator' %}">
+                                    <button type="button" class="btn btn-light" style="pointer-events: none;" disabled>Leave</button>
+                                </span>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <i>{% trans "You are not part of any organization" %}</i>
+                {% endif %}
+                <div class="text-center mt-5">
+                    <a href="{% url 'org_create' %}" class="btn btn-primary">{% trans "Create an Organization" %}</a>
+                </div>
             </div>
             <div class="tab-pane fade" id="delete_account_form" role="tabpanel"
                  aria-labelledby="delete-account-form-list">
+                <h3 class="mb-4">{% trans "Delete Account" %}</h3>
 
                             <div class="alert alert-warning alert-dismissible show fade">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -63,15 +97,36 @@
                             </div>
                 <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=delete_account_form %}
-                    <button name="delete_account_form_submitted" class="btn btn-danger" value="yes" type="submit">
-                        {% trans "Delete" %}</button>
+                    <div class="text-center">
+                        <button name="delete_account_form_submitted" class="btn btn-danger" value="yes" type="submit">{% trans "Delete" %}</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-{% endblock content %}
+<div class="modal fade" id="org_leave_modal" tabindex="-1" role="dialog" aria-labelledby="org_leave_modal_label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="org_leave_modal_label">{% trans "Leaving an organization" %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {% trans "Are you sure you want to leave" %} <span id="orgname_modal"></span> ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a href="#" id="leavelink"><button type="button" class="btn btn-primary">Leave</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main_grid %}
 
 {% block extrajs %}
 {{ block.super }}
@@ -90,6 +145,22 @@ $(function() {
     //show first tab pane where there is an :invalid field
     var pane_id = $('input.is-invalid').closest('.tab-pane').attr('id');
     $('.list-group a[href="#' + pane_id + '"]').tab('show');
+
+    $('.btn-delete-org').on('click', function(e) {
+        $('#orgname_modal').html($(this).data('orgname'));
+        $('#leavelink').attr('href', $(this).data('leaveurl'));
+        $('#org_leave_modal').modal('show');
+        return false;
+    });
+
+    if(window.location.hash) {
+        if(['#a_password_change', '#a_org_form', '#a_update_info_form', '#a_delete_account'].includes(window.location.hash)) {
+            $(window.location.hash).tab('show');
+        }
+    }
+
+    $('[data-toggle="tooltip"]').tooltip()
+
 })
 
 </script>

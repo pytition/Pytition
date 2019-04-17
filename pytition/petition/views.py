@@ -340,7 +340,6 @@ def user_profile(request, user_name):
 # User is leaving the organisation
 @login_required
 def leave_org(request, orgslugname):
-    confirm_drop_org = request.GET.get('confirm', '')
     try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
@@ -349,20 +348,23 @@ def leave_org(request, orgslugname):
     pytitionuser = get_session_user(request)
 
     if org not in pytitionuser.organizations.all():
-        return JsonResponse({}, status=404)
-
+        raise Http404(_("not found"))
     try:
         with transaction.atomic():
-            if org.members.count() > 1 or confirm_drop_org:
-                pytitionuser.organizations.remove(org)
-                if org.members.count() == 0:
-                    org.delete()
+            if org.members.count() > 1:
+                owners = PytitionUser.objects.filter(permissions__organization=org, permissions__can_modify_permissions=True)
+                if owners.count() == 1 and pytitionuser in owners:
+                    messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
+                    return redirect(reverse('account_settings') + '#a_org_form')
+                else:
+                    pytitionuser.organizations.remove(org)
             else:
-                return JsonResponse({}, status=409)  # cannot proceed right now
+                # Add an error message
+                messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
+                return redirect(reverse('account_settings') + '#a_org_form')
     except:
-        return JsonResponse({}, status=500)
-
-    return JsonResponse({})
+        return HttpResponse(status=500)
+    return redirect('account_settings')
 
 
 # /org/<slug:orgslugname>
@@ -1367,6 +1369,8 @@ def get_update_form(user, data=None):
     return UpdateInfoForm(user, _data)
 
 
+# /account_settings
+# Show settings for the user accounts
 @login_required
 def account_settings(request):
     pytitionuser = get_session_user(request)
@@ -1408,11 +1412,25 @@ def account_settings(request):
         delete_account_form = DeleteAccountForm()
         password_change_form = PasswordChangeForm(pytitionuser.user)
 
+    orgs = pytitionuser.organizations.all()
+    # Checking if the user is allowed to leave the organisation
+    for org in orgs:
+        if org.members.count() < 2:
+            org.leave = False
+        else:
+            # More than one user, we need to check owners
+            owners = PytitionUser.objects.filter(permissions__organization=org, permissions__can_modify_permissions=True)
+            if owners.count() == 1 and pytitionuser in owners:
+                org.leave = False
+            else:
+                org.leave = True
+
     ctx = {'user': pytitionuser,
            'update_info_form': update_info_form,
            'delete_account_form': delete_account_form,
            'password_change_form': password_change_form,
-           'base_template': 'petition/user_base.html'}
+           'base_template': 'petition/user_base.html',
+           'orgs': orgs}
     ctx.update(submitted_ctx)
 
     return render(request, "petition/account_settings.html", ctx)

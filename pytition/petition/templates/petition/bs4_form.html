@@ -14,8 +14,8 @@
 {% endif %}
 
 {% for field in form.visible_fields %}
-  <div class="form-group">
-    {{ field.label_tag }}
+  <div class="form-group row">
+    <label for="{{ field.auto_id }}" class="col-sm-4 col-form-label">{{ field.label }}</label>
 
     {% if form.is_bound %}
       {% if field.errors %}
@@ -26,10 +26,14 @@
           </div>
         {% endfor %}
       {% else %}
-        {% render_field field|bootstrap class="is-valid" %}
+        <div class="col-sm-8">
+            {% render_field field|bootstrap class="is-valid" %}
+        </div>
       {% endif %}
     {% else %}
-      {% render_field field|bootstrap %}
+        <div class="col-sm-8">
+            {% render_field field|bootstrap %}
+        </div>
     {% endif %}
 
     {% if field.help_text %}
