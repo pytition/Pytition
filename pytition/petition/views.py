@@ -364,7 +364,7 @@ def leave_org(request, orgslugname):
         with transaction.atomic():
             if org.members.count() > 1:
                 owners = PytitionUser.objects.filter(permissions__organization=org, permissions__can_modify_permissions=True)
-                if owners.count() == 1 and pytitionuser in owners and org.members.count() > 1:
+                if owners.count() == 1 and pytitionuser in owners:
                     messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
                     return redirect(reverse('account_settings') + '#a_org_form')
                 else:
