@@ -169,7 +169,7 @@ class Petition(models.Model):
     def owner(self):
         if self.organization_set.count() > 0:
             return self.organization_set.first()
-        elif self.pytitionuser_set.count > 0:
+        elif self.pytitionuser_set.count() > 0:
             return self.pytitionuser_set.first()
         else:
             return None
