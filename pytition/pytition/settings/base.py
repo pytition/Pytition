@@ -113,6 +113,14 @@ if os.environ.get('EMAIL_BACKEND') == 'mailer':
     # this enable mailer by default in django.send_email
     EMAIL_BACKEND = "mailer.backend.DbBackend"
 
+# number of seconds to wait before sending emails. This will be usefull only if EMAIL_BACKEND=mailer and uwsgi is used
+UWSGI_WAIT_FOR_MAIL_SEND_IN_S=10
+# number of seconds to wait before retrying emails. This will be usefull only if EMAIL_BACKEND=mailer and uwsgi is used
+UWSGI_WAIT_FOR_RETRY_IN_S=1 * 60
+# number of seconds to wait before purging emails. This will be usefull only if EMAIL_BACKEND=mailer and uwsgi is used
+UWSGI_WAIT_FOR_PURGE_IN_S=1 * 24 * 60 * 60
+UWSGI_NB_DAYS_TO_KEEP=2
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

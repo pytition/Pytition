@@ -16,24 +16,25 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pytition.settings")
 application = get_wsgi_application()
 
 if os.environ.get('EMAIL_BACKEND') == 'mailer':
+    from django.conf import settings
     try:
         import uwsgidecorators
         from django.core.management import call_command
 
-        @uwsgidecorators.timer(10)
+        @uwsgidecorators.timer(settings.UWSGI_WAIT_FOR_MAIL_SEND_IN_S)
         def send_queued_mail(num):
             """Send queued mail every 10 seconds"""
             call_command('send_mail')
 
-        @uwsgidecorators.timer(1 * 60)
+        @uwsgidecorators.timer(settings.UWSGI_WAIT_FOR_RETRY_IN_S)
         def retry_deferred(num):
             """Retry deferred emails"""
             call_command('retry_deferred')
 
-        @uwsgidecorators.timer(1 * 24 * 60 * 60)
-        def purge_mail_log(num):
+        @uwsgidecorators.timer(settings.UWSGI_WAIT_FOR_PURGE_IN_S)
+        def purge_mail(num):
             """purge 2 days old mails"""
-            call_command('purge_mail_log', '2')
+            call_command('purge_mail_log', settings.UWSGI_NB_DAYS_TO_KEEP)
 
     except ImportError:
         print("""uwsgidecorators not found. Cron are disabled,
