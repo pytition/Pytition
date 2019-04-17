@@ -3,13 +3,23 @@ nav.navbar {
   margin-bottom: 2rem;
 }
 
-.card-img-top{
-  width: 100%!important;
-  height: 200px!important;
+.card-img-top {
+  border-width: 0 0 1px;
+  width: 100%;
+  height: 200px;
   object-fit: cover;
+  border-radius: 0;
 }
 
 .alert .alert-icon-col {
     min-width: 35px;
     max-width: 35px;
+}
+
+.card-title a {
+  color: inherit;
+}
+
+.footer-wrapper {
+  padding: 2em 0;
 }
