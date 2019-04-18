@@ -6,7 +6,7 @@
 
 {% block nav %}{% include 'layouts/nav_dashboard.html' with username=org.name slug=org.slugname sitename=settings.SITE_NAME is_org="true" %}{% endblock nav%}
 
-{% block main_grid %}
+{% block main_content %}
   <div class="dashboard">
     <div class="container-fluid">
       <div class="row">
@@ -43,7 +43,7 @@
       </div>
     </div>
   </div>
-{% endblock main_grid %}
+{% endblock main_content %}
 
 {% block extrajs %}
 {{ block.super }}
