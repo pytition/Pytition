@@ -148,7 +148,7 @@ class PetitionAdminForm(ModelForm):
             'newsletter_text': ugettext_lazy('Form label text of newsletter subscription checkbox'),
             'sign_form_footer': ugettext_lazy('Sign form footer text'),
             'org_twitter_handle': ugettext_lazy('Organization Twitter handle'),
-            'use_custom_email_settings': ugettext_lazy('Use custom E-Mail settings?'),
+            'use_custom_email_settings': ugettext_lazy('Use custom e-mail settings?'),
             'confirmation_email_sender': ugettext_lazy('Confirmation email sender address'),
             'confirmation_email_smtp_host': ugettext_lazy('SMTP server hostname'),
             'confirmation_email_smtp_port': ugettext_lazy('SMTP port'),
@@ -269,7 +269,7 @@ class PetitionTemplateForm(ModelForm):
             'newsletter_subscribe_mail_smtp_starttls': ugettext_lazy('Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas cocher les 2. Les 2 réglages sont mutuellement exclusifs.'),
         }
         labels = {
-            'name': ugettext_lazy('Petition teplate name'),
+            'name': ugettext_lazy('Petition template name'),
             'text': ugettext_lazy('Petition text'),
             'side_text': ugettext_lazy('Side text, on top of form'),
             'target': ugettext_lazy('Signature target number'),
@@ -293,7 +293,7 @@ class PetitionTemplateForm(ModelForm):
             'newsletter_text': ugettext_lazy('Form label text of newsletter subscription checkbox'),
             'sign_form_footer': ugettext_lazy('Sign form footer text'),
             'org_twitter_handle': ugettext_lazy('Organization Twitter handle'),
-            'use_custom_email_settings': ugettext_lazy('Use custom E-Mail settings?'),
+            'use_custom_email_settings': ugettext_lazy('Use custom e-mail settings?'),
             'confirmation_email_sender': ugettext_lazy('Confirmation email sender address'),
             'confirmation_email_smtp_host': ugettext_lazy('SMTP server hostname'),
             'confirmation_email_smtp_port': ugettext_lazy('SMTP port'),

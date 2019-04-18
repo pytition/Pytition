@@ -28,7 +28,7 @@
             </div>
             <div class="tab-pane fade" id="password_change_form" role="tabpanel"
                  aria-labelledby="password-change-form-list">
-                <h3 class="mb-4">{% trans "Password Change" %}</h3>
+                <h3 class="mb-4">{% trans "Change password" %}</h3>
                 <form method="POST">{% csrf_token %}
                     {% include "petition/bs4_form.html" with form=password_change_form %}
                     <div class="text-center">
