@@ -113,7 +113,6 @@ class UserDashboardViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/base.html")
         petitions = response.context['petitions'].all()
         self.assertEqual(len(petitions), num_petitions)
-        self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], john)
 
     def test_UserOK2(self):
@@ -127,7 +126,6 @@ class UserDashboardViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/base.html")
         petitions = response.context['petitions'].all()
         self.assertEqual(len(petitions), num_petitions)
-        self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], julia)
 
     def test_UserOK3(self):
@@ -141,7 +139,6 @@ class UserDashboardViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/base.html")
         petitions = response.context['petitions'].all()
         self.assertEqual(len(petitions), num_petitions)
-        self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], max)
 
     def test_UserOK4(self):
@@ -155,5 +152,4 @@ class UserDashboardViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/base.html")
         petitions = response.context['petitions'].all()
         self.assertEqual(len(petitions), num_petitions)
-        self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], sarah)

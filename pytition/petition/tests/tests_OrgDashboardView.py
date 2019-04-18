@@ -130,7 +130,6 @@ class OrgDashboardViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/org_dashboard.html")
         petitions = response.context['petitions'].all()
         self.assertEqual(len(petitions), 4)
-        self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], john)
 
     def test_OrgOK2(self):
@@ -142,7 +141,6 @@ class OrgDashboardViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/org_dashboard.html")
         petitions = response.context['petitions'].all()
         self.assertEqual(len(petitions), 0)
-        self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], julia)
 
     def test_OrgOK3(self):
@@ -154,5 +152,4 @@ class OrgDashboardViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/org_dashboard.html")
         petitions = response.context['petitions'].all()
         self.assertEqual(len(petitions), 1)
-        self.assertEqual(response.context['q'], "")
         self.assertEqual(response.context['user'], max)
