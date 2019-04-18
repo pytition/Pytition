@@ -1,11 +1,11 @@
-{% extends 'petition/base.html' %}
+{% extends 'layouts/base.html' %}
 {% load static %}
 {% load i18n %}
 {% block container_type %}container{% endblock container_type %}
 
 {% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
 
-{% block main_grid %}
+{% block main_content %}
     <div class="row">
         <h2>Search results for {{ q }}</h2>
     </div>
@@ -63,4 +63,4 @@
         <i>{% trans "No petition was found" %}</i>
     {% endif %}
     </div>
-    {% endblock main_grid %}
+    {% endblock main_content %}

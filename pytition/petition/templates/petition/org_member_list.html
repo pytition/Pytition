@@ -1,35 +1,33 @@
 {% load i18n %}
-<h4>{% trans "Members" %}</h4>
-<div class="list-group">
-{% for member in org.members.all %}
-    <div class="d-flex align-items-baseline justify-content-between list-group-item list-group-item-action list-group-item-primary">
-        <div>
-        <a href="{% url "user_profile" member.username %}">
-            <span class="oi oi-person"></span> {{ member.get_full_name }}
-        </a>
-        </div>
-        <div data-member="{{ member.username }}">
-            <button class="btn btn-outline-danger"
-                    {% if not user_permissions.can_remove_members %}
-                        disabled
-                        title="{% trans "You cannot remove this member from the organization, you don\'t have the correct permission" %}"
-                        aria-disabled="true"
-                    {% else %}
-                        title="{% trans "Remove this member from the organization." %}"
-                    {% endif %}
-                    data-action="delete-member" data-toggle="tooltip"><span class="oi oi-delete"></span></button>
-            <a href="{% url "org_edit_user_perms" org.slugname member.username %}"
-                    {% if not user_permissions.can_modify_permissions %}
-                        title="{% trans "You cannot edit this member's permissions, you don\'t have the correct permission" %}"
-                        aria-disabled="true"
-                        class="btn btn-outline-secondary disabled"
-                    {% else %}
-                        title="{% trans "Edit this member's permissions" %}"
-                        class="btn btn-outline-secondary"
-                    {% endif %}
-                    data-action="edit-member-permissions" data-toggle="tooltip">
-            <span class="oi oi-wrench"></span></a>
-        </div>
-    </div>
-{% endfor %}
+<div class="dashboard-nav-item py-3">
+  <h4><span class="oi oi-people"></span>&nbsp;{% trans "Members" %}{% if petitions %}&nbsp;({{ org.members.all.count }}){% endif %}</h4>
+  <ul class="dashboard-org-list">
+  {% for member in org.members.all %}
+    <li class="d-flex align-items-center justify-content-between">
+      <a class="text-dark" href="{% url "user_profile" member.username %}">{{ member.get_full_name }}</a>
+      <div data-member="{{ member.username }}">
+        <button class="btn btn-link btn-sm text-dark"
+          {% if not user_permissions.can_remove_members %}
+              disabled
+              title="{% trans "You cannot remove this member from the organization, you don\'t have the correct permission" %}"
+              aria-disabled="true"
+          {% else %}
+              title="{% trans "Remove this member from the organization." %}"
+          {% endif %}
+          data-action="delete-member" data-toggle="tooltip"><span class="oi oi-circle-x"></span></button>
+  <a href="{% url "org_edit_user_perms" org.slugname member.username %}"
+          {% if not user_permissions.can_modify_permissions %}
+              title="{% trans "You cannot edit this member's permissions, you don\'t have the correct permission" %}"
+              aria-disabled="true"
+              class="btn btn-link disabled btn-sm text-dark"
+          {% else %}
+              title="{% trans "Edit this member's permissions" %}"
+              class="btn btn-link btn-sm text-dark"
+          {% endif %}
+          data-action="edit-member-permissions" data-toggle="tooltip">
+      <span class="oi oi-wrench"></span></a>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
 </div>

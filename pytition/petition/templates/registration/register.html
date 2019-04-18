@@ -1,9 +1,9 @@
-{% extends "petition/base.html" %}
+{% extends "layouts/base.html" %}
 {% load i18n %}
 
 {% block container_type %}container{% endblock container_type %}
 
-{% block main_grid %}
+{% block main_content %}
 <div class="row justify-content-center">
     <div class="col-*">
         <form action="" method="POST" novalidate="novalidate">{% csrf_token %}
@@ -13,4 +13,4 @@
         </form>
     </div>
 </div>
-{% endblock main_grid %}
+{% endblock main_content %}

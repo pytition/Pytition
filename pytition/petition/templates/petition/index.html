@@ -1,11 +1,11 @@
-{% extends 'petition/base.html' %}
+{% extends 'layouts/layout.html' %}
 {% load static %}
 {% load i18n %}
 
 {% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
 
 {% block extracss %}<link href="{% static "css/home.css" %}" rel="stylesheet">{% endblock extracss %}
-{% block main_grid %}
+{% block main_content %}
   <section class="jumbotron text-center">
     <div class="container">
       <h1 class="jumbotron-heading">{% trans "Welcome to Pytition"%}</h1>
@@ -52,4 +52,4 @@
     </div>
   </section>
 
-{% endblock main_grid %}
+{% endblock main_content %}

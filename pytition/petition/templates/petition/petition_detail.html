@@ -1,11 +1,9 @@
-{% extends 'petition/base.html' %}
+{% extends 'layouts/layout.html' %}
 {% load static %}
 {% load i18n %}
 {% load widget_tweaks %}
 
-
 {% block title %}{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}{% endblock title %}
-
 
 <!-- Extra meta -->
 {% block extrameta %}
@@ -87,6 +85,7 @@
 </div>
 
 
+<div class="container">
 <div class="petition-wrapper">
     <div class="content">
         <h1>{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
@@ -212,6 +211,7 @@
             {% autoescape off%}{{ petition.text }}{% endautoescape %}
         </div>
     </div>
+</div>
 </div>
 
 {% endblock main_content %}
