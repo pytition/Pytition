@@ -45,7 +45,7 @@
     <form action="{% url 'get_csv_signature' original.id %}">
         <input type="submit" value="{% trans "Generate ALL-signatures CSV file" %}">
     </form>
-    <h2><a href="{% url 'detail' original.id %}">{% trans "Preview the petition" %}</a></h2>
+    <h2><a href="{{ original.url }}">{% trans "Preview the petition" %}</a></h2>
     {% with "admin:"|addstr:app_label|addstr:"_signature_changelist" as urlname %}
     <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}">{% trans "Show the signatures" %}</a></h2>
     <h2><a href="{% url urlname %}?petition__id__exact={{ original.id }}&confirmed__exact=0">{% trans "Show unconfirmed signatures" %}</a></h2>

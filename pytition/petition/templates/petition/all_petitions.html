@@ -19,7 +19,7 @@
                   </a>
                   <div class="card-body">
                     <div href="" class="text-muted">{{ petition.owner }}</div>
-                      <h4 class="card-title"><a href="{% url "detail" petition.id %}">{{ petition.title|striptags }}</a></h4>
+                      <h4 class="card-title"><a href="{{ petition.url }}">{{ petition.title|striptags }}</a></h4>
                       {% if petition.twitter_description %}
                       <p class="card-text">{{ petition.twitter_description|safe }}</p>
                       {% endif %}

@@ -21,7 +21,7 @@
       {% for petition in petitions %}
         <div class="col-md-4 col-xs-6 text-center sb-preview">
           <div class="card h-100 text-center">
-            <a href="{% url "detail" petition.id %}" class="sb-preview-img">
+            <a href="{{ petition.url }}" class="sb-preview-img">
               {% if not petition.twitter_image%}
                 <img class="card-img-top img-fluid img-thumbnail" src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
               {% else %}
@@ -30,11 +30,11 @@
             </a>
             <div class="card-body">
               <div href="" class="text-muted">{{ petition.owner }}</div>
-                <h4 class="card-title"><a href="{% url "detail" petition.id %}">{{ petition.title|striptags }}</a></h4>
+                <h4 class="card-title"><a href="{{ petition.url }}">{{ petition.title|striptags }}</a></h4>
                 {% if petition.twitter_description %}
                   <p class="card-text">{{ petition.twitter_description|safe }}</p>
                 {% endif %}
-                <a href="{% url "detail" petition.id %}" class="btn btn-secondary btn-sm">{% trans "Sign!" %}</a>
+                <a href="{{ petition.url }}" class="btn btn-secondary btn-sm">{% trans "Sign!" %}</a>
             </div>
             <div class="card-footer">
               <small class="text-muted">{{ petition.signature_number }} signatures</small>

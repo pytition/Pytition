@@ -29,7 +29,7 @@
                         <h4 class="card-title">{{ petition.title|striptags }}</h4>
                         <p class="card-text">{{ petition.twitter_description|safe }}</p>
                         <div class="card-footer mt-auto">
-                            <a href="{% url "detail" petition.id %}" class="btn btn-success">
+                            <a href="{{ petition.url }}" class="btn btn-success">
                             {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
                             </a>
                         </div>
