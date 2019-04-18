@@ -2,7 +2,6 @@ body {
     background-position: center top;
     background-attachment: fixed;
     background-size: cover;
-    background-color: #DDD;
 }
 
 @media screen and (min-width:768px) {
@@ -25,13 +24,6 @@ nav.navbar {
   margin-bottom: 1rem;
 }
 
-h1 {
-    color: #000;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 50px
-}
-
 .petition-wrapper,
 .formular {
     padding-left: 15px;
@@ -45,9 +37,6 @@ h1 {
 @media screen and (min-width:768px) {
     .petition-wrapper {
         min-height: 530px;
-    }
-    h1 {
-        font-size: 62px;
     }
     .petition-wrapper {
         padding: 15px 360px 15px 40px;
@@ -74,7 +63,8 @@ h1 {
 .petition-wrapper {
     background-color: #fff;
     overflow: hidden;
-    position: relative
+    position: relative;
+    margin-bottom: 2em;
 }
 .presentation img {
     max-width: 100%;
@@ -159,20 +149,9 @@ h1 {
     margin-bottom: 10px
 }
 
-.progress-bar {
-    background-color: #ffeb1f;
-}
-
-.btn-primary,
-.eaSubmitButton {
-    color: #666;
-}
-
 .eaSubmitButton {
     font-size: 20px;
     padding: 12px 20px;
-    background-color: #ffeb1f;
-    border-color: #ffe905;
     text-transform: uppercase;
 }
 
@@ -192,10 +171,6 @@ h1 {
     line-height: 1.2
 }
 
-.sign {
-    color: #ffeb1f
-}
-
 .counter {
     margin-top: 18px
 }
@@ -204,35 +179,6 @@ h1 {
     padding-bottom: 30px;
     padding-top: 20px;
     font-size: 11px
-}
-
-.footer {
-    padding: 20px 15px;
-    text-align: left;
-    background-color: #020;
-    color: #99979c
-}
-
-.footer .footer-links {
-    padding: 0
-}
-
-.footer li {
-    display: inline-block;
-    padding-right: 20px
-}
-
-.footer li a {
-    color: #fff
-}
-
-.footer p a,
-.footer p a:hover {
-    color: #99979c
-}
-
-.footer p a:hover {
-    text-decoration: underline
 }
 
 input[type=email],
