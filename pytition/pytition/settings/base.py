@@ -105,13 +105,19 @@ if os.environ.get('USE_POSTGRESQL'):
     from .pgsql import DATABASES
 
 # email backend
-# The default when running manage.py runserver is to use the basic django's email backend
-# when running via wsgi the default is to use 'mailer' that is able to handle mail queuing
-# and retry on failure
+# Only supported configurations:
+# - [default] no mailer backend, emails are sent synchronously with no retry if sending fails
+# - mailer backend used with uwsgi without cron jobs (EMAIL_BACKEND=mailer)
+# - mailer backend used without uwsgi with cron jobs (EMAIL_BACKEND=mailer, MAIL_EXTERNAL_CRON_SET=True)
+# Note: MAIL_EXTERNAL_CRON_SET is set, the responsability to setup external cron job to send mail is up to the administrator. 
+# If none are set, the emails will never be send!
 if os.environ.get('EMAIL_BACKEND') == 'mailer':
     INSTALLED_APPS += ('mailer',)
     # this enable mailer by default in django.send_email
     EMAIL_BACKEND = "mailer.backend.DbBackend"
+
+# set it to True if you use the 'mailer' backend, and a external Crontab has been set
+MAIL_EXTERNAL_CRON_SET = False
 
 # number of seconds to wait before sending emails. This will be usefull only if EMAIL_BACKEND=mailer and uwsgi is used
 UWSGI_WAIT_FOR_MAIL_SEND_IN_S=10

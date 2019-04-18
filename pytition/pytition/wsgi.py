@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 """
 
 import os
+import sys
 
 from django.core.wsgi import get_wsgi_application
 
@@ -37,10 +38,15 @@ if os.environ.get('EMAIL_BACKEND') == 'mailer':
             call_command('purge_mail_log', settings.UWSGI_NB_DAYS_TO_KEEP)
 
     except ImportError:
-        print("""uwsgidecorators not found. Cron are disabled,
-If you want some mails, you should setup the cron yourself with something like:
+        if settings.MAIL_EXTERNAL_CRON_SET:
+            print("info: uwsgi not found, the external cron job will be in charge of sending emails")
+        else:
+            print("""Error: uwsgi not found and no external cron job have been set.
+With this setup, no email will be ever sent.
+If you want some mails, you should set MAIL_EXTERNAL_CRON_SET=True and setup the cron yourself with something like:
 *       * * * * (/path/to/your/python /path/to/your/manage.py send_mail)
 0,20,40 * * * * (/path/to/your/python /path/to/your/manage.py retry_deferred)
 0       0 * * * (/path/to/your/python /path/to/your/manage.py purge_mail_log 2)
 
 """)
+            sys.exit(1)
