@@ -215,19 +215,26 @@ class Petition(models.Model):
 
     @property
     def url(self):
-        if self.organization_set.count() > 0:
-            #  This petition is owned by an Organization
-            org = self.organization_set.first()
-            return reverse("slug_show_petition",
-                           kwargs={"orgslugname": org.slugname, "petitionname": self.slugs.first()})
-        elif self.pytitionuser_set.count() > 0:
-            # This petition is owned by a PytitionUser
-            user = self.pytitionuser_set.first()
-            return reverse("slug_show_petition",
-                           kwargs={"username": user.user.username, "petitionname": self.slugs.first()})
+        slugs = self.slugs.all()
+        if len(slugs) == 0:
+            # If there is no slug, ugly url
+            return reverse('detail', kwargs={'petition_id': self.id})
         else:
-            # This is a BUG!
-            raise ValueError(_("This petition is buggy. Sorry about that!"))
+            if self.organization_set.count() > 0:
+                #  This petition is owned by an Organization
+                org = self.organization_set.first()
+                return reverse("slug_show_petition",
+                           kwargs={"orgslugname": org.slugname,
+                               "petitionname": slugs[0]})
+            elif self.pytitionuser_set.count() > 0:
+                # This petition is owned by a PytitionUser
+                user = self.pytitionuser_set.first()
+                return reverse("slug_show_petition",
+                           kwargs={"username": user.user.username,
+                               "petitionname": slugs[0]})
+            else:
+                # This is a BUG!
+                raise ValueError(_("This petition is buggy. Sorry about that!"))
 
 
 class SlugOwnership(models.Model):
