@@ -1,0 +1,26 @@
+{% extends 'layouts/base.html' %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block extracss  %}<link href="{% static "css/dashboard.css" %}" rel="stylesheet">{% endblock extracss %}
+
+{% block nav %}
+{% endblock nav %}
+
+{% block main_content %}
+<div class="dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      {% block sidebar %}
+      {% endblock sidebar %}
+      <div class="col-xl-9 col-lg-8 col-md-7 col-sm-6 col-12 bg-light dashboard-content border-left">
+        {% if messages %}
+          {% include 'petition/dashboard_alert.html' %}
+        {% endif %}
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

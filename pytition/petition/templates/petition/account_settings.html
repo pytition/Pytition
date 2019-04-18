@@ -1,9 +1,10 @@
-{% extends "petition/base.html" %}
+{% extends "layouts/base.html" %}
 {% load i18n %}
 {% block container_type %}container{% endblock container_type %}
 
 {% block main_content %}
-    <div class="row">
+<div class="container">
+  <div class="row">
     <div class="col-4">
         <div class="list-group" id="list-tab" role="tablist">
             <span class="list-group-item disabled"><b>{% trans "Personal Settings" %}</b></span>
@@ -104,6 +105,7 @@
             </div>
         </div>
     </div>
+  </div>
 </div>
 
 <div class="modal fade" id="org_leave_modal" tabindex="-1" role="dialog" aria-labelledby="org_leave_modal_label" aria-hidden="true">

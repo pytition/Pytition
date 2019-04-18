@@ -1,11 +1,10 @@
-{% extends 'petition/base.html' %}
+{% extends 'layouts/base.html' %}
 {% load static %}
 {% load i18n %}
 
-{% block container_type %}container{% endblock container_type %}
-
 {% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
-    {% block main_content %}
+  {% block main_content %}
+  <div class="container">
     <div class="row">
         {% for petition in petitions %}
           <div class="col-md-4 col-xs-6 text-center sb-preview">
@@ -37,4 +36,5 @@
         {% endif %}
     {% endfor %}
     </div>
-    {% endblock main_content %}
+  </div>
+  {% endblock main_content %}
