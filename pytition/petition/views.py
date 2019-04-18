@@ -19,6 +19,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils.decorators import method_decorator
 
 from formtools.wizard.views import SessionWizardView
 
@@ -909,7 +910,7 @@ WizardForms = [("step1", PetitionCreationStep1),
 
 # Class Based Controller
 # PATH : subroutes of /wizard
-# FIXME: add equivalent of @login_required here
+@method_decorator(login_required, name='dispatch')
 class PetitionCreationWizard(SessionWizardView):
     def get_template_names(self):
         return [WizardTemplates[self.steps.current]]
