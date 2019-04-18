@@ -24,12 +24,14 @@
     <div class="row">
         <div class="col">
             <div id="smartwizard">
-            <ul>
-                <li><a href="#step-1" id="step1_link">{% trans "Title" %}<br /><small>{%  trans "Donnez un titre à votre pétition" %}</small></a></li>
-                <li><a href="#step-2">{% trans "Content" %}<br /><small>{% trans "Ecrivez le contenu de votre pétition" %}</small></a></li>
-                <li><a href="#step-3">{% trans "Publish" %}<br /><small>{%  trans "Sauvegardez votre pétition et publiez la si elle est prête" %}</small></a></li>
-            </ul>
-
+                <ul>
+                    <li><a href="#step-1" id="step1_link">{% trans "Title" %}<br />
+                        <small>{% trans "Give a title to your petition" %}</small></a></li>
+                    <li><a href="#step-2">{% trans "Content" %}<br />
+                        <small>{% trans "Write your petition content" %}</small></a></li>
+                    <li><a href="#step-3">{% trans "Publish" %}<br />
+                        <small>{% trans "Save your petition and publish it if it's ready" %}</small></a></li>
+                </ul>
             <div>
                 <div id="step-2" class="">
                     <form method="POST">{% csrf_token %}
