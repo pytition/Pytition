@@ -1,9 +1,11 @@
+import requests
+import csv
+import time
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
-from django.core.mail import get_connection, send_mail
 from django.core.mail.message import EmailMessage
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
@@ -17,74 +19,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils.decorators import method_decorator
+
+from formtools.wizard.views import SessionWizardView
 
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
 from .models import SlugModel
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
 from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
 from .forms import DeleteAccountForm, OrgCreationForm
-
-from formtools.wizard.views import SessionWizardView
-
-import requests
-import csv
-from datetime import datetime
-import time
-
-#-------------------------------- Help Functions ------------------------------
-
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
-
-def get_session_user(request):
-    try:
-        pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
-    except User.DoesNotExist:
-        raise Http404(_("not found"))
-    return pytitionuser
-
-
-def check_user_in_orga(user, orga):
-    if orga not in user.organizations.all():
-        return HttpResponseForbidden(_("You are not part of this organization"))
-    return None
-
-
-def petition_from_id(id):
-    petition = Petition.by_id(id)
-    if petition is None:
-        raise Http404(_("Petition does not exist"))
-    else:
-        return petition
-
-
-def check_petition_is_accessible(request, petition):
-    if not petition.published and not request.user.is_authenticated:
-        raise Http404(_("This Petition is not published yet!"))
-
-
-def settings_context_processor(request):
-    return {'settings': settings}
-
-
-def send_confirmation_email(request, signature):
-    petition = signature.petition
-    url = request.build_absolute_uri("/petition/{}/confirm/{}".format(petition.id, signature.confirmation_hash))
-    html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
-    message = strip_tags(html_message)
-    with get_connection(host=petition.confirmation_email_smtp_host, port=petition.confirmation_email_smtp_port,
-                        username=petition.confirmation_email_smtp_user,
-                        password=petition.confirmation_email_smtp_password,
-                        use_ssl=petition.confirmation_email_smtp_tls,
-                        use_tls=petition.confirmation_email_smtp_starttls) as connection:
-        send_mail(_("Confirm your signature to our petition"), message, petition.confirmation_email_sender,
-                     [signature.email], html_message=html_message, connection=connection, fail_silently=False)
+from .helpers import get_client_ip, get_session_user, check_user_in_orga, petition_from_id
+from .helpers import check_petition_is_accessible, settings_context_processor
+from .helpers import send_confirmation_email, subscribe_to_newsletter
+from .helpers import get_update_form, petition_detail_meta
 
 
 #------------------------------------ Views -----------------------------------
@@ -169,7 +116,8 @@ def detail(request, petition_id):
     check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
     return render(request, 'petition/petition_detail.html',
-            {'petition': petition, 'form': sign_form, 'meta': petition_detail_meta(request, petition_id)})
+            {'petition': petition, 'form': sign_form,
+                'meta': petition_detail_meta(request, petition_id)})
 
 
 # /<int:petition_id>/confirm/<confirmation_hash>
@@ -217,6 +165,7 @@ def get_csv_signature(request, petition_id, only_confirmed):
         writer.writerow(values)
     return response
 
+
 # resend/<int:signature_id>
 # resend the signature confirmation email
 def go_send_confirmation_email(request, signature_id):
@@ -225,30 +174,6 @@ def go_send_confirmation_email(request, signature_id):
     send_confirmation_email(request, signature)
     return redirect('admin:{}_signature_change'.format(app_label), signature_id)
 
-
-def subscribe_to_newsletter(petition, email):
-    if petition.newsletter_subscribe_method in ["POST", "GET"]:
-        if petition.newsletter_subscribe_http_url == '':
-            return
-        data = petition.newsletter_subscribe_http_data
-        if data == '' or data is None:
-            data = {}
-        if petition.newsletter_subscribe_http_mailfield != '':
-            data[petition.newsletter_subscribe_http_mailfield] = email
-    if petition.newsletter_subscribe_method == "POST":
-        requests.post(petition.newsletter_subscribe_http_url, data)
-    elif petition.newsletter_subscribe_method == "GET":
-        requests.get(petition.newsletter_subscribe_http_url, data)
-    elif petition.newsletter_subscribe_method == "MAIL":
-        with get_connection(host=petition.newsletter_subscribe_mail_smtp_host,
-                            port=petition.newsletter_subscribe_mail_smtp_port,
-                            username=petition.newsletter_subscribe_mail_smtp_user,
-                            password=petition.newsletter_subscribe_mail_smtp_password,
-                            use_ssl=petition.newsletter_subscribe_mail_smtp_tls,
-                            use_tls=petition.newsletter_subscribe_mail_smtp_starttls) as connection:
-            EmailMessage(petition.newsletter_subscribe_mail_subject.format(email), "",
-                         petition.newsletter_subscribe_mail_from, [petition.newsletter_subscribe_mail_to],
-                         connection=connection).send(fail_silently=True)
 
 # <int:petition_id>/sign
 # Sign a petition
@@ -410,6 +335,8 @@ def get_user_list(request):
     return JsonResponse(userdict)
 
 
+# PATH : org/<slug:orgslugname>/add_user
+# Add an user to an organization
 @login_required
 def org_add_user(request, orgslugname):
     adduser = request.GET.get('user', '')
@@ -691,9 +618,9 @@ def edit_template(request, template_id):
     return render(request, "petition/edit_template.html", context)
 
 
+# FIXME : this controller has no urls
 @login_required
 def user_del_template(request, user_name):
-
     try:
         pytitionuser = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
@@ -703,7 +630,6 @@ def user_del_template(request, user_name):
         return HttpResponseForbidden(_("You are not allowed to delete this users' templates"))
 
     template = PetitionTemplate.objects.get(name=request.GET['name'])
-
     pytitionuser.petition_templates.remove(template)
     pytitionuser.save()
 
@@ -753,6 +679,7 @@ def template_delete(request, template_id):
         return JsonResponse({}, status=500)
 
     return JsonResponse({})
+
 
 # /templates/<int:template_id>/fav
 # Set a template as favourite
@@ -846,6 +773,8 @@ def org_delete_member(request, orgslugname):
     return JsonResponse({}, status=200)
 
 
+# PATH : org/<slug:orgslugname>/edit_user_permissions/<slug:user_name>
+# Show a webpage to edit permissions
 @login_required
 def org_edit_user_perms(request, orgslugname, user_name):
     """Shows the page which lists the user permissions."""
@@ -881,16 +810,18 @@ def org_edit_user_perms(request, orgslugname, user_name):
             _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
               .format(orgname=org.name)), status=500)
 
-    return render(request, "petition/org_edit_user_perms.html", {'org': org, 'member': member, 'user': pytitionuser,
-                                                                 'permissions': permissions,
-                                                                 'user_permissions': user_permissions})
+    return render(request, "petition/org_edit_user_perms.html",
+            {'org': org, 'member': member, 'user': pytitionuser,
+            'permissions': permissions,
+            'user_permissions': user_permissions})
 
+# PATH /org/<slug:orgslugname>/set_user_permissions/<slug:user_name>
+# Set a permission for an user
 @login_required
 def org_set_user_perms(request, orgslugname, user_name):
     """Actually do the modification of user permissions.
     Data come from "org_edit_user_perms" view's form.
     """
-
     pytitionuser = get_session_user(request)
 
     try:
@@ -978,7 +909,9 @@ WizardForms = [("step1", PetitionCreationStep1),
          ("step3", PetitionCreationStep3)]
 
 
-# FIXME: add equivalent of @login_required here
+# Class Based Controller
+# PATH : subroutes of /wizard
+@method_decorator(login_required, name='dispatch')
 class PetitionCreationWizard(SessionWizardView):
     def get_template_names(self):
         return [WizardTemplates[self.steps.current]]
@@ -1104,6 +1037,7 @@ def petition_delete(request, petition_id):
 
     return JsonResponse({}, status=403)
 
+
 # /<int:petition_id>/publish
 # Publush a petition
 @login_required
@@ -1182,7 +1116,6 @@ def edit_petition(request, petition_id):
             messages.error(request, _("You are not the owner of this petition"))
             return redirect("user_dashboard")
 
-
     if request.method == "POST":
         if 'content_form_submitted' in request.POST:
             content_form = ContentFormPetition(request.POST)
@@ -1196,7 +1129,6 @@ def edit_petition(request, petition_id):
                 petition.save()
         else:
             content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
-
 
         if 'email_form_submitted' in request.POST:
             email_form = EmailForm(request.POST)
@@ -1370,18 +1302,6 @@ def show_signatures(request, petition_id):
     return render(request, "petition/signature_data.html", ctx)
 
 
-def get_update_form(user, data=None):
-    if not data:
-        _data = {
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email
-        }
-    else:
-        _data = data
-    return UpdateInfoForm(user, _data)
-
-
 # /account_settings
 # Show settings for the user accounts
 @login_required
@@ -1449,6 +1369,8 @@ def account_settings(request):
     return render(request, "petition/account_settings.html", ctx)
 
 
+# GET/POST /org/create
+# Create a new organization
 @login_required
 def org_create(request):
     user = get_session_user(request)
@@ -1473,6 +1395,8 @@ def org_create(request):
     return render(request, "petition/org_create.html", ctx)
 
 
+# GET /org/<slug:orgslugname>/<slug:petitionname>
+# Show a petition
 def slug_show_petition(request, orgslugname=None, username=None, petitionname=None):
     try:
         pytitionuser = get_session_user(request)
@@ -1489,6 +1413,8 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
     return render(request, "petition/petition_detail.html", ctx)
 
 
+# /<int:petition_id>/add_new_slug
+# Add a new slug for a petition
 @login_required
 def add_new_slug(request, petition_id):
     pytitionuser = get_session_user(request)
@@ -1518,6 +1444,8 @@ def add_new_slug(request, petition_id):
         return redirect("user_dashboard")
 
 
+# /<int:petition_id>/del_slug
+# Remove a slug from a petition
 @login_required
 def del_slug(request, petition_id):
     pytitionuser = get_session_user(request)
@@ -1542,12 +1470,3 @@ def del_slug(request, petition_id):
         else:
             return redirect("user_dashboard")
     return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
-
-
-def petition_detail_meta(request, petition_id):
-    url = "{scheme}://{host}{petition_path}".format(
-        scheme=request.scheme,
-        host=request.get_host(),
-        petition_path=reverse('detail', args=[petition_id]))
-
-    return {'site_url': request.get_host(), 'petition_url': url}

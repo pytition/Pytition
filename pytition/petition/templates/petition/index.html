@@ -10,7 +10,7 @@
     <div class="container">
       <h1 class="jumbotron-heading">{% trans "Welcome to Pytition"%}</h1>
       <p class="lead text-muted">{% trans "Make things change!" %}</p>
-      <p><a href="#" class="btn btn-primary">{% trans "Create a petition" %}</a></p>
+      <p><a href="{% url 'user_petition_wizard' %}" class="btn btn-primary">{% trans "Create a petition" %}</a></p>
     </div>
   </section>
 </div>
