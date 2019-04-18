@@ -1,99 +1,98 @@
 {% load static %}
 {% load i18n %}
 
-<div class="row">
-    <div class="col text-center">
-        {%  if org %}
-        <h2>{% trans "Petitions of" %} '{{ org.name }}' </h2>
-        {% else %}
-        <h2>{% trans "Your petitions" %}</h2>
-        {% endif %}
-    </div>
-</div>
+{% if org %}
+<h2>{% trans "Petitions of" %} '{{ org.name }}' </h2>
+{% else %}
+<h2>{% trans "Your petitions" %}</h2>
+{% endif %}
 
-<div class="row">
-    {% for petition in petitions %}
-        <div class="col-xl-4 col-lg-6 col-sm-12 col-12 text-center sb-preview" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}">
-            <div class="card h-100">
-                <a href="#" class="sb-preview-img">
-                    {% if not petition.twitter_image%}
-                    <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
-                         src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
-                    {% else %}
-                    <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
-                         src="{{ petition.twitter_image }}">
-                    {% endif %}
-                </a>
-                <div class="card-body d-flex flex-column">
-                    <h4 class="card-title">{{ petition.title|striptags }}</h4>
-                    <p class="card-text">{{ petition.twitter_description|safe }}</p>
-                    <div class="card-footer mt-auto">
-                    <div class="d-inline-flex flex-column">
-                        <div>
-                            <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning"
-                                    title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></a>
-                            <button class="btn btn-outline-danger"
-                                    id="btn_petition_delete"
-                                    title="{% trans "Delete the petition" %}"
-                                    data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
-                                    aria-disabled="true"><span class="oi oi-delete"></span></button>
-                            <a href="{{ petition.url }}" class="btn btn-outline-success"
-                               title="{% trans "Sign the petition" %}" aria-disabled="true">
-                            {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
-                            </a>
-                        </div>
-                        <div class="d-flex justify-content-start" style="margin-top: 5px">
-                            <a href="{% url "show_signatures" petition.id %}" class="btn btn-outline-info"
-                             title="{% trans "View signatures" %}" aria-disabled="true">
-                                <span class="oi oi-spreadsheet"></span>
-                            </a>
-                        </div>
-                    </div>
-                        <p></p>
-                        <div class="custom-control custom-switch
-                                    {% if not petition.published %}
-                                        text-danger
-                                    {% else %}
-                                        text-success
-                                    {% endif %}" data-action="publish">
-                            <input type="checkbox" class="custom-control-input"
-                                   name="petition_published_{{ petition.id }}"
-                                   id="petition_published_{{ petition.id }}"
-                                   {% if petition.published %} checked {% endif %}>
-                            <label class="custom-control-label" for="petition_published_{{ petition.id }}">
-                            {% if not petition.published %}
-                                {% trans "Not published" %}
-                            {% else %}
-                                {% trans "Published" %}
-                            {% endif %}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{% if not petitions %}
+  <p>{% trans "You don't have any petitions yet"%}</p>
+  <a class="btn btn-primary" href="{% if org %}{% url "org_petition_wizard" org.slugname %}{% else %}{% url "user_petition_wizard" %}{% endif %}">{% trans "Create a new petition" %}</a>
+{% else %}
+<div class="row petition-list">
+  {% for petition in petitions %}
+    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 text-center sb-preview" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}">
+      <div class="card h-100">
+        <a href="#" class="sb-preview-img">
+            {% if not petition.twitter_image%}
+            <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
+                 src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
+            {% else %}
+            <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
+                 src="{{ petition.twitter_image }}">
+            {% endif %}
+        </a>
+        <div class="card-body d-flex flex-column">
+          <h4 class="card-title">{{ petition.title|striptags }}</h4>
+          {% if petition.twitter_description %}
+            <p class="card-text">{{ petition.twitter_description|safe }}</p>
+          {% endif %}
+          <p class="text-muted">{{ petition.signature_number }} signatures</p>
+          <div class="custom-control custom-switch
+                      {% if not petition.published %}
+                          text-muted
+                      {% else %}
+                          text-success
+                      {% endif %}" data-action="publish">
+            <input type="checkbox" class="custom-control-input"
+                   name="petition_published_{{ petition.id }}"
+                   id="petition_published_{{ petition.id }}"
+                   {% if petition.published %} checked {% endif %}>
+            <label class="custom-control-label" for="petition_published_{{ petition.id }}">
+            {% if not petition.published %}
+              {% trans "Not published" %}
+            {% else %}
+              {% trans "Published" %}
+            {% endif %}
+            </label>
+          </div>
         </div>
-
-    <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}" data-petition-delete="{% url 'petition_delete' petition.id %}">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">{% trans "Delete petition?" %}</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="card-footer mt-auto">
+          <div class="d-flex justify-content-between">
+            <a href="{{  petition.url }}" class="btn btn-outline-success btn-sm"
+               title="{% trans "View petition" %}" aria-disabled="true">
+              <span class="oi oi-eye"></span>
+            </a>
+            <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning btn-sm"
+                    title="{% trans "Edit petition" %}"><span class="oi oi-pencil"></span></a>
+            <button class="btn btn-outline-danger btn-sm"
+                    id="btn_petition_delete"
+                    title="{% trans "Delete the petition" %}"
+                    data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
+                    aria-disabled="true"><span class="oi oi-delete"></span></button>
+            <a href="{% url "show_signatures" petition.id %}" class="btn btn-outline-info btn-sm"
+             title="{% trans "View signatures" %}" aria-disabled="true">
+              <span class="oi oi-spreadsheet"></span>
+            </a>
           </div>
-
-          <div class="modal-body">
-            {% blocktrans with title=petition.title|striptags %}
-              Do you really want to delete petition '{{ title }}'
-            {% endblocktrans %}
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-action="petition-delete" data-dismiss="modal">{% trans "Delete" %}</button>
-            <button type="button" class="btn btn-info" data-dismiss="modal">{% trans "Cancel" %}</button>
-          </div>
-
         </div>
       </div>
     </div>
-    {% endfor %}
+
+  <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}" data-petition-delete="{% url 'petition_delete' petition.id %}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans "Delete petition?" %}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          {% blocktrans with title=petition.title|striptags %}
+            Do you really want to delete petition '{{ title }}'
+          {% endblocktrans %}
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-action="petition-delete" data-dismiss="modal">{% trans "Delete" %}</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">{% trans "Cancel" %}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
+{% endif %}
