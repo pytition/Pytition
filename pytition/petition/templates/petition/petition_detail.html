@@ -84,25 +84,27 @@
     </div>
 </div>
 
-
 <div class="container">
-<div class="petition-wrapper">
+  <div class="jumbotron text-center">
+      <h1 class="jumbotron-heading">{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
+  </div>
+  <div class="petition-wrapper">
     <div class="content">
-        <h1>{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
         <div class="formular" id="petition">
             <div class="form-wrapper">
+              {% if petition.side_text %}
                 <p class="intro" id="intro">
                     {% autoescape off%}{{ petition.side_text }}{% endautoescape %}
-                    <br/>
-                    <span class="sign">Signez la pétition&nbsp;!</span>
                 </p>
+                {% endif %}
+                <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
                 <div class="counter" id="counter">
                     <p>
                         Déjà <span id="nb-signatures">{{ petition.signature_number }}</span> signatures.
                         Objectif : <span class="format-number">{{ petition.target }}</span>
                     </p>
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" id="progress-bar"
+                        <div class="progress-bar bg-primary" role="progressbar" id="progress-bar"
                              data-target="{{ petition.target }}">
                         </div>
                     </div>
@@ -196,7 +198,7 @@
 
 
                             <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
-                                    type="submit" class="btn eaSubmitButton" value="Signer"></span>
+                                    type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
                         </form>
                     </div>
                     <div class="reassurance" id="reassurance">
@@ -211,25 +213,11 @@
             {% autoescape off%}{{ petition.text }}{% endautoescape %}
         </div>
     </div>
+  </div>
 </div>
 </div>
 
 {% endblock main_content %}
-
-{% block footer %}
-<div class="footer-wrapper">
-    <footer role="contentinfo" class="footer d-sm-flex">
-        <div class="footer-links flex-grow-1">
-            {% autoescape off %}{{ petition.footer_links }}{% endautoescape %}
-        </div>
-        <p class="footer-text flex-grow-1">
-            {% autoescape off %}{{ petition.footer_text }}{% endautoescape %}
-        </p>
-        <div class=""><a href="https://github.com/pytition/Pytition/"><img src="{% static "img/GitHub_Logo_White.png" %}" width="100" height="41" /></a></div>
-    </footer>
-</div>
-{% endblock %}
-
 
 {% block extrajs %}
 <script type="text/javascript" src="{% static "js/petition.js" %}"></script>

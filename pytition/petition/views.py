@@ -94,6 +94,7 @@ def send_confirmation_email(request, signature):
 # redirect to an user/org profile page
 def index(request):
     petitions = Petition.objects.filter(published=True).order_by('-id')[:12]
+    print(petitions[0])
     if not hasattr(settings, 'INDEX_PAGE'):
         raise Http404(_("You must set an INDEX_PAGE config in your settings"))
     if settings.INDEX_PAGE == 'USER_PROFILE':
@@ -1550,4 +1551,3 @@ def petition_detail_meta(request, petition_id):
         petition_path=reverse('detail', args=[petition_id]))
 
     return {'site_url': request.get_host(), 'petition_url': url}
-
