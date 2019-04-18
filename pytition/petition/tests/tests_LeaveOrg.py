@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from petition.models import Organization, Petition, PytitionUser, Permission
-from petition.views import get_update_form
 
 
 users = ['julia', 'john', 'max', 'sarah']
