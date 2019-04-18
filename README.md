@@ -24,9 +24,9 @@
 
 ## Future features
 
-* [ ] Support for several organizations on the same Pytition instance [v2.0](https://github.com/fallen/Pytition/milestone/2)
-* [ ] Support for multi-lingual petition content: [v3.0](https://github.com/fallen/Pytition/milestone/3)
-* [ ] Support for adding several petition templates: [v4.0](https://github.com/fallen/Pytition/milestone/4)
+* [ ] Support for several organizations on the same Pytition instance [v2.0](https://github.com/pytition/Pytition/milestone/2)
+* [ ] Support for multi-lingual petition content: [v3.0](https://github.com/pytition/Pytition/milestone/3)
+* [ ] Support for adding several petition templates: [v4.0](https://github.com/pytition/Pytition/milestone/4)
 * [ ] Add optional Mastodon/Diaspora share-icons
 
 ## Install development environment
@@ -42,7 +42,7 @@ $ mkdir -p www/static
 $ virtualenv -p python3 pytition_venv
 $ source pytition_venv/bin/activate
 (pytition_venv) $ cd www
-(pytition_venv) $ git clone https://github.com/fallen/pytition
+(pytition_venv) $ git clone https://github.com/pytition/pytition
 (pytition_venv) $ cd pytition
 (pytition_venv) $ pip3 install -r requirements.txt
 ```
