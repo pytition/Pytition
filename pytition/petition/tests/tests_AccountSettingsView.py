@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from petition.models import Organization, Petition, PytitionUser
-from petition.views import get_update_form
+from petition.helpers import get_update_form
 from petition.forms import DeleteAccountForm
 
 
