@@ -38,17 +38,20 @@
                   {% endfor %}
                 {% endif %}
                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url "user_petition_wizard" %}">
+                  <span class="oi oi-plus"></span>
+                  {% trans "New Petition" %}
+                </a>
+                <a class="dropdown-item" href="{% url "org_create" %}">
+                  <span class="oi oi-plus"></span>
+                  {% trans "New Organization" %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url "account_settings" %}">
+                  <span class="oi oi-cog"></span>
+                  {% trans "Settings" %}</a>
                 <a class="dropdown-item" href="{% url "logout" %}?next=/">
                   <span class="oi oi-account-logout"></span>
                   {% trans "Logout" %}</a>
-                <a class="dropdown-item" href="{% url "account_settings" %}">
-                  <span class="oi oi-cog"></span>
-                  {% trans "Account settings" %}</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url "org_create" %}">
-                  <span class="oi oi-plus"></span>
-                  {% trans "Create an organization" %}
-                </a>
               </div>
             {% endblock navdropdown %}
           {% else %}
