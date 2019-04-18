@@ -4,7 +4,7 @@ import os
 import sys
 
 def get_parser():
-	parser = argparse.ArgumentParser("genpet")
+	parser = argparse.ArgumentParser("cli_pytition")
 	subparsers = parser.add_subparsers(help='sub-command help', dest="action")
 	genorga = subparsers.add_parser("gen_orga", help="create Pytition Organization")
 	genorga.add_argument("--orga", "-o", type=str, required=True)
@@ -20,6 +20,13 @@ def get_parser():
 	genpet.add_argument("--number", "-n", help="petition number", type=int, required=True)
 	genpet.add_argument("--orga", "-o", type=str, required=False)
 	genpet.add_argument("--user", "-u", type=str, required=False)
+	gensignature = subparsers.add_parser("generate_signatures", help="Generate signatures")
+	gensignature.add_argument("--number", "-n", help="number of signatures", type=int, default=1)
+	gensignature.add_argument("--petition-id", "-i", help="petition id", type=int)
+	gensignature.add_argument("--petition-title", "-t", help="petition title", type=str)
+	gensignature.add_argument("--first-name", help="first name of the signatory", type=str, default="bob")
+	gensignature.add_argument("--last-name", help="last name of the signatory", type=str, default="Bar")
+	gensignature.add_argument("--email", help="mail of the signatory", type=str, default="bob@bar.com")
 	return parser
 
 
@@ -27,7 +34,7 @@ def main():
 	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pytition.settings")
 	import django
 	django.setup()
-	from petition.models import Petition, Organization, PytitionUser, Permission
+	from petition.models import Petition, Organization, PytitionUser, Permission, Signature
 
 	args = get_parser().parse_args()
 
@@ -84,6 +91,26 @@ def main():
 	elif args.action == "gen_orga":
 		org = Organization.objects.create(name=args.orga)
 		org.save()
+	elif args.action == "generate_signatures":
+		if args.petition_id is not None:
+			petition = Petition.objects.get(id=args.petition_id)
+		elif args.petition_title is not None:
+			try:
+				petition = Petition.objects.get(title=args.petition_title)
+			except django.core.exceptions.MultipleObjectsReturned:
+				print("multitple petition match this title, choose it by id")
+				sys.exit(1)
+		else:
+			print("You must either specify --petition-id or --petition-title")
+			sys.exit(1)
+
+		for i in range(args.number):
+			signature = Signature.objects.create(
+				first_name=args.first_name,
+				last_name=args.last_name,
+				email=args.email,
+				petition=petition
+			)
 	else:
 		print("You should chose an action, see --help for more information")
 
