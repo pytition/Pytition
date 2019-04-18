@@ -1,66 +1,53 @@
 {% extends 'petition/base.html' %}
 {% load i18n %}
+{% load static %}
 
-{% block brand %}
-<a class="navbar-brand" href="#">{{ org.name }}</a>
-{% endblock brand %}
+{% block extracss  %}<link href="{% static "css/dashboard.css" %}" rel="stylesheet">{% endblock extracss %}
 
+{% block nav %}{% include 'layouts/nav_dashboard.html' with username=org.name slug=org.slugname sitename=settings.SITE_NAME is_org="true" %}{% endblock nav%}
 
-    {% block main_grid %}
-    <div class="row">
-        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-6 col-12 tool-bar">
-            <a class="btn btn-outline-success" href="{% url "org_petition_wizard" org.slugname %}"><span class="oi oi-clipboard"></span> {% trans "New petition" %}</a>
-            <hr>
-            {% include "petition/org_member_list.html" with org=org user_permissions=user_permissions %}
-            <hr>
-            {% include "petition/org_invite_user.html" with org=org %}
-            {% include "petition/user_invitations.html" with user=user %}
-            <hr>
-            <div class="d-flex align-items-baseline justify-content-between">
-                <h4>{% trans "Petition templates" %}</h4>
-                <a href="{% url "org_new_template" org.slugname %}" class="btn btn-outline-success"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}"><span class="oi oi-plus"></span> {% trans "New template" %}</a>
+{% block main_grid %}
+  <div class="dashboard">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12 dashboard-nav">
+          <div class="dashboard-nav-item py-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h4><span class="oi oi-clipboard"></span> <a href="{% url 'user_dashboard' %}">{% trans 'Petitions' %}</a>{% if petitions %}&nbsp;({{ org.petitions.count }}){% endif %}</h4>
+              <a class="btn btn-outline-primary btn-sm" href="{% url "org_petition_wizard" org.slugname %}">{% trans "New petition" %}</a>
             </div>
-            <br />
+          </div>
+          {% include "petition/org_member_list.html" with org=org user_permissions=user_permissions %}
+          {% include "petition/org_invite_user.html" with org=org %}
+          {% include "petition/user_invitations.html" with user=user %}
+          <div class="dashboard-nav-item py-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h4><span class="oi oi-layers"></span> {% trans "Petition templates" %}</h4>
+              <a href="{% url "user_new_template" %}" class="btn btn-outline-primary btn-sm"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}">{% trans "New template" %}</a>
+            </div>
             {% if org.petition_templates.all %}
-                {% include "petition/template_list.html" with templates=org.petition_templates.all owner=org %}
+              {% include "petition/template_list.html" with templates=org.petition_templates.all owner=org %}
             {% endif %}
-            <hr>
+          </div>
         </div>
-        <div class="col-xl-9 col-lg-7 col-md-7 col-sm-6 col-12">
-            <div class="row">
-                    {% if messages %}
-                    {% for message in messages %}
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                            <div class="alert alert-danger alert-dismissible show fade">
-                        {% else %}
-                            <div class="alert alert-success alert-dismissible show fade">
-                        {% endif %}
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <div class="row">
-                                    <div class="col-1 alert-icon-col">
-                                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                                        <span class="oi oi-warning"></span>
-                                        {% else %}
-                                        <span class="oi oi-thumb-up"></span>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col">
-                                        {{ message }}
-                                    </div>
-                                </div>
-                            </div>
-                    {% endfor%}
-                    {% endif %}
-            </div>
-            {% block content %}
-            {% endblock content %}
+        <div class="col-xl-9 col-lg-8 col-md-7 col-sm-6 col-12 bg-light dashboard-content border-left">
+            {% if messages %}
+              {% if messages %}
+                {% include 'petition/dashboard_alert.html' %}
+              {% endif %}
+            {% endif %}
+          {% block content %}
+          {% endblock content %}
+          </div>
         </div>
-        {% endblock main_grid %}
+      </div>
     </div>
+  </div>
+{% endblock main_grid %}
 
-    {% block extrajs %}
-    {{ block.super }}
-    <script>
-       {% include "petition/orga.js" %}
-    </script>
-    {% endblock extrajs %}
+{% block extrajs %}
+{{ block.super }}
+<script>
+   {% include "petition/orga.js" %}
+</script>
+{% endblock extrajs %}

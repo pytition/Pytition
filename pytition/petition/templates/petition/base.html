@@ -35,7 +35,7 @@
 <body>
   <div id="modalContainer">
   </div>
-  {% include 'layouts/nav.html' %}
+  {% block nav %}{% include 'layouts/nav.html' %}{% endblock nav %}
 
     {% block main_content %}
     {% endblock %}

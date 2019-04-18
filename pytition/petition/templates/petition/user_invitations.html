@@ -1,8 +1,8 @@
 {% load i18n %}
 {% if user.invitations.all %}
-<hr>
-<h4>{% trans "Invitations" %}</h4>
-<div id="invitations">
+<div class="dashboard-nav-item py-3">
+  <h4>{% trans "Invitations" %}</h4>
+  <div id="invitations">
     {% for org in user.invitations.all %}
     <div class="alert alert-info alert-dismissible show fade" id="invite-alert-{{ org.slugname }}">
         <div class="row">
@@ -23,5 +23,6 @@
         </div>
     </div>
     {% endfor %}
+  </div>
 </div>
 {% endif %}
