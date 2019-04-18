@@ -8,17 +8,17 @@ in a language you know. I can explain how to do it.
 
 ## Open a Pull Request
 
-Please don't hesitate to open a Pull Request if you have a fix for one of the [issues](https://github.com/fallen/pytition/issues).
+Please don't hesitate to open a Pull Request if you have a fix for one of the [issues](https://github.com/pytition/pytition/issues).
 
 ## Report bugs or give new enhancements/feature ideas
 
-Don't hesitate to open new [issues](https://github.com/fallen/pytition/issues) with your reports or remarks.
+Don't hesitate to open new [issues](https://github.com/pytition/pytition/issues) with your reports or remarks.
 
 ## Install a development environment
 
 ### With a script
 
-You can use [this script](https://github.com/fallen/Pytition/blob/master/dev/dev_setup.sh) to:
+You can use [this script](https://github.com/pytition/Pytition/blob/master/dev/dev_setup.sh) to:
 
 * Install all system requirements
 * clone the git repo

@@ -16,7 +16,7 @@ then
     echo "If you did, please abort this script and run it again from the cloned repository root"
     echo "If you didn't and want me to do it, hit enter. Else abort."
     read
-    git clone https://github.com/fallen/pytition
+    git clone https://github.com/pytition/pytition
     cd pytition
 fi
 
