@@ -1,11 +1,9 @@
-import requests
 import csv
 import time
 from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
-from django.core.mail.message import EmailMessage
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
@@ -18,7 +16,6 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
-from django.utils.text import slugify
 from django.utils.decorators import method_decorator
 
 from formtools.wizard.views import SessionWizardView
@@ -28,8 +25,8 @@ from .models import SlugModel
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
 from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
 from .forms import DeleteAccountForm, OrgCreationForm
-from .helpers import get_client_ip, get_session_user, check_user_in_orga, petition_from_id
-from .helpers import check_petition_is_accessible, settings_context_processor
+from .helpers import get_client_ip, get_session_user, petition_from_id
+from .helpers import check_petition_is_accessible
 from .helpers import send_confirmation_email, subscribe_to_newsletter
 from .helpers import get_update_form, petition_detail_meta
 
@@ -41,7 +38,6 @@ from .helpers import get_update_form, petition_detail_meta
 # redirect to an user/org profile page
 def index(request):
     petitions = Petition.objects.filter(published=True).order_by('-id')[:12]
-    print(petitions[0])
     if not hasattr(settings, 'INDEX_PAGE'):
         raise Http404(_("You must set an INDEX_PAGE config in your settings"))
     if settings.INDEX_PAGE == 'USER_PROFILE':
