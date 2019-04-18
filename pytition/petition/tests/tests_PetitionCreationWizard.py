@@ -14,8 +14,8 @@ org_members = {
     'Attac': ['john'],
 }
 
-class LeaveOrgViewTest(TestCase):
-    """Test index view"""
+class PetitionCreateWizardViewTest(TestCase):
+    """Test PetitionCreateWizard view"""
     @classmethod
     def setUpTestData(cls):
         User = get_user_model()
@@ -27,7 +27,6 @@ class LeaveOrgViewTest(TestCase):
             u.first_name = user
             u.last_name = user + "Last"
             u.save()
-            pu = PytitionUser.objects.get(user__username=user)
         for orgname in org_members:
             org = Organization.objects.get(name=orgname)
             for username in org_members[orgname]:
@@ -62,10 +61,10 @@ class LeaveOrgViewTest(TestCase):
         response = self.client.get(reverse("org_petition_wizard", args=[org.slugname]), follow=True)
         self.assertRedirects(response, reverse("login")+"?next="+reverse("org_petition_wizard", args=[org.slugname]))
         self.assertTemplateUsed(response, "registration/login.html")
-        self.assertTemplateUsed(response, "petition/base.html")
+        self.assertTemplateUsed(response, "layouts/base.html")
 
     def test_call_page_ok(self):
-        julia = self.login("julia")
+        self.login("julia")
         org = Organization.objects.get(name='Les Amis de la Terre')
         response = self.client.get(reverse("org_petition_wizard", args=[org.slugname]))
         self.assertEqual(response.status_code, 200)

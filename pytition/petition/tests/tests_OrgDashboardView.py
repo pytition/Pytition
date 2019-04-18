@@ -119,7 +119,7 @@ class OrgDashboardViewTest(TestCase):
         response = self.client.get(reverse("org_dashboard", args=[orgslugname]), follow=True)
         self.assertRedirects(response, reverse("login")+"?next="+reverse("org_dashboard", args=[orgslugname]))
         self.assertTemplateUsed(response, "registration/login.html")
-        self.assertTemplateUsed(response, "petition/base.html")
+        self.assertTemplateUsed(response, "layouts/base.html")
 
     def test_OrgOK1(self):
         org_name = "Attac"

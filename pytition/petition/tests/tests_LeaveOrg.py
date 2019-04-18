@@ -15,7 +15,7 @@ org_members = {
 }
 
 class LeaveOrgViewTest(TestCase):
-    """Test index view"""
+    """Test LeaveOrg view"""
     @classmethod
     def setUpTestData(cls):
         User = get_user_model()
@@ -27,7 +27,6 @@ class LeaveOrgViewTest(TestCase):
             u.first_name = user
             u.last_name = user + "Last"
             u.save()
-            pu = PytitionUser.objects.get(user__username=user)
         for orgname in org_members:
             org = Organization.objects.get(name=orgname)
             for username in org_members[orgname]:
@@ -62,7 +61,7 @@ class LeaveOrgViewTest(TestCase):
         response = self.client.get(reverse("leave_org", args=[org.slugname]), follow=True)
         self.assertRedirects(response, reverse("login")+"?next="+reverse("leave_org", args=[org.slugname]))
         self.assertTemplateUsed(response, "registration/login.html")
-        self.assertTemplateUsed(response, "petition/base.html")
+        self.assertTemplateUsed(response, "layouts/base.html")
 
     def test_leave_org_ok(self):
         julia = self.login("julia")
