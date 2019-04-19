@@ -1,4 +1,4 @@
-{% extends base_template %}
+{% extends 'layouts/wizard_layout.html' %}
 {% load i18n %}
 {% load widget_tweaks %}
 {% load petition_extras %}
@@ -6,70 +6,42 @@
 {% block media %}
     {{ form.media }}
 {% endblock %}
-{% block extracss %}
-    {{ block.super }}
-    <link href="{%  static 'vendor/smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
-{% endblock %}
-{% block content %}
-    <div class="row">
-        <div class="col">
-            {% include "petition/back_to_dashboard.html" %}
-        </div>
-        <div class="col-10 text-center">
-            <h1>
-                {% trans "Create a new petition!" %}
-            </h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div id="smartwizard">
-                <ul>
-                    <li><a href="#step-1" id="step1_link">{% trans "Title" %}<br />
-                        <small>{% trans "Give a title to your petition" %}</small></a></li>
-                    <li><a href="#step-2">{% trans "Content" %}<br />
-                        <small>{% trans "Write your petition content" %}</small></a></li>
-                    <li><a href="#step-3">{% trans "Publish" %}<br />
-                        <small>{% trans "Save your petition and publish it if it's ready" %}</small></a></li>
-                </ul>
-            <div>
-                <div id="step-2" class="">
-                    <form method="POST">{% csrf_token %}
-                        {{ wizard.management_form }}
-                        <div class="form-group">
-                        {% with form.message as field %}
-                            {{ field.label_tag }}
-                            {% if form.is_bound %}
-                              {% if field.errors %}
-                                {% render_field field|bootstrap class="is-invalid" %}
-                                {% for error in field.errors %}
-                                  <div class="invalid-feedback">
-                                    {{ error }}
-                                  </div>
-                                {% endfor %}
-                              {% else %}
-                                {% render_field field|bootstrap class="is-valid" %}
-                              {% endif %}
-                            {% else %}
-                              {% render_field field|bootstrap %}
-                            {% endif %}
 
-                            {% if field.help_text %}
-                              <small class="form-text text-muted">{{ field.help_text }}</small>
-                            {% endif %}
-                        {% endwith %}
-                        </div>
-                    <p>
-                    {% if wizard.steps.prev %}
-                        <button name="wizard_goto_step" id="go_prev" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
-                    {% endif %}
-                        <button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
-                    </p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block wizard_content %}
+  <div id="step-2" class="px-3 pt-3">
+      <form method="POST">{% csrf_token %}
+          {{ wizard.management_form }}
+          <div class="form-group">
+          {% with form.message as field %}
+              {{ field.label_tag }}
+              {% if form.is_bound %}
+                {% if field.errors %}
+                  {% render_field field|bootstrap class="is-invalid" %}
+                  {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  {% render_field field|bootstrap class="is-valid" %}
+                {% endif %}
+              {% else %}
+                {% render_field field|bootstrap %}
+              {% endif %}
+
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+          {% endwith %}
+          </div>
+      <div class="d-flex justify-content-between">
+      {% if wizard.steps.prev %}
+          <button name="wizard_goto_step" id="go_prev" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous step" %}</button>
+      {% endif %}
+          <button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
+      </div>
+      </form>
+  </div>
 {% endblock %}
 
 {% block extrajs %}

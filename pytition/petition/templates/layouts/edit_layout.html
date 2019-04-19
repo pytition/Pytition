@@ -1,0 +1,22 @@
+{% extends base_template %}
+{% load i18n %}
+{% load static %}
+{% load petition_extras %}
+{% block media %}
+    {{ block.super }}
+    {{ content_form.media }}
+    {{ email_form.media }}
+    {{ newsletter_form.media }}
+    {{ social_network_form.media }}
+    {{ style_form.media }}
+{% endblock %}
+
+{% block content %}
+  {% include "petition/back_to_dashboard.html" %}
+  <h1 class="my-3">
+    {% block main_title %}
+    {% endblock main_title %}
+  </h1>
+  {% block edit_content %}
+  {% endblock edit_content %}
+{% endblock %}

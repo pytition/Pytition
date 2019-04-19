@@ -15,23 +15,25 @@
 
 {% for field in form.visible_fields %}
   <div class="form-group row">
-    <label for="{{ field.auto_id }}" class="col-sm-4 col-form-label">{{ field.label }}</label>
+    <label for="{{ field.auto_id }}" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{{ field.label }}</label>
 
     {% if form.is_bound %}
       {% if field.errors %}
-        {% render_field field|bootstrap class="is-invalid" %}
+        <div class="col-sm-12 col-md-9 col-lg-10">
+          {% render_field field|bootstrap class="is-invalid" %}
+        </div>
         {% for error in field.errors %}
           <div class="invalid-feedback">
             {{ error }}
           </div>
         {% endfor %}
       {% else %}
-        <div class="col-sm-8">
+        <div class="col-sm-12 col-md-9 col-lg-10">
             {% render_field field|bootstrap class="is-valid" %}
         </div>
       {% endif %}
     {% else %}
-        <div class="col-sm-8">
+        <div class="col-sm-12 col-md-9 col-lg-10">
             {% render_field field|bootstrap %}
         </div>
     {% endif %}

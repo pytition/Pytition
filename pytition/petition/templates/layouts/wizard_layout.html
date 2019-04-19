@@ -1,0 +1,30 @@
+{% extends base_template %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load petition_extras %}
+{% load static %}
+{% block media %}
+    {{ form.media }}
+{% endblock %}
+{% block extracss %}
+  {{ block.super }}
+    <link href="{% static 'vendor/smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+  {% include "petition/back_to_dashboard.html" %}
+  <h1 class="my-3">{% trans "Create a new petition!" %}</h1>
+  <div id="smartwizard">
+    <ul>
+      <li><a href="#step-1">{% trans "Title" %}<br />
+          <small>{% trans "Give a title to your petition" %}</small></a></li>
+      <li><a href="#step-2">{% trans "Content" %}<br />
+          <small>{% trans "Write your petition content" %}</small></a></li>
+      <li><a href="#step-3">{% trans "Publish" %}<br />
+          <small>{% trans "Save your petition and publish it if it's ready" %}</small></a></li>
+    </ul>
+    {% block wizard_content %}
+    {% endblock wizard_content %}
+  </div>
+
+{% endblock %}
