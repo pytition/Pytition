@@ -2,7 +2,7 @@
 <div class="dashboard-nav-item py-3">
   <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h4><span class="oi oi-people"></span>&nbsp;{% trans "Organizations" %}{% if user.organizations.all %}&nbsp;({{ user.organizations.all.count }}){% endif %}</h4>
-    <a href="{% url "org_create" %}" class="btn btn-outline-primary btn-sm">{% trans "New organization" %}</a>
+    <a href="{% url "org_create" %}" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" title="{% trans "Create a new organization" %}">{% trans "New organization" %}</a>
   </div>
   <ul class="dashboard-org-list">
   {% for org in user.organizations.all %}
