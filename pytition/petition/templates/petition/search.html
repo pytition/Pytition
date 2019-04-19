@@ -1,16 +1,16 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/layout.html' %}
 {% load static %}
 {% load i18n %}
-{% block container_type %}container{% endblock container_type %}
 
 {% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
 
 {% block main_content %}
+<div class="container" id="page_container">
     <div class="row">
         <h2>Search results for {{ q }}</h2>
     </div>
     {% if orgs|length > 0 %}
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-md-12 col-xs-12">
             <h3>Organizations</h3>
         </div>
@@ -25,7 +25,7 @@
         {% endfor %}
     </div>
     {% endif %}
-    <div class="row">
+    <div class="row mt-4">
         {% if orgs|length > 0 %}
             <div class="col-md-12 col-xs-12">
                 <h3>Petitions</h3>
@@ -63,4 +63,16 @@
         <i>{% trans "No petition was found" %}</i>
     {% endif %}
     </div>
-    {% endblock main_content %}
+</div>
+{% endblock main_content %}
+
+{% block extracss %}
+<style>
+#page_container {
+    min-height: 85vh;
+}
+</style>
+
+
+{% endblock %}
+
