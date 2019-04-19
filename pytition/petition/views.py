@@ -267,7 +267,7 @@ def user_profile(request, user_name):
 
     ctx = {'user': user,
            'petitions': user.petitions.filter(published=True)}
-    return render(request, 'petition/profile.html', ctx)
+    return render(request, 'petition/user_profile.html', ctx)
 
 
 # /org/<slug:orgslugname>/leave_org
