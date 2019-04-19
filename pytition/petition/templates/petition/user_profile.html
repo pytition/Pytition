@@ -1,0 +1,55 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load i18n %}
+    {% block title %}
+    {% blocktrans with name=user.get_full_name %}
+        {{ name }}'s profile
+    {% endblocktrans %}
+    {% endblock title %}
+
+{% block container_type %}
+    container
+{% endblock container_type %}
+
+{% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
+
+{% block main_content %}
+<div class="container">
+    <div class="row">
+        <h2>{{user.name }} </h2>
+    </div>
+    <div class="row mt-3">
+        {% if petitions|length > 0 %}
+        {% for petition in petitions %}
+            <div class="col-md-4 col-xs-6 text-center sb-preview">
+                <div class="card h-100">
+                    <a href="#" class="sb-preview-img">
+                        {% if not petition.twitter_image%}
+                        <img class="card-img-top img-fluid img-thumbnail" src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
+                        {% else %}
+                        <img class="card-img-top img-fluid img-thumbnail" src="{{ petition.twitter_image }}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">{{ petition.title|striptags }}</h4>
+                        <p class="card-text">{{ petition.twitter_description|safe }}</p>
+                        <div class="card-footer mt-auto">
+                            <a href="{{ petition.url }}" class="btn btn-success">
+                            {% trans "Sign!" %} <span class="badge badge-info">{{ petition.signature_number }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+        </div>
+        <p></p>
+        <div class="row">
+        {% endif %}
+    {% endfor %}
+    {% else %}
+        <i>{% trans "This user has not created any petition yet" %}</i>
+    {% endif %}
+    </div>
+</div>
+{% endblock main_content %}
