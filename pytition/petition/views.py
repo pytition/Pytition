@@ -311,7 +311,7 @@ def org_profile(request, orgslugname):
 
     ctx = {'org': org,
            'petitions': org.petitions.filter(published=True)}
-    return render(request, "petition/profile.html", ctx)
+    return render(request, "petition/org_profile.html", ctx)
 
 
 # /get_user_list
