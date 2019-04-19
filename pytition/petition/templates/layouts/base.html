@@ -33,16 +33,18 @@
     {% endblock %}
 </head>
 <body>
-  <div id="modalContainer">
-  </div>
-  {% block nav %}{% include 'layouts/nav.html' %}{% endblock nav %}
+    <div id="modalContainer">
+    </div>
+    <div class="app d-flex flex-column justify-content-between">
+    {% block nav %}{% include 'layouts/nav.html' %}{% endblock nav %}
 
-    {% block main_content %}
-    {% endblock %}
+      {% block main_content %}
+      {% endblock %}
 
-    <!-- Footer -->
-    {% block footer %}
-    {% endblock %}
+      <!-- Footer -->
+      {% block footer %}
+      {% endblock %}
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "vendor/jquery-3.3.1/jquery-3.3.1.min.js" %}"></script>

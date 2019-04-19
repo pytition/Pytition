@@ -1,42 +1,41 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/layout.html" %}
 {% load i18n %}
 
-{% block container_type %}container{% endblock container_type %}
-
 {% block main_content %}
-<div class="row">
+<div class="container">
+  <div class="row">
     <div class="offset-3 col-6 text-center">
-        <h1 class="h3 mb-5 font-weight-normal">{% trans 'Please sign in' %}</h1>
-        {% if form.errors %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <p>{% trans "Your username and password didn't match. Please try again." %}</p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endif %}
+      <h1 class="h3 mb-5 font-weight-normal">{% trans 'Please sign in' %}</h1>
+      {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <p>{% trans "Your username and password didn't match. Please try again." %}</p>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
 
-        {% if next %}
-            {% if user.is_authenticated %}
-            <p>Your account doesn't have access to this page. To proceed,
-            please login with an account that has access.</p>
-            {% endif %}
+      {% if next %}
+        {% if user.is_authenticated %}
+          <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
         {% endif %}
+      {% endif %}
 
-        <div class="row">
-            <div class="offset-3 col-6">
-        <form method="post" action="{% url 'login' %}">
+      <div class="row">
+        <div class="offset-3 col-6">
+      <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <input type="text" name="username" id="{{ form.username.auto_id }}" class="form-control" placeholder="Username" required autofocus>
         <input type="password" name="password" id="{{form.password.auto_id}}" class="form-control" placeholder="Password" required>
         <button type="submit" class="btn btn-primary btn-block">{% trans "Login" %}</button>
         <input type="hidden" name="next" value="{{ next }}" />
-        </form>
-        <div class="mt-3"> {% trans "No account?" %} <a href="{% url "register" %}">{% trans "Register!" %}</a></div>
-            <p><a href="{% url "password_reset" %}">{% trans "I forgot my password!" %}</a></p>
-        </div>
-        </div>
+      </form>
+      <div class="mt-3"> {% trans "No account?" %} <a href="{% url "register" %}">{% trans "Register!" %}</a></div>
+        <p><a href="{% url "password_reset" %}">{% trans "I forgot my password!" %}</a></p>
+      </div>
         </div>
     </div>
+  </div>
 </div>
 {% endblock main_content %}

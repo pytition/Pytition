@@ -7,67 +7,67 @@
 
 <!-- Extra meta -->
 {% block extrameta %}
-    <meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+<meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
 
-    <meta property="og:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
-    {% if petition.twitter_description %}
-        <meta property="og:description"
-              content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
-    {% else %}
-        <meta property="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
-    {% endif %}
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="{{ meta.petition_url }}" />
-    <meta property="og:site_name" content="{{ meta.site_url }}" />
-    {% if petition.twitter_image %}
-        <meta property="og:image" content="{{ petition.twitter_image }}"/>
-    {% endif %}
+<meta property="og:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+{% if petition.twitter_description %}
+<meta property="og:description"
+content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+{% else %}
+<meta property="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
+{% endif %}
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="{{ meta.petition_url }}" />
+<meta property="og:site_name" content="{{ meta.site_url }}" />
+{% if petition.twitter_image %}
+<meta property="og:image" content="{{ petition.twitter_image }}"/>
+{% endif %}
 
-    <meta itemprop="name" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
-    {% if petition.twitter_description %}
-        <meta itemprop="description"
-              content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
-    {% else %}
-        <meta itemprop="description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
-    {% endif %}
-    <!-- FIXME: <meta itemprop="url" content=""/> //-->
+<meta itemprop="name" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+{% if petition.twitter_description %}
+<meta itemprop="description"
+content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+{% else %}
+<meta itemprop="description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
+{% endif %}
+<!-- FIXME: <meta itemprop="url" content=""/> //-->
 
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:creator" content="@yannsionneau"/>
-    <meta name="twitter:site" content="{% autoescape off %}{{ petition.org_twitter_handle }}{% endautoescape %}"/>
-    <meta name="twitter:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
-    {% if petition.twitter_description %}
-        <meta name="twitter:description"
-              content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
-    {% else %}
-        <meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
-    {% endif %}
-    {% if petition.twitter_image %}
-        <meta name="twitter:image" content="{{ petition.twitter_image }}"/>
-    {% endif %}
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@yannsionneau"/>
+<meta name="twitter:site" content="{% autoescape off %}{{ petition.org_twitter_handle }}{% endautoescape %}"/>
+<meta name="twitter:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+{% if petition.twitter_description %}
+<meta name="twitter:description"
+content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+{% else %}
+<meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
+{% endif %}
+{% if petition.twitter_image %}
+<meta name="twitter:image" content="{{ petition.twitter_image }}"/>
+{% endif %}
 
 {% endblock %}
 
 {% block extracss %}
-    <link href="{% static "css/petition.css" %}" rel="stylesheet" type="text/css">
-    <style type="text/css">
-    {% if petition.bgcolor != "#FFFFFF" %}
-    body {
-        background-color: {{ petition.bgcolor }};
-    }
-    {% endif %}
-    {% if petition.linear_gradient_direction != petition.NO %}
-    body {
-        background: linear-gradient({{ petition.linear_gradient_direction}}, {{ petition.gradient_from }}, {{ petition.gradient_to }});
-    }
-    {% endif %}
-    </style>
+<link href="{% static "css/petition.css" %}" rel="stylesheet" type="text/css">
+<style type="text/css">
+{% if petition.bgcolor != "#FFFFFF" %}
+body {
+  background-color: {{ petition.bgcolor }};
+}
+{% endif %}
+{% if petition.linear_gradient_direction != petition.NO %}
+body {
+  background: linear-gradient({{ petition.linear_gradient_direction}}, {{ petition.gradient_from }}, {{ petition.gradient_to }});
+}
+{% endif %}
+</style>
 {% endblock %}
 
 {% block extrajshead %}
-    <script>
-      dataLayer = [];
-    </script>
+<script>
+dataLayer = [];
+</script>
 {% endblock %}
 
 {% block container_type %}container petition{% endblock container_type %}
@@ -79,142 +79,107 @@
 
 {% block main_content %}
 <div class="show-form" id="show-form">
-    <div class="wrapper">
-        <button type="button" class="btn btn-primary btn-block">SIGNER</button>
-    </div>
+  <div class="wrapper">
+    <button type="button" class="btn btn-primary btn-block">SIGNER</button>
+  </div>
 </div>
 
 <div class="container">
   <div class="jumbotron text-center">
-      <h1 class="jumbotron-heading">{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
+    <h1 class="jumbotron-heading">{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
   </div>
   <div class="petition-wrapper">
     <div class="content">
-        <div class="formular" id="petition">
-            <div class="form-wrapper">
-              {% if petition.side_text %}
-                <p class="intro" id="intro">
-                    {% autoescape off%}{{ petition.side_text }}{% endautoescape %}
-                </p>
-                {% endif %}
-                <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
-                <div class="counter" id="counter">
-                    <p>
-                        Déjà <span id="nb-signatures">{{ petition.signature_number }}</span> signatures.
-                        Objectif : <span class="format-number">{{ petition.target }}</span>
-                    </p>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" id="progress-bar"
-                             data-target="{{ petition.target }}">
-                        </div>
-                    </div>
-                </div>
-                <div id="form-sticky" class="form-sticky">
-                    {% for message in messages %}
-                        <div
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                            class="alert alert-danger" role="alert">
-                        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                            class="alert alert-success" role="alert">
-                        {% else %}
-                            class="alert {{ message.tags }}" role="alert">
-                        {% endif %}
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    <div class="fields">
-                        <style>
-                            .oi-check-circle {
-                              width: 15px;
-                              margin: -25px 10px;
-                              float: right;
-                            }
-                            .oi-ban {
-                              width: 15px;
-                              margin: -25px 10px;
-                              float: right;
-                            }
-                            .oi-question-circle {
-                              width: 15px;
-                              margin: -25px 10px;
-                              float: right;
-                            }
-                            .invalid-feedback {
-                              display: none;
-                              width: 100%;
-                              margin-top: 0.25rem;
-                              font-size: 80%;
-                              color: #df382c;
-                            }
-                            .valid-feedback {
-                              display: none;
-                              width: 100%;
-                              margin-top: 0.25rem;
-                              font-size: 80%;
-                              color: #00ff00;
-                            }
-                        </style>
-                        <form method='POST' name='petition' class='form-group'
-                              action='/petition/{{ petition.id }}/sign'>
-                            {% csrf_token %}
-                            {% for hidden_field in form.hidden_fields %}
-                                {{ hidden_field }}
-                            {% endfor %}
-
-                            {% if form.non_field_errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {% for error in form.non_field_errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-
-                            {% for field in form.visible_fields %}
-                                <div class="form-group has-feedback">
-                                    {{ field.label_tag }}
-
-                                    {% if form.is_bound %}
-                                        {% if field.errors %}
-                                            {{ field|add_class:"is-invalid" }}
-                                            <span class="oi oi-question-mark form-control-feedback invalid-feedback"></span>
-                                            {% for error in field.errors %}
-                                                <span class="invalid-feedback">
-                                                    {{ error }}
-                                                </span>
-                                            {% endfor %}
-                                        {% else %}
-                                            {{ field|add_class:"is-valid" }}
-                                            <span class="oi oi-circle-check form-control-feedback valid-feedback"></span>
-                                        {% endif %}
-                                    {% else %}
-                                        {{ field }}
-                                    {% endif %}
-
-                                    {% if field.help_text %}
-                                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                                    {% endif %}
-                                </div>
-                            {% endfor %}
-
-
-                            <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
-                                    type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
-                        </form>
-                    </div>
-                    <div class="reassurance" id="reassurance">
-                        <p style="text-align:justify">
-                            {{ petition.sign_form_footer }}
-                        </p>
-                    </div>
-                </div>
+      <div class="formular" id="petition">
+        <div class="form-wrapper">
+          {% if petition.side_text %}
+            <p class="intro" id="intro">
+              {% autoescape off%}{{ petition.side_text }}{% endautoescape %}
+            </p>
+          {% endif %}
+          <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
+          <div class="counter" id="counter">
+            <p>
+              Déjà <span id="nb-signatures">{{ petition.signature_number }}</span> signatures.
+              Objectif : <span class="format-number">{{ petition.target }}</span>
+            </p>
+            <div class="progress">
+              <div class="progress-bar bg-primary" role="progressbar" id="progress-bar"
+              data-target="{{ petition.target }}">
+              </div>
             </div>
+          </div>
+          <div id="form-sticky" class="form-sticky">
+            {% for message in messages %}
+            <div
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            class="alert alert-danger" role="alert">
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            class="alert alert-success" role="alert">
+            {% else %}
+            class="alert {{ message.tags }}" role="alert">
+            {% endif %}
+              {{ message }}
+            </div>
+            {% endfor %}
+            <div class="fields">
+              <form method='POST' name='petition' class='form-group'
+              action='/petition/{{ petition.id }}/sign'>
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
+                  {{ error }}
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% for field in form.visible_fields %}
+                <div class="form-group has-feedback">
+                  {{ field.label_tag }}
+
+                  {% if form.is_bound %}
+                    {% if field.errors %}
+                      {{ field|add_class:"is-invalid" }}
+                      <span class="oi oi-question-mark form-control-feedback invalid-feedback"></span>
+                      {% for error in field.errors %}
+                        <span class="invalid-feedback">{{ error }}</span>
+                      {% endfor %}
+                    {% else %}
+                      {{ field|add_class:"is-valid" }}
+                      <span class="oi oi-circle-check form-control-feedback valid-feedback"></span>
+                    {% endif %}
+                  {% else %}
+                    {{ field }}
+                  {% endif %}
+
+                  {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                </div>
+                {% endfor %}
+
+                <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
+                  type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
+              </form>
+            </div>
+            <div class="reassurance" id="reassurance">
+              <p style="text-align:justify">
+                {{ petition.sign_form_footer }}
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="presentation">
-            {% autoescape off%}{{ petition.text }}{% endautoescape %}
-        </div>
+      </div>
+      <div class="presentation">
+        {% autoescape off%}{{ petition.text }}{% endautoescape %}
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 {% endblock main_content %}

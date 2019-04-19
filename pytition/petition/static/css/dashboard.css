@@ -34,7 +34,7 @@ nav.navbar {
 
 .dashboard-content {
   padding: 1em 2em;
-  min-height: 95vh;
+  min-height: calc(100vh - 58.5px);
 }
 
 .dashboard-content h2 {

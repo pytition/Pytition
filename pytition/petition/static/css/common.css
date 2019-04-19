@@ -3,6 +3,10 @@ nav.navbar {
   margin-bottom: 2rem;
 }
 
+.app {
+  min-height: 100vh;
+}
+
 .card-img-top {
   border-width: 0 0 1px;
   width: 100%;
