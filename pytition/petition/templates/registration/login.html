@@ -4,8 +4,9 @@
 {% block container_type %}container{% endblock container_type %}
 
 {% block main_content %}
-<div class="row justify-content-center">
-    <div class="col-* text-center">
+<div class="row">
+    <div class="offset-3 col-6 text-center">
+        <h1 class="h3 mb-5 font-weight-normal">{% trans 'Please sign in' %}</h1>
         {% if form.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <p>{% trans "Your username and password didn't match. Please try again." %}</p>
