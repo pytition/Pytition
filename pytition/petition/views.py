@@ -376,7 +376,7 @@ def org_add_user(request, orgslugname):
         message = _("An error occured")
         return JsonResponse({"message": message}, status=500)
 
-    message = _("You sent an invitation to join {orgname}".format(orgname=org.name))
+    message = _("You invited {username} to join {orgname}".format(username=adduser.name, orgname=org.name))
     return JsonResponse({"message": message})
 
 

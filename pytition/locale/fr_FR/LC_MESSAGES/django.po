@@ -1251,8 +1251,8 @@ msgstr "Une erreur est survenue"
 
 #: pytition/petition/views.py:398
 #, python-brace-format
-msgid "You sent an invitation to join {orgname}"
-msgstr "Vous avez envoyé une invitation à rejoindre {orgname}"
+msgid "You invited {username} to join {orgname}"
+msgstr "Vous avez invité {username} à rejoindre {orgname}"
 
 #: pytition/petition/views.py:464 pytition/petition/views.py:764
 #: pytition/petition/views.py:841 pytition/petition/views.py:912
