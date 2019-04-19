@@ -59,3 +59,13 @@ nav.navbar {
 .dashboard-content .card-body {
   padding: 1em;
 }
+
+.colorfield_field {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  padding: .375rem .75rem;
+}
+
+.custom-switch ~ .invalid-feedback {
+    display: block;
+}

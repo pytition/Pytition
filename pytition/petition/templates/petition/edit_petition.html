@@ -1,4 +1,4 @@
-{% extends base_template %}
+{% extends 'layouts/edit_layout.html' %}
 {% load i18n %}
 {% load static %}
 {% load petition_extras %}
@@ -24,109 +24,96 @@
 # FIXME: Don't forget to make sure form is submited if something is modified and user changed tab.
 {% endcomment %}
 
-{% block content %}
-<div class="row">
-    <div class="col">
-        {% include "petition/back_to_dashboard.html" %}
-    </div>
-    <div class="col text-center">
-        <h1>{% block main_title %}
-            {% trans "Petition settings" %}
-            {% endblock main_title %}
-        </h1>
-    </div>
+{% block main_title %}
+{% trans "Petition settings" %}
+{% endblock main_title %}
+
+{% block edit_content %}
+<div class="list-group list-group-horizontal mb-5" id="list-tab" role="tablist">
+    <a href="#content_form" class="list-group-item list-group-item-info list-group-item-action"
+    data-toggle="list" aria-controls="content_form" role="tab"><span class="oi oi-clipboard"></span> {% trans "Content" %}</a>
+    <a href="#style_form" class="list-group-item list-group-item-info list-group-item-action"
+    data-toggle="list" aria-controls="style_form" role="tab"><span class="oi oi-brush"></span> {% trans "Style & Look" %}</a>
+    <a href="#social_network_form" class="list-group-item list-group-item-info list-group-item-action"
+    data-toggle="list" aria-controls="social_network_form" role="tab"><span class="oi oi-share-boxed"></span> {% trans "Social Networks" %}</a>
+    <a href="#email_form" class="list-group-item list-group-item-info list-group-item-action"
+    data-toggle="list" aria-controls="email_form" role="tab"><span class="oi oi-envelope-closed"></span> {% trans "E-mail setup" %}</a>
+    <a href="#newsletter_form" class="list-group-item list-group-item-info list-group-item-action"
+    data-toggle="list" aria-controls="newsletter_form" role="tab"><span class="oi oi-rss"></span> {% trans "Newsletter setup" %}</a>
+    <a href="#preview" class="list-group-item list-group-item-info list-group-item-action"
+    data-toggle="list" aria-controls="preview" role="tab"><span class="oi oi-clipboard"></span> {% trans "Preview petition" %}</a>
 </div>
-<div class="row">
-    <div class="col-2">
-        <div class="list-group" id="list-tab" role="tablist">
-            <a href="#content_form" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="content_form" role="tab"><span class="oi oi-clipboard"></span> {% trans "Content" %}</a>
-            <a href="#style_form" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="style_form" role="tab"><span class="oi oi-brush"></span> {% trans "Style & Look" %}</a>
-            <a href="#social_network_form" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="social_network_form" role="tab"><span class="oi oi-share-boxed"></span> {% trans "Social Networks" %}</a>
-            <a href="#email_form" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="email_form" role="tab"><span class="oi oi-envelope-closed"></span> {% trans "E-mail setup" %}</a>
-            <a href="#newsletter_form" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="newsletter_form" role="tab"><span class="oi oi-rss"></span> {% trans "Newsletter setup" %}</a>
-            <a href="#preview" class="list-group-item list-group-item-info list-group-item-action"
-            data-toggle="list" aria-controls="preview" role="tab"><span class="oi oi-clipboard"></span> {% trans "Preview petition" %}</a>
-        </div>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="content_form" role="tabpanel"
+         aria-labelledby="list-content-form-list">
+        <form method="POST">{% csrf_token %}
+            {% include "petition/bs4_form.html" with form=content_form %}
+            <button name="content_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
+        </form>
     </div>
-    <div class="col">
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="content_form" role="tabpanel"
-                 aria-labelledby="list-content-form-list">
-                <form method="POST">{% csrf_token %}
-                    {% include "petition/bs4_form.html" with form=content_form %}
-                    <button name="content_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
-                </form>
-            </div>
-            <div class="tab-pane fade" id="social_network_form" role="tabpanel"
-                 aria-labelledby="list-social-network-form-list">
-                <form method="POST">{% csrf_token %}
-                    {% include "petition/bs4_form.html" with form=social_network_form %}
-                    <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
-                </form>
-                <p>
-                <div class="alert alert-info">
-                    {% blocktrans %}
-                        A slug is what allows you to share your petition with a nice link
-                        containing a meaningful small title instead of a number.
-                        With a slug your petition would be accessible via a link like:
-                    {% endblocktrans %}
-                    <b>
-                    {{ example_url }}
-                    </b>
-                </div>
-                <form action="{% url "add_new_slug" petition.id %}" method="POST">
-                {% csrf_token %}
-                <table class="table table-striped" id="slugTable">
-                    <thead class="thead-light">
-                    <tr>
-                        <th>{% trans "Slugs" %}</th>
-                        <th>{% trans "Actions" %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for slug in petition.slugs.all %}
-                        <tr>
-                        <td>{{ slug }}</td>
-                        <td data-slugid="{{ slug.id }}"><input type="button" class="btn btn-danger" data-action="slugDelete" value="{% trans "Delete" %}"></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                </form>
-                </p>
-                <button class="btn btn-success" id="addSlug"><span class="oi oi-plus"></span></button>
-            </div>
-            <div class="tab-pane fade" id="style_form" role="tabpanel"
-                 aria-labelledby="style-form-list">
-                <form method="POST">{% csrf_token %}
-                    {% include "petition/bs4_form.html" with form=style_form %}
-                    <button name="style_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
-                </form>
-            </div>
-            <div class="tab-pane fade" id="email_form" role="tabpanel"
-                aria-labelledby="list-email-form-list">
-                <form method="POST">{% csrf_token %}
-                    {% include "petition/bs4_form.html" with form=email_form %}
-                    <button name="email_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
-                </form>
-            </div>
-            <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
-                aria-labelledby="list-newsletter-form-list">
-                <form method="POST">{% csrf_token %}
-                    {% include "petition/bs4_form.html" with form=newsletter_form %}
-                    <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
-                </form>
-            </div>
-            <div class="tab-pane fade embed-responsive embed-responsive-4by3" id="preview" role="tabpanel"
-                aria-labelledby="list-preview-list" data-src="{{ petition.url }}">
-                    <iframe class="embed-responsive-item" src=""></iframe>
-            </div>
+    <div class="tab-pane fade" id="social_network_form" role="tabpanel"
+         aria-labelledby="list-social-network-form-list">
+        <form method="POST">{% csrf_token %}
+            {% include "petition/bs4_form.html" with form=social_network_form %}
+            <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
+        </form>
+        <p>
+        <div class="alert alert-info">
+            {% blocktrans %}
+                A slug is what allows you to share your petition with a nice link
+                containing a meaningful small title instead of a number.
+                With a slug your petition would be accessible via a link like:
+            {% endblocktrans %}
+            <b>
+            {{ example_url }}
+            </b>
         </div>
+        <form action="{% url "add_new_slug" petition.id %}" method="POST">
+        {% csrf_token %}
+        <table class="table table-striped" id="slugTable">
+            <thead class="thead-light">
+            <tr>
+                <th>{% trans "Slugs" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for slug in petition.slugs.all %}
+                <tr>
+                <td>{{ slug }}</td>
+                <td data-slugid="{{ slug.id }}"><input type="button" class="btn btn-danger" data-action="slugDelete" value="{% trans "Delete" %}"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </form>
+        </p>
+        <button class="btn btn-success" id="addSlug"><span class="oi oi-plus"></span></button>
+    </div>
+    <div class="tab-pane fade" id="style_form" role="tabpanel"
+         aria-labelledby="style-form-list">
+        <form method="POST">{% csrf_token %}
+            {% include "petition/bs4_form.html" with form=style_form %}
+            <button name="style_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="email_form" role="tabpanel"
+        aria-labelledby="list-email-form-list">
+        <form method="POST">{% csrf_token %}
+            {% include "petition/bs4_form.html" with form=email_form %}
+            <button name="email_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
+        aria-labelledby="list-newsletter-form-list">
+        <form method="POST">{% csrf_token %}
+            {% include "petition/bs4_form.html" with form=newsletter_form %}
+            <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
+        </form>
+    </div>
+    <div class="tab-pane fade embed-responsive embed-responsive-4by3" id="preview" role="tabpanel"
+        aria-labelledby="list-preview-list" data-src="{{ petition.url }}">
+            <iframe class="embed-responsive-item" src=""></iframe>
     </div>
 </div>
 {% endblock %}
