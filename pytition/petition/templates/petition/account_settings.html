@@ -54,9 +54,9 @@
                 {% if orgs|length > 0 %}
                 <div class="list-group">
                     {% for org in orgs %}
-                        <a href="{% url 'org_dashboard' org.slugname %}"  class="list-group-item list-group-item-action">
+                        <div class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mt-2 mb-2">{{org.name }}</h5>
+                                <h5 class="mt-2 mb-2"><a href="{% url 'org_dashboard' org.slugname %}">{{org.name }}</a></h5>
                                 {% if org.leave %}
                                 <button type="button" class="btn btn-light btn-delete-org" data-orgname="{{org.name}}" data-leaveurl="{% url 'leave_org' org.slugname%}">Leave</button>
                                 {% else %}
@@ -65,7 +65,7 @@
                                 </span>
                                 {% endif %}
                             </div>
-                        </a>
+                        </div>
                     {% endfor %}
                 </div>
                 {% else %}
