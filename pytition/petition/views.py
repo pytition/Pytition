@@ -131,7 +131,7 @@ def confirm(request, petition_id, confirmation_hash):
         messages.error(request, _(e.message))
     except Signature.DoesNotExist:
         messages.error(request, _("Error: This confirmation code is invalid."))
-    return redirect('/petition/{}'.format(petition.id))
+    return redirect(petition.url)
 
 
 # <int:petition_id>/get_csv_signature
