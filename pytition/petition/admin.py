@@ -8,7 +8,6 @@ from django import forms
 from tinymce.widgets import TinyMCE
 
 from .models import Signature, Petition, Organization, PytitionUser, PetitionTemplate, Permission, SlugModel
-from .models import SlugOwnership
 from .views import send_confirmation_email
 
 
@@ -20,11 +19,6 @@ class PytitionUserAdmin(admin.ModelAdmin):
         return pu.user.get_full_name()
 
     name.description = ugettext_lazy("Name")
-
-
-@admin.register(SlugOwnership)
-class SlugOwnershipAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(SlugModel)
@@ -73,14 +67,14 @@ class SignatureAdmin(admin.ModelAdmin):
     change_form_template = 'petition/signature_change_form.html'
 
 
-class SlugInlineAdmin(admin.TabularInline):
-    Petition.slugs.through
+#class SlugInlineAdmin(admin.TabularInline):
+    #Petition.slugs.through
 
 
 class PetitionAdminForm(ModelForm):
     class Meta:
         model = Petition
-        inlines = (SlugInlineAdmin, )
+        #inlines = (SlugInlineAdmin, )
         exclude = ('slugs', )
         help_texts = {
             'linear_gradient_direction': ugettext_lazy('This is a gradient color. If selected, the background color will be a gradient color. If not, the background color will be a monochrome background color.'),
