@@ -23,7 +23,7 @@
           <div class="dashboard-nav-item py-3">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
               <h4><span class="oi oi-layers"></span> {% trans "Petition templates" %}</h4>
-              <a href="{% url "user_new_template" %}" class="btn btn-outline-primary btn-sm"  data-toggle="tooltip" title="{% trans "Create a new petition using default template" %}">{% trans "New template" %}</a>
+              <a href="{% url "org_new_template" org.name %}" class="btn btn-outline-primary btn-sm"  data-toggle="tooltip" title="{% trans "Create a new petition template" %}">{% trans "New template" %}</a>
             </div>
             {% if org.petition_templates.all %}
               {% include "petition/template_list.html" with templates=org.petition_templates.all owner=org %}
