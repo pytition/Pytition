@@ -60,27 +60,27 @@
         <p>
         <div class="alert alert-info">
             {% blocktrans %}
-                A slug is what allows you to share your petition with a nice link
+                A permlink (permanent link) is what allows you to share your petition with a nice link
                 containing a meaningful small title instead of a number.
-                With a slug your petition would be accessible via a link like:
+                With a permlink your petition can be accessible via a link like:
             {% endblocktrans %}
             <b>
             {{ example_url }}
             </b>
         </div>
-        <form action="{% url "add_new_slug" petition.id %}" method="POST">
+        <form action="{% url "add_new_slug" petition.id %}" method="POST" class="form-inline">
         {% csrf_token %}
         <table class="table table-striped" id="slugTable">
             <thead class="thead-light">
             <tr>
-                <th>{% trans "Slugs" %}</th>
+                <th>{% trans "Permlinks" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
             </thead>
             <tbody>
             {% for slug in petition.slugs.all %}
                 <tr>
-                <td>{{ slug }}</td>
+                <td>{{ slug_prefix }}/<b>{{ slug }}</b></td>
                 <td data-slugid="{{ slug.id }}"><input type="button" class="btn btn-danger" data-action="slugDelete" value="{% trans "Delete" %}"></td>
                 </tr>
             {% endfor %}
@@ -210,7 +210,8 @@ $(function () {
 
        newform = `
         <tr class="bg-light">
-        <td><div class="form-group"><input type="text" name="slugtext" class="form-control"></div></td>`
+        <td><div class="form-group"><label class="col-form-label mr-1">{{ slug_prefix }}/ </label>
+        <input type="text" name="slugtext" class="form-control"></div></td>`
         if (new_slugs_num == 1)
         newform += `
         <td rowspan="` + new_slugs_num +`" id="addSlugTd">

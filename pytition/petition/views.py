@@ -1196,23 +1196,29 @@ def edit_petition(request, petition_id):
            'social_network_form': social_network_form,
            'newsletter_form': newsletter_form,
            'petition': petition}
-    example_url = request.scheme + "://" + request.get_host()
-
+    url_prefix = request.scheme + "://" + request.get_host()
     if org:
-        example_url = example_url + reverse("slug_show_petition",
-                                            kwargs={'orgslugname': org.slugname,
-                                                    'petitionname': _("save-the-kittens-from-bad-wolf")})
+        example_url = url_prefix + reverse("slug_show_petition",
+                                           kwargs={'orgslugname': org.slugname,
+                                                   'petitionname': _("save-the-kittens-from-bad-wolf")})
+        slug_prefix = (url_prefix + reverse("slug_show_petition",
+                                           kwargs={'orgslugname': org.slugname,
+                                                   'petitionname': ''})).rsplit('/', 1)[0]
         ctx.update({'org': org,
                     'user_permissions': permissions,
                     'base_template': 'petition/org_base.html',
                     'example_url': example_url})
 
     if user:
-        example_url = example_url + reverse("slug_show_petition",
-                                            kwargs={'username': pytitionuser.user.username,
-                                                    'petitionname': _("save-the-kittens-from-bad-wolf")})
+        example_url = url_prefix + reverse("slug_show_petition",
+                                           kwargs={'username': pytitionuser.user.username,
+                                                   'petitionname': _("save-the-kittens-from-bad-wolf")})
+        slug_prefix = (url_prefix + reverse("slug_show_petition",
+                                           kwargs={'username': pytitionuser.user.username,
+                                                   'petitionname': 'toto'})).rsplit('/', 1)[0]
         ctx.update({'base_template': 'petition/user_base.html',
-                    'example_url': example_url})
+                    'example_url': example_url,
+                    'slug_prefix': slug_prefix})
 
     return render(request, "petition/edit_petition.html", ctx)
 
