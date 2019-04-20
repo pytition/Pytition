@@ -1203,7 +1203,7 @@ def edit_petition(request, petition_id):
                                                    'petitionname': _("save-the-kittens-from-bad-wolf")})
         slug_prefix = (url_prefix + reverse("slug_show_petition",
                                            kwargs={'orgslugname': org.slugname,
-                                                   'petitionname': ''})).rsplit('/', 1)[0]
+                                                   'petitionname': 'toto'})).rsplit('/', 1)[0]
         ctx.update({'org': org,
                     'user_permissions': permissions,
                     'base_template': 'petition/org_base.html',
