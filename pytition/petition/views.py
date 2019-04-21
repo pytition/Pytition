@@ -914,9 +914,9 @@ class PetitionCreationWizard(SessionWizardView):
 
     def get_form_kwargs(self, step=None):
         if step == "step1":
-            if "org_name" in self.kwargs:
-                org_name = self.kwargs['org_name']
-                kwargs = {"org_name": org_name}
+            if "orgslugname" in self.kwargs:
+                orgslugname = self.kwargs['orgslugname']
+                kwargs = {"orgslugname": orgslugname}
             else:
                 pytitionuser = get_session_user(self.request)
                 kwargs = {"user_name": pytitionuser.user.username}
