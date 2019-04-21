@@ -1,5 +1,5 @@
 {% extends 'petition/user_base.html' %}
 
 {% block content %}
-  {% include "petition/petition_list.html" with petitions=petitions.all %}
+  {% include "petition/petition_list.html" with petitions=petitions.all title=_("Your petitions") search=False %}
 {% endblock %}

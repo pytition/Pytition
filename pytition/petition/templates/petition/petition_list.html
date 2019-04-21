@@ -1,15 +1,19 @@
 {% load static %}
 {% load i18n %}
 
-{% if org %}
-<h2>{% trans "Petitions of" %} '{{ org.name }}' </h2>
+{% if search %}
+<h3>{{ title }}</h3>
 {% else %}
-<h2>{% trans "Your petitions" %}</h2>
+<h2>{{ title }}</h2>
 {% endif %}
 
 {% if not petitions %}
+    {% if no_petition_msg %}
+        {{ no_petition_msg }}
+    {% else %}
   <p>{% trans "You don't have any petitions yet"%}</p>
   <a class="btn btn-primary" href="{% if org %}{% url "org_petition_wizard" org.slugname %}{% else %}{% url "user_petition_wizard" %}{% endif %}">{% trans "Create a new petition" %}</a>
+    {% endif %}
 {% else %}
 <div class="row petition-list">
   {% for petition in petitions %}
