@@ -75,3 +75,25 @@ class PetitionTest(TestCase):
         pu = PytitionUser.objects.get(user__username='julia')
         p = Petition.objects.create(title="Petition", user=pu)
         self.assertIsNotNone(p.salt)
+
+    def test_is_allowed_edit(self):
+        # if the petition belong to the user, yes
+        pu = PytitionUser.objects.get(user__username='julia')
+        p = Petition.objects.create(title="Petition", user=pu)
+        self.assertEqual(p.is_allowed_to_edit(pu), True)
+        # else no
+        User = get_user_model()
+        u = User.objects.create_user('john', password='john')
+        john = PytitionUser.objects.get(user__username='john')
+        self.assertEqual(p.is_allowed_to_edit(john), False)
+        # Now with org petitions
+        rap = Organization.objects.get(name="RAP")
+        p2 = Petition.objects.create(title="Petition2", org=rap)
+        self.assertEqual(p2.is_allowed_to_edit(john), False)
+        # If the user has no rights
+        rap.members.add(john)
+        self.assertEqual(p2.is_allowed_to_edit(john), True)
+        perm = Permission.objects.get(organization=rap, user=john)
+        perm.can_modify_petitions = False
+        perm.save()
+        self.assertEqual(p2.is_allowed_to_edit(john), False)

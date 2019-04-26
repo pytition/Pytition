@@ -27,12 +27,12 @@ class PytitionUser(models.Model):
 
     def has_right(self, right, petition=None, org=None):
         if petition:
-            if petition in self.petitions.all():
+            if petition in self.petition_set.all():
                 return True
             try:
                 if not org:
                     org = Organization.objects.get(petitions=petition, members=self)
-                permissions = self.permissions.get(organization=org)
+                permissions = Permissions.objects.get(user=self, organization=org)
                 return getattr(permissions, right)
             except:
                 return False
@@ -46,13 +46,13 @@ class PytitionUser(models.Model):
 
     def drop(self):
         with transaction.atomic():
-            orgs = list(self.organizations.all())
-            petitions = list(self.petitions.all())
-            templates = list(self.petition_templates.all())
+            orgs = list(self.organization_set.all())
+            petitions = list(self.petition_set.all())
+            templates = list(self.petitiontemplate_set.all())
             self.delete()
             for org in orgs:
                 if org.members.count() == 0:
-                    org.drop()
+                    org.delete()
             for petition in petitions:
                 petition.delete()
             for template in templates:
@@ -96,15 +96,30 @@ class Organization(models.Model):
     slugname = models.SlugField(max_length=200, unique=True)
     members = models.ManyToManyField(PytitionUser, through='Permission')
 
-    def add_member(self, member):
-        permission = Permission.objects.create(organization=self, user=member)
-        permission.save()
+    def is_last_admin(self, user):
+        """
+        Check if the given user is the last admin of this organization
+        Admin is an user having the can_modify_permissions right
+        Return true or false
+        """
+        # get all permissions
+        perms = Permission.objects.filter(can_modify_permissions=True, organization=self).all()
+        if len(perms) > 1:
+            return False
+        elif len(perms) == 1:
+            if perms[0].user == user:
+                return True
+            else:
+                return False
+        else:
+            # That should never happen
+            return True
 
     def __str__(self):
         return self.name
 
     def __repr__(self):
-        return self.name
+        return '< {} >'.format(self.name)
 
     @property
     def kind(self):
@@ -297,10 +312,33 @@ class Petition(models.Model):
         return html.unescape(mark_safe(strip_tags(self.text)))
 
     def __str__(self):
-        return self.raw_title
+        return self.title
 
     def __repr__(self):
-        return self.raw_title
+        return self.title
+
+    def is_allowed_to_edit(self, user):
+        """
+        Check if a user is allowed to edit this petition
+        """
+        if self.owner_type == "user":
+            if self.user == user:
+                # The user is the owner of the petition
+                return True
+            else:
+                return False
+        else:
+            # But it is an org petition
+            try:
+                perm = Permission.objects.get(
+                    organization=self.org,
+                    user=user
+                )
+            except Permission.DoesNotExist:
+                # No such permission, denied
+                return False
+            else:
+                return perm.can_modify_petitions
 
     @property
     def url(self):
@@ -521,7 +559,7 @@ class Permission(models.Model):
         return "{} : {}".format(self.organization.name, self.user.name)
 
     def __repr__(self):
-        return self.__str__()
+        return '< {} >'.format(self.__str__())
 
 
 #------------------------------ Post save actions -----------------------------
