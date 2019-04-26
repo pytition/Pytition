@@ -20,7 +20,7 @@ from django.utils.decorators import method_decorator
 
 from formtools.wizard.views import SessionWizardView
 
-from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, TemplateOwnership, Permission
+from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, Permission
 from .models import SlugModel
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
 from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
@@ -223,21 +223,21 @@ def org_dashboard(request, orgslugname):
 
     pytitionuser = get_session_user(request)
 
-    if org not in pytitionuser.organizations.all():
+    if pytitionuser not in org.members.all():
         messages.error(request, _("You are not part of this organization: '{}'".format(org.name)))
         return redirect("user_dashboard")
 
-    petitions = org.petitions
 
     try:
-        permissions = pytitionuser.permissions.get(organization=org)
-    except:
+        permissions = Permission.objects.get(organization=org, user=pytitionuser)
+    except Permission.DoesNotExist:
         messages.error(request,
             _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
               .format(orgname=org.name)))
         return redirect("user_dashboard")
 
-    other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
+    petitions = org.petition_set.all()
+    other_orgs = pytitionuser.organization_set.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html',
             {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
             'petitions': petitions, 'user_permissions': permissions})
@@ -248,7 +248,7 @@ def org_dashboard(request, orgslugname):
 @login_required
 def user_dashboard(request):
     user = get_session_user(request)
-    petitions = user.petitions
+    petitions = user.petition_set.all()
 
     return render(
         request,
@@ -265,8 +265,8 @@ def user_profile(request, user_name):
     except User.DoesNotExist:
         raise Http404(_("not found"))
 
-    ctx = {'user': user,
-           'petitions': user.petitions.filter(published=True)}
+    ctx = {'thisuser': user,
+           'petitions': user.petition_set.filter(published=True)}
     return render(request, 'petition/profile.html', ctx)
 
 
@@ -281,23 +281,14 @@ def leave_org(request, orgslugname):
 
     pytitionuser = get_session_user(request)
 
-    if org not in pytitionuser.organizations.all():
+    if pytitionuser not in org.members.all():
         raise Http404(_("not found"))
-    try:
-        with transaction.atomic():
-            if org.members.count() > 1:
-                owners = PytitionUser.objects.filter(permissions__organization=org, permissions__can_modify_permissions=True)
-                if owners.count() == 1 and pytitionuser in owners:
-                    messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
-                    return redirect(reverse('account_settings') + '#a_org_form')
-                else:
-                    pytitionuser.organizations.remove(org)
-            else:
-                # Add an error message
-                messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
-                return redirect(reverse('account_settings') + '#a_org_form')
-    except:
-        return HttpResponse(status=500)
+    with transaction.atomic():
+        if org.is_last_admin(pytitionuser):
+            messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
+            return redirect(reverse('account_settings') + '#a_org_form')
+        else:
+            org.members.remove(pytitionuser)
     return redirect('account_settings')
 
 
@@ -310,7 +301,7 @@ def org_profile(request, orgslugname):
         raise Http404(_("not found"))
 
     ctx = {'org': org,
-           'petitions': org.petitions.filter(published=True)}
+           'petitions': org.petition_set.filter(published=True)}
     return render(request, "petition/profile.html", ctx)
 
 
@@ -942,23 +933,22 @@ class PetitionCreationWizard(SessionWizardView):
                 #raise Http404(_("Organization does not exist"))
 
             try:
-                permissions = pytitionuser.permissions.get(organization=org)
+                permissions = Permission.get(organization=org, user=pytitionuser)
             except Permission.DoesNotExist:
                 return redirect("org_dashboard", orgslugname)
 
             if pytitionuser in org.members.all() and permissions.can_create_petitions:
-                petition = Petition.objects.create(title=title, text=message)
+                #FIXME I think new here is better than create
+                petition = Petition.objects.create(title=title, text=message, org=org)
                 if "template_id" in self.kwargs:
                     template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
-                    if template in org.petition_templates.all():
+                    if template in org.petitiontemplate_set.all():
                         petition.prepopulate_from_template(template)
                     else:
                         messages.error(self.request, _("This template does not belong to your organization"))
                         return redirect("org_dashboard", orgslugname)
-                org.petitions.add(petition)
                 if publish:
                     petition.publish()
-                petition.slugify()
                 if _redirect and _redirect == '1':
                     return redirect("edit_petition", petition.id)
                 else:
@@ -967,16 +957,14 @@ class PetitionCreationWizard(SessionWizardView):
                 messages.error(self.request, _("You don't have the permission to create a new petition in this Organization"))
                 return redirect("org_dashboard", orgslugname)
         else:
-            petition = Petition.objects.create(title=title, text=message)
+            petition = Petition.objects.create(title=title, text=message, user=pytitionuser)
             if "template_id" in self.kwargs:
                 template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
-                if template in pytitionuser.petition_templates.all():
+                if template in pytitionuser.petitiontemplate_set.all():
                     petition.prepopulate_from_template(template)
                 else:
                     messages.error(self.request, _("This template does not belong to you"))
                     return redirect("user_dashboard")
-            pytitionuser.petitions.add(petition)
-            petition.slugify()
             if _redirect and _redirect == '1':
                 return redirect("edit_petition", petition.id)
             else:
@@ -1000,8 +988,8 @@ class PetitionCreationWizard(SessionWizardView):
 
         if org_petition:
             try:
-                permissions = pytitionuser.permissions.get(organization=org)
-            except:
+                permissions = Permission.objects.get(organization=org, user=pytitionuser)
+            except Permission.DoesNotExist:
                 return HttpResponse(
                     _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
                       .format(orgname=org.name)), status=500)
@@ -1035,23 +1023,30 @@ def petition_delete(request, petition_id):
 
 
 # /<int:petition_id>/publish
-# Publush a petition
+# Publish a petition
 @login_required
 def petition_publish(request, petition_id):
     pytitionuser = get_session_user(request)
     petition = petition_from_id(petition_id)
 
-    if petition in pytitionuser.petitions.all():
-        petition.publish()
-        return JsonResponse({})
-    else:
-        org = Organization.objects.get(petitions=petition)
-        userperms = pytitionuser.permissions.get(organization=org)
-        if userperms.can_modify_petitions:
+    if petition.owner_type == "user":
+        if petition.user == pytitionuser:
             petition.publish()
             return JsonResponse({})
-
-    return JsonResponse({}, status=403)
+        else:
+            # Petition owned by someone else
+            return JsonResponse({}, status=403)
+    else:
+        # Check if the user has permission over this org
+        try:
+            userperms = Permission.objects.get(organization=petition.org, user=pytitionuser)
+            if userperms.can_modify_petitions:
+                petition.publish()
+                return JsonResponse({})
+            else:
+                return JsonResponse({}, status=403)
+        except Permission.DoesNotExist:
+            return JsonResponse({}, status=403)
 
 
 # /<int:petition_id>/unpublish
@@ -1061,17 +1056,23 @@ def petition_unpublish(request, petition_id):
     pytitionuser = get_session_user(request)
     petition = petition_from_id(petition_id)
 
-    if petition in pytitionuser.petitions.all():
-        petition.unpublish()
-        return JsonResponse({})
-    else:
-        org = Organization.objects.get(petitions=petition)
-        userperms = pytitionuser.permissions.get(organization=org)
-        if userperms.can_modify_petitions:
+    if petition.owner_type == "user":
+        if petition.user == pytitionuser:
             petition.unpublish()
             return JsonResponse({})
-
-    return JsonResponse({}, status=403)
+        else:
+            return JsonResponse({}, status=403)
+    else:
+        # Check if the user has permission over this org
+        try:
+            userperms = Permission.objects.get(org=petition.org, user=pytitionuser)
+            if userperms.can_modify_petitions:
+                petition.unpublish()
+                return JsonResponse({})
+            else:
+                return JsonResponse({}, status=403)
+        except Permission.DoesNotExist:
+            return JsonResponse({}, status=403)
 
 
 # /<int:petition_id>/edit
@@ -1079,142 +1080,115 @@ def petition_unpublish(request, petition_id):
 @login_required
 def edit_petition(request, petition_id):
     petition = petition_from_id(petition_id)
-
-    org = None
-    user = None
-    if petition.organization_set.count() == 1:
-        org = petition.organization_set.get()
-    elif petition.pytitionuser_set.count() == 1:
-        user = petition.pytitionuser_set.get()
-    else:
-        return HttpResponse(status=500)
-
     pytitionuser = get_session_user(request)
 
-    if org:
-        if pytitionuser not in org.members.all():
-            messages.error(request, _("You are not a member of the following organization: '{}'".format(org.name)))
-            return redirect("user_dashboard")
+    if not petition.is_allowed_to_edit(pytitionuser):
+        messages.error(request, _("You are not allowed to edit this petition"))
+        return redirect("user_dashboard")
+    else:
+        if request.method == "POST":
+            if 'content_form_submitted' in request.POST:
+                content_form = ContentFormPetition(request.POST)
+                if content_form.is_valid():
+                    petition.title = content_form.cleaned_data['title']
+                    petition.text = content_form.cleaned_data['text']
+                    petition.side_text = content_form.cleaned_data['side_text']
+                    petition.footer_text = content_form.cleaned_data['footer_text']
+                    petition.footer_links = content_form.cleaned_data['footer_links']
+                    petition.sign_form_footer = content_form.cleaned_data['sign_form_footer']
+                    petition.save()
+            else:
+                content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
 
-        try:
-            permissions = pytitionuser.permissions.get(organization=org)
-        except:
-            return HttpResponse(
-                _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
-                  .format(orgname=org.name)), status=500)
+            if 'email_form_submitted' in request.POST:
+                email_form = EmailForm(request.POST)
+                if email_form.is_valid():
+                    petition.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
+                    petition.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
+                    petition.confirmation_email_smtp_host = email_form.cleaned_data['confirmation_email_smtp_host']
+                    petition.confirmation_email_smtp_port = email_form.cleaned_data['confirmation_email_smtp_port']
+                    petition.confirmation_email_smtp_user = email_form.cleaned_data['confirmation_email_smtp_user']
+                    petition.confirmation_email_smtp_password = email_form.cleaned_data['confirmation_email_smtp_password']
+                    petition.confirmation_email_smtp_tls = email_form.cleaned_data['confirmation_email_smtp_tls']
+                    petition.confirmation_email_smtp_starttls = email_form.cleaned_data['confirmation_email_smtp_starttls']
+                    petition.save()
+            else:
+                email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
 
-        if not permissions.can_modify_petitions:
-            messages.error(request, _("You don't have permission to edit petitions in this organization"))
-            return redirect("org_dashboard", org.slugname)
+            if 'social_network_form_submitted' in request.POST:
+                social_network_form = SocialNetworkForm(request.POST)
+                if social_network_form.is_valid():
+                    petition.twitter_description = social_network_form.cleaned_data['twitter_description']
+                    petition.twitter_image = social_network_form.cleaned_data['twitter_image']
+                    petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
+                    petition.save()
+            else:
+                social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
 
-    if user:
-        if user != pytitionuser:
-            messages.error(request, _("You are not the owner of this petition"))
-            return redirect("user_dashboard")
+            if 'newsletter_form_submitted' in request.POST:
+                newsletter_form = NewsletterForm(request.POST)
+                if newsletter_form.is_valid():
+                    petition.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
+                    petition.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
+                    petition.newsletter_subscribe_http_mailfield = newsletter_form.cleaned_data['newsletter_subscribe_http_mailfield']
+                    petition.newsletter_subscribe_http_url = newsletter_form.cleaned_data['newsletter_subscribe_http_url']
+                    petition.newsletter_subscribe_mail_subject = newsletter_form.cleaned_data['newsletter_subscribe_mail_subject']
+                    petition.newsletter_subscribe_mail_from = newsletter_form.cleaned_data['newsletter_subscribe_mail_from']
+                    petition.newsletter_subscribe_mail_to = newsletter_form.cleaned_data['newsletter_subscribe_mail_to']
+                    petition.newsletter_subscribe_method = newsletter_form.cleaned_data['newsletter_subscribe_method']
+                    petition.newsletter_subscribe_mail_smtp_host = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_host']
+                    petition.newsletter_subscribe_mail_smtp_port = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_port']
+                    petition.newsletter_subscribe_mail_smtp_user = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_user']
+                    petition.newsletter_subscribe_mail_smtp_password = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_password']
+                    petition.newsletter_subscribe_mail_smtp_tls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_tls']
+                    petition.newsletter_subscribe_mail_smtp_starttls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_starttls']
+                    petition.save()
+            else:
+                newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
-    if request.method == "POST":
-        if 'content_form_submitted' in request.POST:
-            content_form = ContentFormPetition(request.POST)
-            if content_form.is_valid():
-                petition.title = content_form.cleaned_data['title']
-                petition.text = content_form.cleaned_data['text']
-                petition.side_text = content_form.cleaned_data['side_text']
-                petition.footer_text = content_form.cleaned_data['footer_text']
-                petition.footer_links = content_form.cleaned_data['footer_links']
-                petition.sign_form_footer = content_form.cleaned_data['sign_form_footer']
-                petition.save()
+            if 'style_form_submitted' in request.POST:
+                style_form = StyleForm(request.POST)
+                if style_form.is_valid():
+                    petition.bgcolor = style_form.cleaned_data['bgcolor']
+                    petition.linear_gradient_direction = style_form.cleaned_data['linear_gradient_direction']
+                    petition.gradient_from = style_form.cleaned_data['gradient_from']
+                    petition.gradient_to = style_form.cleaned_data['gradient_to']
+                    petition.save()
+            else:
+                style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
         else:
             content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
-
-        if 'email_form_submitted' in request.POST:
-            email_form = EmailForm(request.POST)
-            if email_form.is_valid():
-                petition.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
-                petition.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
-                petition.confirmation_email_smtp_host = email_form.cleaned_data['confirmation_email_smtp_host']
-                petition.confirmation_email_smtp_port = email_form.cleaned_data['confirmation_email_smtp_port']
-                petition.confirmation_email_smtp_user = email_form.cleaned_data['confirmation_email_smtp_user']
-                petition.confirmation_email_smtp_password = email_form.cleaned_data['confirmation_email_smtp_password']
-                petition.confirmation_email_smtp_tls = email_form.cleaned_data['confirmation_email_smtp_tls']
-                petition.confirmation_email_smtp_starttls = email_form.cleaned_data['confirmation_email_smtp_starttls']
-                petition.save()
-        else:
+            style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
             email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
-
-        if 'social_network_form_submitted' in request.POST:
-            social_network_form = SocialNetworkForm(request.POST)
-            if social_network_form.is_valid():
-                petition.twitter_description = social_network_form.cleaned_data['twitter_description']
-                petition.twitter_image = social_network_form.cleaned_data['twitter_image']
-                petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
-                petition.save()
-        else:
             social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
-
-        if 'newsletter_form_submitted' in request.POST:
-            newsletter_form = NewsletterForm(request.POST)
-            if newsletter_form.is_valid():
-                petition.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
-                petition.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
-                petition.newsletter_subscribe_http_mailfield = newsletter_form.cleaned_data['newsletter_subscribe_http_mailfield']
-                petition.newsletter_subscribe_http_url = newsletter_form.cleaned_data['newsletter_subscribe_http_url']
-                petition.newsletter_subscribe_mail_subject = newsletter_form.cleaned_data['newsletter_subscribe_mail_subject']
-                petition.newsletter_subscribe_mail_from = newsletter_form.cleaned_data['newsletter_subscribe_mail_from']
-                petition.newsletter_subscribe_mail_to = newsletter_form.cleaned_data['newsletter_subscribe_mail_to']
-                petition.newsletter_subscribe_method = newsletter_form.cleaned_data['newsletter_subscribe_method']
-                petition.newsletter_subscribe_mail_smtp_host = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_host']
-                petition.newsletter_subscribe_mail_smtp_port = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_port']
-                petition.newsletter_subscribe_mail_smtp_user = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_user']
-                petition.newsletter_subscribe_mail_smtp_password = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_password']
-                petition.newsletter_subscribe_mail_smtp_tls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_tls']
-                petition.newsletter_subscribe_mail_smtp_starttls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_starttls']
-                petition.save()
-        else:
             newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
-        if 'style_form_submitted' in request.POST:
-            style_form = StyleForm(request.POST)
-            if style_form.is_valid():
-                petition.bgcolor = style_form.cleaned_data['bgcolor']
-                petition.linear_gradient_direction = style_form.cleaned_data['linear_gradient_direction']
-                petition.gradient_from = style_form.cleaned_data['gradient_from']
-                petition.gradient_to = style_form.cleaned_data['gradient_to']
-                petition.save()
+        ctx = {'user': pytitionuser,
+            'content_form': content_form,
+            'style_form': style_form,
+            'email_form': email_form,
+            'social_network_form': social_network_form,
+            'newsletter_form': newsletter_form,
+            'petition': petition}
+        example_url = request.scheme + "://" + request.get_host()
+
+        if petition.owner_type == "org":
+            permissions = Permission.objects.get(organization=petition.org, user=pytitionuser)
+            example_url = example_url + reverse("slug_show_petition",
+                                kwargs={'orgslugname': petition.org.slugname,
+                                'petitionname': _("save-the-kittens-from-bad-wolf")})
+            ctx.update({'org': petition.org,
+                        'user_permissions': permissions,
+                        'base_template': 'petition/org_base.html',
+                        'example_url': example_url})
         else:
-            style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
-    else:
-        content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
-        style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
-        email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
-        social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
-        newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
-
-    ctx = {'user': pytitionuser,
-           'content_form': content_form,
-           'style_form': style_form,
-           'email_form': email_form,
-           'social_network_form': social_network_form,
-           'newsletter_form': newsletter_form,
-           'petition': petition}
-    example_url = request.scheme + "://" + request.get_host()
-
-    if org:
-        example_url = example_url + reverse("slug_show_petition",
-                                            kwargs={'orgslugname': org.slugname,
-                                                    'petitionname': _("save-the-kittens-from-bad-wolf")})
-        ctx.update({'org': org,
-                    'user_permissions': permissions,
-                    'base_template': 'petition/org_base.html',
+            example_url = example_url + reverse("slug_show_petition",
+                                kwargs={'username': pytitionuser.user.username,
+                                            'petitionname': _("save-the-kittens-from-bad-wolf")})
+            ctx.update({'base_template': 'petition/user_base.html',
                     'example_url': example_url})
 
-    if user:
-        example_url = example_url + reverse("slug_show_petition",
-                                            kwargs={'username': pytitionuser.user.username,
-                                                    'petitionname': _("save-the-kittens-from-bad-wolf")})
-        ctx.update({'base_template': 'petition/user_base.html',
-                    'example_url': example_url})
-
-    return render(request, "petition/edit_petition.html", ctx)
+        return render(request, "petition/edit_petition.html", ctx)
 
 
 # /<int:petition_id>/show_signatures
@@ -1341,14 +1315,14 @@ def account_settings(request):
         delete_account_form = DeleteAccountForm()
         password_change_form = PasswordChangeForm(pytitionuser.user)
 
-    orgs = pytitionuser.organizations.all()
+    orgs = pytitionuser.organization_set.all()
     # Checking if the user is allowed to leave the organisation
     for org in orgs:
         if org.members.count() < 2:
             org.leave = False
         else:
             # More than one user, we need to check owners
-            owners = PytitionUser.objects.filter(permissions__organization=org, permissions__can_modify_permissions=True)
+            owners = org.permission_set.filter(can_modify_permissions=True).all()
             if owners.count() == 1 and pytitionuser in owners:
                 org.leave = False
             else:
@@ -1377,7 +1351,7 @@ def org_create(request):
         form = OrgCreationForm(request.POST)
         if form.is_valid():
             org = form.save()
-            org.add_member(user)
+            org.members.add(user)
             perm = Permission.objects.get(organization=org)
             perm.set_all(True)
             messages.success(request, _("You successfully created organization '{}'".format(org.name)))
