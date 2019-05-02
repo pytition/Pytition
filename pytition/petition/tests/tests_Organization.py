@@ -55,3 +55,22 @@ class OrganizationTest(TestCase):
         perm.can_modify_permissions = True
         perm.save()
         self.assertEqual(org.is_last_admin(julia), False)
+
+    def test_is_allowed_to(self):
+        o = Organization.objects.create(name="RAP")
+        User = get_user_model()
+        u = User.objects.create_user('julia', password='julia')
+        pu = PytitionUser.objects.get(user__username='julia')
+        o.members.add(pu)
+        self.assertEqual(o.is_allowed_to(pu, 'can_add_members'), False)
+        self.assertEqual(o.is_allowed_to(pu, 'can_remove_members'), False)
+        self.assertEqual(o.is_allowed_to(pu, 'can_create_petitions'), True)
+        self.assertEqual(o.is_allowed_to(pu, 'can_modify_petitions'), True)
+        self.assertEqual(o.is_allowed_to(pu, 'can_delete_petitions'), False)
+        self.assertEqual(o.is_allowed_to(pu, 'can_create_templates'), True)
+        self.assertEqual(o.is_allowed_to(pu, 'can_modify_templates'), True)
+        self.assertEqual(o.is_allowed_to(pu, 'can_delete_templates'), False)
+        self.assertEqual(o.is_allowed_to(pu, 'can_view_signatures'), False)
+        self.assertEqual(o.is_allowed_to(pu, 'can_modify_signatures'), False)
+        self.assertEqual(o.is_allowed_to(pu, 'can_delete_signatures'), False)
+        self.assertEqual(o.is_allowed_to(pu, 'can_modify_permissions'), False)

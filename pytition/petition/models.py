@@ -25,25 +25,6 @@ class PytitionUser(models.Model):
     invitations = models.ManyToManyField('Organization', related_name="invited", blank=True)
     default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
 
-    def has_right(self, right, petition=None, org=None):
-        if petition:
-            if petition in self.petition_set.all():
-                return True
-            try:
-                if not org:
-                    org = Organization.objects.get(petitions=petition, members=self)
-                permissions = Permissions.objects.get(user=self, organization=org)
-                return getattr(permissions, right)
-            except:
-                return False
-        if org:
-            try:
-                permissions = self.permissions.get(organization=org)
-                return getattr(permissions, right)
-            except:
-                return False
-        return False
-
     def drop(self):
         with transaction.atomic():
             orgs = list(self.organization_set.all())
@@ -114,6 +95,19 @@ class Organization(models.Model):
         else:
             # That should never happen
             return True
+
+    def is_allowed_to(self, user, right):
+        """
+        Check if an user has a given access right on the organisation
+        """
+        try:
+            perm = Permission.objects.get(
+                organization=self,
+                user=user)
+        except Permission.DoesNotExist:
+            return False
+        else:
+            return getattr(perm, right)
 
     def __str__(self):
         return self.name

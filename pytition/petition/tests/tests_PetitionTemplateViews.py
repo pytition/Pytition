@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from petition.models import Organization, Petition, PytitionUser, PetitionTemplate
+from petition.models import Permission
 from .utils import add_default_data
 
 
@@ -61,3 +62,44 @@ class PetitionViewTest(TestCase):
         response = self.client.get(reverse("edit_template", args=[pt2.id]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "petition/edit_template.html")
+
+    def test_template_fav_toggle(self):
+        self.login('julia')
+        org = Organization.objects.get(name='RAP')
+        julia = PytitionUser.objects.get(user__username='julia')
+        # For an org template
+        pt = PetitionTemplate.objects.create(name="Default template", org=org)
+        response = self.client.get(reverse("template_fav_toggle", args=[pt.id]))
+        self.assertEqual(response.status_code, 200)
+        org.refresh_from_db()
+        self.assertEqual(org.default_template, pt)
+        # For an user template
+        pt2 = PetitionTemplate.objects.create(name="Default template", user=julia)
+        response = self.client.get(reverse("template_fav_toggle", args=[pt2.id]))
+        self.assertEqual(response.status_code, 200)
+        julia.refresh_from_db()
+        self.assertEqual(julia.default_template, pt2)
+
+    def test_template_delete(self):
+        self.login('julia')
+        org = Organization.objects.get(name='RAP')
+        julia = PytitionUser.objects.get(user__username='julia')
+        # For an org template
+        pt = PetitionTemplate.objects.create(name="Default template", org=org)
+        self.assertEqual(PetitionTemplate.objects.count(), 1)
+        response = self.client.get(reverse("template_delete", args=[pt.id]))
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(PetitionTemplate.objects.count(), 1)
+        # Ah yes, Julia does not have access rights for that
+        p = Permission.objects.get(organization=org, user=julia)
+        p.can_delete_templates = True
+        p.save()
+        response = self.client.get(reverse("template_delete", args=[pt.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(PetitionTemplate.objects.count(), 0)
+        # For an user template
+        pt2 = PetitionTemplate.objects.create(name="Default template", user=julia)
+        self.assertEqual(PetitionTemplate.objects.count(), 1)
+        response = self.client.get(reverse("template_delete", args=[pt2.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(PetitionTemplate.objects.count(), 0)

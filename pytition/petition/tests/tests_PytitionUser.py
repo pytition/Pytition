@@ -12,7 +12,3 @@ class PytitionUserTest(TestCase):
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')
         self.assertEqual(PytitionUser.objects.count(), 1)
-
-    def pending_has_right(self):
-        pass
-

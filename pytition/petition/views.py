@@ -140,13 +140,17 @@ def confirm(request, petition_id, confirmation_hash):
 @login_required
 def get_csv_signature(request, petition_id, only_confirmed):
     user = get_session_user(request)
-    petition = petition_from_id(petition_id)
+    try:
+        petition = Petition.objects.get(pk=petition_id)
+    except Petition.DoesNotExist:
+        return JsonResponse({}, status=404)
 
-    if not user.has_right("can_view_signatures", petition):
-        return JsonResponse({}, status=403)
+    if petition.owner_type == "org":
+        if not petition.org.is_allowed_to(user, "can_view_signatures"):
+            return JsonResponse({}, status=403)
 
     filename = '{}.csv'.format(petition)
-    signatures = Signature.objects.filter(petition_id = petition_id)
+    signatures = Signature.objects.filter(petition = petition)
     if only_confirmed:
         signatures = signatures.filter(confirmed = True)
     else:
@@ -611,44 +615,30 @@ def user_del_template(request, user_name):
 # Delete a template
 @login_required
 def template_delete(request, template_id):
+    pytitionuser = get_session_user(request)
     if template_id == '':
         return JsonResponse({}, status=500)
-
-    pytitionuser = get_session_user(request)
 
     try:
         template = PetitionTemplate.objects.get(pk=template_id)
     except:
         return JsonResponse({}, status=404)
 
-    try:
-        templateOwnership = TemplateOwnership.objects.get(template=template)
-    except:
-        return JsonResponse({}, status=404)
-
-    org_owner = templateOwnership.organization
-    user_owner = templateOwnership.user
-
-    if org_owner:
-        if not pytitionuser in org_owner.members.all():
+    if template.owner_type == "org":
+        if not pytitionuser in template.org.members.all():
             return JsonResponse({}, status=403)  # User not in organization
         try:
-            permissions = pytitionuser.permissions.get(organization=org_owner)
-        except:
+            permissions = Permission.objects.get(
+                    organization=template.org,
+                    user=pytitionuser)
+        except Permission.DoesNotExist:
             return JsonResponse({}, status=500)  # No permission? fatal error!
         if not permissions.can_delete_templates:
             return JsonResponse({}, status=403)  # User does not have the permission!
-    elif user_owner:
-        if pytitionuser != user_owner:
-            return JsonResponse({}, status=403)  # User cannot delete a template if it's not his
     else:
-        return JsonResponse({}, status=500)  # Woops?
-
-    try:
-        template.delete()
-    except:
-        return JsonResponse({}, status=500)
-
+        if pytitionuser != template.user:
+            return JsonResponse({}, status=403)  # User cannot delete a template if it's not his
+    template.delete()
     return JsonResponse({})
 
 
@@ -656,6 +646,7 @@ def template_delete(request, template_id):
 # Set a template as favourite
 @login_required
 def template_fav_toggle(request, template_id):
+    pytitionuser = get_session_user(request)
     if template_id == '':
         return JsonResponse({}, status=500)
 
@@ -664,40 +655,17 @@ def template_fav_toggle(request, template_id):
     except PetitionTemplate.DoesNotExist:
         return JsonResponse({}, status=404)
 
-    try:
-        templateOwnership = TemplateOwnership.objects.get(template=template)
-    except:
-        return JsonResponse({}, status=404)
-
-    pytitionuser = get_session_user(request)
-
-    try:
-        to = TemplateOwnership.objects.get(template=template)
-    except TemplateOwnership.DoesNotExist:
-        return JsonResponse({}, status=500)
-    org_owner = to.organization
-    user_owner = to.user
-
-    if org_owner is not None:
-        owner = org_owner
-        owner_type = "org"
-    elif user_owner is not None:
-        owner = user_owner
-        owner_type = "user"
+    if template.owner_type == "org":
+        owner = template.org
     else:
-        return HttpResponse(status=500)
+        owner = template.user
 
-    if org_owner is not None and user_owner is not None:
-        return HttpResponse(status=500)
-
-    if owner_type == "org":
-        if owner not in pytitionuser.organizations.all():
+    if template.owner_type == "org":
+        if owner not in pytitionuser.organization_set.all():
             return JsonResponse({}, status=403)  # Forbidden
-    elif owner_type =="user":
+    else:
         if owner != pytitionuser:
             return JsonResponse({'msg': _("You are not allowed to change this user's default template")}, status=403)
-    else:
-        raise Http404(_("Cannot find template with unknown type \'{type}\'").format(type=type))
 
     if owner.default_template == template:
         owner.default_template = None
@@ -1186,20 +1154,19 @@ def show_signatures(request, petition_id):
     pytitionuser = get_session_user(request)
     ctx = {}
 
-    if petition in pytitionuser.petitions.all():
+    if petition.owner_type == "user":
         base_template = 'petition/user_base.html'
     else:
-        org = Organization.objects.get(petitions=petition)
+        org = petition.org
         base_template = 'petition/org_base.html'
-        other_orgs = pytitionuser.organizations.filter(~Q(name=org.name)).all()
+        other_orgs = pytitionuser.organization_set.filter(~Q(name=org.name)).all()
         if pytitionuser not in org.members.all():
             messages.error(request, _("You are not member of the following organization: \'{}\'".format(org.name)))
             return redirect("user_dashboard")
         try:
-            permissions = pytitionuser.permissions.get(organization=org)
-        except:
-            messages.error(request, _("Internal error, cannot find your permissions attached to this organization"
-                                      "(\'{orgname}\')".format(orgname=org.name)))
+            permissions = Permission.objects.get(organization=org, user=pytitionuser)
+        except Permission.DoesNotExist:
+            messages.error(request, _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')".format(orgname=org.name)))
             return redirect("user_dashboard")
 
         if not permissions.can_view_signatures:
@@ -1219,7 +1186,7 @@ def show_signatures(request, petition_id):
                 for s in selected_signatures:
                     pet = s.petition
                     if s in petition.signature_set.all() and \
-                    pytitionuser.has_right("can_delete_signatures", petition=pet):
+                        pet.org.is_allowed_to(pytitionuser, 'can_delete_signatures'):
                         s.delete()
                     else:
                         failed = True
@@ -1398,7 +1365,7 @@ def add_new_slug(request, petition_id):
         if slugtexts == '' or slugtexts == []:
             messages.error(request, _("You entered an empty slug text"))
         else:
-            if pytitionuser.has_right("can_modify_petitions", petition):
+            if petition.is_allowed_to_edit(pytitionuser):
                 for slugtext in slugtexts:
                     try:
                         petition.add_slug(slugtext)
@@ -1423,7 +1390,7 @@ def del_slug(request, petition_id):
     except:
         messages.error(request, _("This petition does not exist (anymore?)."))
         return redirect("user_dashboard")
-    if pytitionuser.has_right("can_modify_petitions", petition):
+    if petition.is_allowed_to_edit(pytitionuser):
         slug_id = request.GET.get('slugid', None)
         if not slug_id:
             return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
