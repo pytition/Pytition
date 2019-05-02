@@ -5,7 +5,7 @@
     <a href="{% url "org_create" %}" class="btn btn-outline-primary btn-sm">{% trans "New organization" %}</a>
   </div>
   <ul class="dashboard-org-list">
-  {% for org in user.organizations.all %}
+  {% for org in user.organization_set.all %}
     <li data-orgname="{{ org.name }}" data-orgslugname="{{ org.slugname }}" data-leaveorg-url="{% url 'leave_org' org.slugname %}">
       <a href="{% url "org_dashboard" org.slugname %}" class="text-dark">{{ org.name }}</a>
     </li>

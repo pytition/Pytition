@@ -50,7 +50,6 @@ class PetitionViewTest(TestCase):
     def logout(self):
         self.client.logout()
 
-
     def test_petition_detail(self):
         """ every body should see the petition, even when not logged in """
         petition = Petition.objects.get(title="my petition")
@@ -107,3 +106,30 @@ class PetitionViewTest(TestCase):
         petition.refresh_from_db()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(petition.published, False)
+
+    def test_petition_delete(self):
+        petition = Petition.objects.get(title="my petition")
+        self.assertEqual(Petition.objects.count(),  1)
+        response = self.client.get(reverse("petition_delete", args=[petition.id]))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Petition.objects.count(),  1)
+        self.login('julia')
+        response = self.client.get(reverse("petition_delete", args=[petition.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Petition.objects.count(),  0)
+
+    def test_user_slug_show_petition(self):
+        petition = Petition.objects.get(title="my petition")
+        slug = petition.slugmodel_set.first().slug
+        response = self.client.get(reverse("slug_show_petition", args=[petition.user.username, slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/petition_detail.html")
+
+    def pending_org_slug_show_petition(self):
+        # Problem here
+        org = Organization.objects.first()
+        petition = Petition.objects.create(title="NON NON NON", org=org)
+        slug = petition.slugmodel_set.first().slug
+        response = self.client.get(reverse("slug_show_petition", args=[petition.org.slugname, slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/petition_detail.html")

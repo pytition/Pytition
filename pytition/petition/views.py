@@ -438,13 +438,13 @@ def new_template(request, orgslugname=None):
         except Organization.DoesNotExist:
             raise Http404(_("Organization does not exist"))
 
-        if org not in pytitionuser.organizations.all():
+        if org not in pytitionuser.organization_set.all():
             return HttpResponseForbidden(_("You are not allowed to view this organization dashboard"))
 
         try:
-            permissions = pytitionuser.permissions.get(organization=org)
+            permissions = Permission.objects.get(organization=org, user=pytitionuser)
             ctx['user_permissions'] = permissions
-        except:
+        except Permission.DoesNotExist:
             return HttpResponse(
                 _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
                   .format(orgname=org.name)), status=500)
@@ -457,17 +457,14 @@ def new_template(request, orgslugname=None):
         redirection = "user_new_template"
         ctx['base_template'] = 'petition/user_base.html'
 
-
     if request.method == "POST":
         template_name = request.POST.get('template_name', '')
         if template_name != '':
-            template = PetitionTemplate(name=template_name)
-            template.save()
             if orgslugname:
-                to = TemplateOwnership(organization=org, template=template)
+                template = PetitionTemplate(name=template_name, org=org)
             else:
-                to = TemplateOwnership(user=pytitionuser, template=template)
-            to.save()
+                template = PetitionTemplate(name=template_name, user=pytitionuser)
+            template.save()
             return redirect("edit_template", template.id)
         else:
             messages.error(request, _("You need to provide a template name."))
@@ -492,40 +489,27 @@ def edit_template(request, template_id):
     pytitionuser = get_session_user(request)
     context = {'user': pytitionuser}
 
-    to = TemplateOwnership.objects.get(template=template)
-    org_owner = to.organization
-    user_owner = to.user
-
-    if org_owner is not None:
-        owner = org_owner
-        owner_type = "org"
-    elif user_owner is not None:
-        owner = user_owner
-        owner_type = "user"
+    if template.owner_type == "org":
+        owner = template.org
     else:
-        return HttpResponse(status=500)
+        owner = template.user
 
-    if org_owner is not None and user_owner is not None:
-        return HttpResponse(status=500)
-
-    if owner_type == "org":
+    if template.owner_type == "org":
         try:
-            permissions = pytitionuser.permissions.get(organization=owner)
+            permissions = Permission.objects.get(organization=owner, user=pytitionuser)
         except:
             return HttpResponse(
                 _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
                   .format(orgname=owner.name)), status=500)
         context['user_permissions'] = permissions
-        if owner not in pytitionuser.organizations.all() or not permissions.can_modify_templates:
+        if owner not in pytitionuser.organization_set.all() or not permissions.can_modify_templates:
             return HttpResponseForbidden(_("You are not allowed to edit this organization's templates"))
         context['org'] = owner
         base_template = "petition/org_base.html"
-    elif owner_type == "user":
+    else:
         if owner != pytitionuser:
             return HttpResponseForbidden(_("You are not allowed to edit this user's templates"))
         base_template = "petition/user_base.html"
-    else:
-        raise Http404(_("Cannot find template with unknown owner type \'{type}\'").format(type=owner_type))
 
     if request.method == "POST":
         if 'content_form_submitted' in request.POST:
@@ -933,7 +917,7 @@ class PetitionCreationWizard(SessionWizardView):
                 #raise Http404(_("Organization does not exist"))
 
             try:
-                permissions = Permission.get(organization=org, user=pytitionuser)
+                permissions = Permission.objects.get(organization=org, user=pytitionuser)
             except Permission.DoesNotExist:
                 return redirect("org_dashboard", orgslugname)
 
@@ -1009,17 +993,20 @@ def petition_delete(request, petition_id):
     petition = petition_from_id(petition_id)
     pytitionuser = get_session_user(request)
 
-    if petition in pytitionuser.petitions.all():  # user owns the petition
-        petition.delete()
-        return JsonResponse({})
+    if petition.owner_type == "user":
+        if petition.user == pytitionuser:
+            petition.delete()
+            return JsonResponse({})
+        else:
+            return JsonResponse({}, status=403)
     else:  # an organization owns the petition
         org = Organization.objects.get(petitions=petition)
-        userperms = pytitionuser.permissions.get(organization=org)
+        userperms = Permission.objects.get(organization=petition.org, user=pytitionuser)
         if userperms.can_delete_petitions:
             petition.delete()
             return JsonResponse({})
-
-    return JsonResponse({}, status=403)
+        else:
+            return JsonResponse({}, status=403)
 
 
 # /<int:petition_id>/publish
@@ -1374,9 +1361,21 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
         pytitionuser = None
 
     if orgslugname:
-        petition = Petition.objects.get(organization__slugname=orgslugname, slugs__slug=petitionname)
+        try:
+            org = Organization.objects.get(slugname=orgslugname)
+            slug = SlugModel.objects.get(slug=petitionname, petition__org=org)
+        except (Organization.DoesNotExist, SlugModel.DoesNotExist):
+            raise Http404(_("Sorry, we are not able to find this petition"))
+        petition = slug.petition
     else:
-        petition = Petition.objects.get(pytitionuser__user__username=username, slugs__slug=petitionname)
+        try:
+            user = PytitionUser.objects.get(user__username=username)
+            slug = SlugModel.objects.get(slug=petitionname, petition__user=user)
+        except PytitionUser.DoesNotExist:
+            raise Http404(_("Sorry, we are not able to find this petition"))
+        except SlugModel.DoesNotExist:
+            raise Http404(_("Sorry, we are not able to find this petition"))
+        petition = slug.petition
     sign_form = SignatureForm(petition=petition)
 
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form, 'meta': petition_detail_meta(request, petition.id)}
