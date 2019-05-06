@@ -19,8 +19,8 @@
         <h4><span class="oi oi-layers"></span> {% trans "Petition templates" %}</h4>
         <a href="{% url "user_new_template" %}" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" title="{% trans "Create a new petition template" %}">{% trans "New template" %}</a>
       </div>
-      {% if user.petition_templates.all %}
-        {% include "petition/template_list.html" with templates=user.petition_templates.all owner=user %}
+      {% if user.petitiontemplate_set.all %}
+        {% include "petition/template_list.html" with templates=user.petitiontemplate_set.all owner=user %}
       {% endif %}
     </div>
   </div>

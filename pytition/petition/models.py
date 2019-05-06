@@ -19,8 +19,118 @@ from colorfield.fields import ColorField
 import html
 
 
-class Petition(models.Model):
+# ----------------------------------- PytitionUser ----------------------------
+class PytitionUser(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pytitionuser")
+    invitations = models.ManyToManyField('Organization', related_name="invited", blank=True)
+    default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
 
+    def drop(self):
+        with transaction.atomic():
+            orgs = list(self.organization_set.all())
+            petitions = list(self.petition_set.all())
+            templates = list(self.petitiontemplate_set.all())
+            self.delete()
+            for org in orgs:
+                if org.members.count() == 0:
+                    org.delete()
+            for petition in petitions:
+                petition.delete()
+            for template in templates:
+                template.delete()
+
+    @property
+    def is_authenticated(self):
+        return self.user.is_authenticated
+
+    @property
+    def name(self):
+        return self.username
+
+    @property
+    def username(self):
+        return self.user.username
+
+    @property
+    def get_full_name(self):
+        return self.user.get_full_name()
+
+    @property
+    def fullname(self):
+        return self.get_full_name
+
+    @property
+    def kind(self):
+        return "user"
+
+    def __str__(self):
+        return self.get_full_name
+
+    def __repr__(self):
+        return self.get_full_name
+
+
+# --------------------------------- Organization ------------------------------
+class Organization(models.Model):
+    name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"), unique=True, null=False, blank=False)
+    default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
+    slugname = models.SlugField(max_length=200, unique=True)
+    members = models.ManyToManyField(PytitionUser, through='Permission')
+
+    def is_last_admin(self, user):
+        """
+        Check if the given user is the last admin of this organization
+        Admin is an user having the can_modify_permissions right
+        Return true or false
+        """
+        # get all permissions
+        perms = Permission.objects.filter(can_modify_permissions=True, organization=self).all()
+        if len(perms) > 1:
+            return False
+        elif len(perms) == 1:
+            if perms[0].user == user:
+                return True
+            else:
+                return False
+        else:
+            # That should never happen
+            return True
+
+    def is_allowed_to(self, user, right):
+        """
+        Check if an user has a given access right on the organisation
+        """
+        try:
+            perm = Permission.objects.get(
+                organization=self,
+                user=user)
+        except Permission.DoesNotExist:
+            return False
+        else:
+            return getattr(perm, right)
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return '< {} >'.format(self.name)
+
+    @property
+    def kind(self):
+        return "org"
+
+    @property
+    def fullname(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slugname:
+            self.slugname = slugify(self.name)
+        super(Organization, self).save(*args, **kwargs)
+
+
+# ----------------------------------- Petition --------------------------------
+class Petition(models.Model):
     NO =           "no gradient"
     RIGHT =        "to right"
     BOTTOM =       "to bottom"
@@ -45,10 +155,15 @@ class Petition(models.Model):
         (GET,  "GET")
     )
 
+    # Description
     title = models.TextField(verbose_name=ugettext_lazy("Title"))
     text = tinymce_models.HTMLField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(default=500)
+    # Owner
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, null=True)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)
+    # Colors
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
     gradient_from = ColorField(blank=True)
     gradient_to = ColorField(blank=True)
@@ -64,8 +179,7 @@ class Petition(models.Model):
     newsletter_subscribe_mail_subject = models.CharField(max_length=1000, blank=True)
     newsletter_subscribe_mail_from = models.CharField(max_length=500, blank=True)
     newsletter_subscribe_mail_to = models.CharField(max_length=500, blank=True)
-    newsletter_subscribe_method = models.CharField(choices=NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, max_length=4,
-                                                   default=MAIL)
+    newsletter_subscribe_method = models.CharField(choices=NEWSLETTER_SUBSCRIBE_METHOD_CHOICES, max_length=4, default=MAIL)
     newsletter_subscribe_mail_smtp_host = models.CharField(max_length=100, default='localhost', blank=True)
     newsletter_subscribe_mail_smtp_port = models.IntegerField(default=25, blank=True)
     newsletter_subscribe_mail_smtp_user = models.CharField(max_length=200, blank=True)
@@ -85,8 +199,6 @@ class Petition(models.Model):
     confirmation_email_smtp_starttls = models.BooleanField(default=False)
     use_custom_email_settings = models.BooleanField(default=False)
     salt = models.TextField(blank=True)
-    slugs = models.ManyToManyField('SlugModel', blank=True, through='SlugOwnership')
-
 
     def prepopulate_from_template(self, template):
         for field in self._meta.fields:
@@ -95,33 +207,41 @@ class Petition(models.Model):
                 if template_value is not None and template_value != "":
                     setattr(self, field.name, template_value)
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.salt:
-            hasher = get_hasher()
-            self.salt = hasher.salt().decode('utf-8')
-            super().save()
 
     def slugify(self):
-        if self.slugs.count() == 0:
-            slugtext = slugify(self.raw_title)
-            # let's search for slug collisions
-            filters = {'slugs__slug': slugtext}
-            if self.organization_set.count() > 0:
-                org = self.organization_set.first()
-                filters.update({'organization__name': org.name})
+        # Slugify the petition title and save it as slugname
+        if self.slugmodel_set.count() == 0:
+            slugtext = slugify(self.title)
+            self.add_slug(slugtext)
+
+    def add_slug(self, slugtext):
+        # Add a slug corectly
+        with transaction.atomic():
+            slugtext = slugify(slugtext)
+            # Check if there is another similar slug for the same user/org
+            same_slugs = SlugModel.objects.filter(slug=slugtext)
+            if len(same_slugs) == 0:
+                slug = SlugModel.objects.create(slug=slugtext, petition=self)
             else:
-                user = self.pytitionuser_set.first()
-                filters.update({'pytitionuser__user__username': user.user.username})
-            results = Petition.objects.filter(**filters)
-            if results.count() > 0:
-                raise ValueError(_("This slug is already used by another petition from this organization/user"))
+                alread_used = False
+                for s in same_slugs:
+                    if self.owner_type == "org":
+                        if s.petition.owner_type == "org":
+                            if self.org == s.petition.org:
+                                alread_used = True
+                    else:
+                        if s.petition.owner_type == "user":
+                            if self.user == s.petition.user:
+                                alread_used = True
+                if alread_used:
+                    raise ValueError('This slug is already used')
+                else:
+                    slug = SlugModel.objects.create(slug=slugtext, petition=self)
 
-            slug = SlugModel(slug=slugify(slugtext))
-            slug.save()
-            self.slugs.add(slug)
-            self.save()
-
+    def del_slug(self, slug):
+        # Delete a given slug
+        s = SlugModel.objects.filter(slug=slug, petition=self).first()
+        s.delete()
 
     @classmethod
     def by_id(cls, id):
@@ -151,20 +271,6 @@ class Petition(models.Model):
         else:
             return None
 
-    def add_slug(self, slugtext):
-        with transaction.atomic():
-            slugtext = slugify(slugtext)
-            slug = SlugModel.objects.create(slug=slugtext)
-            if self.owner_type == "org":
-                SlugOwnership.objects.create(slug=slug, petition=self, organization=self.owner)
-            elif self.owner_type == "user":
-                SlugOwnership.objects.create(slug=slug, petition=self, user=self.owner)
-            else:
-                raise ValueError(_("This petition has no owner, cannot add slug!"))
-
-    def del_slug(self, slug):
-        slug.delete()
-
     def publish(self):
         self.published = True
         self.save()
@@ -175,21 +281,17 @@ class Petition(models.Model):
 
     @property
     def owner_type(self):
-        if self.organization_set.count() > 0:
+        if self.org:
             return "org"
-        elif self.pytitionuser_set.count() > 0:
-            return "user"
         else:
-            return "no_owner"
+            return "user"
 
     @property
     def owner(self):
-        if self.organization_set.count() > 0:
-            return self.organization_set.first()
-        elif self.pytitionuser_set.count() > 0:
-            return self.pytitionuser_set.first()
+        if self.org:
+            return self.org
         else:
-            return None
+            return self.user
 
     @property
     def signature_number(self):
@@ -203,54 +305,69 @@ class Petition(models.Model):
     def raw_text(self):
         return html.unescape(mark_safe(strip_tags(self.text)))
 
-    @property
-    def raw_title(self):
-        return html.unescape(mark_safe(strip_tags(self.title).strip()))
-
     def __str__(self):
-        return self.raw_title
+        return self.title
 
     def __repr__(self):
-        return self.raw_title
+        return self.title
+
+    def is_allowed_to_edit(self, user):
+        """
+        Check if a user is allowed to edit this petition
+        """
+        if self.owner_type == "user":
+            if self.user == user:
+                # The user is the owner of the petition
+                return True
+            else:
+                return False
+        else:
+            # But it is an org petition
+            try:
+                perm = Permission.objects.get(
+                    organization=self.org,
+                    user=user
+                )
+            except Permission.DoesNotExist:
+                # No such permission, denied
+                return False
+            else:
+                return perm.can_modify_petitions
 
     @property
     def url(self):
-        slugs = self.slugs.all()
+        slugs = self.slugmodel_set.all()
         if len(slugs) == 0:
             # If there is no slug, ugly url
             return reverse('detail', kwargs={'petition_id': self.id})
         else:
-            if self.organization_set.count() > 0:
+            if self.owner_type == "org":
                 #  This petition is owned by an Organization
-                org = self.organization_set.first()
                 return reverse("slug_show_petition",
-                           kwargs={"orgslugname": org.slugname,
+                           kwargs={"orgslugname": self.org.slugname,
                                "petitionname": slugs[0]})
-            elif self.pytitionuser_set.count() > 0:
+            elif self.owner_type == "user":
                 # This petition is owned by a PytitionUser
-                user = self.pytitionuser_set.first()
                 return reverse("slug_show_petition",
-                           kwargs={"username": user.user.username,
+                           kwargs={"username": self.user.username,
                                "petitionname": slugs[0]})
             else:
                 # This is a BUG!
                 raise ValueError(_("This petition is buggy. Sorry about that!"))
 
-
-class SlugOwnership(models.Model):
-    petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
-    slug = models.ForeignKey('SlugModel', on_delete=models.CASCADE)
-    user = models.ForeignKey('PytitionUser', on_delete=models.CASCADE, blank=True, null=True, default=None)
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, blank=True, null=True, default=None)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['slug', 'organization'], name="unique_slugnameperorg", condition=Q(user=None)),
-            models.UniqueConstraint(fields=['slug', 'user'], name="unique_slugnameperuser",
-                                    condition=Q(organization=None)),
-        ]
+    def save(self, *args, **kwargs):
+        if (self.org is None and self.user is None):
+            raise Exception("You need to provide a user or org as owner")
+        elif (self.org is not None and self.user is not None):
+            raise Exception("A petition can have only one owner")
+        else:
+            if not self.salt:
+                hasher = get_hasher()
+                self.salt = hasher.salt().decode('utf-8')
+            super(Petition, self).save(*args, **kwargs)
 
 
+# --------------------------------- Signature ---------------------------------
 class Signature(models.Model):
     first_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("First name"))
     last_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Last name"))
@@ -288,8 +405,8 @@ class Signature(models.Model):
                                                     self.last_name))
 
 
+#------------------------------- PetitionTemplate -----------------------------
 class PetitionTemplate(models.Model):
-
     NO =           "no gradient"
     RIGHT =        "to right"
     BOTTOM =       "to bottom"
@@ -314,10 +431,15 @@ class PetitionTemplate(models.Model):
         (GET,  "GET")
     )
 
+    # Description
     name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"), db_index=True)
     text = tinymce_models.HTMLField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(blank=True, null=True)
+    # Owner
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, null=True)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)
+    # Fancy colors
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
     gradient_from = ColorField(blank=True)
     gradient_to = ColorField(blank=True)
@@ -359,17 +481,34 @@ class PetitionTemplate(models.Model):
     def __repr__(self):
         return self.name
 
+    @property
+    def owner_type(self):
+        if self.org:
+            return "org"
+        else:
+            return "user"
+
     class Meta:
         index_together = ["id", ]
 
+    def save(self, *args, **kwargs):
+        if (self.org is None and self.user is None):
+            raise Exception("You need to provide a user or org as owner")
+        elif (self.org is not None and self.user is not None):
+            raise Exception("A petition can have only one owner")
+        else:
+            super(PetitionTemplate, self).save(*args, **kwargs)
 
+
+# --------------------------------- SlugModel ---------------------------------
 class SlugModel(models.Model):
     slug = models.SlugField(max_length=200)
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['slug'], name='unique_slugname')
-        ]
+    #class Meta:
+        #constraints = [
+            #models.UniqueConstraint(fields=['slug'], name='unique_slugname')
+        #]
 
     def __str__(self):
         return self.slug
@@ -378,68 +517,17 @@ class SlugModel(models.Model):
         return self.slug
 
 
-class Organization(models.Model):
-    name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"), unique=True)
-    petition_templates = models.ManyToManyField(PetitionTemplate, through='TemplateOwnership',
-                                                through_fields=['organization', 'template'], blank=True,
-                                                verbose_name=ugettext_lazy("Petition templates"))
-    petitions = models.ManyToManyField(Petition, blank=True, verbose_name=ugettext_lazy("Petitions"))
-    default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
-                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id',
-                                         on_delete=models.SET_NULL)
-    slugname = models.SlugField(max_length=200, unique=True)
-
-    def drop(self):
-        with transaction.atomic():
-            petitions = list(self.petitions.all())
-            templates = list(self.petition_templates.all())
-            self.delete()
-            for petition in petitions:
-                petition.delete()
-            for template in templates:
-                template.delete()
-
-    def add_member(self, member):
-        member.organizations.add(self)
-        permission = Permission.objects.create(organization=self)
-        permission.save()
-        member.permissions.add(permission)
-        member.save()
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.slugname:
-            self.slugname = slugify(self.name)
-        super(Organization, self).save(*args, **kwargs)
-
-    @property
-    def kind(self):
-        return "org"
-
-    @property
-    def fullname(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        self.slugname = slugify(self.name)
-        super(Organization, self).save(*args, **kwargs)
-
-
+# ------------------------------------ Permission -----------------------------
 class Permission(models.Model):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE,
-                                     verbose_name=ugettext_lazy("Organization related to these permissions"))
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name=ugettext_lazy("Organization related to these permissions"))
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, verbose_name=ugettext_lazy("User related to these permissions"))
     can_add_members = models.BooleanField(default=False)
     can_remove_members = models.BooleanField(default=False)
-    can_create_petitions = models.BooleanField(default=False)
-    can_modify_petitions = models.BooleanField(default=False)
+    can_create_petitions = models.BooleanField(default=True)
+    can_modify_petitions = models.BooleanField(default=True)
     can_delete_petitions = models.BooleanField(default=False)
-    can_create_templates = models.BooleanField(default=False)
-    can_modify_templates = models.BooleanField(default=False)
+    can_create_templates = models.BooleanField(default=True)
+    can_modify_templates = models.BooleanField(default=True)
     can_delete_templates = models.BooleanField(default=False)
     can_view_signatures = models.BooleanField(default=False)
     can_modify_signatures = models.BooleanField(default=False)
@@ -461,98 +549,14 @@ class Permission(models.Model):
         self.can_modify_permissions = value
         self.save()
 
-
     def __str__(self):
-        ret = "{orgname} : ".format(orgname=self.organization.name)
-        if self.user.count() > 0:
-            ret = ret + "{username}".format(username=self.user.all()[0].name)
-        else:
-            ret = ret + "None"
-        return ret
+        return "{} : {}".format(self.organization.name, self.user.name)
 
     def __repr__(self):
-        return self.__str__()
+        return '< {} >'.format(self.__str__())
 
 
-class PytitionUser(models.Model):
-    petitions = models.ManyToManyField(Petition, blank=True)
-    organizations = models.ManyToManyField(Organization, related_name="members", blank=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pytitionuser")
-    permissions = models.ManyToManyField(Permission, related_name="user", blank=True)
-    invitations = models.ManyToManyField(Organization, related_name="invited", blank=True)
-    petition_templates = models.ManyToManyField(PetitionTemplate, blank=True, through='TemplateOwnership',
-                                                through_fields=['user', 'template'],
-                                                verbose_name=ugettext_lazy("Petition templates"))
-    default_template = models.ForeignKey(PetitionTemplate, blank=True, null=True, related_name='+',
-                                         verbose_name=ugettext_lazy("Default petition template"), to_field='id',
-                                         on_delete=models.SET_NULL)
-
-
-    def has_right(self, right, petition=None, org=None):
-        if petition:
-            if petition in self.petitions.all():
-                return True
-            try:
-                if not org:
-                    org = Organization.objects.get(petitions=petition, members=self)
-                permissions = self.permissions.get(organization=org)
-                return getattr(permissions, right)
-            except:
-                return False
-        if org:
-            try:
-                permissions = self.permissions.get(organization=org)
-                return getattr(permissions, right)
-            except:
-                return False
-        return False
-
-
-    def drop(self):
-        with transaction.atomic():
-            orgs = list(self.organizations.all())
-            petitions = list(self.petitions.all())
-            templates = list(self.petition_templates.all())
-            self.delete()
-            for org in orgs:
-                if org.members.count() == 0:
-                    org.drop()
-            for petition in petitions:
-                petition.delete()
-            for template in templates:
-                template.delete()
-
-    @property
-    def is_authenticated(self):
-        return self.user.is_authenticated
-
-    @property
-    def name(self):
-        return self.username
-
-    @property
-    def username(self):
-        return self.user.username
-
-    @property
-    def get_full_name(self):
-        return self.user.get_full_name()
-
-    @property
-    def fullname(self):
-        return self.get_full_name
-
-    @property
-    def kind(self):
-        return "user"
-
-    def __str__(self):
-        return self.get_full_name
-
-    def __repr__(self):
-        return self.get_full_name
-
-
+#------------------------------ Post save actions -----------------------------
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -564,27 +568,12 @@ def save_user_profile(sender, instance, **kwargs):
     instance.pytitionuser.save()
 
 
-@receiver(post_save, sender=Organization)
+@receiver(post_save, sender=Petition)
 def save_user_profile(sender, instance, **kwargs):
-    if not instance.slugname:
-        slugtext = slugify(instance.name)
-        instance.slugname = slugtext
-        instance.save()
-
+    if instance.slugmodel_set.count() == 0:
+        instance.slugify()
 
 @receiver(post_delete, sender=PytitionUser)
 def post_delete_user(sender, instance, *args, **kwargs):
     if instance.user:  # just in case user is not specified
         instance.user.delete()
-
-class TemplateOwnership(models.Model):
-    user = models.ForeignKey(PytitionUser, blank=True, null=True, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, blank=True, null=True, on_delete=models.CASCADE)
-    template = models.ForeignKey(PetitionTemplate, to_field='id', on_delete=models.CASCADE)
-
-    def clean(self):
-        if self.user is None and self.organization is None:
-            raise ValidationError(_("The template needs to be owned by a User or an Organization."
-                                    "It cannot hang around alone by itself."))
-    #class Meta:
-    #    unique_together = (("user", "template"), ("organization", "template"))

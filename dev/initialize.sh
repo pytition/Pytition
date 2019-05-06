@@ -14,7 +14,7 @@ echo "Do you want to pre-populate the database with some users, organizations an
 
 read prepopulate
 
-if [ "${prepopulate}" == "y" ]
+if [ "${prepopulate}" == "y" ] || [ "${prepopulate}" == "yes" ]
 then
     ./dev/prepopulate.sh
 fi
