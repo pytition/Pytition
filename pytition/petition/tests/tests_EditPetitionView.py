@@ -2,86 +2,15 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
-from petition.models import Organization, Petition, PytitionUser
+from petition.models import Organization, Petition, PytitionUser, Permission
+from .utils import add_default_data
 
-
-users = ['julia', 'john', 'max', 'sarah']
-orgs = ['RAP', 'Greenpeace', 'Attac', 'Les Amis de la Terre']
-
-user_published_petitions = {
-    'john': 0,
-    'sarah': 0,
-    'julia': 5,
-    'max': 10
-}
-
-user_unpublished_petitions = {
-    'john': 0,
-    'sarah': 5,
-    'julia': 0,
-    'max': 10
-}
-
-org_published_petitions = {
-    'RAP': 0,
-    'Les Amis de la Terre': 0,
-    'Greenpeace': 1,
-    'Attac': 2
-}
-
-org_unpublished_petitions = {
-    'RAP': 0,
-    'Les Amis de la Terre': 1,
-    'Greenpeace': 0,
-    'Attac': 2
-}
-
-org_members = {
-    'RAP': ['julia'],
-    'Les Amis de la Terre': ['julia', 'max'],
-    'Attac': ['john'],
-}
 
 class EditPetitionViewTest(TestCase):
     """Test index view"""
     @classmethod
     def setUpTestData(cls):
-        User = get_user_model()
-        for org in orgs:
-            o = Organization.objects.create(name=org)
-            for i in range(org_published_petitions[org]):
-                p = Petition.objects.create(published=True)
-                o.petitions.add(p)
-                p.save()
-            for i in range(org_unpublished_petitions[org]):
-                p = Petition.objects.create(published=False)
-                o.petitions.add(p)
-                p.save()
-            o.save()
-        for user in users:
-            u = User.objects.create_user(user, password=user)
-            u.first_name = user
-            u.save()
-            pu = PytitionUser.objects.get(user__username=user)
-            for i in range(user_published_petitions[user]):
-                p = Petition.objects.create(published=True)
-                pu.petitions.add(p)
-                p.save()
-            for i in range(user_unpublished_petitions[user]):
-                p = Petition.objects.create(published=False)
-                pu.petitions.add(p)
-                p.save()
-        for orgname in org_members:
-            org = Organization.objects.get(name=orgname)
-            for username in org_members[orgname]:
-                user = PytitionUser.objects.get(user__username=username)
-                org.add_member(user)
-
-        # give julia can_modify_petitions permission on "Les Amis de la Terre" organization
-        perm = PytitionUser.objects.get(user__username="julia").permissions\
-            .get(organization__name="Les Amis de la Terre")
-        perm.can_modify_petitions = True
-        perm.save()
+        add_default_data()
 
     def login(self, name):
         self.client.login(username=name, password=name)
@@ -103,7 +32,7 @@ class EditPetitionViewTest(TestCase):
     def test_edit_200(self):
         """ edit your own petition while being logged-in """
         self.login('julia')
-        petition = self.pu.petitions.first()
+        petition = self.pu.petition_set.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['petition'], petition)
@@ -112,7 +41,7 @@ class EditPetitionViewTest(TestCase):
     def test_edit_loggedout(self):
         """ edit your own petition while being logged out """
         self.login('julia')
-        petition = self.pu.petitions.first()
+        petition = self.pu.petition_set.first()
         self.logout()
         response = self.client.get(reverse("edit_petition", args=[petition.id]), follow=True)
         self.assertRedirects(response, reverse("login")+"?next="+reverse("edit_petition", args=[petition.id]))
@@ -121,7 +50,7 @@ class EditPetitionViewTest(TestCase):
         """ editing somebody else's petition """
         self.login('julia')
         max = PytitionUser.objects.get(user__username="max")
-        petition = max.petitions.first()
+        petition = max.petition_set.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]), follow=True)
         self.assertRedirects(response, reverse("user_dashboard"))
         self.assertTemplateUsed(response, "petition/user_dashboard.html")
@@ -130,7 +59,7 @@ class EditPetitionViewTest(TestCase):
         """ editing a petition owned by an Organization the logged-in user is *NOT* part of """
         self.login('sarah')
         attac = Organization.objects.get(name='Les Amis de la Terre')
-        petition = attac.petitions.first()
+        petition = attac.petition_set.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]), follow=True)
         self.assertRedirects(response, reverse("user_dashboard"))
         self.assertTemplateUsed(response, "petition/user_dashboard.html")
@@ -142,10 +71,13 @@ class EditPetitionViewTest(TestCase):
         """
         self.login('max')
         at = Organization.objects.get(name='Les Amis de la Terre')
-        petition = at.petitions.first()
+        max = PytitionUser.objects.get(user__username="max")
+        perm = Permission.objects.get(organization=at, user=max)
+        perm.can_modify_petitions = False
+        perm.save()
+        petition = at.petition_set.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]), follow=True)
-        self.assertRedirects(response, reverse("org_dashboard", args=[at.slugname]))
-        self.assertTemplateUsed(response, "petition/org_dashboard.html")
+        self.assertRedirects(response, reverse("user_dashboard"))
 
     def test_edit_InOrgWithEditPerm(self):
         """
@@ -154,7 +86,7 @@ class EditPetitionViewTest(TestCase):
         """
         self.login('julia')
         at = Organization.objects.get(name='Les Amis de la Terre')
-        petition = at.petitions.first()
+        petition = at.petition_set.first()
         response = self.client.get(reverse("edit_petition", args=[petition.id]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['petition'], petition)

@@ -45,13 +45,9 @@ class IndexViewTest(TestCase):
         for org in orgs:
             o = Organization.objects.create(name=org)
             for i in range(org_published_petitions[org]):
-                p = Petition.objects.create(published=True)
-                o.petitions.add(p)
-                p.save()
+                p = Petition.objects.create(published=True, org=o, title="Petition A%i" % i)
             for i in range(org_unpublished_petitions[org]):
-                p = Petition.objects.create(published=False)
-                o.petitions.add(p)
-                p.save()
+                p = Petition.objects.create(published=False, org=o, title="Petition B%i" % i)
             o.save()
         for user in users:
             u = User.objects.create_user(user)
@@ -59,18 +55,17 @@ class IndexViewTest(TestCase):
             u.save()
             pu = PytitionUser.objects.get(user__username=user)
             for i in range(user_published_petitions[user]):
-                p = Petition.objects.create(published=True)
-                pu.petitions.add(p)
-                p.save()
+                p = Petition.objects.create(published=True, user=pu, title="Petition C%i" % i)
             for i in range(user_unpublished_petitions[user]):
-                p = Petition.objects.create(published=False)
-                pu.petitions.add(p)
-                p.save()
-
+                p = Petition.objects.create(published=False, user=pu, title="Petition D%i" % i)
 
     def tearDown(self):
-        # Clean up run after every test method.
         pass
+
+    def test_index(self):
+        with self.settings(INDEX_PAGE="HOME"):
+            response = self.client.get('/', follow=True)
+            self.assertTemplateUsed(response, "layouts/base.html")
 
     def test_index_all_petition(self):
         total_published_petitions = sum(org_published_petitions.values()) + sum(user_published_petitions.values())

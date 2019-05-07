@@ -31,15 +31,15 @@ class PetitionCreateWizardViewTest(TestCase):
             org = Organization.objects.get(name=orgname)
             for username in org_members[orgname]:
                 user = PytitionUser.objects.get(user__username=username)
-                user.organizations.add(org)
-                permission = Permission.objects.create(organization=org, can_modify_permissions=True)
+                org.members.add(user)
+                permission = Permission.objects.get(organization=org, user=user)
+                permission.can_modify_permissions=True
                 permission.save()
-                user.permissions.add(permission)
-                user.save()
 
         # give julia can_modify_petitions permission on "Les Amis de la Terre" organization
-        perm = PytitionUser.objects.get(user__username="julia").permissions\
-            .get(organization__name="Les Amis de la Terre")
+        user = PytitionUser.objects.get(user__username='julia')
+        org = Organization.objects.get(name="Les Amis de la Terre")
+        perm = Permission.objects.get(organization=org, user=user)
         perm.can_modify_petitions = True
         perm.save()
 
@@ -63,9 +63,15 @@ class PetitionCreateWizardViewTest(TestCase):
         self.assertTemplateUsed(response, "registration/login.html")
         self.assertTemplateUsed(response, "layouts/base.html")
 
-    def test_call_page_ok(self):
+    def test_call_page1_ok(self):
         self.login("julia")
         org = Organization.objects.get(name='Les Amis de la Terre')
         response = self.client.get(reverse("org_petition_wizard", args=[org.slugname]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "petition/org_base.html")
+
+    def test_call_page2_ok(self):
+        self.login("julia")
+        org = Organization.objects.get(name='Les Amis de la Terre')
+        response = self.client.get(reverse("user_petition_wizard"))
+        self.assertEqual(response.status_code, 200)

@@ -52,14 +52,14 @@ class PetitionCreationStep1(forms.Form):
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
-        slugtext = slugify(html.unescape(mark_safe(strip_tags(title).strip())))
-        filters = {'slugs__slug': slugtext}
+        #slugtext = slugify(html.unescape(mark_safe(strip_tags(title).strip())))
+        filters = {'title': title}
         if self.owned_by_org:
             org = Organization.objects.get(slugname=self.orgslugname)
-            filters.update({'organization__slugname': org.slugname})
+            filters.update({'org': org})
         else:
             user = PytitionUser.objects.get(user__username=self.username)
-            filters.update({'pytitionuser__user__username': user.user.username})
+            filters.update({'user': user})
         results = Petition.objects.filter(**filters)
         if results.count() > 0:
             self.add_error('title', ValidationError(_("There is already a petition with this title"), code="invalid"))
@@ -76,7 +76,6 @@ class PetitionCreationStep1(forms.Form):
         else:
             raise ValueError(_("You should either provide an org name or a user name"))
         super(PetitionCreationStep1, self).__init__(*args, **kwargs)
-
 
 
 class PetitionCreationStep2(forms.Form):
