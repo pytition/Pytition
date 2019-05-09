@@ -124,7 +124,7 @@ dataLayer = [];
             {% endfor %}
             <div class="fields">
               <form method='POST' name='petition' class='form-group'
-              action='/petition/{{ petition.id }}/sign'>
+              action='{% url "create_signature" petition.id %}'>
                 {% csrf_token %}
                 {% for hidden_field in form.hidden_fields %}
                 {{ hidden_field }}
