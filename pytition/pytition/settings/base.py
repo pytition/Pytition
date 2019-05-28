@@ -104,14 +104,23 @@ DATABASES = {
 if os.environ.get('USE_POSTGRESQL'):
     from .pgsql import DATABASES
 
+# Set USE_MAIL_QUEUE to True if you want email sending to retry upon failure
+# email transmition naturally have retries *if the first SMTP server accepts it*
+# If your smtp server refuses to handle the email (anti-flood throttle?) then it
+# is up to you to retry, and this is what the mail queue does for you.
+# This is especially needed if you don't own the first-hop SMTP server
+# and cannot configure it to always accept your emails regardless of the sending
+# frequency.
+USE_MAIL_QUEUE = False
+
 # email backend
 # Only supported configurations:
 # - [default] no mailer backend, emails are sent synchronously with no retry if sending fails
-# - mailer backend used with uwsgi without cron jobs (EMAIL_BACKEND=mailer)
-# - mailer backend used without uwsgi with cron jobs (EMAIL_BACKEND=mailer, MAIL_EXTERNAL_CRON_SET=True)
-# Note: MAIL_EXTERNAL_CRON_SET is set, the responsability to setup external cron job to send mail is up to the administrator. 
+# - mailer backend used with uwsgi without cron jobs (USE_MAIL_QUEUE=True)
+# - mailer backend used without uwsgi with cron jobs (USE_MAIL_QUEUE=True, MAIL_EXTERNAL_CRON_SET=True)
+# Note: if MAIL_EXTERNAL_CRON_SET is set, the responsability to setup external cron job to send mail is up to the administrator.
 # If none are set, the emails will never be send!
-if os.environ.get('EMAIL_BACKEND') == 'mailer':
+if USE_MAIL_QUEUE:
     INSTALLED_APPS += ('mailer',)
     # this enable mailer by default in django.send_email
     EMAIL_BACKEND = "mailer.backend.DbBackend"
@@ -119,13 +128,13 @@ if os.environ.get('EMAIL_BACKEND') == 'mailer':
 # set it to True if you use the 'mailer' backend, and a external Crontab has been set
 MAIL_EXTERNAL_CRON_SET = False
 
-# number of seconds to wait before sending emails. This will be usefull only if EMAIL_BACKEND=mailer and uwsgi is used
+# number of seconds to wait before sending emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
 UWSGI_WAIT_FOR_MAIL_SEND_IN_S=10
-# number of seconds to wait before retrying emails. This will be usefull only if EMAIL_BACKEND=mailer and uwsgi is used
+# number of seconds to wait before retrying emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
 UWSGI_WAIT_FOR_RETRY_IN_S=1 * 60
-# number of seconds to wait before purging emails. This will be usefull only if EMAIL_BACKEND=mailer and uwsgi is used
+# number of seconds to wait before purging emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
 UWSGI_WAIT_FOR_PURGE_IN_S=1 * 24 * 60 * 60
-UWSGI_NB_DAYS_TO_KEEP=2
+UWSGI_NB_DAYS_TO_KEEP=3
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

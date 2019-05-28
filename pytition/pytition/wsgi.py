@@ -13,11 +13,9 @@ import sys
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pytition.settings")
+from django.conf import settings
 
-application = get_wsgi_application()
-
-if os.environ.get('EMAIL_BACKEND') == 'mailer':
-    from django.conf import settings
+if settings.USE_MAIL_QUEUE:
     try:
         import uwsgidecorators
         from django.core.management import call_command
@@ -50,3 +48,5 @@ If you want some mails, you should set MAIL_EXTERNAL_CRON_SET=True and setup the
 
 """)
             sys.exit(1)
+
+    application = get_wsgi_application()
