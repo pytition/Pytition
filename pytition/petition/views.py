@@ -212,7 +212,7 @@ def create_signature(request, petition_id):
         if petition.has_newsletter and signature.subscribed_to_mailinglist:
             subscribe_to_newsletter(petition, signature.email)
 
-    return redirect('/petition/{}'.format(petition.id))
+    return redirect(petition.url)
 
 
 # /org/<slug:orgslugname>/dashboard

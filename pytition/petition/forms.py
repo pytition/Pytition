@@ -116,7 +116,8 @@ class EmailForm(forms.Form):
     confirmation_email_smtp_host = forms.CharField(max_length=100, required=False)
     confirmation_email_smtp_port = forms.IntegerField(required=False)
     confirmation_email_smtp_user = forms.CharField(max_length=200, required=False)
-    confirmation_email_smtp_password = forms.CharField(max_length=200, required=False, widget=forms.PasswordInput())
+    confirmation_email_smtp_password = forms.CharField(max_length=200, required=False,
+                                                       widget=forms.PasswordInput(render_value=True))
     confirmation_email_smtp_tls = SwitchField(required=False, label=_("Use TLS?"))
     confirmation_email_smtp_starttls = SwitchField(required=False, label=_("Use STARTTLS?"))
 
