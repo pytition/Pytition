@@ -346,21 +346,14 @@ def org_add_user(request, orgslugname):
 
     pytitionuser = get_session_user(request)
 
-    if org not in pytitionuser.organizations.all():
+    if org not in pytitionuser.organization_set.all():
         return HttpResponseForbidden(_("You are not part of this organization."))
 
-    if org in adduser.organizations.all():
+    if org in adduser.organization_set.all():
         message = _("User is already member of {orgname} organization".format(orgname=org.name))
         return JsonResponse({"message": message}, status=500)
 
-    try:
-        permissions = pytitionuser.permissions.get(organization=org)
-    except:
-        message = _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')".
-                    format(orgname=org.name))
-        return JsonResponse({"message": message}, status=500)
-
-    if not permissions.can_add_members:
+    if not org.is_allowed_to(pytitionuser, "can_add_members"):
         message = _("You are not allowed to invite new members into this organization.")
         return JsonResponse({"message": message}, status=403)
 
