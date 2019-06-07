@@ -49,4 +49,4 @@ If you want some mails, you should set MAIL_EXTERNAL_CRON_SET=True and setup the
 """)
             sys.exit(1)
 
-    application = get_wsgi_application()
+application = get_wsgi_application()
