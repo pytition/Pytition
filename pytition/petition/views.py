@@ -690,13 +690,13 @@ def org_delete_member(request, orgslugname):
         return JsonResponse({}, status=403)  # Forbidden
 
     try:
-        permissions = pytitionuser.permissions.get(organization=org)
+        permissions = Permission.objects.get(user=pytitionuser, organization=org)
     except Permission.DoesNoeExist:
         return JsonResponse({}, status=500)
 
     if permissions.can_remove_members or pytitionuser == member:
-        if org in member.organizations.all():
-            member.organizations.remove(org)
+        if org in member.organization_set.all():
+            member.organization_set.remove(org)
         else:
             return JsonResponse({}, status=404)
     else:
@@ -767,18 +767,18 @@ def org_set_user_perms(request, orgslugname, user_name):
     except Organization.DoesNotExist:
         raise Http404(_("Organization does not exist"))
 
-    if org not in member.organizations.all():
+    if org not in member.organization_set.all():
         messages.error(request, _("This user is not part of organization \'{orgname}\'".format(orgname=org.name)))
         return redirect("org_dashboard", org.slugname)
 
     try:
-        permissions = member.permissions.get(organization=org)
+        permissions = Permission.objects.get(user=member, organization=org)
     except Permission.DoesNotExist:
         messages.error(request, _("Fatal error, this user does not have permissions attached for this organization"))
         return redirect("org_dashboard", org.slugname)
 
     try:
-        userperms = pytitionuser.permissions.get(organization=org)
+        userperms = Permission.objects.get(user=pytitionuser, organization=org)
     except:
         messages.error(request, _("Fatal error, you don't have permissions attached to you for this organization"))
         return redirect("org_dashboard", org.slugname)
