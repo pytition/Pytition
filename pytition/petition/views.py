@@ -723,20 +723,20 @@ def org_edit_user_perms(request, orgslugname, user_name):
     except Organization.DoesNotExist:
         raise Http404(_("Organization '{name}' does not exist".format(name=orgslugname)))
 
-    if org not in member.organizations.all():
+    if org not in member.organization_set.all():
         messages.error(request, _("The user '{username}' is not member of this organization ({orgname}).".
                                   format(username=user_name, orgname=org.name)))
         return redirect("org_dashboard", org.slugname)
 
     try:
-        permissions = member.permissions.get(organization=org)
+        permissions = Permission.objects.get(organization=org, user=member)
     except Permission.DoesNotExist:
         messages.error(request,
                        _("Internal error, this member does not have permissions attached to this organization."))
         return redirect("org_dashboard", org.slugname)
 
     try:
-        user_permissions = pytitionuser.permissions.get(organization=org)
+        user_permissions = Permission.objects.get(organization=org, user=pytitionuser)
     except:
         return HttpResponse(
             _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')"
