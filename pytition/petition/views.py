@@ -240,11 +240,13 @@ def org_dashboard(request, orgslugname):
               .format(orgname=org.name)))
         return redirect("user_dashboard")
 
+    can_create_petition = org.is_allowed_to(pytitionuser, "can_create_petitions")
     petitions = org.petition_set.all()
     other_orgs = pytitionuser.organization_set.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html',
             {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
-            'petitions': petitions, 'user_permissions': permissions})
+            'petitions': petitions, 'user_permissions': permissions,
+             'can_create_petition': can_create_petition})
 
 
 # /user/dashboard
@@ -257,7 +259,7 @@ def user_dashboard(request):
     return render(
         request,
         'petition/user_dashboard.html',
-        {'user': user, 'petitions': petitions}
+        {'user': user, 'petitions': petitions, 'can_create_petition': True}
     )
 
 

@@ -12,7 +12,9 @@
         {{ no_petition_msg }}
     {% else %}
   <p>{% trans "You don't have any petitions yet"%}</p>
+{%  if can_create_petition %}
   <a class="btn btn-primary" href="{% if org %}{% url "org_petition_wizard" org.slugname %}{% else %}{% url "user_petition_wizard" %}{% endif %}">{% trans "Create a new petition" %}</a>
+{%  endif %}
     {% endif %}
 {% else %}
 <div class="row petition-list">
