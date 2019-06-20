@@ -81,3 +81,4 @@ def add_default_data():
     perm = Permission.objects.get(organization=org, user=julia)
     perm.can_modify_permissions = True
     perm.save()
+    admin = User.objects.create_user('admin', password='admin', is_staff=True, is_superuser=True)

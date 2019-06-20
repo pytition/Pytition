@@ -25,6 +25,11 @@ class OrgCreateViewTest(TestCase):
         # Clean up run after every test method.
         pass
 
+    def test_CreateGetFormOK(self):
+        john = self.login("john")
+        response = self.client.get(reverse("org_create"))
+        self.assertEquals(response.status_code, 200)
+
     def test_CreateOK(self):
         john = self.login("john")
         newname = 'my new-org with @ ç special_chars'
