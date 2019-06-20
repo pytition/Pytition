@@ -168,6 +168,7 @@ def get_csv_signature(request, petition_id, only_confirmed):
 
 # resend/<int:signature_id>
 # resend the signature confirmation email
+@login_required
 def go_send_confirmation_email(request, signature_id):
     app_label = Signature._meta.app_label
     signature = Signature.objects.filter(pk=signature_id).get()
@@ -268,7 +269,7 @@ def user_dashboard(request):
 def user_profile(request, user_name):
     try:
         user = PytitionUser.objects.get(user__username=user_name)
-    except User.DoesNotExist:
+    except PytitionUser.DoesNotExist:
         raise Http404(_("not found"))
 
     ctx = {'user': user,
