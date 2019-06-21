@@ -389,7 +389,7 @@ def invite_accept(request, orgslugname):
         try:
             with transaction.atomic():
                 pytitionuser.invitations.remove(org)
-                org.add_member(pytitionuser)
+                org.members.add(pytitionuser)
         except:
             return HttpResponse(status=500)
     else:
@@ -813,9 +813,9 @@ def org_set_user_perms(request, orgslugname, user_name):
             # if user is dropping his own permissions
             if not can_modify_perms and permissions.can_modify_permissions and pytitionuser == member:
                 # get list of people with can_modify_permissions permission on this org
-                owners = PytitionUser.objects.filter(permissions__organization=org,
-                                                     permissions__can_modify_permissions=True)
-                if owners.count() > 1:
+                perms = Permission.objects.filter(organization=org, can_modify_permissions=True).all()
+                owners = [perm.user for perm in perms]
+                if len(owners) > 1:
                     permissions.can_modify_permissions = can_modify_perms
                 else:
                     if org.members.count() > 1:
