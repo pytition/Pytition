@@ -29,8 +29,9 @@ cd pytition && python3 ./manage.py migrate && cd -
 
 echo "Running tests"
 
+coverage erase
 coverage run ./pytition/manage.py test petition
-coverage xml
+coverage xml --include='pytition/*'
 deactivate
            '''
 step([$class: 'CoberturaPublisher',
