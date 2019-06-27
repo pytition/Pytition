@@ -43,6 +43,6 @@ step([$class: 'CoberturaPublisher',
                            maxNumberOfBuilds: 10,
                            onlyStable: false,
                            sourceEncoding: 'ASCII',
-                           zoomCoverageChart: false])
-        }
+                           zoomCoverageChart: false]
+)
 }
