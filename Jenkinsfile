@@ -30,6 +30,19 @@ cd pytition && python3 ./manage.py migrate && cd -
 echo "Running tests"
 
 coverage run ./pytition/manage.py test petition
+coverage xml
 deactivate
            '''
+step([$class: 'CoberturaPublisher',
+                           autoUpdateHealth: false,
+                           autoUpdateStability: false,
+                           coberturaReportFile: 'coverage.xml',
+                           failNoReports: false,
+                           failUnhealthy: false,
+                           failUnstable: false,
+                           maxNumberOfBuilds: 10,
+                           onlyStable: false,
+                           sourceEncoding: 'ASCII',
+                           zoomCoverageChart: false])
+        }
 }
