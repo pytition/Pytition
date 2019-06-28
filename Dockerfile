@@ -1,6 +1,10 @@
 FROM python:3
 ENV PYTHONUNBUFFERED 1
 ENV USE_POSTGRESQL 1
+
+RUN apt-get -y update
+RUN apt-get install -y gettext
+
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt requirements_dev.txt /code/
