@@ -4,13 +4,11 @@
 {% block container_type %}container{% endblock container_type %}
 
 {% block main_content %}
-<div class="row justify-content-center">
-    <div class="col-*">
-        <form action="" method="POST" novalidate="novalidate">{% csrf_token %}
-            {% include "petition/bs4_form.html" with form=form %}
-            {% comment %}{{ form }}{% endcomment %}
-            <button class="btn btn-primary" type="submit">{% trans "Register" %}</button>
-        </form>
-    </div>
+<div class="container">
+    <form action="" method="POST" novalidate="novalidate">{% csrf_token %}
+        {% include "petition/bs4_form.html" with form=form %}
+        {% comment %}{{ form }}{% endcomment %}
+        <button class="btn btn-primary" type="submit">{% trans "Register" %}</button>
+    </form>
 </div>
 {% endblock main_content %}
