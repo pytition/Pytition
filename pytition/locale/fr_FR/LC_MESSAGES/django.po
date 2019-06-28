@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-28 17:53+0200\n"
-"PO-Revision-Date: 2019-06-28 18:23+0200\n"
+"PO-Revision-Date: 2019-06-28 22:09+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -610,7 +610,7 @@ msgstr "Organisation liée à ces permissions"
 
 #: pytition/petition/models.py:523
 msgid "User related to these permissions"
-msgstr "Organisation liée à ces permissions"
+msgstr "Utilisateur liée à ces permissions"
 
 #: pytition/petition/templates/layouts/base.html:12
 msgid "Homepage"
@@ -836,10 +836,8 @@ msgstr ""
 "                    "
 
 #: pytition/petition/templates/petition/edit_petition.html:76
-#, fuzzy
-#| msgid "Footer links"
 msgid "Permlinks"
-msgstr "Liens de pied de page"
+msgstr "Permaliens"
 
 #: pytition/petition/templates/petition/edit_petition.html:77
 msgid "Actions"
@@ -1291,11 +1289,11 @@ msgstr "Créer une organisation"
 
 #: pytition/petition/templates/petition/user_org_list.html:5
 msgid "New organization"
-msgstr "Organisations"
+msgstr "Nouvelle organisation"
 
 #: pytition/petition/templates/petition/user_profile.html:51
 msgid "This user has not created any petition yet"
-msgstr "Cet utilisateur n'existe pas (plus ?)"
+msgstr "Cet utilisateur n'a pas encore créé de pétition"
 
 #: pytition/petition/templates/registration/login.html:8
 msgid "Please sign in"
@@ -1602,16 +1600,16 @@ msgstr ""
 
 #: pytition/petition/views.py:1267
 msgid "You successfully changed your password!"
-msgstr ""
+msgstr "Votre mot de passe a été modifié avec succès !"
 
 #: pytition/petition/views.py:1315
 msgid "You successfully created organization '{}'"
-msgstr ""
+msgstr "L'organisation '{}' a été créée avec succès"
 
 #: pytition/petition/views.py:1339 pytition/petition/views.py:1346
 #: pytition/petition/views.py:1348
 msgid "Sorry, we are not able to find this petition"
-msgstr "Vous n\\'êtes pas le propriétaire de cette pétition"
+msgstr "Désolé, nous n'avons pas trouvé cette pétition"
 
 #: pytition/petition/views.py:1364 pytition/petition/views.py:1395
 msgid "This petition does not exist (anymore?)."
