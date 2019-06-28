@@ -639,7 +639,7 @@ msgstr "Nouvelle pétition"
 #: pytition/petition/templates/layouts/nav.html:47
 #: pytition/petition/templates/layouts/nav_dashboard.html:52
 msgid "New Organization"
-msgstr "Organisations"
+msgstr "Nouvelle organisation"
 
 #: pytition/petition/templates/layouts/nav.html:51
 #: pytition/petition/templates/layouts/nav_dashboard.html:57
@@ -827,13 +827,12 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"                        A slug is what allows you to share your petition "
-"with a nice link\n"
-"                        containing a meaningful small title instead of a "
-"number.\n"
-"                        With a slug your petition would be accessible via a "
-"link like:\n"
-"                    "
+"                Un permalien (lien permanent) permet de partager votre "
+"petition avec une url plus parlante\n"
+"                containant un titre petit et ayant du sens, au lieu d'un nombre.\n"
+"                Avec un permalien votre pétition est accessible à l'aide d'un lien"
+"du type :\n"
+"            "
 
 #: pytition/petition/templates/petition/edit_petition.html:76
 msgid "Permlinks"
@@ -865,7 +864,7 @@ msgstr "Créer une pétition"
 
 #: pytition/petition/templates/petition/index.html:18
 msgid "View latest petitions"
-msgstr "Voir les dernieres pétitions"
+msgstr "Voir les dernières pétitions"
 
 #: pytition/petition/templates/petition/index.html:50
 msgid "View all petitions"
