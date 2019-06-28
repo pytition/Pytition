@@ -1416,6 +1416,8 @@ msgstr ""
 #: pytition/petition/views.py:295
 msgid "Impossible to leave this organisation, you are the last administrator"
 msgstr ""
+"Vous ne pouvez pas quitter cette organisation, il ne reste plus que vous en "
+"administrateur"
 
 #: pytition/petition/views.py:341
 msgid "This user does not exist (anylonger?)"
@@ -1427,7 +1429,7 @@ msgstr "Cette organisation n'existe pas (plus ?)"
 
 #: pytition/petition/views.py:353
 msgid "You are not part of this organization."
-msgstr ""
+msgstr "Vous ne faîtes pas partie de cette organisation."
 
 #: pytition/petition/views.py:356
 #, python-brace-format
@@ -1437,6 +1439,8 @@ msgstr "L'utilisateur est déjà membre de l'organisation {orgname}"
 #: pytition/petition/views.py:360
 msgid "You are not allowed to invite new members into this organization."
 msgstr ""
+"Vous n'avez pas l'autorisation d'inviter de nouveaux membres dans cette "
+"organisation."
 
 #: pytition/petition/views.py:367
 msgid "An error occured"
@@ -1455,6 +1459,8 @@ msgstr "Cette organisation n'existe pas"
 #: pytition/petition/views.py:442
 msgid "You are not allowed to view this organization dashboard"
 msgstr ""
+"Vous n'avez pas l'autorisation de visualiser le tableau de bord de cette "
+"organisation"
 
 #: pytition/petition/views.py:453
 msgid "You don't have the permission to create a Template in this organization"
@@ -1617,7 +1623,7 @@ msgstr "Cette pétition n'existe pas (plus ?)"
 
 #: pytition/petition/views.py:1370
 msgid "You entered an empty slug text"
-msgstr ""
+msgstr "Vous avez saisi un slug vide"
 
 #: pytition/petition/views.py:1377
 msgid "Successful addition of the slug '{}'!"
@@ -1625,7 +1631,7 @@ msgstr ""
 
 #: pytition/petition/views.py:1379
 msgid "The slug '{}' already exists!"
-msgstr ""
+msgstr "Le slug '{}' existe déjà !"
 
 #: pytition/petition/views.py:1381 pytition/petition/views.py:1407
 msgid "You don't have the permission to modify petitions"
