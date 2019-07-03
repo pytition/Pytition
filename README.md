@@ -97,6 +97,7 @@ Beware to still be in the virtual environment, if not please re-do the ```source
 ```bash
 (pytition_venv) $ cd www/pytition/pytition
 (pytition_venv) $ python3 manage.py migrate
+(pytition_venv) $ python3 manage.py collectstatic
 (pytition_venv) $ python3 manage.py createsuperuser
 ```
 
