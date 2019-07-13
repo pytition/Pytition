@@ -30,7 +30,7 @@ cd pytition && python3 ./manage.py migrate && cd -
 echo "Running tests"
 
 coverage erase
-coverage run ./pytition/manage.py test --noinput --parallel 2 petition
+coverage run ./pytition/manage.py test --noinput petition
 coverage xml --include='pytition/*'
 deactivate
            '''
