@@ -54,7 +54,7 @@ class OrgDeleteMemberViewTest(TestCase):
         self.assertEquals(response["Content-Type"], "application/json")
 
 
-    def test_OrgAddUserViewKoForbidden(self):
+    def test_OrgDeleteMemberViewKoForbidden(self):
         """Let's try to add user max to org RAP from non-authorized Julia user"""
         # Add max to RAP
         julia = self.login('julia')
@@ -85,3 +85,13 @@ class OrgDeleteMemberViewTest(TestCase):
         response = self.client.get(reverse('org_delete_member', args=["rap"])+"?member=max")
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response['Content-Type'], 'application/json')
+
+    def test_OrgDeleteMemberLastAdminKo(self):
+        julia = self.login('julia')
+        julia_perms = Permission.objects.get(organization__slugname="rap", user=julia)
+        # Add permission to remove members
+        julia_perms.can_remove_members = True
+        julia_perms.save()
+        response = self.client.get(reverse('org_delete_member', kwargs={'orgslugname': 'rap'}) + "?member=julia")
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response["Content-Type"], "application/json")

@@ -704,6 +704,8 @@ def org_delete_member(request, orgslugname):
 
     if permissions.can_remove_members or pytitionuser == member:
         if org in member.organization_set.all():
+            if org.is_last_admin(member):
+                return JsonResponse({}, status=403)  # Forbidden
             member.organization_set.remove(org)
         else:
             return JsonResponse({}, status=404)

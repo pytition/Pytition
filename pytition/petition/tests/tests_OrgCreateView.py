@@ -46,6 +46,8 @@ class OrgCreateViewTest(TestCase):
         org = Organization.objects.get(slugname=slugify(newname))
         self.assertEqual(org.slugname, slugify(newname))
         self.assertEqual(org.name, newname)
+        admins_perms = Permission.objects.filter(organization=org, can_modify_permissions=True)
+        self.assertGreaterEqual(admins_perms.count(), 1)
 
     def test_CreateAlreadyExistsKO(self):
         john = self.login("john")

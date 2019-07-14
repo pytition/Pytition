@@ -37,6 +37,11 @@ def add_default_data():
         'Les Amis de la Terre': ['julia', 'max'],
         'Attac': ['john'],
     }
+    org_admins = {
+        'RAP': ['julia'],
+        'Les Amis de la Terre': ['julia'],
+        'Attac': ['john'],
+    }
     User = get_user_model()
     for org in orgs:
         o = Organization.objects.create(name=org)
@@ -74,11 +79,12 @@ def add_default_data():
         for username in org_members[orgname]:
             user = PytitionUser.objects.get(user__username=username)
             org.members.add(user)
+    for orgname in org_admins:
+        org = Organization.objects.get(name=orgname)
+        for username in org_admins[orgname]:
+            user = PytitionUser.objects.get(user__username=username)
+            perms = Permission.objects.get(organization=org, user=user)
+            perms.can_modify_permissions = True
+            perms.save()
 
-    # give julia can_modify_petitions permission on "Les Amis de la Terre" organization
-    julia = PytitionUser.objects.get(user__username="julia")
-    org = Organization.objects.get(name="Les Amis de la Terre")
-    perm = Permission.objects.get(organization=org, user=julia)
-    perm.can_modify_permissions = True
-    perm.save()
     admin = User.objects.create_user('admin', password='admin', is_staff=True, is_superuser=True)

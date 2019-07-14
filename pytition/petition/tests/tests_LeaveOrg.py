@@ -11,12 +11,6 @@ class LeaveOrgViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         add_default_data()
-        # Add max as admin of les amis de la terre
-        max = PytitionUser.objects.get(user__username="max")
-        org = Organization.objects.get(name="Les Amis de la Terre")
-        perm = Permission.objects.get(organization=org, user=max)
-        perm.can_modify_permissions = True
-        perm.save()
 
     def login(self, name, password=None):
         self.client.login(username=name, password=password if password else name)
@@ -39,16 +33,24 @@ class LeaveOrgViewTest(TestCase):
         self.assertTemplateUsed(response, "layouts/base.html")
 
     def test_leave_org_ok(self):
-        julia = self.login("julia")
+        max = self.login("max")
         org = Organization.objects.get(name='Les Amis de la Terre')
         response = self.client.get(reverse("leave_org", args=[org.slugname]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("account_settings"))
-        self.assertNotIn(org, julia.organization_set.all())
+        self.assertNotIn(org, max.organization_set.all())
 
     def test_leave_refuse_alone(self):
         julia = self.login("julia")
         org = Organization.objects.get(name='RAP')
+        response = self.client.get(reverse("leave_org", args=[org.slugname]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("account_settings") + '#a_org_form')
+        self.assertIn(org, julia.organization_set.all())
+
+    def test_leave_refuse_lastAdmin(self):
+        julia = self.login("julia")
+        org = Organization.objects.get(name='Les Amis de la Terre')
         response = self.client.get(reverse("leave_org", args=[org.slugname]))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("account_settings") + '#a_org_form')
