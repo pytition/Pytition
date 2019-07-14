@@ -46,13 +46,13 @@ def add_default_data():
     for org in orgs:
         o = Organization.objects.create(name=org)
         for i in range(org_published_petitions[org]):
-            p = Petition.objects.create(
+            Petition.objects.create(
                     published=True,
                     title="Petition A%i" % i,
                     org=o
             )
         for i in range(org_unpublished_petitions[org]):
-            p = Petition.objects.create(
+            Petition.objects.create(
                 published=False,
                 title="Petition B%i" % i,
                 org=o
@@ -63,13 +63,13 @@ def add_default_data():
         u.save()
         pu = PytitionUser.objects.get(user__username=user)
         for i in range(user_published_petitions[user]):
-            p = Petition.objects.create(
+            Petition.objects.create(
                     published=True,
                     title="Petition C%i" % i,
                     user=pu
                 )
         for i in range(user_unpublished_petitions[user]):
-            p = Petition.objects.create(
+            Petition.objects.create(
                 published=False,
                 title="Petition D%i" % i,
                 user=pu
@@ -84,7 +84,7 @@ def add_default_data():
         for username in org_admins[orgname]:
             user = PytitionUser.objects.get(user__username=username)
             perms = Permission.objects.get(organization=org, user=user)
-            perms.can_modify_permissions = True
+            perms.set_all(True)
             perms.save()
 
-    admin = User.objects.create_user('admin', password='admin', is_staff=True, is_superuser=True)
+    User.objects.create_user('admin', password='admin', is_staff=True, is_superuser=True)

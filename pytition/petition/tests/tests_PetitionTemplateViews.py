@@ -81,24 +81,23 @@ class PetitionViewTest(TestCase):
         self.assertEqual(julia.default_template, pt2)
 
     def test_template_delete(self):
-        self.login('julia')
-        org = Organization.objects.get(name='RAP')
-        julia = PytitionUser.objects.get(user__username='julia')
+        max = self.login('max')
+        org = Organization.objects.get(name='Les Amis de la Terre')
         # For an org template
         pt = PetitionTemplate.objects.create(name="Default template", org=org)
         self.assertEqual(PetitionTemplate.objects.count(), 1)
         response = self.client.get(reverse("template_delete", args=[pt.id]))
         self.assertEqual(response.status_code, 403)
         self.assertEqual(PetitionTemplate.objects.count(), 1)
-        # Ah yes, Julia does not have access rights for that
-        p = Permission.objects.get(organization=org, user=julia)
+        # Ah yes, Max does not have access rights for that
+        p = Permission.objects.get(organization=org, user=max)
         p.can_delete_templates = True
         p.save()
         response = self.client.get(reverse("template_delete", args=[pt.id]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(PetitionTemplate.objects.count(), 0)
         # For an user template
-        pt2 = PetitionTemplate.objects.create(name="Default template", user=julia)
+        pt2 = PetitionTemplate.objects.create(name="Default template", user=max)
         self.assertEqual(PetitionTemplate.objects.count(), 1)
         response = self.client.get(reverse("template_delete", args=[pt2.id]))
         self.assertEqual(response.status_code, 200)

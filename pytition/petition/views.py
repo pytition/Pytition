@@ -355,7 +355,8 @@ def org_add_user(request, orgslugname):
     pytitionuser = get_session_user(request)
 
     if org not in pytitionuser.organization_set.all():
-        return HttpResponseForbidden(_("You are not part of this organization."))
+        message = _("You are not part of this organization.")
+        return JsonResponse({"message": message}, status=403)
 
     if org in adduser.organization_set.all():
         message = _("User is already member of {orgname} organization".format(orgname=org.name))

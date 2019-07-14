@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth import get_user_model
 
 from petition.models import Organization, Petition, PytitionUser, Signature, Permission
 from .utils import add_default_data
@@ -43,12 +42,13 @@ class PetitionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "petition/signature_data.html")
         # Org petition
+        max = self.login("max")
         org = Organization.objects.get(name='Les Amis de la Terre')
         p2 = org.petition_set.first()
         response = self.client.get(reverse("show_signatures", args=[p2.id]))
         self.assertEqual(response.status_code, 302)
-        # Ah right, julia does not have access rights for that
-        perm = Permission.objects.get(organization=org, user=julia)
+        # Ah right, Max does not have access rights for that
+        perm = Permission.objects.get(organization=org, user=max)
         perm.can_view_signatures = True
         perm.save()
         response = self.client.get(reverse("show_signatures", args=[p2.id]))
@@ -76,16 +76,15 @@ class PetitionViewTest(TestCase):
         response = self.client.get(reverse("get_csv_confirmed_signature", args=[p.id]))
         self.assertEqual(response.status_code, 200)
         # Org petition
+        self.login("max")
         org = Organization.objects.get(name='Les Amis de la Terre')
         p2 = org.petition_set.first()
         response = self.client.get(reverse("get_csv_signature", args=[p2.id]))
         self.assertEqual(response.status_code, 403)
         response = self.client.get(reverse("get_csv_confirmed_signature", args=[p2.id]))
         self.assertEqual(response.status_code, 403)
-        # Ah right, julia does not have access rights for that
-        perm = Permission.objects.get(organization=org, user=julia)
-        perm.can_view_signatures = True
-        perm.save()
+        # Ah right, max does not have access rights for that
+        self.login("julia")
         response = self.client.get(reverse("get_csv_signature", args=[p2.id]))
         self.assertEqual(response.status_code, 200)
         response = self.client.get(reverse("get_csv_confirmed_signature", args=[p2.id]))
