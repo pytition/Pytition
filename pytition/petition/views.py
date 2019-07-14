@@ -971,7 +971,6 @@ def petition_delete(request, petition_id):
         else:
             return JsonResponse({}, status=403)
     else:  # an organization owns the petition
-        org = Organization.objects.get(petitions=petition)
         userperms = Permission.objects.get(organization=petition.org, user=pytitionuser)
         if userperms.can_delete_petitions:
             petition.delete()
