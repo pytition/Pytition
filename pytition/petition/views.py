@@ -517,9 +517,17 @@ def edit_template(request, template_id):
             return HttpResponseForbidden(_("You are not allowed to edit this user's templates"))
         base_template = "petition/user_base.html"
 
+    submitted_ctx = {
+        'content_form_submitted': False,
+        'email_form_submitted': False,
+        'social_network_form_submitted': False,
+        'newsletter_form_submitted': False,
+    }
+
     if request.method == "POST":
         if 'content_form_submitted' in request.POST:
             content_form = ContentFormTemplate(request.POST)
+            submitted_ctx['content_form_submitted'] = True
             if content_form.is_valid():
                 template.name = content_form.cleaned_data['name']
                 template.text = content_form.cleaned_data['text']
@@ -534,6 +542,7 @@ def edit_template(request, template_id):
 
         if 'email_form_submitted' in request.POST:
             email_form = EmailForm(request.POST)
+            submitted_ctx['email_form_submitted'] = True
             if email_form.is_valid():
                 template.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
                 template.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
@@ -549,6 +558,7 @@ def edit_template(request, template_id):
 
         if 'social_network_form_submitted' in request.POST:
             social_network_form = SocialNetworkForm(request.POST)
+            submitted_ctx['social_network_form_submitted'] = True
             if social_network_form.is_valid():
                 template.twitter_description = social_network_form.cleaned_data['twitter_description']
                 template.twitter_image = social_network_form.cleaned_data['twitter_image']
@@ -559,6 +569,7 @@ def edit_template(request, template_id):
 
         if 'newsletter_form_submitted' in request.POST:
             newsletter_form = NewsletterForm(request.POST)
+            submitted_ctx['newsletter_form_submitted'] = True
             if newsletter_form.is_valid():
                 template.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
                 template.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
@@ -592,6 +603,7 @@ def edit_template(request, template_id):
 
     context['base_template'] = base_template
     context.update(ctx)
+    context.update(submitted_ctx)
     return render(request, "petition/edit_template.html", context)
 
 
