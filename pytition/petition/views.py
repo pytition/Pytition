@@ -607,24 +607,6 @@ def edit_template(request, template_id):
     return render(request, "petition/edit_template.html", context)
 
 
-# FIXME : this controller has no urls
-@login_required
-def user_del_template(request, user_name):
-    try:
-        pytitionuser = PytitionUser.objects.get(user__username=user_name)
-    except PytitionUser.DoesNotExist:
-        raise Http404(_("User does not exist"))
-
-    if pytitionuser.user != request.user:
-        return HttpResponseForbidden(_("You are not allowed to delete this users' templates"))
-
-    template = PetitionTemplate.objects.get(name=request.GET['name'])
-    pytitionuser.petition_templates.remove(template)
-    pytitionuser.save()
-
-    return JsonResponse({})
-
-
 # /templates/<int:template_id>/delete
 # Delete a template
 @login_required
@@ -1055,118 +1037,131 @@ def edit_petition(request, petition_id):
     if not petition.is_allowed_to_edit(pytitionuser):
         messages.error(request, _("You are not allowed to edit this petition"))
         return redirect("user_dashboard")
-    else:
-        if request.method == "POST":
-            if 'content_form_submitted' in request.POST:
-                content_form = ContentFormPetition(request.POST)
-                if content_form.is_valid():
-                    petition.title = content_form.cleaned_data['title']
-                    petition.text = content_form.cleaned_data['text']
-                    petition.side_text = content_form.cleaned_data['side_text']
-                    petition.footer_text = content_form.cleaned_data['footer_text']
-                    petition.footer_links = content_form.cleaned_data['footer_links']
-                    petition.sign_form_footer = content_form.cleaned_data['sign_form_footer']
-                    petition.save()
-            else:
-                content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
 
-            if 'email_form_submitted' in request.POST:
-                email_form = EmailForm(request.POST)
-                if email_form.is_valid():
-                    petition.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
-                    petition.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
-                    petition.confirmation_email_smtp_host = email_form.cleaned_data['confirmation_email_smtp_host']
-                    petition.confirmation_email_smtp_port = email_form.cleaned_data['confirmation_email_smtp_port']
-                    petition.confirmation_email_smtp_user = email_form.cleaned_data['confirmation_email_smtp_user']
-                    petition.confirmation_email_smtp_password = email_form.cleaned_data['confirmation_email_smtp_password']
-                    petition.confirmation_email_smtp_tls = email_form.cleaned_data['confirmation_email_smtp_tls']
-                    petition.confirmation_email_smtp_starttls = email_form.cleaned_data['confirmation_email_smtp_starttls']
-                    petition.save()
-            else:
-                email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
+    submitted_ctx = {
+        'content_form_submitted': False,
+        'email_form_submitted': False,
+        'social_network_form_submitted': False,
+        'newsletter_form_submitted': False,
+    }
 
-            if 'social_network_form_submitted' in request.POST:
-                social_network_form = SocialNetworkForm(request.POST)
-                if social_network_form.is_valid():
-                    petition.twitter_description = social_network_form.cleaned_data['twitter_description']
-                    petition.twitter_image = social_network_form.cleaned_data['twitter_image']
-                    petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
-                    petition.save()
-            else:
-                social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
-
-            if 'newsletter_form_submitted' in request.POST:
-                newsletter_form = NewsletterForm(request.POST)
-                if newsletter_form.is_valid():
-                    petition.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
-                    petition.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
-                    petition.newsletter_subscribe_http_mailfield = newsletter_form.cleaned_data['newsletter_subscribe_http_mailfield']
-                    petition.newsletter_subscribe_http_url = newsletter_form.cleaned_data['newsletter_subscribe_http_url']
-                    petition.newsletter_subscribe_mail_subject = newsletter_form.cleaned_data['newsletter_subscribe_mail_subject']
-                    petition.newsletter_subscribe_mail_from = newsletter_form.cleaned_data['newsletter_subscribe_mail_from']
-                    petition.newsletter_subscribe_mail_to = newsletter_form.cleaned_data['newsletter_subscribe_mail_to']
-                    petition.newsletter_subscribe_method = newsletter_form.cleaned_data['newsletter_subscribe_method']
-                    petition.newsletter_subscribe_mail_smtp_host = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_host']
-                    petition.newsletter_subscribe_mail_smtp_port = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_port']
-                    petition.newsletter_subscribe_mail_smtp_user = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_user']
-                    petition.newsletter_subscribe_mail_smtp_password = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_password']
-                    petition.newsletter_subscribe_mail_smtp_tls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_tls']
-                    petition.newsletter_subscribe_mail_smtp_starttls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_starttls']
-                    petition.save()
-            else:
-                newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
-
-            if 'style_form_submitted' in request.POST:
-                style_form = StyleForm(request.POST)
-                if style_form.is_valid():
-                    petition.bgcolor = style_form.cleaned_data['bgcolor']
-                    petition.linear_gradient_direction = style_form.cleaned_data['linear_gradient_direction']
-                    petition.gradient_from = style_form.cleaned_data['gradient_from']
-                    petition.gradient_to = style_form.cleaned_data['gradient_to']
-                    petition.save()
-            else:
-                style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
+    if request.method == "POST":
+        if 'content_form_submitted' in request.POST:
+            submitted_ctx['content_form_submitted'] = True
+            content_form = ContentFormPetition(request.POST)
+            if content_form.is_valid():
+                petition.title = content_form.cleaned_data['title']
+                petition.text = content_form.cleaned_data['text']
+                petition.side_text = content_form.cleaned_data['side_text']
+                petition.footer_text = content_form.cleaned_data['footer_text']
+                petition.footer_links = content_form.cleaned_data['footer_links']
+                petition.sign_form_footer = content_form.cleaned_data['sign_form_footer']
+                petition.save()
         else:
             content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
-            style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
+
+        if 'email_form_submitted' in request.POST:
+            submitted_ctx['email_form_submitted'] = True
+            email_form = EmailForm(request.POST)
+            if email_form.is_valid():
+                petition.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
+                petition.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
+                petition.confirmation_email_smtp_host = email_form.cleaned_data['confirmation_email_smtp_host']
+                petition.confirmation_email_smtp_port = email_form.cleaned_data['confirmation_email_smtp_port']
+                petition.confirmation_email_smtp_user = email_form.cleaned_data['confirmation_email_smtp_user']
+                petition.confirmation_email_smtp_password = email_form.cleaned_data['confirmation_email_smtp_password']
+                petition.confirmation_email_smtp_tls = email_form.cleaned_data['confirmation_email_smtp_tls']
+                petition.confirmation_email_smtp_starttls = email_form.cleaned_data['confirmation_email_smtp_starttls']
+                petition.save()
+        else:
             email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
+
+        if 'social_network_form_submitted' in request.POST:
+            submitted_ctx['social_network_form_submitted'] = True
+            social_network_form = SocialNetworkForm(request.POST)
+            if social_network_form.is_valid():
+                petition.twitter_description = social_network_form.cleaned_data['twitter_description']
+                petition.twitter_image = social_network_form.cleaned_data['twitter_image']
+                petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
+                petition.save()
+        else:
             social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
+
+        if 'newsletter_form_submitted' in request.POST:
+            submitted_ctx['newsletter_form_submitted'] = True
+            newsletter_form = NewsletterForm(request.POST)
+            if newsletter_form.is_valid():
+                petition.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
+                petition.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
+                petition.newsletter_subscribe_http_mailfield = newsletter_form.cleaned_data['newsletter_subscribe_http_mailfield']
+                petition.newsletter_subscribe_http_url = newsletter_form.cleaned_data['newsletter_subscribe_http_url']
+                petition.newsletter_subscribe_mail_subject = newsletter_form.cleaned_data['newsletter_subscribe_mail_subject']
+                petition.newsletter_subscribe_mail_from = newsletter_form.cleaned_data['newsletter_subscribe_mail_from']
+                petition.newsletter_subscribe_mail_to = newsletter_form.cleaned_data['newsletter_subscribe_mail_to']
+                petition.newsletter_subscribe_method = newsletter_form.cleaned_data['newsletter_subscribe_method']
+                petition.newsletter_subscribe_mail_smtp_host = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_host']
+                petition.newsletter_subscribe_mail_smtp_port = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_port']
+                petition.newsletter_subscribe_mail_smtp_user = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_user']
+                petition.newsletter_subscribe_mail_smtp_password = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_password']
+                petition.newsletter_subscribe_mail_smtp_tls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_tls']
+                petition.newsletter_subscribe_mail_smtp_starttls = newsletter_form.cleaned_data['newsletter_subscribe_mail_smtp_starttls']
+                petition.save()
+        else:
             newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
-        ctx = {'user': pytitionuser,
-            'content_form': content_form,
-            'style_form': style_form,
-            'email_form': email_form,
-            'social_network_form': social_network_form,
-            'newsletter_form': newsletter_form,
-            'petition': petition}
-        url_prefix = request.scheme + "://" + request.get_host()
-
-        if petition.owner_type == "org":
-            permissions = Permission.objects.get(organization=petition.org, user=pytitionuser)
-            example_url = url_prefix + reverse("slug_show_petition",
-                                kwargs={'orgslugname': petition.org.slugname,
-                                'petitionname': _("save-the-kittens-from-bad-wolf")})
-            slug_prefix = (url_prefix + reverse("slug_show_petition",
-                                                kwargs={'orgslugname': petition.org.slugname,
-                                                        'petitionname': 'toto'})).rsplit('/', 1)[0]
-            ctx.update({'org': petition.org,
-                        'user_permissions': permissions,
-                        'base_template': 'petition/org_base.html',
-                        'example_url': example_url,
-                        'slug_prefix': slug_prefix})
+        if 'style_form_submitted' in request.POST:
+            submitted_ctx['style_form_submitted'] = True
+            style_form = StyleForm(request.POST)
+            if style_form.is_valid():
+                petition.bgcolor = style_form.cleaned_data['bgcolor']
+                petition.linear_gradient_direction = style_form.cleaned_data['linear_gradient_direction']
+                petition.gradient_from = style_form.cleaned_data['gradient_from']
+                petition.gradient_to = style_form.cleaned_data['gradient_to']
+                petition.save()
         else:
-            example_url = url_prefix + reverse("slug_show_petition",
-                                kwargs={'username': pytitionuser.user.username,
-                                            'petitionname': _("save-the-kittens-from-bad-wolf")})
-            slug_prefix = (url_prefix + reverse("slug_show_petition",
-                                                kwargs={'username': pytitionuser.user.username,
-                                                        'petitionname': 'toto'})).rsplit('/', 1)[0]
-            ctx.update({'base_template': 'petition/user_base.html',
-                        'example_url': example_url,
-                        'slug_prefix': slug_prefix})
+            style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
+    else:
+        content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
+        style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
+        email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
+        social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
+        newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
-        return render(request, "petition/edit_petition.html", ctx)
+    ctx = {'user': pytitionuser,
+        'content_form': content_form,
+        'style_form': style_form,
+        'email_form': email_form,
+        'social_network_form': social_network_form,
+        'newsletter_form': newsletter_form,
+        'petition': petition}
+    url_prefix = request.scheme + "://" + request.get_host()
+
+    if petition.owner_type == "org":
+        permissions = Permission.objects.get(organization=petition.org, user=pytitionuser)
+        example_url = url_prefix + reverse("slug_show_petition",
+                            kwargs={'orgslugname': petition.org.slugname,
+                            'petitionname': _("save-the-kittens-from-bad-wolf")})
+        slug_prefix = (url_prefix + reverse("slug_show_petition",
+                                            kwargs={'orgslugname': petition.org.slugname,
+                                                    'petitionname': 'toto'})).rsplit('/', 1)[0]
+        ctx.update({'org': petition.org,
+                    'user_permissions': permissions,
+                    'base_template': 'petition/org_base.html',
+                    'example_url': example_url,
+                    'slug_prefix': slug_prefix})
+    else:
+        example_url = url_prefix + reverse("slug_show_petition",
+                            kwargs={'username': pytitionuser.user.username,
+                                        'petitionname': _("save-the-kittens-from-bad-wolf")})
+        slug_prefix = (url_prefix + reverse("slug_show_petition",
+                                            kwargs={'username': pytitionuser.user.username,
+                                                    'petitionname': 'toto'})).rsplit('/', 1)[0]
+        ctx.update({'base_template': 'petition/user_base.html',
+                    'example_url': example_url,
+                    'slug_prefix': slug_prefix})
+    ctx.update(submitted_ctx)
+
+    return render(request, "petition/edit_petition.html", ctx)
 
 
 # /<int:petition_id>/show_signatures

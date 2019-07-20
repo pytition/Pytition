@@ -48,6 +48,15 @@ class PetitionViewTest(TestCase):
         pt = org.petitiontemplate_set.first()
         self.assertRedirects(response, reverse("edit_template", args=[pt.id]))
 
+    def test_user_new_template_post(self):
+        julia = self.login('julia')
+        data = {'template_name': 'This is a default template'}
+        response = self.client.post(reverse("user_new_template"), data)
+        self.assertEqual(julia.petitiontemplate_set.count(), 1)
+        self.assertEqual(response.status_code, 302)
+        pt = julia.petitiontemplate_set.first()
+        self.assertRedirects(response, reverse("edit_template", args=[pt.id]))
+
     def test_edit_template(self):
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
@@ -78,7 +87,31 @@ class PetitionViewTest(TestCase):
         julia.refresh_from_db()
         self.assertEqual(julia.default_template, pt2)
 
-    def test_template_delete(self):
+    def test_template_fav_toggletwice(self):
+        julia = self.login('julia')
+        org = Organization.objects.get(name='RAP')
+        # For an org template
+        pt = PetitionTemplate.objects.create(name="Default template", org=org)
+        response = self.client.get(reverse("template_fav_toggle", args=[pt.id]))
+        self.assertEqual(response.status_code, 200)
+        org.refresh_from_db()
+        self.assertEqual(org.default_template, pt)
+        response = self.client.get(reverse("template_fav_toggle", args=[pt.id]))
+        self.assertEqual(response.status_code, 200)
+        org.refresh_from_db()
+        self.assertEqual(org.default_template, None)
+        # For an user template
+        pt2 = PetitionTemplate.objects.create(name="Default template", user=julia)
+        response = self.client.get(reverse("template_fav_toggle", args=[pt2.id]))
+        self.assertEqual(response.status_code, 200)
+        julia.refresh_from_db()
+        self.assertEqual(julia.default_template, pt2)
+        response = self.client.get(reverse("template_fav_toggle", args=[pt2.id]))
+        self.assertEqual(response.status_code, 200)
+        julia.refresh_from_db()
+        self.assertEqual(julia.default_template, None)
+
+    def test_org_template_delete(self):
         max = self.login('max')
         org = Organization.objects.get(name='Les Amis de la Terre')
         # For an org template
