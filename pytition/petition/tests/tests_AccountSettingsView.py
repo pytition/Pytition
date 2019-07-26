@@ -719,3 +719,15 @@ class AccountSettingsViewTest(TestCase):
         self.login(username, password=new_pass)
         response3 = self.client.get(reverse("user_dashboard"), follow=True)
         self.assertRedirects(response3, reverse("login")+"?next="+reverse("user_dashboard"))
+
+    def test_OneUserAdminCannotLeave(self):
+        julia = self.login("julia")
+
+        response = self.client.get(reverse("account_settings"))
+        self.assertEquals(response.status_code, 200)
+        orgs = response.context['orgs']
+        for org in orgs:
+            if org.is_last_admin(julia):
+                self.assertEquals(org.leave, False)
+            if org.members.count() == 1 and julia in org.members.all():
+                self.assertEquals(org.leave, False)

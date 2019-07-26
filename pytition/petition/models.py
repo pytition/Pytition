@@ -84,11 +84,11 @@ class Organization(models.Model):
         Return true or false
         """
         # get all permissions
-        perms = Permission.objects.filter(can_modify_permissions=True, organization=self).all()
-        if len(perms) > 1:
+        perms = Permission.objects.filter(can_modify_permissions=True, organization=self)
+        if perms.count() > 1:
             return False
-        elif len(perms) == 1:
-            if perms[0].user == user:
+        elif perms.count() == 1:
+            if perms.first().user == user:
                 return True
             else:
                 return False
@@ -114,6 +114,10 @@ class Organization(models.Model):
 
     def __repr__(self):
         return '< {} >'.format(self.name)
+
+    @property
+    def owners(self):
+        return self.members.filter(permission__can_modify_permissions=True)
 
     @property
     def kind(self):

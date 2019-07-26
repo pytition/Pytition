@@ -57,6 +57,12 @@ class PetitionViewTest(TestCase):
         pt = julia.petitiontemplate_set.first()
         self.assertRedirects(response, reverse("edit_template", args=[pt.id]))
 
+    def test_user_new_template_get(self):
+        julia = self.login('julia')
+        response = self.client.get(reverse("user_new_template"))
+        self.assertEqual(julia.petitiontemplate_set.count(), 0)
+        self.assertEqual(response.status_code, 200)
+
     def test_edit_template(self):
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')

@@ -299,6 +299,9 @@ def leave_org(request, orgslugname):
         if org.is_last_admin(pytitionuser):
             messages.error(request, _('Impossible to leave this organisation, you are the last administrator'))
             return redirect(reverse('account_settings') + '#a_org_form')
+        elif org.members.count() == 1:
+                messages.error(request, _('Impossible to leave this organisation, you are the last member'))
+                return redirect(reverse('account_settings') + '#a_org_form')
         else:
             org.members.remove(pytitionuser)
     return redirect('account_settings')
@@ -815,9 +818,8 @@ def org_set_user_perms(request, orgslugname, user_name):
             # if user is dropping his own permissions
             if not can_modify_perms and permissions.can_modify_permissions and pytitionuser == member:
                 # get list of people with can_modify_permissions permission on this org
-                perms = Permission.objects.filter(organization=org, can_modify_permissions=True).all()
-                owners = [perm.user for perm in perms]
-                if len(owners) > 1:
+                owners = org.owners
+                if owners.count() > 1:
                     permissions.can_modify_permissions = can_modify_perms
                 else:
                     if org.members.count() > 1:
@@ -1017,7 +1019,7 @@ def petition_unpublish(request, petition_id):
     else:
         # Check if the user has permission over this org
         try:
-            userperms = Permission.objects.get(org=petition.org, user=pytitionuser)
+            userperms = Permission.objects.get(organization=petition.org, user=pytitionuser)
             if userperms.can_modify_petitions:
                 petition.unpublish()
                 return JsonResponse({})
@@ -1203,11 +1205,16 @@ def show_signatures(request, petition_id):
             if action == "delete":
                 for s in selected_signatures:
                     pet = s.petition
-                    if s in petition.signature_set.all() and \
-                        pet.org.is_allowed_to(pytitionuser, 'can_delete_signatures'):
-                        s.delete()
-                    else:
-                        failed = True
+                    if pet.org: # Petition is owned by an org, we check for rights
+                        if pet.org.is_allowed_to(pytitionuser, 'can_delete_signatures'):
+                            s.delete()
+                        else:
+                            failed = True
+                    else: # Petition is owned by a user, we check it's the one asking for deletion
+                        if pet.user == pytitionuser:
+                            s.delete()
+                        else:
+                            failed = True
                 if failed:
                     messages.error(request, _("You don't have permission to delete some or all of selected signatures"))
                 else:
@@ -1294,7 +1301,7 @@ def account_settings(request):
             org.leave = False
         else:
             # More than one user, we need to check owners
-            owners = org.permission_set.filter(can_modify_permissions=True).all()
+            owners = org.owners.all()
             if owners.count() == 1 and pytitionuser in owners:
                 org.leave = False
             else:

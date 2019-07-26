@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from .utils import add_default_data
+import json
 
+from .utils import add_default_data
 from petition.models import PytitionUser
 
 
@@ -23,3 +24,22 @@ class GetUserListViewTest(TestCase):
         response = self.client.get(reverse('get_user_list')+"?q=admin")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], "application/json")
+        values = response.json()['values']
+        self.assertEquals(len(values), 1)
+        self.assertEquals(values[0], "admin")
+
+    def test_GetUserListViewEmptySearchOk(self):
+        self.login("julia")
+        response = self.client.get(reverse('get_user_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], "application/json")
+        values = response.json()['values']
+        self.assertEquals(len(values), 0)
+
+    def test_GetUserListViewEmptyStringSearchOk(self):
+        self.login("julia")
+        response = self.client.get(reverse('get_user_list')+"?q=")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], "application/json")
+        values = response.json()['values']
+        self.assertEquals(len(values), 0)

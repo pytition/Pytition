@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.messages import constants
 
 from petition.models import Organization, Petition, PytitionUser, Signature, Permission
 from .utils import add_default_data
@@ -89,3 +90,214 @@ class PetitionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.get(reverse("get_csv_confirmed_signature", args=[p2.id]))
         self.assertEqual(response.status_code, 200)
+
+    def test_show_signatures_post_deleteOK(self):
+        julia = self.login("julia")
+        petition = julia.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        sid = signature.id
+        data = {
+            'action': 'delete',
+            'signature_id': [sid],
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
+        self.assertTemplateUsed(response, "petition/signature_data.html")
+        with self.assertRaises(Signature.DoesNotExist):
+            Signature.objects.get(pk=sid)
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, False)
+
+    def test_show_signatures_post_deleteOK_org(self):
+        self.login("julia")
+        org = Organization.objects.get(name="Les Amis de la Terre")
+        petition = org.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        sid = signature.id
+        data = {
+            'action': 'delete',
+            'signature_id': [sid],
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
+        self.assertTemplateUsed(response, "petition/signature_data.html")
+        with self.assertRaises(Signature.DoesNotExist):
+            Signature.objects.get(pk=sid)
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, False)
+
+    def test_show_signatures_post_deleteKONoRightsUser(self):
+        self.login("julia")
+        max = PytitionUser.objects.get(user__username="max")
+        petition = max.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        sid = signature.id
+        data = {
+            'action': 'delete',
+            'signature_id': [sid],
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
+        self.assertTemplateUsed(response, "petition/signature_data.html")
+        s = Signature.objects.get(pk=sid)
+        self.assertEquals(s.id, sid) # dummy test, we just want the previous line not to raise a DoesNotExist exception
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, True)
+
+    def test_show_signatures_post_deleteKONoRightsOrg(self):
+        self.login("max")
+        org = Organization.objects.get(name="Les Amis de la Terre")
+        petition = org.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        sid = signature.id
+        data = {
+            'action': 'delete',
+            'signature_id': [sid],
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("org_dashboard", args=[org.slugname]))
+        self.assertTemplateUsed(response, "petition/org_dashboard.html")
+        s = Signature.objects.get(pk=sid)
+        self.assertEquals(s.id, sid) # dummy test, we just want the previous line not to raise a DoesNotExist exception
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, True)
+
+    def test_show_signatures_post_resendOK_org(self):
+        self.login("julia")
+        org = Organization.objects.get(name="Les Amis de la Terre")
+        petition = org.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        sid = signature.id
+        data = {
+            'action': 're-send',
+            'signature_id': [sid],
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
+        self.assertTemplateUsed(response, "petition/signature_data.html")
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, False)
+
+    def test_show_signatures_post_resendOK(self):
+        julia = self.login("julia")
+        petition = julia.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        sid = signature.id
+        data = {
+            'action': 're-send',
+            'signature_id': [sid],
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
+        self.assertTemplateUsed(response, "petition/signature_data.html")
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, False)
+
+    def test_show_signatures_post_resendallOK(self):
+        julia = self.login("julia")
+        petition = julia.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        #sid = signature.id
+        data = {
+            'action': 're-send-all',
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
+        self.assertTemplateUsed(response, "petition/signature_data.html")
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, False)
+
+    def test_show_signatures_post_resendallOK_org(self):
+        self.login("julia")
+        org = Organization.objects.get(name="Les Amis de la Terre")
+        petition = org.petition_set.first()
+        pid = petition.id
+        signature = Signature.objects.create(
+            first_name="Me",
+            last_name="You",
+            email="you@example.org",
+            petition=petition)
+        #sid = signature.id
+        data = {
+            'action': 're-send-all',
+        }
+        response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
+        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
+        self.assertTemplateUsed(response, "petition/signature_data.html")
+        messages = response.context['messages']
+        self.assertGreaterEqual(len(messages), 1)
+        ThereIsAnyError = False
+        for msg in messages:
+            if msg.level == constants.ERROR:
+                ThereIsAnyError = True
+        self.assertEquals(ThereIsAnyError, False)
