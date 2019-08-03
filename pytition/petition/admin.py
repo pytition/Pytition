@@ -36,8 +36,8 @@ class OrganizationAdmin(admin.ModelAdmin):
     def user_num(self, org):
         return org.members.count()
 
-    petition_num.description = ugettext_lazy('Petition number')
-    user_num.description = ugettext_lazy('User number')
+    petition_num.description = ugettext_lazy('Number of petitions')
+    user_num.description = ugettext_lazy('Number of members')
 
 
 def confirm(modeladmin, request, queryset):

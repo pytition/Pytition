@@ -1,14 +1,19 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
 
-<h2>Thank you {{ firstname }}!</h2>
+<h2>{% trans "Thank you" %} {{ firstname }}!</h2>
 
-Now, in order to confirm your signature, you only need to click here : <a href="{{ url }}">{{ url }}</a>
+{% blocktrans %}
+Now, in order to confirm your signature, you only need to click here :
+{% endblocktrans %}
+<a href="{{ url }}">{{ url }}</a>
 <p />
-See you soon!
+{% trans "See you soon!" %}
 </body>
 </html>
