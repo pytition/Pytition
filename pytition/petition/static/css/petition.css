@@ -276,3 +276,21 @@ a.share-item:hover {
     color: red;
     font-size: inherit;
 }
+
+.footer-links {
+    padding: 0;
+}
+
+.footer li {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+.footer li a {
+    color: white;
+}
+
+.footer-text {
+    padding-left: 40px;
+    color: grey;
+}

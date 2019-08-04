@@ -187,3 +187,18 @@ dataLayer = [];
 {% block extrajs %}
 <script type="text/javascript" src="{% static "js/petition.js" %}"></script>
 {% endblock %}
+
+{% block footer %}
+<div class="container">
+<div class="footer-wrapper bg-dark">
+    <footer role="contentinfo" class="footer">
+        <div class="footer-links">
+            {% autoescape off %}{{ petition.footer_links }}{% endautoescape %}
+        </div>
+        <div class="footer-text">
+            {% autoescape off %}{{ petition.footer_text }}{% endautoescape %}
+        </div>
+    </footer>
+</div>
+</div>
+{% endblock %}
