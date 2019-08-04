@@ -193,7 +193,6 @@ TINYMCE_INCLUDE_JQUERY = True
 SITE_NAME = "Pytition"
 ALLOW_REGISTER = True
 LOGIN_REDIRECT_URL = reverse_lazy("user_dashboard")
-ALLOW_CONNECT = True
 DEFAULT_INDEX_THUMBNAIL = "/img/petition_icon.svg"
 
 # Leave it set to None for no footer
