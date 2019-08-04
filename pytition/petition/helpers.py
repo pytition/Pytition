@@ -55,6 +55,12 @@ def check_petition_is_accessible(request, petition):
 def settings_context_processor(request):
     return {'settings': settings}
 
+# Get footer content
+def footer_content_processor(request):
+    footer_content = None
+    if settings.FOOTER_TEMPLATE:
+        footer_content = render_to_string(settings.FOOTER_TEMPLATE)
+    return {'footer_content': footer_content}
 
 # Send Confirmation email
 def send_confirmation_email(request, signature):

@@ -73,6 +73,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'petition.helpers.footer_content_processor',
                 'petition.helpers.settings_context_processor',
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
@@ -194,6 +195,12 @@ ALLOW_REGISTER = True
 LOGIN_REDIRECT_URL = reverse_lazy("user_dashboard")
 ALLOW_CONNECT = True
 DEFAULT_INDEX_THUMBNAIL = "/img/petition_icon.svg"
+
+# Leave it set to None for no footer
+# This should contain the relative path to your footer template
+# That would be the location for any "legal mention" / "GDPR" / "TOS" link.
+#FOOTER_TEMPLATE = 'layouts/footer.html.example'
+FOOTER_TEMPLATE = None
 
 #INDEX_PAGE_ORGA = "RAP"
 #INDEX_PAGE_USER = "admin"

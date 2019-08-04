@@ -1,3 +1,4 @@
+{% load static %}
 <div class="footer-wrapper bg-dark">
   <footer role="contentinfo" class="footer">
     <div class="container">
