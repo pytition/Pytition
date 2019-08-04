@@ -1,10 +1,10 @@
 import requests
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 from django.conf import settings
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.core.mail import get_connection, send_mail
+from django.core.mail import get_connection, send_mail, EmailMessage
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from .models import PytitionUser, Petition
