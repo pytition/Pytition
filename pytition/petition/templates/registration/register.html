@@ -1,13 +1,10 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/layout.html" %}
 {% load i18n %}
-
-{% block justify-app %}start{% endblock justify-app %}
 
 {% block main_content %}
 <div class="container">
     <form action="" method="POST" novalidate="novalidate">{% csrf_token %}
         {% include "petition/bs4_form.html" with form=form %}
-        {% comment %}{{ form }}{% endcomment %}
         <button class="btn btn-primary" type="submit">{% trans "Register" %}</button>
     </form>
 </div>

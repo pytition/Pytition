@@ -35,7 +35,15 @@
 <body>
     <div id="modalContainer">
     </div>
-    <div class="app d-flex flex-column justify-content-{% block justify-app %}between{% endblock justify-app %}">
+    <div class="app d-flex flex-column
+{% block justify-app %}
+{% if footer_content %}
+    justify-content-between
+{% else %}
+    justify-content-start
+{% endif %}
+{% endblock justify-app %}
+    ">
     {% block nav %}{% include 'layouts/nav.html' %}{% endblock nav %}
 
       {% block main_content %}

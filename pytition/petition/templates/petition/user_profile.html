@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/layout.html' %}
 {% load static %}
 {% load i18n %}
     {% block title %}
@@ -6,8 +6,6 @@
         {{ name }}'s profile
     {% endblocktrans %}
     {% endblock title %}
-
-{% block justify-app %}start{% endblock justify-app %}
 
 {% block container_type %}
     container
