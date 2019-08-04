@@ -31,8 +31,10 @@
         <button type="submit" class="btn btn-primary btn-block">{% trans "Login" %}</button>
         <input type="hidden" name="next" value="{{ next }}" />
       </form>
+      {% if settings.ALLOW_REGISTER %}
       <div class="mt-3"> {% trans "No account?" %} <a href="{% url "register" %}">{% trans "Register!" %}</a></div>
         <p><a href="{% url "password_reset" %}">{% trans "I forgot my password!" %}</a></p>
+      {% endif %}
       </div>
         </div>
     </div>
