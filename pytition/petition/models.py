@@ -436,7 +436,7 @@ class PetitionTemplate(models.Model):
     )
 
     # Description
-    name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"), db_index=True)
+    name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"))
     text = tinymce_models.HTMLField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(blank=True, null=True)
@@ -491,9 +491,6 @@ class PetitionTemplate(models.Model):
             return "org"
         else:
             return "user"
-
-    class Meta:
-        index_together = ["id", ]
 
     def save(self, *args, **kwargs):
         if (self.org is None and self.user is None):
