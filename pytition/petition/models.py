@@ -571,7 +571,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Petition)
-def save_user_profile(sender, instance, **kwargs):
+def save_petition(sender, instance, **kwargs):
     if instance.slugmodel_set.count() == 0:
         instance.slugify()
 
