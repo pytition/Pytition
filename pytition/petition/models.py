@@ -205,7 +205,8 @@ class Petition(models.Model):
     salt = models.TextField(blank=True)
 
     def prepopulate_from_template(self, template):
-        for field in self._meta.fields:
+        fields = [f for f in self._meta.fields if f.name not in ["id", "title", "salt", "user", "org"]]
+        for field in fields:
             if hasattr(self, field.name) and hasattr(template, field.name):
                 template_value = getattr(template, field.name)
                 if template_value is not None and template_value != "":
