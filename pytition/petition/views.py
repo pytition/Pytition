@@ -855,9 +855,29 @@ class PetitionCreationWizard(SessionWizardView):
     def get_template_names(self):
         return [WizardTemplates[self.steps.current]]
 
+    def get_form_initial(self, step):
+        if step == "step2":
+            org_petition = "orgslugname" in self.kwargs
+            if org_petition:
+                orgslugname = self.kwargs['orgslugname']
+            else:
+                pytitionuser = get_session_user(self.request)
+
+            if "template_id" in self.kwargs:
+                template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+                if org_petition:
+                    org = Organization.objects.get(slugname=orgslugname)
+                    if template in org.petitiontemplate_set.all():
+                        return {'message': template.text}
+                else:
+                    if template in pytitionuser.petitiontemplate_set.all():
+                        return {'message': template.text}
+        return self.initial_dict.get(step, {})
+
     def get_form_kwargs(self, step=None):
         if step == "step1":
-            if "orgslugname" in self.kwargs:
+            org_petition = "orgslugname" in self.kwargs
+            if org_petition:
                 orgslugname = self.kwargs['orgslugname']
                 kwargs = {"orgslugname": orgslugname}
             else:
