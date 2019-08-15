@@ -31,12 +31,6 @@ $(function () {
    $('[data-action="petition-delete"]').on("click", function() {
     var petition_delete_url = $(this).closest("[data-petition-delete]").data("petition-delete");
     $.ajax(petition_delete_url).done(function() {
-        if (window.location.href.endsWith('/edit')) {
-           // If we were on this petition edit page and the user clicks on delete
-           // we cannot reload the edit page, we then reload the dashboard
-           // NOTE: today there is no delete button from petition edit page. This is hypothetical.
-           window.location = "{{ dashboard }}";
-       } else
            window.location = window.location.href;
     });
    });
