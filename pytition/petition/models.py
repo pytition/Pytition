@@ -204,13 +204,14 @@ class Petition(models.Model):
     use_custom_email_settings = models.BooleanField(default=False)
     salt = models.TextField(blank=True)
 
-    def prepopulate_from_template(self, template):
-        fields = [f for f in self._meta.fields if f.name not in ["id", "title", "salt", "user", "org"]]
+    def prepopulate_from_template(self, template, fields=None):
+        if fields is None:
+            fields = [f.name for f in self._meta.fields if f.name not in ["id", "title", "salt", "user", "org"]]
         for field in fields:
-            if hasattr(self, field.name) and hasattr(template, field.name):
-                template_value = getattr(template, field.name)
+            if hasattr(self, field) and hasattr(template, field):
+                template_value = getattr(template, field)
                 if template_value is not None and template_value != "":
-                    setattr(self, field.name, template_value)
+                    setattr(self, field, template_value)
 
 
     def slugify(self):
