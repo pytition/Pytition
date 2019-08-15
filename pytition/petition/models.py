@@ -165,8 +165,8 @@ class Petition(models.Model):
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(default=500)
     # Owner
-    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, null=True)
-    org = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, null=True, blank=True)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True)
     # Colors
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
     gradient_from = ColorField(blank=True)
@@ -441,8 +441,8 @@ class PetitionTemplate(models.Model):
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(blank=True, null=True)
     # Owner
-    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, null=True)
-    org = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, null=True, blank=True)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True)
     # Fancy colors
     linear_gradient_direction = models.CharField(choices=LINEAR_GRADIENT_CHOICES, max_length=15, default=NO, blank=True)
     gradient_from = ColorField(blank=True)

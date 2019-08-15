@@ -10,6 +10,7 @@ import tinymce.models
 
 import html
 
+
 def createPytitionUsers(apps, schema_editor):
     PytitionUser = apps.get_model('petition', 'PytitionUser')
     User = apps.get_model(*settings.AUTH_USER_MODEL.split('.'))
@@ -46,6 +47,13 @@ def slugify_petitions(apps, schema_editor):
         if p.slugmodel_set.count() == 0:
             raw_title = html.unescape(mark_safe(strip_tags(p.title).strip()))
             SlugModel.objects.create(slug=slugify(raw_title[:200]), petition=p)
+
+def petition_title_strip_html(apps, schema_editor):
+    Petition = apps.get_model('petition', 'Petition')
+    for p in Petition.objects.all():
+        p.title = strip_tags(p.title)
+        p.save()
+
 
 class Migration(migrations.Migration):
 
@@ -104,7 +112,7 @@ class Migration(migrations.Migration):
                 ('confirmation_email_smtp_tls', models.BooleanField(default=False)),
                 ('confirmation_email_smtp_starttls', models.BooleanField(default=False)),
                 ('use_custom_email_settings', models.BooleanField(default=False)),
-                ('org', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.Organization')),
+                ('org', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.Organization')),
             ],
         ),
         migrations.RemoveField(
@@ -199,7 +207,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='petitiontemplate',
             name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.PytitionUser'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.PytitionUser'),
         ),
         migrations.CreateModel(
             name='Permission',
@@ -234,12 +242,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='petition',
             name='org',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.Organization'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.Organization'),
         ),
         migrations.AddField(
             model_name='petition',
             name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.PytitionUser'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='petition.PytitionUser'),
         ),
         migrations.RunPython(
             code=createPytitionUsers,
@@ -251,6 +259,10 @@ class Migration(migrations.Migration):
         ),
         migrations.RunPython(
             code=slugify_petitions,
+            reverse_code=django.db.migrations.operations.special.RunPython.noop,
+        ),
+        migrations.RunPython(
+            code=petition_title_strip_html,
             reverse_code=django.db.migrations.operations.special.RunPython.noop,
         ),
     ]

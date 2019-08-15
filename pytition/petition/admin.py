@@ -72,6 +72,11 @@ class SignatureAdmin(admin.ModelAdmin):
 
 
 class PetitionAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PetitionAdminForm, self).__init__(*args, **kwargs)
+        self.fields['user'].required = False
+        self.fields['org'].required = False
+
     class Meta:
         model = Petition
         #inlines = (SlugInlineAdmin, )
@@ -220,6 +225,11 @@ class PetitionAdmin(admin.ModelAdmin):
 
 
 class PetitionTemplateForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PetitionTemplateForm, self).__init__(*args, **kwargs)
+        self.fields['user'].required = False
+        self.fields['org'].required = False
+
     class Meta:
         model = PetitionTemplate
         fields = ['linear_gradient_direction', 'side_text']
@@ -311,6 +321,11 @@ class PetitionTemplateAdmin(admin.ModelAdmin):
     #change_form_template = 'petition/petition_change_form.html'
     form = PetitionTemplateForm
     fieldsets = (
+        (ugettext_lazy('To whom is this petition template?'),
+         {
+             'fields': ('org', 'user')
+         }
+         ),
          (ugettext_lazy('Content of the petition'),
           {
            'fields': ('name', 'text', 'side_text', 'footer_text', 'footer_links', 'sign_form_footer', 'target')
