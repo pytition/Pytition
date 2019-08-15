@@ -164,8 +164,13 @@ class PetitionAdmin(admin.ModelAdmin):
     change_form_template = 'petition/petition_change_form.html'
     form = PetitionAdminForm
     search_fields = ('title', )
-    list_display = ('raw_title', 'non_confirmed_signature_number', 'confirmed_signature_number')
+    list_display = ('title', 'non_confirmed_signature_number', 'confirmed_signature_number')
     fieldsets = (
+        (ugettext_lazy('To whom is this petition?'),
+         {
+             'fields': ('org', 'user')
+         }
+         ),
         (ugettext_lazy('Content of the petition'),
          {
           'fields': ('title', 'text', 'side_text', 'footer_text', 'footer_links', 'sign_form_footer', 'target')
@@ -213,9 +218,6 @@ class PetitionAdmin(admin.ModelAdmin):
         return petition.get_signature_number(confirmed=True)
     confirmed_signature_number.short_description = ugettext_lazy('Confirmed signatures')
 
-    def raw_title(self, petition):
-        return petition.raw_title
-    raw_title.short_description = ugettext_lazy('Title')
 
 class PetitionTemplateForm(ModelForm):
     class Meta:
