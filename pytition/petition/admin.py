@@ -31,7 +31,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('name', 'petition_num', 'user_num')
 
     def petition_num(self, org):
-        return org.petitions.count()
+        return org.petition_set.count()
 
     def user_num(self, org):
         return org.members.count()
