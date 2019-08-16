@@ -18,11 +18,23 @@ $(function () {
    });
 });
 
+function do_toggle_template_picture(template) {
+    if (template.prop("class").includes("text-warning"))
+        template.removeClass("text-warning").addClass("text-dark");
+    else
+        template.removeClass("text-dark").addClass("text-warning");
+}
+
 $(function () {
     $('[data-fav-toggle="true"]').on("click", function () {
         var template_fav_url = $(this).closest("[data-template-fav]").data("template-fav");
+        var template = $(this);
         $.ajax(template_fav_url).done(function() {
-            window.location = window.location.href;
+            var hash = document.location.hash;
+            if (hash)
+                do_toggle_template_picture(template);
+            else
+                window.location = window.location.href;
         });
     });
 });
