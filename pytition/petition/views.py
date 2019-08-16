@@ -952,6 +952,8 @@ class PetitionCreationWizard(SessionWizardView):
                 else:
                     messages.error(self.request, _("This template does not belong to you"))
                     return redirect("user_dashboard")
+            if publish:
+                petition.publish()
             if _redirect and _redirect == '1':
                 return redirect("edit_petition", petition.id)
             else:
