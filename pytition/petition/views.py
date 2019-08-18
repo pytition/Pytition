@@ -1,6 +1,6 @@
 import csv
 import time
-from datetime import datetime
+from datetime import timedelta
 
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.timezone import now
 
 from formtools.wizard.views import SessionWizardView
 
@@ -195,11 +196,11 @@ def create_signature(request, petition_id):
         ipaddr = make_password(
                 get_client_ip(request),
                 salt=petition.salt.encode('utf-8'))
-        one_day_ago = datetime.fromtimestamp(time.time() - settings.SIGNATURE_THROTTLE_TIMING)
+        since = now() - timedelta(seconds=settings.SIGNATURE_THROTTLE_TIMING)
         signatures = Signature.objects.filter(
             petition=petition,
             ipaddress=ipaddr,
-            date__gt=one_day_ago)
+            date__gt=since)
         if signatures.count() > settings.SIGNATURE_THROTTLE:
             messages.error(request, _("Too many signatures from your IP address, please try again later."))
             return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form, 'meta': petition_detail_meta(request, petition_id)})

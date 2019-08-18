@@ -209,8 +209,9 @@ INDEX_PAGE = "HOME"
 #INDEX_PAGE = "USER_PROFILE"
 #INDEX_PAGE = "LOGIN_REGISTER"
 
-SIGNATURE_THROTTLE = 5
-SIGNATURE_THROTTLE_TIMING = 60*60*24
+# Anti bot feature
+SIGNATURE_THROTTLE = 5 # 5 signatures from same IP allowed
+SIGNATURE_THROTTLE_TIMING = 60*60*24 # in a 1 day time frame
 
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")
