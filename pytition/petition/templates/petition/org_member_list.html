@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="dashboard-nav-item py-3">
-  <h4><span class="oi oi-people"></span>&nbsp;{% trans "Members" %}{% if petitions %}&nbsp;({{ org.members.all.count }}){% endif %}</h4>
+  <h4><span class="oi oi-people"></span>&nbsp;{% trans "Members" %}&nbsp;({{ org.members.all.count }})</h4>
   <ul class="dashboard-org-list">
   {% for member in org.members.all %}
     <li class="d-flex align-items-center justify-content-between">
