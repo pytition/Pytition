@@ -526,6 +526,7 @@ def edit_template(request, template_id):
         'email_form_submitted': False,
         'social_network_form_submitted': False,
         'newsletter_form_submitted': False,
+        'style_form_submitted': False,
     }
 
     if request.method == "POST":
@@ -592,16 +593,30 @@ def edit_template(request, template_id):
                 template.save()
         else:
             newsletter_form = NewsletterForm({f: getattr(template, f) for f in NewsletterForm.base_fields})
+
+        if 'style_form_submitted' in request.POST:
+            submitted_ctx['style_form_submitted'] = True
+            style_form = StyleForm(request.POST)
+            if style_form.is_valid():
+                template.bgcolor = style_form.cleaned_data['bgcolor']
+                template.linear_gradient_direction = style_form.cleaned_data['linear_gradient_direction']
+                template.gradient_from = style_form.cleaned_data['gradient_from']
+                template.gradient_to = style_form.cleaned_data['gradient_to']
+                template.save()
+        else:
+            style_form = StyleForm({f: getattr(template, f) for f in StyleForm.base_fields})
     else:
         content_form = ContentFormTemplate({f: getattr(template, f) for f in ContentFormTemplate.base_fields})
         email_form = EmailForm({f: getattr(template, f) for f in EmailForm.base_fields})
         social_network_form = SocialNetworkForm({f: getattr(template, f) for f in SocialNetworkForm.base_fields})
         newsletter_form = NewsletterForm({f: getattr(template, f) for f in NewsletterForm.base_fields})
+        style_form = StyleForm({f: getattr(template, f) for f in StyleForm.base_fields})
 
     ctx = {'content_form': content_form,
            'email_form': email_form,
            'social_network_form': social_network_form,
            'newsletter_form': newsletter_form,
+           'style_form': style_form,
            'petition': template}
 
 
@@ -932,6 +947,7 @@ class PetitionCreationWizard(SessionWizardView):
                     template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
                     if template in org.petitiontemplate_set.all():
                         petition.prepopulate_from_template(template)
+                        petition.save()
                     else:
                         messages.error(self.request, _("This template does not belong to your organization"))
                         return redirect("org_dashboard", orgslugname)
@@ -950,6 +966,7 @@ class PetitionCreationWizard(SessionWizardView):
                 template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
                 if template in pytitionuser.petitiontemplate_set.all():
                     petition.prepopulate_from_template(template)
+                    petition.save()
                 else:
                     messages.error(self.request, _("This template does not belong to you"))
                     return redirect("user_dashboard")
