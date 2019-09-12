@@ -155,11 +155,6 @@ nav.navbar {
     text-transform: uppercase;
 }
 
-.btn-block {
-    background-color: #ffeb1f;
-    border-color: #ffe905;
-}
-
 @media screen and (min-width:768px) {
     .show-form {
         display: none
