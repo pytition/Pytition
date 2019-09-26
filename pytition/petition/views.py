@@ -549,14 +549,7 @@ def edit_template(request, template_id):
             email_form = EmailForm(request.POST)
             submitted_ctx['email_form_submitted'] = True
             if email_form.is_valid():
-                template.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
-                template.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
-                template.confirmation_email_smtp_host = email_form.cleaned_data['confirmation_email_smtp_host']
-                template.confirmation_email_smtp_port = email_form.cleaned_data['confirmation_email_smtp_port']
-                template.confirmation_email_smtp_user = email_form.cleaned_data['confirmation_email_smtp_user']
-                template.confirmation_email_smtp_password = email_form.cleaned_data['confirmation_email_smtp_password']
-                template.confirmation_email_smtp_tls = email_form.cleaned_data['confirmation_email_smtp_tls']
-                template.confirmation_email_smtp_starttls = email_form.cleaned_data['confirmation_email_smtp_starttls']
+                template.confirmation_email_reply = email_form.cleaned_data['confirmation_email_reply']
                 template.save()
         else:
             email_form = EmailForm({f: getattr(template, f) for f in EmailForm.base_fields})
@@ -1121,14 +1114,7 @@ def edit_petition(request, petition_id):
             submitted_ctx['email_form_submitted'] = True
             email_form = EmailForm(request.POST)
             if email_form.is_valid():
-                petition.use_custom_email_settings = email_form.cleaned_data['use_custom_email_settings']
-                petition.confirmation_email_sender = email_form.cleaned_data['confirmation_email_sender']
-                petition.confirmation_email_smtp_host = email_form.cleaned_data['confirmation_email_smtp_host']
-                petition.confirmation_email_smtp_port = email_form.cleaned_data['confirmation_email_smtp_port']
-                petition.confirmation_email_smtp_user = email_form.cleaned_data['confirmation_email_smtp_user']
-                petition.confirmation_email_smtp_password = email_form.cleaned_data['confirmation_email_smtp_password']
-                petition.confirmation_email_smtp_tls = email_form.cleaned_data['confirmation_email_smtp_tls']
-                petition.confirmation_email_smtp_starttls = email_form.cleaned_data['confirmation_email_smtp_starttls']
+                petition.confirmation_email_reply = email_form.cleaned_data['confirmation_email_reply']
                 petition.save()
         else:
             email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})

@@ -189,14 +189,7 @@ class PetitionViewTest(TestCase):
         org = Organization.objects.get(name='RAP')
         email_form_data = {
             'email_form_submitted': 'yes',
-            'use_custom_email_settings': 'on',
-            'confirmation_email_sender': 'toto@tata.com',
-            'confirmation_email_smtp_host': 'mx.pytition.tld',
-            'confirmation_email_smtp_port': 1234,
-            'confirmation_email_smtp_user': 'I_Am_Toto',
-            'confirmation_email_smtp_password': 'Toto_Password',
-            'confirmation_email_smtp_tls': 'on',
-            'confirmation_email_smtp_starttls': '',
+            'confirmation_email_reply': 'toto@tata.com',
         }
         # For an org template
         pt = PetitionTemplate.objects.create(name="Default template", org=org)
@@ -224,53 +217,11 @@ class PetitionViewTest(TestCase):
         self.assertEquals(response.context['newsletter_form_submitted'], False)
         pt2.refresh_from_db()
 
-        email_form_data['confirmation_email_smtp_tls'] = True
-        email_form_data['confirmation_email_smtp_starttls'] = False
-        email_form_data['use_custom_email_settings'] = True
         for key, value in email_form_data.items():
             if key == "email_form_submitted":
                 continue
             self.assertEquals(getattr(pt2, key), value)
             self.assertEquals(getattr(pt, key), value)
-
-    def test_edit_template_POST_email_formKOTLS(self):
-        julia = self.login('julia')
-        org = Organization.objects.get(name='RAP')
-        email_form_data = {
-            'email_form_submitted': 'yes',
-            'use_custom_email_settings': 'on',
-            'confirmation_email_sender': 'toto@tata.com',
-            'confirmation_email_smtp_host': 'mx.pytition.tld',
-            'confirmation_email_smtp_port': 1234,
-            'confirmation_email_smtp_user': 'I_Am_Toto',
-            'confirmation_email_smtp_password': 'Toto_Password',
-            'confirmation_email_smtp_tls': 'on',
-            'confirmation_email_smtp_starttls': 'on',
-        }
-        # For an org template
-        pt = PetitionTemplate.objects.create(name="Default template", org=org)
-        response = self.client.post(reverse("edit_template", args=[pt.id]), email_form_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "petition/edit_template.html")
-        self.assertEquals(response.context['email_form'].is_valid(), False)
-        self.assertEquals(response.context['email_form'].is_bound, True)
-        self.assertEquals(response.context['content_form_submitted'], False)
-        self.assertEquals(response.context['email_form_submitted'], True)
-        self.assertEquals(response.context['social_network_form_submitted'], False)
-        self.assertEquals(response.context['newsletter_form_submitted'], False)
-
-        # For an user template
-        pt2 = PetitionTemplate.objects.create(name="Default template", user=julia)
-        response = self.client.post(reverse("edit_template", args=[pt2.id]), email_form_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "petition/edit_template.html")
-        self.assertEquals(response.context['email_form'].is_valid(), False)
-        self.assertEquals(response.context['email_form'].is_bound, True)
-        self.assertEquals(response.context['content_form_submitted'], False)
-        self.assertEquals(response.context['email_form_submitted'], True)
-        self.assertEquals(response.context['social_network_form_submitted'], False)
-        self.assertEquals(response.context['newsletter_form_submitted'], False)
-
 
     def test_edit_template_POST_social_network_form(self):
         julia = self.login('julia')

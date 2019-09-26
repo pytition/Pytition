@@ -141,14 +141,7 @@ class EditPetitionViewTest(TestCase):
         org = Organization.objects.get(name='RAP')
         email_form_data = {
             'email_form_submitted': 'yes',
-            'use_custom_email_settings': 'on',
-            'confirmation_email_sender': 'toto@tata.com',
-            'confirmation_email_smtp_host': 'mx.pytition.tld',
-            'confirmation_email_smtp_port': 1234,
-            'confirmation_email_smtp_user': 'I_Am_Toto',
-            'confirmation_email_smtp_password': 'Toto_Password',
-            'confirmation_email_smtp_tls': 'on',
-            'confirmation_email_smtp_starttls': '',
+            'confirmation_email_reply': 'toto@tata.com',
         }
         # For an org template
         p = Petition.objects.create(title="My petition", org=org)
@@ -176,9 +169,6 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response.context['newsletter_form_submitted'], False)
         p2.refresh_from_db()
 
-        email_form_data['confirmation_email_smtp_tls'] = True
-        email_form_data['confirmation_email_smtp_starttls'] = False
-        email_form_data['use_custom_email_settings'] = True
         for key, value in email_form_data.items():
             if key == "email_form_submitted":
                 continue

@@ -194,14 +194,7 @@ class Petition(models.Model):
     published = models.BooleanField(default=False)
     newsletter_text = models.CharField(max_length=1000, blank=True)
     sign_form_footer = models.TextField(blank=True)
-    confirmation_email_sender = models.CharField(max_length=100, blank=True)
-    confirmation_email_smtp_host = models.CharField(max_length=100, default='localhost', blank=True)
-    confirmation_email_smtp_port = models.IntegerField(default=25, blank=True)
-    confirmation_email_smtp_user = models.CharField(max_length=200, blank=True)
-    confirmation_email_smtp_password = models.CharField(max_length=200, blank=True)
-    confirmation_email_smtp_tls = models.BooleanField(default=False)
-    confirmation_email_smtp_starttls = models.BooleanField(default=False)
-    use_custom_email_settings = models.BooleanField(default=False)
+    confirmation_email_reply = models.CharField(max_length=100, blank=True)
     salt = models.TextField(blank=True)
 
     def prepopulate_from_template(self, template, fields=None):
@@ -472,13 +465,7 @@ class PetitionTemplate(models.Model):
     org_twitter_handle = models.CharField(max_length=20, blank=True)
     newsletter_text = models.CharField(max_length=1000, blank=True)
     sign_form_footer = models.TextField(blank=True)
-    confirmation_email_sender = models.EmailField(max_length=100, blank=True)
-    confirmation_email_smtp_host = models.CharField(max_length=100, default='localhost', blank=True)
-    confirmation_email_smtp_port = models.IntegerField(default=25, blank=True)
-    confirmation_email_smtp_user = models.CharField(max_length=200, blank=True)
-    confirmation_email_smtp_password = models.CharField(max_length=200, blank=True)
-    confirmation_email_smtp_tls = models.BooleanField(default=False)
-    confirmation_email_smtp_starttls = models.BooleanField(default=False)
+    confirmation_email_reply = models.EmailField(max_length=100, blank=True)
     use_custom_email_settings = models.BooleanField(default=False)
 
     def __str__(self):

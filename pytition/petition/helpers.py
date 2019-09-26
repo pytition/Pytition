@@ -4,7 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.core.mail import get_connection, send_mail, EmailMessage
+from django.core.mail import get_connection, EmailMultiAlternatives, EmailMessage
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from .models import PytitionUser, Petition
@@ -68,15 +68,12 @@ def send_confirmation_email(request, signature):
     url = request.build_absolute_uri("/petition/{}/confirm/{}".format(petition.id, signature.confirmation_hash))
     html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
     message = strip_tags(html_message)
-    with get_connection(host=petition.confirmation_email_smtp_host,
-            port=petition.confirmation_email_smtp_port,
-            username=petition.confirmation_email_smtp_user,
-            password=petition.confirmation_email_smtp_password,
-            use_ssl=petition.confirmation_email_smtp_tls,
-            use_tls=petition.confirmation_email_smtp_starttls) as connection:
-                send_mail(_("Confirm your signature to our petition"),
-                        message, petition.confirmation_email_sender,
-                     [signature.email], html_message=html_message, connection=connection, fail_silently=False)
+    with get_connection() as connection:
+        msg = EmailMultiAlternatives(_("Confirm your signature to our petition"),
+                           message, to=[signature.email], connection=connection,
+                           reply_to=[petition.confirmation_email_reply])
+        msg.attach_alternative(html_message, "text/html")
+        msg.send(fail_silently=False)
 
 
 # Generate a meta url for the HTML meta property

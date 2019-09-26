@@ -111,32 +111,10 @@ class ContentFormTemplate(ContentFormGeneric):
 
 class EmailForm(forms.Form):
     ### E-mail settings of Petition ###
-    use_custom_email_settings = SwitchField(required=False, label=_("Use custom e-mail settings?"))
-    confirmation_email_sender = forms.EmailField(max_length=100, required=False)
-    confirmation_email_smtp_host = forms.CharField(max_length=100, required=False)
-    confirmation_email_smtp_port = forms.IntegerField(required=False)
-    confirmation_email_smtp_user = forms.CharField(max_length=200, required=False)
-    confirmation_email_smtp_password = forms.CharField(max_length=200, required=False,
-                                                       widget=forms.PasswordInput(render_value=True))
-    confirmation_email_smtp_tls = SwitchField(required=False, label=_("Use TLS?"))
-    confirmation_email_smtp_starttls = SwitchField(required=False, label=_("Use STARTTLS?"))
-
-    confirmation_email_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})
-
-    def clean(self):
-        # FIXME: WIP
-        cleaned_data = super(EmailForm, self).clean()
-        data = {}
-        for field in self.base_fields:
-            data[field] = cleaned_data.get(field)
-
-        if data['confirmation_email_smtp_tls'] and data['confirmation_email_smtp_starttls']:
-            self.add_error('confirmation_email_smtp_tls', ValidationError(_("You cannot select both TLS and STARTTLS."), code="invalid"))
-
-        if data['confirmation_email_smtp_port'] < 1 or data['confirmation_email_smtp_port'] > 65535:
-            self.add_error('confirmation_email_smtp_port', ValidationError(_("SMTP port must be >= 1 and <= 65535"),
-                                                                           code="invalid"))
-        return self.cleaned_data
+    confirmation_email_reply = forms.EmailField(max_length=100, required=False,
+                                                label=_("Your contact email. It will be used as \"Reply-To\" field of"
+                                                        " the confirmation email sent to signatories. People responding"
+                                                        " to confirmation email will in fact respond to this address."))
 
 
 class SocialNetworkForm(forms.Form):
