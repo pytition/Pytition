@@ -289,3 +289,10 @@ a.share-item:hover {
     padding-left: 40px;
     color: grey;
 }
+
+.jumbotron {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
