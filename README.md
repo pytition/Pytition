@@ -21,10 +21,13 @@
 * [x] Supports Open Graph tags to provide description and image to allow nice cards to be shown when people post the petition link on social networks.
 * [x] You can propose your signatories to subscribe to a newsletter/mailinglist (via HTTP GET/POST or EMAIL methods).
 * [x] You can export signatures in CSV format.
+* [x] Support for several organizations on the same Pytition instance [v2.0](https://github.com/pytition/Pytition/milestone/2)
+  * Fine grain per-user per-organization permissions
+* [x] Email retry support through the use of a mail queue middleware
+* [x] Nice (multiple) permlink support for each petition
 
 ## Future features
 
-* [ ] Support for several organizations on the same Pytition instance [v2.0](https://github.com/pytition/Pytition/milestone/2)
 * [ ] Support for multi-lingual petition content: [v3.0](https://github.com/pytition/Pytition/milestone/3)
 * [ ] Support for adding several petition templates: [v4.0](https://github.com/pytition/Pytition/milestone/4)
 * [ ] Add optional Mastodon/Diaspora share-icons
