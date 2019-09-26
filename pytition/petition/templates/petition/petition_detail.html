@@ -3,13 +3,13 @@
 {% load i18n %}
 {% load widget_tweaks %}
 
-{% block title %}{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}{% endblock title %}
+{% block title %}{% autoescape off %}{{ petition.title }}{% endautoescape %}{% endblock title %}
 
 <!-- Extra meta -->
 {% block extrameta %}
-<meta name="description" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+<meta name="description" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
 
-<meta property="og:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+<meta property="og:title" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
 {% if petition.twitter_description %}
 <meta property="og:description"
 content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
@@ -23,7 +23,7 @@ content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoesca
 <meta property="og:image" content="{{ petition.twitter_image }}"/>
 {% endif %}
 
-<meta itemprop="name" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+<meta itemprop="name" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
 {% if petition.twitter_description %}
 <meta itemprop="description"
 content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
@@ -35,7 +35,7 @@ content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoesc
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:creator" content="@yannsionneau"/>
 <meta name="twitter:site" content="{% autoescape off %}{{ petition.org_twitter_handle }}{% endautoescape %}"/>
-<meta name="twitter:title" content="{% autoescape off %}{{ petition.raw_title }}{% endautoescape %}"/>
+<meta name="twitter:title" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
 {% if petition.twitter_description %}
 <meta name="twitter:description"
 content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
