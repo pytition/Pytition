@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
     {% block title %}
-    {% blocktrans with name=user.get_full_name %}
+    {% blocktrans with name=org.name %}
         {{ name }}'s profile
     {% endblocktrans %}
     {% endblock title %}
@@ -16,7 +16,7 @@
 {% block main_content %}
 <div class="container">
     <div class="row">
-        <h2>{{org.name }} </h2>
+        <h2>{{ org.name }} </h2>
     </div>
     <div class="row mt-3">
               {% for petition in petitions %}
