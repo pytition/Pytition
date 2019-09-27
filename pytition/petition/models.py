@@ -4,7 +4,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from django.core.exceptions import ValidationError
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.hashers import get_hasher
@@ -495,17 +495,16 @@ class SlugModel(models.Model):
     slug = models.SlugField(max_length=200)
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
 
-    #class Meta:
-        #constraints = [
-            #models.UniqueConstraint(fields=['slug'], name='unique_slugname')
-        #]
+    def clean(self, *args, **kwargs):
+        if self.slug == "" or self.slug is None:
+            raise ValidationError(_("A permlink cannot be empty. Please enter something."), code="invalid")
+        super(SlugModel, self).clean(*args, **kwargs)
 
     def __str__(self):
         return self.slug
 
     def __repr__(self):
         return self.slug
-
 
 # ------------------------------------ Permission -----------------------------
 class Permission(models.Model):
@@ -545,6 +544,12 @@ class Permission(models.Model):
     def __repr__(self):
         return '< {} >'.format(self.__str__())
 
+
+#------------------------------ Pre save actions -----------------------------
+@receiver(pre_save, sender=SlugModel)
+def check_slug_is_not_empty(sender, instance, **kwargs):
+    instance.clean()
+    instance.validate_unique()
 
 #------------------------------ Post save actions -----------------------------
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

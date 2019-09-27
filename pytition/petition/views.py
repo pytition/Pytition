@@ -1440,6 +1440,9 @@ def add_new_slug(request, petition_id):
                         messages.success(request, _("Successful addition of the slug '{}'!".format(slugtext)))
                     except IntegrityError:
                         messages.error(request, _("The slug '{}' already exists!".format(slugtext)))
+                    except ValidationError as v:
+                        for message in v.messages:
+                            messages.error(request, message)
             else:
                 messages.error(request, _("You don't have the permission to modify petitions"))
         return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
