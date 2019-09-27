@@ -211,7 +211,8 @@ $(function () {
        newform = `
         <tr class="bg-light">
         <td><div class="form-group d-flex"><label class="mr-1" for="sluginputfield">{{ slug_prefix }}/ </label>
-        <input type="text" name="slugtext" class="form-control flex-grow-1" id="sluginputfield"></div></td>`
+        <input type="text" name="slugtext" class="form-control flex-grow-1" id="sluginputfield" required="required">
+        </div></td>`
         if (new_slugs_num == 1)
             newform += `
             <td rowspan="` + new_slugs_num +`" id="addSlugTd">
