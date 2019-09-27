@@ -78,7 +78,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for slug in petition.slugs.all %}
+            {% for slug in petition.slugmodel_set.all %}
                 <tr>
                 <td>{{ slug_prefix }}/<b>{{ slug }}</b></td>
                 <td data-slugid="{{ slug.id }}"><input type="button" class="btn btn-danger" data-action="slugDelete" value="{% trans "Delete" %}"></td>
