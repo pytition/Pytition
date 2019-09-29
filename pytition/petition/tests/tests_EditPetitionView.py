@@ -103,7 +103,7 @@ class EditPetitionViewTest(TestCase):
             'footer_text': 'tutu',
             'footer_links': 'tyty',
             'sign_form_footer': 'lorem',
-
+            'target': 4242,
         }
         # For an org template
         p = Petition.objects.create(title="My Petition", org=org)
@@ -135,6 +135,12 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response.context['email_form_submitted'], False)
         self.assertEquals(response.context['social_network_form_submitted'], False)
         self.assertEquals(response.context['newsletter_form_submitted'], False)
+
+        for key, value in content_form_data.items():
+            if key == "content_form_submitted":
+                continue
+            self.assertEquals(getattr(p, key), value)
+            self.assertEquals(getattr(p2, key), value)
 
     def test_edit_petition_POST_email_form(self):
         julia = self.login('julia')

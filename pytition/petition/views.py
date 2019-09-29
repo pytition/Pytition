@@ -1101,6 +1101,7 @@ def edit_petition(request, petition_id):
             content_form = ContentFormPetition(request.POST)
             if content_form.is_valid():
                 petition.title = content_form.cleaned_data['title']
+                petition.target = content_form.cleaned_data['target']
                 petition.text = content_form.cleaned_data['text']
                 petition.side_text = content_form.cleaned_data['side_text']
                 petition.footer_text = content_form.cleaned_data['footer_text']
