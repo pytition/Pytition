@@ -46,14 +46,14 @@
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="content_form" role="tabpanel"
          aria-labelledby="list-content-form-list">
-        <form method="POST">{% csrf_token %}
+        <form method="POST" id="form_content">{% csrf_token %}
             {% include "petition/bs4_form.html" with form=content_form %}
             <button name="content_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
         </form>
     </div>
     <div class="tab-pane fade" id="social_network_form" role="tabpanel"
          aria-labelledby="list-social-network-form-list">
-        <form method="POST">{% csrf_token %}
+        <form method="POST" id="form_sn">{% csrf_token %}
             {% include "petition/bs4_form.html" with form=social_network_form %}
             <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
         </form>
@@ -92,21 +92,21 @@
     </div>
     <div class="tab-pane fade" id="style_form" role="tabpanel"
          aria-labelledby="style-form-list">
-        <form method="POST">{% csrf_token %}
+        <form method="POST" id="form_style">{% csrf_token %}
             {% include "petition/bs4_form.html" with form=style_form %}
             <button name="style_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
         </form>
     </div>
     <div class="tab-pane fade" id="email_form" role="tabpanel"
         aria-labelledby="list-email-form-list">
-        <form method="POST">{% csrf_token %}
+        <form method="POST" id="form_email">{% csrf_token %}
             {% include "petition/bs4_form.html" with form=email_form %}
             <button name="email_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
         </form>
     </div>
     <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
         aria-labelledby="list-newsletter-form-list">
-        <form method="POST">{% csrf_token %}
+        <form method="POST" id="form_newsletter">{% csrf_token %}
             {% include "petition/bs4_form.html" with form=newsletter_form %}
             <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
         </form>
@@ -121,6 +121,8 @@
 {% block extrajs %}
     {{ block.super }}
 <script>
+var tiny_mce_changed = false;
+
 $(function (){
 $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     paneID = $(e.target).attr('href');
@@ -231,6 +233,33 @@ $(function () {
        var slugId = $(this).closest("td[data-slugid]").data("slugid");
        window.location = "{% url "del_slug" petition.id %}" + "?slugid=" + slugId;
    });
+});
+
+$(function() {
+    $('#form_sn').data('serialize',$('#form_sn').serialize());
+    $('#form_content').data('serialize',$('#form_content').serialize());
+    $('#form_style').data('serialize',$('#form_style').serialize());
+    $('#form_newsletter').data('serialize',$('#form_newsletter').serialize());
+    $('#form_email').data('serialize',$('#form_email').serialize());
+});
+
+function formHasChanged(){
+    if (
+           ($('#form_sn').serialize()!=$('#form_sn').data('serialize'))
+        || ($('#form_content').serialize()!=$('#form_content').data('serialize'))
+        || ($('#form_style').serialize()!=$('#form_style').data('serialize'))
+        || ($('#form_email').serialize()!=$('#form_email').data('serialize'))
+        || ($('#form_newsletter').serialize()!=$('#form_newsletter').data('serialize'))
+        || tiny_mce_changed
+       )
+        return(true);
+    return(false);
+}
+
+$(window).on('beforeunload', function(){
+  if (formHasChanged()) {
+      return "You have un-saved modifications in the petition, are you sure you want to leave this page? You would lose your changes.";
+  }
 });
 
 </script>

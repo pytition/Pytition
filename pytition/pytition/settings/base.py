@@ -187,6 +187,10 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
     'insert_toolbar': 'forecolor backcolor',
     'entity_encoding': 'raw',
+    'setup': """function(ed) {
+       ed.on('change', function(e) {
+           tiny_mce_changed = true;
+       });}""",
 }
 TINYMCE_INCLUDE_JQUERY = True
 
