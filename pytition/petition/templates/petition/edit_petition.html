@@ -145,7 +145,7 @@ $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
         // update the iframe src attribute using the custom data-attribute value
         $(paneID+" div iframe").attr("src", src);
     }
-    if (formcontent.serialize() !== formcontent.data('serialize')) {
+    if (formcontent.serialize() !== formcontent.data('serialize') || formcontent.data('mce_changed')) {
         $('a[href="#content_form"]').html(`
         <div class="d-flex">
             <span class="oi oi-clipboard"></span>
@@ -341,6 +341,11 @@ $(window).on('beforeunload', function(){
       return "You have un-saved modifications in the petition, are you sure you want to leave this page? You would lose your changes.";
   }
 });
+
+function set_mce_changed(ed) {
+    tiny_mce_changed = true;
+    $(ed.formElement).data('mce_changed', true);
+}
 
 </script>
 {% endblock %}

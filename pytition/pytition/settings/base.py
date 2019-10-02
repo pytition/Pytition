@@ -189,7 +189,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'entity_encoding': 'raw',
     'setup': """function(ed) {
        ed.on('change', function(e) {
-           tiny_mce_changed = true;
+            set_mce_changed(ed);
        });}""",
 }
 TINYMCE_INCLUDE_JQUERY = True
