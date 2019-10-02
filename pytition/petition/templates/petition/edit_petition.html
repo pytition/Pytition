@@ -135,10 +135,79 @@ $(function (){
 $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     paneID = $(e.target).attr('href');
     src = $(paneID).attr('data-src');
-    if($(paneID+" div iframe").attr("src") == "")
-    {
+    if(paneID == "#preview" && $(paneID+" div iframe").attr("src") == "") {
         // update the iframe src attribute using the custom data-attribute value
         $(paneID+" div iframe").attr("src", src);
+    }
+    if ($('#form_content').serialize()!=$('#form_content').data('serialize')) {
+        $('a[href="#content_form"]').html(`
+        <div class="d-flex">
+            <span class="oi oi-clipboard"></span>
+            <span>&nbsp;</span>
+            <div class="d-flex flex-column">
+                <div>* <i>{% trans "Content" %}</i> </div>
+                <div>&nbsp; ({% trans "unsaved" %})</div>
+            </div>
+        </div>
+        `);
+    } else {
+        $('a[href="#content_form"]').html('<span class="oi oi-clipboard"></span> {% trans "Content" %}');
+    }
+    if ($('#form_style').serialize()!=$('#form_style').data('serialize')) {
+        $('a[href="#style_form"]').html(`
+        <div class="d-flex">
+            <span class="oi oi-brush"></span>
+            <span>&nbsp;</span>
+            <div class="d-flex flex-column">
+                <div>* <i>{% trans "Style & Look" %}</i> </div>
+                <div>&nbsp; ({% trans "unsaved" %})</div>
+            </div>
+        </div>
+        `);
+    } else {
+        $('a[href="#style_form"]').html('<span class="oi oi-brush"></span> {% trans "Style & Look" %}');
+    }
+    if ($('#form_email').serialize()!=$('#form_email').data('serialize')) {
+        $('a[href="#email_form"]').html(`
+        <div class="d-flex">
+            <span class="oi oi-envelope-closed"></span>
+            <span>&nbsp;</span>
+            <div class="d-flex flex-column">
+                <div>* <i>{% trans "E-mail setup" %}</i> </div>
+                <div>&nbsp; ({% trans "unsaved" %})</div>
+            </div>
+        </div>
+        `);
+    } else {
+        $('a[href="#email_form"]').html('<span class="oi oi-envelope-closed"></span> {% trans "E-mail setup" %}');
+    }
+    if ($('#form_sn').serialize()!=$('#form_sn').data('serialize')) {
+        $('a[href="#social_network_form"]').html(`
+        <div class="d-flex">
+            <span class="oi oi-share-boxed"></span>
+            <span>&nbsp;</span>
+            <div class="d-flex flex-column">
+                <div>* <i>{% trans "Social Networks" %}</i> </div>
+                <div>&nbsp; ({% trans "unsaved" %})</div>
+            </div>
+        </div>
+        `);
+    } else {
+        $('a[href="#social_network_form"]').html('<span class="oi oi-share-boxed"></span> {% trans "Social Networks" %}');
+    }
+    if ($('#form_newsletter').serialize()!=$('#form_newsletter').data('serialize')) {
+        $('a[href="#newsletter_form"]').html(`
+        <div class="d-flex">
+            <span class="oi oi-rss"></span>
+            <span>&nbsp;</span>
+            <div class="d-flex flex-column">
+                <div>* <i>{% trans "Newsletter setup" %}</i> </div>
+                <div>&nbsp; ({% trans "unsaved" %})</div>
+            </div>
+        </div>
+        `);
+    } else {
+        $('a[href="#newsletter_form"]').html('<span class="oi oi-rss"></span> {% trans "Newsletter setup" %}');
     }
 });
 });
