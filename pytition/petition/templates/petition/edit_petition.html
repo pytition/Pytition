@@ -111,9 +111,17 @@
             <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
         </form>
     </div>
-    <div class="tab-pane fade embed-responsive embed-responsive-4by3" id="preview" role="tabpanel"
+    <div class="tab-pane fade" id="preview" role="tabpanel"
         aria-labelledby="list-preview-list" data-src="{{ petition.url }}">
-            <iframe class="embed-responsive-item" src=""></iframe>
+            <div class="alert alert-warning" role="alert">
+            {% blocktrans %}
+            Beware: this preview shows the current state of the petition.<br />
+            If you modified some settings, please save if you want to see them in the preview.
+            {% endblocktrans %}
+            </div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <iframe class="embed-responsive-item" src=""></iframe>
+            </div>
     </div>
 </div>
 {% endblock %}
@@ -127,10 +135,10 @@ $(function (){
 $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     paneID = $(e.target).attr('href');
     src = $(paneID).attr('data-src');
-    if($(paneID+" iframe").attr("src") == "")
+    if($(paneID+" div iframe").attr("src") == "")
     {
         // update the iframe src attribute using the custom data-attribute value
-        $(paneID+" iframe").attr("src", src);
+        $(paneID+" div iframe").attr("src", src);
     }
 });
 });
