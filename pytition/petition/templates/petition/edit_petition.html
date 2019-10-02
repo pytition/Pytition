@@ -158,23 +158,9 @@ function hide_others_than(elem, do_hide) {
 }
 
 $(function () {
-   var email_box =  $('#id_use_custom_email_settings');
    var newsletter_box =  $('#id_has_newsletter');
-   if (!email_box.is(':checked'))
-       hide_others_than(email_box, true);
    if (!newsletter_box.is(':checked'))
        hide_others_than(newsletter_box, true);
-});
-
-$(function () {
-   $('#id_use_custom_email_settings').on("change", function() {
-        var box = $(this);
-        var checked = box.prop('checked');
-        if (!checked)
-            hide_others_than(box, true);
-        else
-            hide_others_than(box, false)
-   });
 });
 
 $(function () {
