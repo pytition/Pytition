@@ -133,13 +133,19 @@ var tiny_mce_changed = false;
 
 $(function (){
 $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
-    paneID = $(e.target).attr('href');
-    src = $(paneID).attr('data-src');
-    if(paneID == "#preview" && $(paneID+" div iframe").attr("src") == "") {
+    const paneID = $(e.target).attr('href');
+    const src = $(paneID).attr('data-src');
+    const formcontent = $('#form_content');
+    const formstyle = $('#form_style');
+    const formemail = $('#form_email');
+    const formsn = $('#form_sn');
+    const formnewsletter = $('#form_newsletter');
+
+    if(paneID === "#preview" && $(paneID+" div iframe").attr("src") === "") {
         // update the iframe src attribute using the custom data-attribute value
         $(paneID+" div iframe").attr("src", src);
     }
-    if ($('#form_content').serialize()!=$('#form_content').data('serialize')) {
+    if (formcontent.serialize() !== formcontent.data('serialize')) {
         $('a[href="#content_form"]').html(`
         <div class="d-flex">
             <span class="oi oi-clipboard"></span>
@@ -153,7 +159,7 @@ $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     } else {
         $('a[href="#content_form"]').html('<span class="oi oi-clipboard"></span> {% trans "Content" %}');
     }
-    if ($('#form_style').serialize()!=$('#form_style').data('serialize')) {
+    if (formstyle.serialize() !== formstyle.data('serialize')) {
         $('a[href="#style_form"]').html(`
         <div class="d-flex">
             <span class="oi oi-brush"></span>
@@ -167,7 +173,7 @@ $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     } else {
         $('a[href="#style_form"]').html('<span class="oi oi-brush"></span> {% trans "Style & Look" %}');
     }
-    if ($('#form_email').serialize()!=$('#form_email').data('serialize')) {
+    if (formemail.serialize() !== formemail.data('serialize')) {
         $('a[href="#email_form"]').html(`
         <div class="d-flex">
             <span class="oi oi-envelope-closed"></span>
@@ -181,7 +187,7 @@ $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     } else {
         $('a[href="#email_form"]').html('<span class="oi oi-envelope-closed"></span> {% trans "E-mail setup" %}');
     }
-    if ($('#form_sn').serialize()!=$('#form_sn').data('serialize')) {
+    if (formsn.serialize() !== formsn.data('serialize')) {
         $('a[href="#social_network_form"]').html(`
         <div class="d-flex">
             <span class="oi oi-share-boxed"></span>
@@ -195,7 +201,7 @@ $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     } else {
         $('a[href="#social_network_form"]').html('<span class="oi oi-share-boxed"></span> {% trans "Social Networks" %}');
     }
-    if ($('#form_newsletter').serialize()!=$('#form_newsletter').data('serialize')) {
+    if (formnewsletter.serialize() !== formnewsletter.data('serialize')) {
         $('a[href="#newsletter_form"]').html(`
         <div class="d-flex">
             <span class="oi oi-rss"></span>
@@ -217,9 +223,9 @@ $(function (){
 });
 
 function hide_others_than(elem, do_hide) {
-    var parent_form_group = elem.closest('.form-group');
-    var all_form_groups = parent_form_group.siblings('.form-group');
-    var all_except_this = all_form_groups.not(parent_form_group);
+    const parent_form_group = elem.closest('.form-group');
+    const all_form_groups = parent_form_group.siblings('.form-group');
+    const all_except_this = all_form_groups.not(parent_form_group);
     if (do_hide)
         all_except_this.hide();
     else
@@ -227,15 +233,15 @@ function hide_others_than(elem, do_hide) {
 }
 
 $(function () {
-   var newsletter_box =  $('#id_has_newsletter');
+   const newsletter_box = $('#id_has_newsletter');
    if (!newsletter_box.is(':checked'))
        hide_others_than(newsletter_box, true);
 });
 
 $(function () {
    $('#id_has_newsletter').on("change", function() {
-        var box = $(this);
-        var checked = box.prop('checked');
+        const box = $(this);
+        const checked = box.prop('checked');
         if (!checked)
             hide_others_than(box, true);
         else
@@ -245,8 +251,8 @@ $(function () {
 
 // Javascript to enable link to tab
 $(function () {
-    var hash = document.location.hash;
-    var prefix = "tab_";
+    const hash = document.location.hash;
+    const prefix = "tab_";
     if (hash) {
         $('.list-group a[href="' + hash.replace(prefix, "") + '"]').tab('show');
     }
@@ -259,7 +265,7 @@ $(function () {
 
 //show first tab pane where there is an :invalid field
 $(function () {
-    var pane_id = $('input.is-invalid').closest('.tab-pane').attr('id');
+    const pane_id = $('input.is-invalid').closest('.tab-pane').attr('id');
     $('.list-group a[href="#' + pane_id + '"]').tab('show');
 });
 
@@ -268,7 +274,7 @@ var new_slugs_num = 0;
 $(function () {
     $("#addSlug").on("click", function () {
        var newform;
-       var slugTable;
+       const slugTable = $("#slugTable");
 
        new_slugs_num++;
        $("#addSlugTd").prop('rowspan', new_slugs_num);
@@ -277,46 +283,53 @@ $(function () {
         <tr class="bg-light">
         <td><div class="form-group d-flex"><label class="mr-1" for="sluginputfield">{{ slug_prefix }}/ </label>
         <input type="text" name="slugtext" class="form-control flex-grow-1" id="sluginputfield" required="required">
-        </div></td>`
-        if (new_slugs_num == 1)
+        </div></td>`;
+        if (new_slugs_num === 1)
             newform += `
             <td rowspan="` + new_slugs_num +`" id="addSlugTd">
                 <input type="submit" class="btn btn-success" value="{% trans "OK" %}">
             </td>
             `;
        newform += "</tr>";
-       slugTable = $("#slugTable");
        slugTable.find("tbody").append(newform);
     });
 });
 
 $(function () {
-   var slugtr_list = $('input[data-action="slugDelete"]');
-   slugtr_list.on("click", function() {
-       var slugId = $(this).closest("td[data-slugid]").data("slugid");
+   $('input[data-action="slugDelete"]').on("click", function() {
+       const slugId = $(this).closest("td[data-slugid]").data("slugid");
        window.location = "{% url "del_slug" petition.id %}" + "?slugid=" + slugId;
    });
 });
 
 $(function() {
-    $('#form_sn').data('serialize',$('#form_sn').serialize());
-    $('#form_content').data('serialize',$('#form_content').serialize());
-    $('#form_style').data('serialize',$('#form_style').serialize());
-    $('#form_newsletter').data('serialize',$('#form_newsletter').serialize());
-    $('#form_email').data('serialize',$('#form_email').serialize());
+    const formcontent = $('#form_content');
+    const formstyle = $('#form_style');
+    const formemail = $('#form_email');
+    const formsn = $('#form_sn');
+    const formnewsletter = $('#form_newsletter');
+
+    formsn.data('serialize', formsn.serialize());
+    formcontent.data('serialize', formcontent.serialize());
+    formstyle.data('serialize', formstyle.serialize());
+    formnewsletter.data('serialize', formnewsletter.serialize());
+    formemail.data('serialize', formemail.serialize());
 });
 
 function formHasChanged(){
-    if (
-           ($('#form_sn').serialize()!=$('#form_sn').data('serialize') && !$('#form_sn').data('submitted'))
-        || ($('#form_content').serialize()!=$('#form_content').data('serialize') && !$('#form_content').data('submitted'))
-        || ($('#form_style').serialize()!=$('#form_style').data('serialize') && !$('#form_style').data('submitted'))
-        || ($('#form_email').serialize()!=$('#form_email').data('serialize') && !$('#form_email').data('submitted'))
-        || ($('#form_newsletter').serialize()!=$('#form_newsletter').data('serialize') && !$('#form_newsletter').data('submitted'))
-        || tiny_mce_changed
-       )
-        return(true);
-    return(false);
+    const formcontent = $('#form_content');
+    const formstyle = $('#form_style');
+    const formemail = $('#form_email');
+    const formsn = $('#form_sn');
+    const formnewsletter = $('#form_newsletter');
+
+    return (formsn.serialize() !== formsn.data('serialize') && !formsn.data('submitted'))
+        || (formcontent.serialize() !== formcontent.data('serialize') && !formcontent.data('submitted'))
+        || (formstyle.serialize() !== formstyle.data('serialize') && !formstyle.data('submitted'))
+        || (formemail.serialize() !== formemail.data('serialize') && !formemail.data('submitted'))
+        || (formnewsletter.serialize() !== formnewsletter.data('serialize') && !formnewsletter.data('submitted'))
+        || tiny_mce_changed;
+
 }
 
 $('form').on('submit', function(){
