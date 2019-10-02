@@ -308,16 +308,20 @@ $(function() {
 
 function formHasChanged(){
     if (
-           ($('#form_sn').serialize()!=$('#form_sn').data('serialize'))
-        || ($('#form_content').serialize()!=$('#form_content').data('serialize'))
-        || ($('#form_style').serialize()!=$('#form_style').data('serialize'))
-        || ($('#form_email').serialize()!=$('#form_email').data('serialize'))
-        || ($('#form_newsletter').serialize()!=$('#form_newsletter').data('serialize'))
+           ($('#form_sn').serialize()!=$('#form_sn').data('serialize') && !$('#form_sn').data('submitted'))
+        || ($('#form_content').serialize()!=$('#form_content').data('serialize') && !$('#form_content').data('submitted'))
+        || ($('#form_style').serialize()!=$('#form_style').data('serialize') && !$('#form_style').data('submitted'))
+        || ($('#form_email').serialize()!=$('#form_email').data('serialize') && !$('#form_email').data('submitted'))
+        || ($('#form_newsletter').serialize()!=$('#form_newsletter').data('serialize') && !$('#form_newsletter').data('submitted'))
         || tiny_mce_changed
        )
         return(true);
     return(false);
 }
+
+$('form').on('submit', function(){
+   $(this).data('submitted', true);
+});
 
 $(window).on('beforeunload', function(){
   if (formHasChanged()) {
