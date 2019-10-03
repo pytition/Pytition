@@ -2,7 +2,7 @@
 {% load static %}
 <ul class="dashboard-org-list">
 {% for template in templates %}
-  <li class="d-flex align-items-center justify-content-between" data-template-delete="{% url 'template_delete'  template.id %}" data-template-fav="{% url 'template_fav_toggle' template.id %}">
+  <li class="d-flex align-items-center justify-content-between" data-template-fav="{% url 'template_fav_toggle' template.id %}">
     <span>{{ template.name }}</span>
     <div class="flex-wrap">
         {% if owner.default_template == template %}
@@ -19,8 +19,28 @@
           href="{% url "user_petition_wizard_from_template" template.id %}"
           {% endif %}
           class="btn btn-link text-dark" data-action="template-instanciate" data-toggle="tooltip" title="{% trans "Create a new petition using this template" %}"><span class="oi oi-clipboard"></span></a>
-        <button class="btn btn-link text-dark" data-action="template-delete" data-toggle="tooltip" title="{% trans "Delete template" %}"><span class="oi oi-circle-x"></span></button>
+        <span data-toggle="modal" data-target="#template_delete_modal_{{ template.id }}"><button class="btn btn-link text-dark" data-toggle="tooltip" title="{% trans "Delete template" %}"><span class="oi oi-circle-x"></span></button></span>
     </div>
   </li>
+<div class="modal fade" id="template_delete_modal_{{ template.id }}" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="template_delete_modal_label_{{ template.id }}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="template_delete_modal_label_{{ template.id }}">{% trans "Delete this template?" %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% trans "You are about to delete the following petition template:" %}'{{ template.name }}'.<br />
+        {% trans "Do you really want to do this?" %}
+      </div>
+      <div class="modal-footer" data-template-delete="{% url 'template_delete' template.id %}">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="button" class="btn btn-danger" data-action="template-delete">{% trans "Delete" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endfor %}
 </ul>
