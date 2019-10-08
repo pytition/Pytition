@@ -99,6 +99,10 @@ def subscribe_to_newsletter(petition, email):
         data = petition.newsletter_subscribe_http_data
         if data == '' or data is None:
             data = {}
+        else:
+            import json
+            data = data.replace("'", "\"")
+            data = json.loads(data)
         if petition.newsletter_subscribe_http_mailfield != '':
             data[petition.newsletter_subscribe_http_mailfield] = email
     if petition.newsletter_subscribe_method == "POST":
