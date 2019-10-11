@@ -184,8 +184,9 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme': "modern",
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
-    'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+    'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat | fontselect | fontsizeselect',
     'insert_toolbar': 'forecolor backcolor',
+    'fontsize_formats': '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
     'entity_encoding': 'raw',
     'setup': """function(ed) {
        ed.on('change', function(e) {
