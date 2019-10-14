@@ -57,7 +57,7 @@ Menu <span class="navbar-toggler-icon"></span>
 </nav>
     <p></p>
     <div class="row">
-        <div class="card-group">
+        <div class="card-group w-100">
         {% for petition in petitions %}
             <div class="col-md-4 col-xs-6 text-center sb-preview">
 
@@ -81,15 +81,17 @@ Menu <span class="navbar-toggler-icon"></span>
                     </div>
                 </div>
             </div>
-        {% if forloop.counter|divisibleby:3 or forloop.last %}
+        {% if forloop.counter|divisibleby:3 %}
         </div>
         </div>
         <p></p>
         <div class="row">
+            <div class="card-group w-100">
+        {% endif %}
+        {% if forloop.last %}
+            </div></div>
         {% endif %}
     {% endfor %}
-    </div>
-
 </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
