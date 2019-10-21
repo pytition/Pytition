@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-03 10:50+0200\n"
-"PO-Revision-Date: 2019-08-03 11:00+0200\n"
+"POT-Creation-Date: 2019-10-21 21:00+0200\n"
+"PO-Revision-Date: 2019-10-21 20:51+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -19,17 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:75
-#: pytition/petition/models.py:439
+#: pytition/petition/models.py:434
 msgid "Name"
 msgstr "Nom"
 
 #: pytition/petition/admin.py:39
-msgid "Petition number"
-msgstr "Numéro de pétition"
+#, fuzzy
+#| msgid "Your petitions"
+msgid "Number of petitions"
+msgstr "Vos pétitions"
 
 #: pytition/petition/admin.py:40
-msgid "User number"
-msgstr "Numéro d'utilisateur"
+msgid "Number of members"
+msgstr ""
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
@@ -43,7 +45,7 @@ msgstr "Confirmer les signatures"
 msgid "Send the confirmation email once again"
 msgstr "Renvoyer les e-mails de confirmation à nouveau"
 
-#: pytition/petition/admin.py:80 pytition/petition/admin.py:225
+#: pytition/petition/admin.py:85 pytition/petition/admin.py:222
 msgid ""
 "This is a gradient color. If selected, the background color will be a "
 "gradient color. If not, the background color will be a monochrome background "
@@ -52,12 +54,12 @@ msgstr ""
 "C'est un gradient de couleur. Si sélectionné, la couleur de fond sera un "
 "gradient de couleur. Sinon, la couleur de fond sera une couleur unie."
 
-#: pytition/petition/admin.py:81 pytition/petition/admin.py:82
-#: pytition/petition/admin.py:226 pytition/petition/admin.py:227
+#: pytition/petition/admin.py:86 pytition/petition/admin.py:87
+#: pytition/petition/admin.py:223 pytition/petition/admin.py:224
 msgid "Only used if gradient is selected"
 msgstr "Seulement utilisé si un gradient est sélectionné"
 
-#: pytition/petition/admin.py:83 pytition/petition/admin.py:228
+#: pytition/petition/admin.py:88 pytition/petition/admin.py:225
 msgid ""
 "Put a bullet point list of links, it will appear horizontally in the page "
 "footer"
@@ -65,7 +67,7 @@ msgstr ""
 "Entrez une liste à puces de liens, elle apparaîtra horizontalement en pied "
 "de page"
 
-#: pytition/petition/admin.py:84 pytition/petition/admin.py:229
+#: pytition/petition/admin.py:89 pytition/petition/admin.py:226
 msgid ""
 "This is the description of the petition, it will be displayed in Twitter/"
 "Facebook cards when the link is posted to social networks. To be tested via "
@@ -77,7 +79,7 @@ msgstr ""
 "avec https://cards-dev.twitter.com/validator et https://developers.facebook."
 "com/tools/debug/"
 
-#: pytition/petition/admin.py:85 pytition/petition/admin.py:230
+#: pytition/petition/admin.py:90 pytition/petition/admin.py:227
 msgid ""
 "Picture displayed in Twitter/Facebook cards when the link is posted to "
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
@@ -87,14 +89,14 @@ msgstr ""
 "posté sur les réseaux sociaux. A tester avec https://cards-dev.twitter.com/"
 "validator et https://developers.facebook.com/tools/debug/"
 
-#: pytition/petition/admin.py:86 pytition/petition/admin.py:231
+#: pytition/petition/admin.py:91 pytition/petition/admin.py:228
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
 "Permet de choisir si la case à cocher d'inscription à la liste de diffusion "
 "est affichée ou pas"
 
-#: pytition/petition/admin.py:87 pytition/petition/admin.py:232
+#: pytition/petition/admin.py:92 pytition/petition/admin.py:229
 msgid ""
 "Only in case subscription to the newsletter via HTTP POST or GET methods. "
 "Put here data to be sent, using Python dictionary syntax. e.g.: <br>\n"
@@ -117,7 +119,7 @@ msgstr ""
 "                    'your-email': ''<br>\n"
 "                    }"
 
-#: pytition/petition/admin.py:95 pytition/petition/admin.py:240
+#: pytition/petition/admin.py:100 pytition/petition/admin.py:237
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Name of the field to "
 "send via GET or POST, containing the email address to subscribe. Following "
@@ -127,7 +129,7 @@ msgstr ""
 "du champ à envoyer via GET ou POST, contenant l'adresse e-mail à abonner. En "
 "suivant l'exemple du champs précédent, il s'agirait de 'your-email'"
 
-#: pytition/petition/admin.py:96 pytition/petition/admin.py:241
+#: pytition/petition/admin.py:101 pytition/petition/admin.py:238
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Adresse HTTP à "
 "requêter via GET ou POST pour enregistrer quelqu'un sur la newsletter"
@@ -136,7 +138,7 @@ msgstr ""
 "Adresse HTTP à requêter via GET ou POST pour abonner quelqu'un à la liste de "
 "diffusion"
 
-#: pytition/petition/admin.py:97 pytition/petition/admin.py:242
+#: pytition/petition/admin.py:102 pytition/petition/admin.py:239
 msgid ""
 "Only when EMAIL subscription method is used. Inscrire ici la syntaxe de "
 "sujet du mail qui permet d'inscrire quelqu'un à la newsletter. Indiquez {} à "
@@ -148,7 +150,7 @@ msgstr ""
 "Indiquez {} à la place où le mail du signataire doit être inséré. Ex: 'ADD "
 "NOM_LISTE {} NOM_SIGNATAIRE'"
 
-#: pytition/petition/admin.py:98 pytition/petition/admin.py:243
+#: pytition/petition/admin.py:103 pytition/petition/admin.py:240
 msgid ""
 "Only when EMAIL subscription method is used. L'expéditeur du mail qui permet "
 "d'enregistrer quelqu'un à la newsletter. Il s'agit généralement d'une "
@@ -159,7 +161,7 @@ msgstr ""
 "généralement d'une adresse qui est administratrice de la liste SYMPA ou "
 "MAILMAN"
 
-#: pytition/petition/admin.py:99 pytition/petition/admin.py:244
+#: pytition/petition/admin.py:104 pytition/petition/admin.py:241
 msgid ""
 "Only when EMAIL subscription method is used. Adresse email d'administration "
 "de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
@@ -167,7 +169,7 @@ msgstr ""
 "Seulement quand la méthode d'abonnement utilisée est EMAIL. L'adresse e-mail "
 "d'administration de la liste, ex. : sympa@NOM_LISTE.listes.vox.coop"
 
-#: pytition/petition/admin.py:100 pytition/petition/admin.py:245
+#: pytition/petition/admin.py:105 pytition/petition/admin.py:242
 msgid ""
 "This selects the newsletter subscription method. It is either HTTP GET or "
 "POST or via sending EMAIL to the newsletter admin address"
@@ -176,7 +178,7 @@ msgstr ""
 "HTTP GET ou POST ou via un envoie d'EMAIL à l'adresse d'administration de la "
 "liste de diffusion"
 
-#: pytition/petition/admin.py:101 pytition/petition/admin.py:246
+#: pytition/petition/admin.py:106 pytition/petition/admin.py:243
 msgid ""
 "If checked, the petition is published and accessible on the website by "
 "everybody. If not checked, the petition is only accessible by logged in "
@@ -186,13 +188,13 @@ msgstr ""
 "monde. Si non coché, la pétition est seulement accessible par un utilisateur "
 "identifié, les autres verront une erreur HTTP 404."
 
-#: pytition/petition/admin.py:102 pytition/petition/admin.py:247
+#: pytition/petition/admin.py:107 pytition/petition/admin.py:244
 msgid "E.g.: I want to receive updates or informations from this organization."
 msgstr ""
 "Ex. : Je souhaite recevoir les actualités et informations à propos de cette "
 "organisation."
 
-#: pytition/petition/admin.py:103 pytition/petition/admin.py:248
+#: pytition/petition/admin.py:108 pytition/petition/admin.py:245
 msgid ""
 "E.g.: Your data will stay strictly confidential and will not be sold, given "
 "away or exchanged with third parties. Informations about this campaign as "
@@ -205,7 +207,7 @@ msgstr ""
 "propos de cette organisation vous seront envoyées si vous cochez cette case. "
 "Vous pourrez vous désabonner à tout moment."
 
-#: pytition/petition/admin.py:104 pytition/petition/admin.py:249
+#: pytition/petition/admin.py:109 pytition/petition/admin.py:246
 msgid ""
 "The twitter account handle of the organization, starting with the '@' "
 "symbol. E.g.: @RAP_Asso. This is necessary in order to attribute the "
@@ -217,21 +219,19 @@ msgstr ""
 "Card' (affichette) au bon compte. Cf https://developer.twitter.com/en/docs/"
 "tweets/optimize-with-cards/overview/summary"
 
-#: pytition/petition/admin.py:105 pytition/petition/admin.py:250
+#: pytition/petition/admin.py:110 pytition/petition/admin.py:247
 msgid "Check if you want to use your own E-Mail SMTP account."
 msgstr "Cochez si vous voulez utiliser votre propre serveur SMTP."
 
-#: pytition/petition/admin.py:106 pytition/petition/admin.py:251
+#: pytition/petition/admin.py:111 pytition/petition/admin.py:248
 msgid "e.g.: petition@mydomain.tld"
 msgstr "ex. : petition@mon-domaine.tld"
 
-#: pytition/petition/admin.py:107 pytition/petition/admin.py:113
-#: pytition/petition/admin.py:252 pytition/petition/admin.py:258
+#: pytition/petition/admin.py:112 pytition/petition/admin.py:249
 msgid "If you don't have a real email account, leave 'localhost'."
 msgstr "Si vous n'avez pas de vrai compte mail, laissez 'localhost'."
 
-#: pytition/petition/admin.py:108 pytition/petition/admin.py:114
-#: pytition/petition/admin.py:253 pytition/petition/admin.py:259
+#: pytition/petition/admin.py:113 pytition/petition/admin.py:250
 msgid ""
 "25 for cleartext connection, 587 for STARTTLS, 465 for TLS. Prefer TLS if "
 "the email server supports it."
@@ -239,32 +239,13 @@ msgstr ""
 "25 pour une connexion en clair (non chiffrée), 587 pour STARTTLS, 465 pour "
 "TLS. Préférez TLS si le serveur mail le supporte."
 
-#: pytition/petition/admin.py:109 pytition/petition/admin.py:110
-#: pytition/petition/admin.py:115 pytition/petition/admin.py:116
-#: pytition/petition/admin.py:254 pytition/petition/admin.py:255
-#: pytition/petition/admin.py:260 pytition/petition/admin.py:261
+#: pytition/petition/admin.py:114 pytition/petition/admin.py:115
+#: pytition/petition/admin.py:251 pytition/petition/admin.py:252
 msgid "Leave empty if you don't use any account autentication."
 msgstr ""
 "Laissez vide si vous n'utilisez pas d'identification pour votre compte."
 
-#: pytition/petition/admin.py:111 pytition/petition/admin.py:256
-msgid ""
-"Connexion SMTP chiffrée via TLS, préférez ce réglage à STARTTLS. Ne pas "
-"cocher les 2. Les 2 réglages sont mutuellement exclusifs."
-msgstr ""
-"Connexion SMTP chiffrée via TLS, préférez ce réglage à STARTTLS. Ne pas "
-"cocher les 2. Les 2 réglages sont mutuellement exclusifs."
-
-#: pytition/petition/admin.py:112 pytition/petition/admin.py:118
-#: pytition/petition/admin.py:257 pytition/petition/admin.py:263
-msgid ""
-"Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas "
-"cocher les 2. Les 2 réglages sont mutuellement exclusifs."
-msgstr ""
-"Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas "
-"cocher les 2. Les 2 réglages sont mutuellement exclusifs."
-
-#: pytition/petition/admin.py:117 pytition/petition/admin.py:262
+#: pytition/petition/admin.py:116 pytition/petition/admin.py:253
 msgid ""
 "SMTP connection encrypted via TLS, prefer this rather than STARTTLS if "
 "possible. Don't check both. The 2 settings are mutually exclusive."
@@ -273,60 +254,68 @@ msgstr ""
 "que STARTTLS si possible. Ne cochez pas les 2. Les 2 paramètres sont "
 "incompatibles entre eux."
 
-#: pytition/petition/admin.py:121
+#: pytition/petition/admin.py:117 pytition/petition/admin.py:254
+msgid ""
+"Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas "
+"cocher les 2. Les 2 réglages sont mutuellement exclusifs."
+msgstr ""
+"Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas "
+"cocher les 2. Les 2 réglages sont mutuellement exclusifs."
+
+#: pytition/petition/admin.py:120
 msgid "Petition title"
 msgstr "Titre de la pétition"
 
-#: pytition/petition/admin.py:122 pytition/petition/admin.py:267
+#: pytition/petition/admin.py:121 pytition/petition/admin.py:258
 msgid "Petition text"
 msgstr "Texte de la pétition"
 
-#: pytition/petition/admin.py:123 pytition/petition/admin.py:268
+#: pytition/petition/admin.py:122 pytition/petition/admin.py:259
 msgid "Side text, on top of form"
 msgstr "Texte à-côté, au dessus du formulaire"
 
-#: pytition/petition/admin.py:124 pytition/petition/admin.py:269
+#: pytition/petition/admin.py:123 pytition/petition/admin.py:260
 msgid "Signature target number"
 msgstr "Cible en nombre de signatures"
 
-#: pytition/petition/admin.py:125 pytition/petition/admin.py:270
+#: pytition/petition/admin.py:124 pytition/petition/admin.py:261
 msgid "Direction of linear gradient for background color"
 msgstr "Direction du dégradé linéaire de la couleur de fond"
 
-#: pytition/petition/admin.py:126 pytition/petition/admin.py:271
+#: pytition/petition/admin.py:125 pytition/petition/admin.py:262
 msgid "Source color for linear gradient"
 msgstr "Couleur source pour le gradient linéaire de couleur"
 
-#: pytition/petition/admin.py:127 pytition/petition/admin.py:272
+#: pytition/petition/admin.py:126 pytition/petition/admin.py:263
 msgid "Destinatoin color for linear gradient"
 msgstr "Couleur de destination pour le gradient linéaire de couleur"
 
-#: pytition/petition/admin.py:128 pytition/petition/admin.py:273
+#: pytition/petition/admin.py:127 pytition/petition/admin.py:264
 msgid "Color for monochrome background color"
 msgstr "Couleur pour les fonds monochromes"
 
-#: pytition/petition/admin.py:129 pytition/petition/admin.py:274
+#: pytition/petition/admin.py:128 pytition/petition/admin.py:265
 msgid "Footer text"
 msgstr "Texte de pied de page"
 
-#: pytition/petition/admin.py:130 pytition/petition/admin.py:275
+#: pytition/petition/admin.py:129 pytition/petition/admin.py:266
 msgid "Footer links"
 msgstr "Liens de pied de page"
 
-#: pytition/petition/admin.py:131 pytition/petition/admin.py:276
+#: pytition/petition/admin.py:130 pytition/petition/admin.py:267
 msgid "Description for Twitter/Facebook cards"
 msgstr "Description pour la vignette Twitter/Facebook"
 
-#: pytition/petition/admin.py:132 pytition/petition/admin.py:277
+#: pytition/petition/admin.py:131 pytition/petition/admin.py:268
 msgid "Picture for Twitter/Facebook cards"
 msgstr "Image pour la vignette Twitter/Facebook"
 
-#: pytition/petition/admin.py:133 pytition/petition/admin.py:278
+#: pytition/petition/admin.py:132 pytition/petition/admin.py:269
 msgid "Is the petition associated with a newsletter?"
 msgstr ""
 "Cette pétition est-elle associée à une liste de diffusion (newsletter)  ?"
 
-#: pytition/petition/admin.py:134 pytition/petition/admin.py:279
+#: pytition/petition/admin.py:133 pytition/petition/admin.py:270
 msgid ""
 "Data structure to be sent in order to subscribe someone to the newsletter in "
 "case of HTTP method"
@@ -334,7 +323,7 @@ msgstr ""
 "Structure de donnée à envoyer afin d'abonner quelqu'un à la liste de "
 "diffusion, dans le cas de l'utilisation de la méthode HTTP"
 
-#: pytition/petition/admin.py:135 pytition/petition/admin.py:280
+#: pytition/petition/admin.py:134 pytition/petition/admin.py:271
 msgid ""
 "Name of the field which should contain the email value in the PHP data "
 "structure"
@@ -342,128 +331,128 @@ msgstr ""
 "Nom du champs qui doit contenir l'adresse e-mail dans la structure de donnée "
 "PHP"
 
-#: pytition/petition/admin.py:136 pytition/petition/admin.py:281
+#: pytition/petition/admin.py:135 pytition/petition/admin.py:272
 msgid "HTTP URL for newsletter subscription"
 msgstr "URL HTTP d'inscription à la liste de diffusion"
 
-#: pytition/petition/admin.py:137 pytition/petition/admin.py:282
+#: pytition/petition/admin.py:136 pytition/petition/admin.py:273
 msgid "Email subject for newsletter subscription command"
 msgstr ""
 "Sujet de l'e-mail qui contient la commande d'inscription à la liste de "
 "diffusion"
 
-#: pytition/petition/admin.py:138 pytition/petition/admin.py:283
+#: pytition/petition/admin.py:137 pytition/petition/admin.py:274
 msgid "FROM field for newsletter subscription command"
 msgstr ""
 "Expéditeur de l'e-mail qui contient la commande d'inscription à la liste de "
 "diffusion"
 
-#: pytition/petition/admin.py:139 pytition/petition/admin.py:284
+#: pytition/petition/admin.py:138 pytition/petition/admin.py:275
 msgid "TO field for newsletter subscription command"
 msgstr ""
 "Destinataire (sympa/mailman etc) de l'e-mail qui contient la commande "
 "d'inscription à la liste de diffusion"
 
-#: pytition/petition/admin.py:140 pytition/petition/admin.py:285
+#: pytition/petition/admin.py:139 pytition/petition/admin.py:276
 msgid "Newsletter subscription method"
 msgstr "Méthode d'inscription à la liste de diffusion"
 
-#: pytition/petition/admin.py:141 pytition/petition/admin.py:286
+#: pytition/petition/admin.py:140 pytition/petition/admin.py:277
 msgid "Puslibhed"
 msgstr "Publiée"
 
-#: pytition/petition/admin.py:142 pytition/petition/admin.py:287
+#: pytition/petition/admin.py:141 pytition/petition/admin.py:278
 msgid "Form label text of newsletter subscription checkbox"
 msgstr ""
 "Texte du label de la case à cocher d'inscription à la liste de diffusion"
 
-#: pytition/petition/admin.py:143 pytition/petition/admin.py:288
+#: pytition/petition/admin.py:142 pytition/petition/admin.py:279
 msgid "Sign form footer text"
 msgstr "Texte de pied de page du formulaire"
 
-#: pytition/petition/admin.py:144 pytition/petition/admin.py:289
+#: pytition/petition/admin.py:143 pytition/petition/admin.py:280
 msgid "Organization Twitter handle"
 msgstr "Nom d'utilisateur Twitter de l'organisation"
 
-#: pytition/petition/admin.py:145 pytition/petition/admin.py:290
-#: pytition/petition/forms.py:114
+#: pytition/petition/admin.py:144 pytition/petition/admin.py:281
 msgid "Use custom e-mail settings?"
 msgstr "Utiliser une configuration particulière de mail ?"
 
-#: pytition/petition/admin.py:146 pytition/petition/admin.py:291
-msgid "Confirmation email sender address"
+#: pytition/petition/admin.py:145 pytition/petition/admin.py:282
+#, fuzzy
+#| msgid "Confirmation email sender address"
+msgid "Confirmation email Reply-to address"
 msgstr "Adresse d'expéditeur de l'e-mail de confirmation"
 
-#: pytition/petition/admin.py:147 pytition/petition/admin.py:153
-#: pytition/petition/admin.py:292 pytition/petition/admin.py:298
+#: pytition/petition/admin.py:146 pytition/petition/admin.py:283
 msgid "SMTP server hostname"
 msgstr "Nom d'hôte du serveur SMTP"
 
-#: pytition/petition/admin.py:148 pytition/petition/admin.py:154
-#: pytition/petition/admin.py:293 pytition/petition/admin.py:299
+#: pytition/petition/admin.py:147 pytition/petition/admin.py:284
 msgid "SMTP port"
 msgstr "Port SMTP"
 
-#: pytition/petition/admin.py:149 pytition/petition/admin.py:155
-#: pytition/petition/admin.py:294 pytition/petition/admin.py:300
+#: pytition/petition/admin.py:148 pytition/petition/admin.py:285
 msgid "SMTP username"
 msgstr "Nom d'utilisateur SMTP"
 
-#: pytition/petition/admin.py:150 pytition/petition/admin.py:156
-#: pytition/petition/admin.py:295 pytition/petition/admin.py:301
+#: pytition/petition/admin.py:149 pytition/petition/admin.py:286
 msgid "SMTP password"
 msgstr "Mot de passe SMTP"
 
-#: pytition/petition/admin.py:151 pytition/petition/admin.py:157
-#: pytition/petition/admin.py:296 pytition/petition/admin.py:302
+#: pytition/petition/admin.py:150 pytition/petition/admin.py:287
 msgid "SMTP via TLS?"
 msgstr "SMTP via TLS ?"
 
-#: pytition/petition/admin.py:152 pytition/petition/admin.py:158
-#: pytition/petition/admin.py:297 pytition/petition/admin.py:303
+#: pytition/petition/admin.py:151 pytition/petition/admin.py:288
 msgid "SMTP via STARTTLS?"
 msgstr "SMTP via STARTTLS ?"
 
-#: pytition/petition/admin.py:169 pytition/petition/admin.py:312
+#: pytition/petition/admin.py:162
+msgid "To whom is this petition?"
+msgstr "A qui appartient cette pétition ?"
+
+#: pytition/petition/admin.py:167 pytition/petition/admin.py:302
 msgid "Content of the petition"
 msgstr "Contenu de la pétition"
 
-#: pytition/petition/admin.py:174 pytition/petition/admin.py:317
+#: pytition/petition/admin.py:172 pytition/petition/admin.py:307
 msgid "Background color"
 msgstr "Couleur de fond"
 
-#: pytition/petition/admin.py:179 pytition/petition/admin.py:322
+#: pytition/petition/admin.py:177 pytition/petition/admin.py:312
 msgid "Setup of the newsletter associated to the petition"
 msgstr "Configuration de la liste de diffusion associée à la pétition"
 
-#: pytition/petition/admin.py:190 pytition/petition/admin.py:333
+#: pytition/petition/admin.py:188 pytition/petition/admin.py:323
 msgid "Confirmation email setup"
 msgstr "Paramétrage de l'e-mail de confirmation"
 
-#: pytition/petition/admin.py:198 pytition/petition/admin.py:341
+#: pytition/petition/admin.py:193 pytition/petition/admin.py:328
 msgid "Petition meta-data for social networks"
 msgstr "Méta-données de la pétition pour les réseaux sociaux"
 
-#: pytition/petition/admin.py:202
+#: pytition/petition/admin.py:197
 msgid "Publish the petition"
 msgstr "Publier la pétition"
 
-#: pytition/petition/admin.py:210
+#: pytition/petition/admin.py:205
 msgid "Unconfirmed signatures"
 msgstr "Signatures non confirmées"
 
-#: pytition/petition/admin.py:214
+#: pytition/petition/admin.py:209
 msgid "Confirmed signatures"
 msgstr "Signatures confirmées"
 
-#: pytition/petition/admin.py:218 pytition/petition/models.py:163
-#: pytition/petition/templates/layouts/wizard_layout.html:19
-msgid "Title"
-msgstr "Titre"
-
-#: pytition/petition/admin.py:266
+#: pytition/petition/admin.py:257
 msgid "Petition template name"
 msgstr "Nom du gabarit de pétition"
+
+#: pytition/petition/admin.py:297
+#, fuzzy
+#| msgid "Can modify petition templates?"
+msgid "To whom is this petition template?"
+msgstr "Peut modifier les gabarits de pétition ?"
 
 #: pytition/petition/forms.py:23
 msgid "First name *"
@@ -473,7 +462,7 @@ msgstr "Prénom *"
 msgid "Last name *"
 msgstr "Nom *"
 
-#: pytition/petition/forms.py:25 pytition/petition/models.py:378
+#: pytition/petition/forms.py:25 pytition/petition/models.py:373
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
@@ -500,49 +489,56 @@ msgstr "Publier la pétition maintenant ?"
 msgid "Save & Configure"
 msgstr "Sauvegarder et configurer"
 
-#: pytition/petition/forms.py:121 pytition/petition/forms.py:164
-msgid "Use TLS?"
-msgstr "Utiliser TLS ?"
+#: pytition/petition/forms.py:115
+msgid ""
+"Your contact email. It will be used as \"Reply-To\" field of the "
+"confirmation email sent to signatories. People responding to confirmation "
+"email will in fact respond to this address."
+msgstr ""
 
-#: pytition/petition/forms.py:122 pytition/petition/forms.py:165
-msgid "Use STARTTLS?"
-msgstr "SMTP via STARTTLS ?"
-
-#: pytition/petition/forms.py:134 pytition/petition/forms.py:177
-msgid "You cannot select both TLS and STARTTLS."
-msgstr "Vous ne pouvez pas choisir TLS et STARTTLS simultanément."
-
-#: pytition/petition/forms.py:137 pytition/petition/forms.py:180
-msgid "SMTP port must be >= 1 and <= 65535"
-msgstr "Le port SMTP doit être >= 1 et <= 65535"
-
-#: pytition/petition/forms.py:151
+#: pytition/petition/forms.py:129
 msgid "Does this petition have a newsletter?"
 msgstr ""
 "Cette pétition est-elle associée à une liste de diffusion (newsletter)  ?"
 
-#: pytition/petition/forms.py:232
-#: pytition/petition/templates/petition/account_settings.html:96
+#: pytition/petition/forms.py:142
+msgid "Use TLS?"
+msgstr "Utiliser TLS ?"
+
+#: pytition/petition/forms.py:143
+msgid "Use STARTTLS?"
+msgstr "SMTP via STARTTLS ?"
+
+#: pytition/petition/forms.py:155
+msgid "You cannot select both TLS and STARTTLS."
+msgstr "Vous ne pouvez pas choisir TLS et STARTTLS simultanément."
+
+#: pytition/petition/forms.py:158
+msgid "SMTP port must be >= 1 and <= 65535"
+msgstr "Le port SMTP doit être >= 1 et <= 65535"
+
+#: pytition/petition/forms.py:210
+#: pytition/petition/templates/petition/account_settings.html:95
 msgid "DROP MY ACCOUNT"
 msgstr "SUPPRIMER MON COMPTE"
 
-#: pytition/petition/forms.py:233
+#: pytition/petition/forms.py:211
 msgid "You miss-typed the validation code"
 msgstr "Code de validation incorrect"
 
-#: pytition/petition/forms.py:247
+#: pytition/petition/forms.py:225
 msgid "This is an invalid Organization name. Please try something else."
 msgstr "Nom d'organisation invalide, essayez autre chose."
 
-#: pytition/petition/helpers.py:28 pytition/petition/views.py:278
-#: pytition/petition/views.py:292 pytition/petition/views.py:297
-#: pytition/petition/views.py:316 pytition/petition/views.py:395
-#: pytition/petition/views.py:405 pytition/petition/views.py:421
-#: pytition/petition/views.py:429
+#: pytition/petition/helpers.py:28 pytition/petition/views.py:279
+#: pytition/petition/views.py:293 pytition/petition/views.py:298
+#: pytition/petition/views.py:317 pytition/petition/views.py:396
+#: pytition/petition/views.py:406 pytition/petition/views.py:422
+#: pytition/petition/views.py:430
 msgid "not found"
 msgstr "introuvable"
 
-#: pytition/petition/helpers.py:35 pytition/petition/views.py:795
+#: pytition/petition/helpers.py:35 pytition/petition/views.py:804
 msgid "You are not part of this organization"
 msgstr "Vous ne faîtes pas partie de cette organisation"
 
@@ -554,7 +550,7 @@ msgstr "Cette pétition n'existe pas"
 msgid "This Petition is not published yet!"
 msgstr "Cette pétition n'est pas encore publiée !"
 
-#: pytition/petition/helpers.py:71
+#: pytition/petition/helpers.py:72
 msgid "Confirm your signature to our petition"
 msgstr "Confirmez votre signature à notre pétition"
 
@@ -562,55 +558,63 @@ msgstr "Confirmez votre signature à notre pétition"
 msgid "Default petition template"
 msgstr "Gabarit de pétition par défaut"
 
-#: pytition/petition/models.py:274
+#: pytition/petition/models.py:163
+#: pytition/petition/templates/layouts/wizard_layout.html:18
+msgid "Title"
+msgstr "Titre"
+
+#: pytition/petition/models.py:269
 msgid "Thank you for confirming your signature!"
 msgstr "Merci d'avoir confirmé votre signature !"
 
-#: pytition/petition/models.py:360
+#: pytition/petition/models.py:355
 msgid "This petition is buggy. Sorry about that!"
 msgstr "Désolé, il y a un problème avec cette pétition!"
 
-#: pytition/petition/models.py:376
+#: pytition/petition/models.py:371
 #: pytition/petition/templates/petition/signature_data.html:54
 msgid "First name"
 msgstr "Prénom"
 
-#: pytition/petition/models.py:377
+#: pytition/petition/models.py:372
 #: pytition/petition/templates/petition/signature_data.html:55
 msgid "Last name"
 msgstr "Nom"
 
-#: pytition/petition/models.py:379
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1640
+#: pytition/petition/models.py:374
 msgid "Email address"
 msgstr "Adresse email"
 
-#: pytition/petition/models.py:381
+#: pytition/petition/models.py:376
 msgid "Confirmed"
 msgstr "Confirmé"
 
-#: pytition/petition/models.py:382
+#: pytition/petition/models.py:377
 msgid "Petition"
 msgstr "Pétition"
 
-#: pytition/petition/models.py:383
+#: pytition/petition/models.py:378
 msgid "Subscribed to mailing list"
 msgstr "Abonné à la liste de diffusion"
 
-#: pytition/petition/models.py:384
+#: pytition/petition/models.py:379
 #: pytition/petition/templates/petition/signature_data.html:60
 msgid "Date"
 msgstr "Date"
 
-#: pytition/petition/models.py:390
+#: pytition/petition/models.py:385
 msgid "You already signed the petition"
 msgstr "Vous avez déjà signé la pétition"
 
-#: pytition/petition/models.py:526
+#: pytition/petition/models.py:500
+msgid "A permlink cannot be empty. Please enter something."
+msgstr ""
+
+#: pytition/petition/models.py:511
 msgid "Organization related to these permissions"
 msgstr "Organisation liée à ces permissions"
 
-#: pytition/petition/models.py:527
+#: pytition/petition/models.py:512
 msgid "User related to these permissions"
 msgstr "Utilisateur liée à ces permissions"
 
@@ -659,68 +663,73 @@ msgstr "Déconnexion"
 msgid "Login"
 msgstr "Connexion"
 
-#: pytition/petition/templates/layouts/nav_dashboard.html:11
-msgid "Back to home"
+#: pytition/petition/templates/layouts/nav_dashboard.html:8
+#: pytition/petition/templates/layouts/nav_dashboard.html:10
+#: pytition/petition/templates/petition/back_to_dashboard.html:3
+#: pytition/petition/templates/petition/back_to_dashboard.html:5
+msgid "Back to dashboard"
 msgstr "Retourner au tableau de bord"
 
-#: pytition/petition/templates/layouts/wizard_layout.html:16
+#: pytition/petition/templates/layouts/wizard_layout.html:15
 msgid "Create a new petition!"
 msgstr "Créer une pétition !"
 
-#: pytition/petition/templates/layouts/wizard_layout.html:20
+#: pytition/petition/templates/layouts/wizard_layout.html:19
 msgid "Give a title to your petition"
 msgstr "Donnez un titre à votre pétition"
 
-#: pytition/petition/templates/layouts/wizard_layout.html:21
+#: pytition/petition/templates/layouts/wizard_layout.html:20
 #: pytition/petition/templates/petition/edit_petition.html:34
+#: pytition/petition/templates/petition/edit_petition.html:152
+#: pytition/petition/templates/petition/edit_petition.html:158
 msgid "Content"
 msgstr "Contenu"
 
-#: pytition/petition/templates/layouts/wizard_layout.html:22
+#: pytition/petition/templates/layouts/wizard_layout.html:21
 msgid "Write your petition content"
 msgstr "Rédigez votre pétition"
 
-#: pytition/petition/templates/layouts/wizard_layout.html:23
+#: pytition/petition/templates/layouts/wizard_layout.html:22
 msgid "Publish"
 msgstr "Publier"
 
-#: pytition/petition/templates/layouts/wizard_layout.html:24
+#: pytition/petition/templates/layouts/wizard_layout.html:23
 msgid "Save your petition and publish it if it's ready"
 msgstr "Sauvegardez votre petition et publiez la si elle est prête"
 
-#: pytition/petition/templates/petition/account_settings.html:11
+#: pytition/petition/templates/petition/account_settings.html:10
 msgid "Personal Settings"
 msgstr "Paramètres personnels"
 
-#: pytition/petition/templates/petition/account_settings.html:12
-#: pytition/petition/templates/petition/account_settings.html:22
+#: pytition/petition/templates/petition/account_settings.html:11
+#: pytition/petition/templates/petition/account_settings.html:21
 msgid "Personal Information"
 msgstr "Informations personnelles"
 
-#: pytition/petition/templates/petition/account_settings.html:13
+#: pytition/petition/templates/petition/account_settings.html:12
 msgid "Change Password"
 msgstr "Changer de mot de passe"
 
-#: pytition/petition/templates/petition/account_settings.html:14
-#: pytition/petition/templates/petition/account_settings.html:42
+#: pytition/petition/templates/petition/account_settings.html:13
+#: pytition/petition/templates/petition/account_settings.html:41
 #: pytition/petition/templates/petition/user_org_list.html:4
 msgid "Organizations"
 msgstr "Organisations"
 
-#: pytition/petition/templates/petition/account_settings.html:15
+#: pytition/petition/templates/petition/account_settings.html:14
 msgid "Delete your account"
 msgstr "Supprimer votre compte"
 
-#: pytition/petition/templates/petition/account_settings.html:26
+#: pytition/petition/templates/petition/account_settings.html:25
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: pytition/petition/templates/petition/account_settings.html:32
-#: pytition/petition/templates/petition/account_settings.html:36
+#: pytition/petition/templates/petition/account_settings.html:31
+#: pytition/petition/templates/petition/account_settings.html:35
 msgid "Change password"
 msgstr "Changer de mot de passe"
 
-#: pytition/petition/templates/petition/account_settings.html:64
+#: pytition/petition/templates/petition/account_settings.html:63
 #, fuzzy
 #| msgid ""
 #| "You cannot leave an organization where you are the last administrator"
@@ -731,19 +740,19 @@ msgstr ""
 "Vous ne pouvez pas quitter une organisation dont vous être le dernier "
 "administrateur"
 
-#: pytition/petition/templates/petition/account_settings.html:73
+#: pytition/petition/templates/petition/account_settings.html:72
 msgid "You are not part of any organization"
 msgstr "Vous ne faites partie d'aucune organisation"
 
-#: pytition/petition/templates/petition/account_settings.html:76
+#: pytition/petition/templates/petition/account_settings.html:75
 msgid "Create an Organization"
 msgstr "Créer une organisation"
 
-#: pytition/petition/templates/petition/account_settings.html:81
+#: pytition/petition/templates/petition/account_settings.html:80
 msgid "Delete Account"
 msgstr "Supprimer votre compte"
 
-#: pytition/petition/templates/petition/account_settings.html:90
+#: pytition/petition/templates/petition/account_settings.html:89
 msgid ""
 "\n"
 "                                            WARNING: If you do this, your "
@@ -754,38 +763,34 @@ msgid ""
 "                                        "
 msgstr ""
 
-#: pytition/petition/templates/petition/account_settings.html:103
+#: pytition/petition/templates/petition/account_settings.html:102
 #: pytition/petition/templates/petition/edit_petition.html:84
 #: pytition/petition/templates/petition/petition_list.html:96
-#: venv/lib/python3.6/site-packages/django/forms/formsets.py:375
+#: pytition/petition/templates/petition/template_list.html:40
 msgid "Delete"
 msgstr "Supprimer"
 
-#: pytition/petition/templates/petition/account_settings.html:116
+#: pytition/petition/templates/petition/account_settings.html:115
 msgid "Leaving an organization"
 msgstr "Quitter l'organisation"
 
-#: pytition/petition/templates/petition/account_settings.html:122
+#: pytition/petition/templates/petition/account_settings.html:121
 msgid "Are you sure you want to leave"
 msgstr "Êtes vous sur de vouloir quitter"
 
 #: pytition/petition/templates/petition/all_petitions.html:25
 #: pytition/petition/templates/petition/index.html:36
-#: pytition/petition/templates/petition/org_profile.html:39
-#: pytition/petition/templates/petition/user_profile.html:40
+#: pytition/petition/templates/petition/org_profile.html:38
+#: pytition/petition/templates/petition/search.html:47
+#: pytition/petition/templates/petition/user_profile.html:39
 msgid "Sign!"
 msgstr "Signez !"
 
-#: pytition/petition/templates/petition/back_to_dashboard.html:3
-#: pytition/petition/templates/petition/back_to_dashboard.html:5
-msgid "Back to dashboard"
-msgstr "Retourner au tableau de bord"
-
-#: pytition/petition/templates/petition/confirmation_email.html:8
+#: pytition/petition/templates/petition/confirmation_email.html:10
 msgid "Thank you"
 msgstr "Merci"
 
-#: pytition/petition/templates/petition/confirmation_email.html:10
+#: pytition/petition/templates/petition/confirmation_email.html:12
 msgid ""
 "\n"
 "Now, in order to confirm your signature, you only need to click here :\n"
@@ -793,7 +798,7 @@ msgstr ""
 "\n"
 "Pour confirmer votre signature, il vous reste simplement à cliquer ici: \n"
 
-#: pytition/petition/templates/petition/confirmation_email.html:15
+#: pytition/petition/templates/petition/confirmation_email.html:17
 msgid "See you soon!"
 msgstr "A bientôt !"
 
@@ -802,18 +807,26 @@ msgid "Petition settings"
 msgstr "Paramètres de la pétition"
 
 #: pytition/petition/templates/petition/edit_petition.html:36
+#: pytition/petition/templates/petition/edit_petition.html:166
+#: pytition/petition/templates/petition/edit_petition.html:172
 msgid "Style & Look"
 msgstr ""
 
 #: pytition/petition/templates/petition/edit_petition.html:38
+#: pytition/petition/templates/petition/edit_petition.html:194
+#: pytition/petition/templates/petition/edit_petition.html:200
 msgid "Social Networks"
 msgstr "Réseaux sociaux"
 
 #: pytition/petition/templates/petition/edit_petition.html:40
+#: pytition/petition/templates/petition/edit_petition.html:180
+#: pytition/petition/templates/petition/edit_petition.html:186
 msgid "E-mail setup"
 msgstr "Configuration des mails"
 
 #: pytition/petition/templates/petition/edit_petition.html:42
+#: pytition/petition/templates/petition/edit_petition.html:208
+#: pytition/petition/templates/petition/edit_petition.html:214
 msgid "Newsletter setup"
 msgstr "Configuration de la liste de diffusion"
 
@@ -867,7 +880,25 @@ msgstr "Permaliens"
 msgid "Actions"
 msgstr "Actions"
 
-#: pytition/petition/templates/petition/edit_petition.html:218
+#: pytition/petition/templates/petition/edit_petition.html:117
+msgid ""
+"\n"
+"            Beware: this preview shows the current state of the petition."
+"<br />\n"
+"            If you modified some settings, please save if you want to see "
+"them in the preview.\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:153
+#: pytition/petition/templates/petition/edit_petition.html:167
+#: pytition/petition/templates/petition/edit_petition.html:181
+#: pytition/petition/templates/petition/edit_petition.html:195
+#: pytition/petition/templates/petition/edit_petition.html:209
+msgid "unsaved"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:288
 msgid "OK"
 msgstr "OK"
 
@@ -945,32 +976,26 @@ msgid "Create"
 msgstr "Créer"
 
 #: pytition/petition/templates/petition/org_base.html:16
-#: pytition/petition/templates/petition/org_dashboard.html:10
-#: pytition/petition/templates/petition/search.html:29
 #: pytition/petition/templates/petition/user_base.html:11
 msgid "Petitions"
 msgstr "Pétitions"
 
 #: pytition/petition/templates/petition/org_base.html:17
-#: pytition/petition/templates/petition/org_dashboard.html:11
 #: pytition/petition/templates/petition/user_base.html:12
 msgid "New petition"
 msgstr "Nouvelle pétition"
 
 #: pytition/petition/templates/petition/org_base.html:25
-#: pytition/petition/templates/petition/org_dashboard.html:18
 #: pytition/petition/templates/petition/user_base.html:19
 msgid "Petition templates"
 msgstr "Gabarit de pétition"
 
 #: pytition/petition/templates/petition/org_base.html:26
-#: pytition/petition/templates/petition/org_dashboard.html:19
 #: pytition/petition/templates/petition/user_base.html:20
 msgid "Create a new petition template"
 msgstr "Créer un gabarit de pétition"
 
 #: pytition/petition/templates/petition/org_base.html:26
-#: pytition/petition/templates/petition/org_dashboard.html:19
 #: pytition/petition/templates/petition/user_base.html:20
 msgid "New template"
 msgstr "Nouveau gabarit de pétition"
@@ -979,15 +1004,16 @@ msgstr "Nouveau gabarit de pétition"
 msgid "Create an organization"
 msgstr "Créer une organisation"
 
-#: pytition/petition/templates/petition/org_dashboard.html:11
-#: pytition/petition/templates/petition/petition_list.html:16
-#: pytition/petition/templates/petition/user_base.html:12
-msgid "Create a new petition"
-msgstr "Créer une nouvelle pétition"
-
-#: pytition/petition/templates/petition/org_dashboard.html:27
-msgid "This organization's public profile"
+#: pytition/petition/templates/petition/org_dashboard.html:5
+#, python-format
+msgid ""
+"\n"
+"        Petitions of '%(orgname)s'\n"
+"    "
 msgstr ""
+"\n"
+"        Pétitions de '%(orgname)s'\n"
+"    "
 
 #: pytition/petition/templates/petition/org_invite_user.html:5
 msgid "Invite user"
@@ -1001,27 +1027,27 @@ msgstr "Nom d'utilisateur"
 msgid "Members"
 msgstr "Membres"
 
-#: pytition/petition/templates/petition/org_member_list.html:12
-msgid ""
-"You cannot remove this member from the organization, you don\\'t have the "
-"correct permission"
-msgstr ""
-"Vous n\\'avez pas les droits pour enlever cet utilisateur de l\\'organisation"
-
-#: pytition/petition/templates/petition/org_member_list.html:15
-msgid "Remove this member from the organization."
-msgstr "Enlever cet utilisateur de l\\'organisation'."
-
-#: pytition/petition/templates/petition/org_member_list.html:20
+#: pytition/petition/templates/petition/org_member_list.html:11
 msgid ""
 "You cannot edit this member's permissions, you don\\'t have the correct "
 "permission"
 msgstr ""
 "Vous n\\'avez pas les droits pour modifier les droits de cet utilisateur"
 
-#: pytition/petition/templates/petition/org_member_list.html:24
+#: pytition/petition/templates/petition/org_member_list.html:15
 msgid "Edit this member's permissions"
 msgstr "Modifier les droits de cet utilisateur"
+
+#: pytition/petition/templates/petition/org_member_list.html:23
+msgid ""
+"You cannot remove this member from the organization, you don\\'t have the "
+"correct permission"
+msgstr ""
+"Vous n\\'avez pas les droits pour enlever cet utilisateur de l\\'organisation"
+
+#: pytition/petition/templates/petition/org_member_list.html:26
+msgid "Remove this member from the organization."
+msgstr "Enlever cet utilisateur de l\\'organisation'."
 
 #: pytition/petition/templates/petition/org_profile.html:5
 #: pytition/petition/templates/petition/user_profile.html:5
@@ -1086,9 +1112,18 @@ msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
 msgid "Please correct the errors below."
 msgstr "Corrigez les erreurs ci-dessous s'il vous plaît."
 
+#: pytition/petition/templates/petition/petition_detail.html:83
+msgid "SIGN"
+msgstr "SIGNER"
+
 #: pytition/petition/templates/petition/petition_list.html:14
 msgid "You don't have any petitions yet"
 msgstr "Vous n'avez pas encore de pétition"
+
+#: pytition/petition/templates/petition/petition_list.html:16
+#: pytition/petition/templates/petition/user_base.html:12
+msgid "Create a new petition"
+msgstr "Créer une nouvelle pétition"
 
 #: pytition/petition/templates/petition/petition_list.html:51
 msgid "Not published"
@@ -1132,10 +1167,6 @@ msgstr ""
 #: pytition/petition/templates/petition/petition_list.html:97
 msgid "Cancel"
 msgstr "Annuler"
-
-#: pytition/petition/templates/petition/search.html:29
-msgid "No result."
-msgstr "Pas de résultat."
 
 #: pytition/petition/templates/petition/signature_data.html:7
 msgid "Signatures"
@@ -1203,9 +1234,29 @@ msgstr "Créer une nouvelle pétition en utilisant ce gabarit"
 msgid "Delete template"
 msgstr "Supprimer le gabarit de pétition"
 
+#: pytition/petition/templates/petition/template_list.html:29
+#, fuzzy
+#| msgid "Delete template"
+msgid "Delete this template?"
+msgstr "Supprimer le gabarit de pétition"
+
+#: pytition/petition/templates/petition/template_list.html:35
+#, fuzzy
+#| msgid "You are not member of the following organization: '{}'"
+msgid "You are about to delete the following petition template:"
+msgstr "Vous n\\'etes pas membre de l\\'organisation '{}'"
+
+#: pytition/petition/templates/petition/template_list.html:36
+msgid "Do you really want to do this?"
+msgstr "Voulez-vous vraiment faire cela ?"
+
+#: pytition/petition/templates/petition/template_list.html:39
+msgid "Close"
+msgstr "Fermer"
+
 #: pytition/petition/templates/petition/user_base.html:28
 msgid "Your public profile"
-msgstr ""
+msgstr "Votre profile publique"
 
 #: pytition/petition/templates/petition/user_dashboard.html:4
 msgid "Your petitions"
@@ -1318,7 +1369,7 @@ msgstr "Créer une organisation"
 msgid "New organization"
 msgstr "Nouvelle organisation"
 
-#: pytition/petition/templates/petition/user_profile.html:53
+#: pytition/petition/templates/petition/user_profile.html:54
 msgid "This user has not created any petition yet"
 msgstr "Cet utilisateur n'a pas encore créé de pétition"
 
@@ -1331,15 +1382,15 @@ msgid "Your username and password didn't match. Please try again."
 msgstr ""
 "Vos identifiant et mot de passe ne correspondent pas. Veuillez réessayer."
 
-#: pytition/petition/templates/registration/login.html:34
+#: pytition/petition/templates/registration/login.html:35
 msgid "No account?"
 msgstr "Pas encore de compte ?"
 
-#: pytition/petition/templates/registration/login.html:34
+#: pytition/petition/templates/registration/login.html:35
 msgid "Register!"
 msgstr "Créer un compte!"
 
-#: pytition/petition/templates/registration/login.html:35
+#: pytition/petition/templates/registration/login.html:36
 msgid "I forgot my password!"
 msgstr "J'ai oublié mon mot de passe !"
 
@@ -1356,6 +1407,8 @@ msgid ""
 "We've emailed you instructions for setting your password. You should receive "
 "the email shortly!"
 msgstr ""
+"Nous vous avons envoyé les instructions pour changer votre mot de passe par "
+"e-mail. Vous devriez bientôt recevoir l'e-mail."
 
 #: pytition/petition/templates/registration/password_reset_form.html:4
 msgid "Forgot Your Password?"
@@ -1370,51 +1423,54 @@ msgid ""
 "Enter your email address below, and we'll email instructions for setting a "
 "new one."
 msgstr ""
+"Entrez votre adresse e-mail ci-dessous, nous vous enverrons un e-mail avec "
+"les instructions pour en choisir un nouveau."
 
 #: pytition/petition/templates/registration/password_reset_form.html:15
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: pytition/petition/templates/registration/password_reset_form.html:17
 msgid "email@example.com"
-msgstr ""
+msgstr "email@exemple.fr"
 
 #: pytition/petition/templates/registration/password_reset_form.html:20
 msgid "Send me instructions!"
-msgstr ""
+msgstr "Envoyez-moi les instructions !"
 
-#: pytition/petition/templates/registration/register.html:12
+#: pytition/petition/templates/registration/register.html:8
 msgid "Register"
 msgstr "S'enregistrer"
 
-#: pytition/petition/views.py:42
+#: pytition/petition/views.py:43
 msgid "You must set an INDEX_PAGE config in your settings"
 msgstr ""
 
-#: pytition/petition/views.py:47
+#: pytition/petition/views.py:48
 msgid "You must set an INDEX_PAGE_USER config in your settings"
 msgstr ""
 
-#: pytition/petition/views.py:52
+#: pytition/petition/views.py:53
 msgid "You must set an INDEX_PAGE_ORGA config in your settings"
 msgstr ""
 
-#: pytition/petition/views.py:132
+#: pytition/petition/views.py:133
 msgid ""
 "Error: This confirmation code is invalid. Maybe you've already confirmed?"
 msgstr ""
 "Erreur : ce code de confirmation est invalide. Peut-être avez-vous déjà "
 "confirmé ?"
 
-#: pytition/petition/views.py:138
+#: pytition/petition/views.py:139
 msgid "Error: This confirmation code is invalid."
 msgstr "Erreur : ce code de confirmation est invalide."
 
-#: pytition/petition/views.py:204
+#: pytition/petition/views.py:205
 msgid "Too many signatures from your IP address, please try again later."
 msgstr ""
+"Trop de signatures depuis votre adresse IP, merci de venir signer plus tard."
 
-#: pytition/petition/views.py:212
+#: pytition/petition/views.py:213
 msgid ""
 "Thank you for signing this petition, an email has just been sent to you at "
 "your address '{}' in order to confirm your signature.<br>You will need to "
@@ -1427,30 +1483,30 @@ msgstr ""
 "vous ne trouvez pas l'e-mail dans votre boite de réception, regardez dans "
 "votre dossier spam/indésirable svp."
 
-#: pytition/petition/views.py:231
+#: pytition/petition/views.py:232
 msgid "This organization does not exist: '{}'"
 msgstr "L'organisation '{}' n'existe pas"
 
-#: pytition/petition/views.py:237
+#: pytition/petition/views.py:238
 msgid "You are not part of this organization: '{}'"
 msgstr "Vous n\\'etes pas membre de l\\'organisation '{}'"
 
-#: pytition/petition/views.py:245 pytition/petition/views.py:458
-#: pytition/petition/views.py:511 pytition/petition/views.py:750
-#: pytition/petition/views.py:946 pytition/petition/views.py:1189
+#: pytition/petition/views.py:246 pytition/petition/views.py:459
+#: pytition/petition/views.py:512 pytition/petition/views.py:759
+#: pytition/petition/views.py:994 pytition/petition/views.py:1231
 #, python-brace-format
 msgid ""
 "Internal error, cannot find your permissions attached to this organization "
 "('{orgname}')"
 msgstr ""
 
-#: pytition/petition/views.py:300
+#: pytition/petition/views.py:301
 msgid "Impossible to leave this organisation, you are the last administrator"
 msgstr ""
 "Vous ne pouvez pas quitter cette organisation, il ne reste plus que vous en "
 "administrateur"
 
-#: pytition/petition/views.py:303
+#: pytition/petition/views.py:304
 #, fuzzy
 #| msgid ""
 #| "Impossible to leave this organisation, you are the last administrator"
@@ -1459,1421 +1515,335 @@ msgstr ""
 "Vous ne pouvez pas quitter cette organisation, il ne reste plus que vous en "
 "administrateur"
 
-#: pytition/petition/views.py:349
+#: pytition/petition/views.py:350
 msgid "This user does not exist (anylonger?)"
 msgstr "Cet utilisateur n'existe pas (plus ?)"
 
-#: pytition/petition/views.py:355
+#: pytition/petition/views.py:356
 msgid "This organization does not exist (anylonger?)"
 msgstr "Cette organisation n'existe pas (plus ?)"
 
-#: pytition/petition/views.py:361
+#: pytition/petition/views.py:362
 msgid "You are not part of this organization."
 msgstr "Vous ne faîtes pas partie de cette organisation."
 
-#: pytition/petition/views.py:365
+#: pytition/petition/views.py:366
 #, python-brace-format
 msgid "User is already member of {orgname} organization"
 msgstr "L'utilisateur est déjà membre de l'organisation {orgname}"
 
-#: pytition/petition/views.py:369
+#: pytition/petition/views.py:370
 msgid "You are not allowed to invite new members into this organization."
 msgstr ""
 "Vous n'avez pas l'autorisation d'inviter de nouveaux membres dans cette "
 "organisation."
 
-#: pytition/petition/views.py:376
+#: pytition/petition/views.py:377
 msgid "An error occured"
 msgstr "Une erreur est survenue"
 
-#: pytition/petition/views.py:379
+#: pytition/petition/views.py:380
 #, python-brace-format
 msgid "You invited {username} to join {orgname}"
 msgstr "Vous avez invité {username} à rejoindre {orgname}"
 
-#: pytition/petition/views.py:448 pytition/petition/views.py:693
-#: pytition/petition/views.py:776 pytition/petition/views.py:933
+#: pytition/petition/views.py:449 pytition/petition/views.py:702
+#: pytition/petition/views.py:785 pytition/petition/views.py:981
 msgid "Organization does not exist"
 msgstr "Cette organisation n'existe pas"
 
-#: pytition/petition/views.py:451
+#: pytition/petition/views.py:452
 msgid "You are not allowed to view this organization dashboard"
 msgstr ""
 "Vous n'avez pas l'autorisation de visualiser le tableau de bord de cette "
 "organisation"
 
-#: pytition/petition/views.py:462
+#: pytition/petition/views.py:463
 msgid "You don't have the permission to create a Template in this organization"
 msgstr ""
 
-#: pytition/petition/views.py:479
+#: pytition/petition/views.py:480
 msgid "You need to provide a template name."
-msgstr ""
+msgstr "Vous devez fournir un nom de gabarit."
 
-#: pytition/petition/views.py:491
+#: pytition/petition/views.py:492
 msgid "You need to provide the template id to modify"
-msgstr ""
+msgstr "Vous devez fournir le numéro identifiant du gabarit pour le modifier"
 
-#: pytition/petition/views.py:496
+#: pytition/petition/views.py:497
 msgid "This template does not exist"
 msgstr "Ce gabarit de pétition n'existe pas"
 
-#: pytition/petition/views.py:515
+#: pytition/petition/views.py:516
 msgid "You are not allowed to edit this organization's templates"
 msgstr ""
+"Vous n'êtes pas autorisé-e à modifier les gabarit de cette organisation"
 
-#: pytition/petition/views.py:520
+#: pytition/petition/views.py:521
 msgid "You are not allowed to edit this user's templates"
 msgstr ""
+"Vous n'êtes pas autorisé-e à modifier les gabarit de cet utilisateur-ice"
 
-#: pytition/petition/views.py:667
+#: pytition/petition/views.py:676
 msgid "You are not allowed to change this user's default template"
 msgstr ""
+"Vous n'êtes pas autorisé à modifier le gabarit par défaut de cet utilisateur"
 
-#: pytition/petition/views.py:686 pytition/petition/views.py:770
+#: pytition/petition/views.py:695 pytition/petition/views.py:779
 msgid "User does not exist"
 msgstr "L'utilisateur n'existe pas"
 
-#: pytition/petition/views.py:726
+#: pytition/petition/views.py:735
 #, python-brace-format
 msgid "User '{name}' does not exist"
 msgstr "L'utilisateur '{name}' n'existe pas"
 
-#: pytition/petition/views.py:732
+#: pytition/petition/views.py:741
 #, python-brace-format
 msgid "Organization '{name}' does not exist"
 msgstr "L'organisation '{name}' n'existe pas"
 
-#: pytition/petition/views.py:735
+#: pytition/petition/views.py:744
 #, python-brace-format
 msgid "The user '{username}' is not member of this organization ({orgname})."
 msgstr ""
 
-#: pytition/petition/views.py:743
+#: pytition/petition/views.py:752
 msgid ""
 "Internal error, this member does not have permissions attached to this "
 "organization."
 msgstr ""
 
-#: pytition/petition/views.py:779
+#: pytition/petition/views.py:788
 #, python-brace-format
 msgid "This user is not part of organization '{orgname}'"
 msgstr ""
 
-#: pytition/petition/views.py:785
+#: pytition/petition/views.py:794
 msgid ""
 "Fatal error, this user does not have permissions attached for this "
 "organization"
 msgstr ""
 
-#: pytition/petition/views.py:791
+#: pytition/petition/views.py:800
 msgid ""
 "Fatal error, you don't have permissions attached to you for this organization"
 msgstr ""
 
-#: pytition/petition/views.py:799
+#: pytition/petition/views.py:808
 msgid "You are not allowed to modify this organization members' permissions"
 msgstr ""
 
-#: pytition/petition/views.py:827
+#: pytition/petition/views.py:836
 msgid ""
 "You cannot remove your ability to change permissions on this Organization "
 "because you are the only one left who can do this. Give the permission to "
 "someone else before removing yours."
 msgstr ""
 
-#: pytition/petition/views.py:832
+#: pytition/petition/views.py:841
 msgid ""
 "You cannot remove your ability to change permissions on this Organization "
 "because you are the only member left."
 msgstr ""
 
-#: pytition/petition/views.py:836
+#: pytition/petition/views.py:845
 msgid "Permissions successfully changed!"
 msgstr ""
 
-#: pytition/petition/views.py:883
+#: pytition/petition/views.py:927
 msgid "Cannot find this organization"
 msgstr "Impossible de trouver cette organisation"
 
-#: pytition/petition/views.py:900
+#: pytition/petition/views.py:945
 msgid "This template does not belong to your organization"
 msgstr "Ce gabarit de pétition n'appartient pas à votre organisation"
 
-#: pytition/petition/views.py:909
+#: pytition/petition/views.py:954
 msgid ""
 "You don't have the permission to create a new petition in this Organization"
 msgstr ""
 
-#: pytition/petition/views.py:918
+#: pytition/petition/views.py:964
 msgid "This template does not belong to you"
 msgstr "Ce gabarit de pétition ne vous appartient pas"
 
-#: pytition/petition/views.py:1040
+#: pytition/petition/views.py:1088
 msgid "You are not allowed to edit this petition"
 msgstr "Vous n\\'êtes pas le propriétaire de cette pétition"
 
-#: pytition/petition/views.py:1145 pytition/petition/views.py:1157
+#: pytition/petition/views.py:1187 pytition/petition/views.py:1199
 msgid "save-the-kittens-from-bad-wolf"
 msgstr ""
 
-#: pytition/petition/views.py:1184
+#: pytition/petition/views.py:1226
 msgid "You are not member of the following organization: '{}'"
 msgstr "Vous n\\'etes pas membre de l\\'organisation '{}'"
 
-#: pytition/petition/views.py:1193
+#: pytition/petition/views.py:1235
 msgid "You are not allowed to view signatures in this organization"
 msgstr ""
 "Vous n'avez pas les droits de voir les signatures de cette organisation"
 
-#: pytition/petition/views.py:1219
+#: pytition/petition/views.py:1261
 msgid "You don't have permission to delete some or all of selected signatures"
 msgstr ""
 
-#: pytition/petition/views.py:1221 pytition/petition/views.py:1231
-#: pytition/petition/views.py:1242
+#: pytition/petition/views.py:1263 pytition/petition/views.py:1273
+#: pytition/petition/views.py:1284
 msgid "You successfully deleted all selected signatures"
 msgstr ""
 
-#: pytition/petition/views.py:1229 pytition/petition/views.py:1240
+#: pytition/petition/views.py:1271 pytition/petition/views.py:1282
 msgid "An error happened while trying to re-send confirmation emails"
 msgstr ""
 
-#: pytition/petition/views.py:1288
+#: pytition/petition/views.py:1330
 msgid "You successfully changed your password!"
 msgstr "Votre mot de passe a été modifié avec succès !"
 
-#: pytition/petition/views.py:1336
+#: pytition/petition/views.py:1378
 msgid "You successfully created organization '{}'"
 msgstr "L'organisation '{}' a été créée avec succès"
 
-#: pytition/petition/views.py:1360 pytition/petition/views.py:1367
-#: pytition/petition/views.py:1369
+#: pytition/petition/views.py:1402 pytition/petition/views.py:1409
+#: pytition/petition/views.py:1411
 msgid "Sorry, we are not able to find this petition"
 msgstr "Désolé, nous n'avons pas trouvé cette pétition"
 
-#: pytition/petition/views.py:1386 pytition/petition/views.py:1417
+#: pytition/petition/views.py:1428 pytition/petition/views.py:1462
 msgid "This petition does not exist (anymore?)."
 msgstr "Cette pétition n'existe pas (plus ?)"
 
-#: pytition/petition/views.py:1392
+#: pytition/petition/views.py:1434
 msgid "You entered an empty slug text"
 msgstr "Vous avez saisi un slug vide"
 
-#: pytition/petition/views.py:1399
+#: pytition/petition/views.py:1441
 msgid "Successful addition of the slug '{}'!"
 msgstr ""
 
-#: pytition/petition/views.py:1401
+#: pytition/petition/views.py:1443
 msgid "The slug '{}' already exists!"
 msgstr "Le slug '{}' existe déjà !"
 
-#: pytition/petition/views.py:1403 pytition/petition/views.py:1429
+#: pytition/petition/views.py:1448 pytition/petition/views.py:1474
 msgid "You don't have the permission to modify petitions"
 msgstr ""
 
-#: pytition/petition/views.py:1427
+#: pytition/petition/views.py:1472
 msgid "Successful deletion of a slug"
 msgstr ""
 
-#: venv/lib/python3.6/site-packages/colorfield/fields.py:13
-msgid "Enter a valid color."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/contrib/messages/apps.py:7
-msgid "Messages"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/contrib/sitemaps/apps.py:7
-msgid "Site Maps"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/contrib/staticfiles/apps.py:9
-msgid "Static Files"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/contrib/syndication/apps.py:7
 #, fuzzy
-#| msgid "Invitations"
-msgid "Syndication"
-msgstr "Invitations"
+#~| msgid "Invitations"
+#~ msgid "Syndication"
+#~ msgstr "Invitations"
 
-#: venv/lib/python3.6/site-packages/django/core/paginator.py:45
-msgid "That page number is not an integer"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/paginator.py:47
-msgid "That page number is less than 1"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/paginator.py:52
-msgid "That page contains no results"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:31
-msgid "Enter a valid value."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:102
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:658
-msgid "Enter a valid URL."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:154
-msgid "Enter a valid integer."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:165
-msgid "Enter a valid email address."
-msgstr "Entrez une adresse e-mai valide."
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: venv/lib/python3.6/site-packages/django/core/validators.py:239
-msgid ""
-"Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:246
-msgid ""
-"Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:255
-#: venv/lib/python3.6/site-packages/django/core/validators.py:275
-msgid "Enter a valid IPv4 address."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:260
-#: venv/lib/python3.6/site-packages/django/core/validators.py:276
-msgid "Enter a valid IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:270
-#: venv/lib/python3.6/site-packages/django/core/validators.py:274
-msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:304
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:310
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:342
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:351
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:361
-#, python-format
-msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:376
-#, python-format
-msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:395
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:290
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:325
-msgid "Enter a number."
-msgstr "Entrez un nombre."
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:397
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:402
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:407
-#, python-format
-msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:469
-#, python-format
-msgid ""
-"File extension '%(extension)s' is not allowed. Allowed extensions are: "
-"'%(allowed_extensions)s'."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/core/validators.py:521
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/base.py:1162
-#: venv/lib/python3.6/site-packages/django/forms/models.py:756
-msgid "and"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/base.py:1164
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:104
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:105
-msgid "This field cannot be null."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:106
-msgid "This field cannot be blank."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:107
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
-#. Eg: "Title must be unique for pub_date year"
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:111
-#, python-format
-msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:128
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:899
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1766
-msgid "Integer"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:903
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1764
-#, python-format
-msgid "'%(value)s' value must be an integer."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:978
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1832
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:990
-#, python-format
-msgid "'%(value)s' value must be either True or False."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:991
-#, python-format
-msgid "'%(value)s' value must be either True, False, or None."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:993
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1034
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1098
-msgid "Comma-separated integers"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1147
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1149
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1292
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1152
-msgid "Date (without time)"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1290
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
-"uuuuuu]][TZ] format."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1294
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1298
-msgid "Date (with time)"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1446
-#, python-format
-msgid "'%(value)s' value must be a decimal number."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1448
 #, fuzzy
-#| msgid "User number"
-msgid "Decimal number"
-msgstr "Numéro d'utilisateur"
+#~| msgid "Email address"
+#~ msgid "Enter a valid email address."
+#~ msgstr "Adresse email"
 
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1587
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in [DD] [HH:[MM:]]ss[."
-"uuuuuu] format."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1590
-msgid "Duration"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1663
-msgid "File path"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1729
-#, python-format
-msgid "'%(value)s' value must be a float."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1731
 #, fuzzy
-#| msgid "Petition number"
-msgid "Floating point number"
-msgstr "Numéro de pétition"
+#~| msgid "Phone number"
+#~ msgid "Enter a number."
+#~ msgstr "Numéro de téléphone"
 
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1848
-msgid "IPv4 address"
-msgstr "Adresse IPv4"
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1879
-msgid "IP address"
-msgstr "Adresse IP"
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1959
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1960
-#, python-format
-msgid "'%(value)s' value must be either None, True or False."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1962
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1997
-msgid "Positive integer"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2010
-msgid "Positive small integer"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2024
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2056
-msgid "Small integer"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2063
-msgid "Text"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2091
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2093
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2096
-msgid "Time"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2222
-msgid "URL"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2244
-msgid "Raw binary data"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2294
-#, python-format
-msgid "'%(value)s' is not a valid UUID."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2296
-msgid "Universally unique identifier"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/files.py:221
-msgid "File"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/files.py:360
-msgid "Image"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/related.py:778
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r does not exist."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/related.py:780
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/related.py:1007
-msgid "One-to-one relationship"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/related.py:1057
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/related.py:1058
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/db/models/fields/related.py:1100
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: venv/lib/python3.6/site-packages/django/forms/boundfield.py:146
-msgid ":?.!"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:53
-msgid "This field is required."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:245
-msgid "Enter a whole number."
-msgstr "Entrez un nombre."
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:396
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:1126
-msgid "Enter a valid date."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:420
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:1127
-msgid "Enter a valid time."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:442
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:471
-msgid "Enter a valid duration."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:472
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:532
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:533
-msgid "No file was submitted."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:534
-msgid "The submitted file is empty."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:536
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:539
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:600
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:762
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:852
-#: venv/lib/python3.6/site-packages/django/forms/models.py:1270
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:853
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:968
-#: venv/lib/python3.6/site-packages/django/forms/models.py:1269
-msgid "Enter a list of values."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:969
-msgid "Enter a complete value."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/fields.py:1185
-msgid "Enter a valid UUID."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: venv/lib/python3.6/site-packages/django/forms/forms.py:86
-msgid ":"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/forms.py:212
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/formsets.py:91
-msgid "ManagementForm data is missing or has been tampered with"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/formsets.py:338
-#, python-format
-msgid "Please submit %d or fewer forms."
-msgid_plural "Please submit %d or fewer forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/forms/formsets.py:345
-#, python-format
-msgid "Please submit %d or more forms."
-msgid_plural "Please submit %d or more forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/forms/formsets.py:371
-#: venv/lib/python3.6/site-packages/django/forms/formsets.py:373
-msgid "Order"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/models.py:751
-#, fuzzy, python-format
-#| msgid "Please correct the error below."
-msgid "Please correct the duplicate data for %(field)s."
-msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
-
-#: venv/lib/python3.6/site-packages/django/forms/models.py:755
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/models.py:761
-#, python-format
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/models.py:770
-msgid "Please correct the duplicate values below."
-msgstr "Corrigez les valeurs dupliquées ci-dessous s'il vous plaît."
-
-#: venv/lib/python3.6/site-packages/django/forms/models.py:1091
-msgid "The inline value did not match the parent instance."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/models.py:1158
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/models.py:1272
-#, python-format
-msgid "\"%(pk)s\" is not a valid value."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/utils.py:162
-#, python-format
-msgid ""
-"%(datetime)s couldn't be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/widgets.py:395
-msgid "Clear"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/widgets.py:396
-msgid "Currently"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/widgets.py:397
-msgid "Change"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/widgets.py:711
-msgid "Unknown"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/widgets.py:712
-msgid "Yes"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/forms/widgets.py:713
-msgid "No"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:788
-msgid "yes,no,maybe"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:817
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:834
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:836
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:838
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:840
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:842
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/template/defaultfilters.py:844
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dateformat.py:62
-msgid "p.m."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dateformat.py:63
-msgid "a.m."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dateformat.py:68
-msgid "PM"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dateformat.py:69
-msgid "AM"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dateformat.py:150
-msgid "midnight"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dateformat.py:152
-msgid "noon"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Monday"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Tuesday"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Wednesday"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Thursday"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Friday"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:7
-msgid "Saturday"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:7
-msgid "Sunday"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Mon"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Tue"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Wed"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Thu"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Fri"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:11
-msgid "Sat"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:11
-msgid "Sun"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "January"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "February"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "March"
-msgstr "Mars"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "April"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "May"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "June"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "July"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "August"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "September"
-msgstr "Septembre"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "October"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "November"
-msgstr "Novembre"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:16
-msgid "December"
-msgstr "Décembre"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "jan"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "feb"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "mar"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "apr"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "may"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "jun"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "jul"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "aug"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "sep"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "oct"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "nov"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "dec"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:23
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:24
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr "Fév."
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:25
 #, fuzzy
-#| msgid "Search"
-msgctxt "abbrev. month"
-msgid "March"
-msgstr "Rechercher"
+#~| msgid "Phone number"
+#~ msgid "Decimal number"
+#~ msgstr "Numéro de téléphone"
 
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:26
-msgctxt "abbrev. month"
-msgid "April"
-msgstr "Avr."
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:27
-msgctxt "abbrev. month"
-msgid "May"
-msgstr "Mai"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:28
-msgctxt "abbrev. month"
-msgid "June"
-msgstr "Juin"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:29
-msgctxt "abbrev. month"
-msgid "July"
-msgstr "Jui."
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:30
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr "Aou."
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:31
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:32
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:33
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:34
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr "Déc."
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:37
-msgctxt "alt. month"
-msgid "January"
-msgstr "Janvier"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:38
-msgctxt "alt. month"
-msgid "February"
-msgstr "Février"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:39
 #, fuzzy
-#| msgid "Search"
-msgctxt "alt. month"
-msgid "March"
-msgstr "Rechercher"
+#~| msgid "Email address"
+#~ msgid "IPv4 address"
+#~ msgstr "Adresse email"
 
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:40
-msgctxt "alt. month"
-msgid "April"
-msgstr "Avril"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:41
-msgctxt "alt. month"
-msgid "May"
-msgstr "Mai"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:42
-msgctxt "alt. month"
-msgid "June"
-msgstr "Juin"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:43
-msgctxt "alt. month"
-msgid "July"
-msgstr "Juillet"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:44
-msgctxt "alt. month"
-msgid "August"
-msgstr "Aout"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:45
 #, fuzzy
-#| msgid "Members"
-msgctxt "alt. month"
-msgid "September"
-msgstr "Membres"
+#~| msgid "Email address"
+#~ msgid "IP address"
+#~ msgstr "Adresse email"
 
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:46
-msgctxt "alt. month"
-msgid "October"
-msgstr "Octobre"
-
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:47
 #, fuzzy
-#| msgid "Members"
-msgctxt "alt. month"
-msgid "November"
-msgstr "Membres"
+#~| msgid "Phone number"
+#~ msgid "Enter a whole number."
+#~ msgstr "Numéro de téléphone"
 
-#: venv/lib/python3.6/site-packages/django/utils/dates.py:48
 #, fuzzy
-#| msgid "Members"
-msgctxt "alt. month"
-msgid "December"
-msgstr "Membres"
+#~| msgid "Please correct the error below."
+#~ msgid "Please correct the duplicate data for %(field)s."
+#~ msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
 
-#: venv/lib/python3.6/site-packages/django/utils/ipv6.py:8
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/text.py:67
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/text.py:233
-msgid "or"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: venv/lib/python3.6/site-packages/django/utils/text.py:252
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:83
-msgid ", "
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:9
-#, python-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:10
-#, python-format
-msgid "%d month"
-msgid_plural "%d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:11
-#, python-format
-msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:12
-#, python-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:13
-#, python-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:14
-#, python-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.6/site-packages/django/utils/timesince.py:72
-msgid "0 minutes"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:110
-msgid "Forbidden"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:111
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:115
-msgid ""
-"You are seeing this message because this HTTPS site requires a 'Referer "
-"header' to be sent by your Web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:120
-msgid ""
-"If you have configured your browser to disable 'Referer' headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for 'same-"
-"origin' requests."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:124
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the 'Referrer-Policy: no-referrer' header, please remove them. The "
-"CSRF protection requires the 'Referer' header to do strict referer checking. "
-"If you're concerned about privacy, use alternatives like <a rel=\"noreferrer"
-"\" ...> for links to third-party sites."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:132
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:137
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for 'same-origin' requests."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/csrf.py:142
-msgid "More information is available with DEBUG=True."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:41
-msgid "No year specified"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:61
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:111
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:208
-msgid "Date out of range"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:90
-msgid "No month specified"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:142
-msgid "No day specified"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:188
-msgid "No week specified"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:338
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:367
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:589
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because %(class_name)s."
-"allow_future is False."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/dates.py:623
-#, python-format
-msgid "Invalid date string '%(datestr)s' given format '%(format)s'"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/detail.py:54
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/list.py:67
-msgid "Page is not 'last', nor can it be converted to an int."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/list.py:72
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/generic/list.py:154
-#, python-format
-msgid "Empty list and '%(class_name)s.allow_empty' is False."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/static.py:40
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/static.py:42
-#, fuzzy, python-format
-#| msgid "User does not exist"
-msgid "\"%(path)s\" does not exist"
-msgstr "l'utilisateur n'existe pas"
-
-#: venv/lib/python3.6/site-packages/django/views/static.py:80
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:6
-msgid "Django: the Web framework for perfectionists with deadlines."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:345
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:367
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:368
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
-"\">DEBUG=True</a> is in your settings file and you have not configured any "
-"URLs."
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:383
-msgid "Django Documentation"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:384
-msgid "Topics, references, &amp; how-to's"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:395
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:396
-msgid "Get started with Django"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:407
-msgid "Django Community"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:408
-msgid "Connect, get help, or contribute"
-msgstr ""
-
-#: venv/lib/python3.6/site-packages/tinymce/views.py:67
-msgid "Error running spellchecker"
-msgstr ""
-
+#, fuzzy
+#~| msgid "Please correct the error below."
 #~ msgid ""
-#~ "\n"
-#~ "        Petitions of '%(orgname)s'\n"
-#~ "    "
-#~ msgstr ""
-#~ "\n"
-#~ "        Pétitions de '%(orgname)s'\n"
-#~ "    "
+#~ "Please correct the duplicate data for %(field)s, which must be unique."
+#~ msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
+
+#, fuzzy
+#~| msgid "Please correct the error below."
+#~ msgid ""
+#~ "Please correct the duplicate data for %(field_name)s which must be unique "
+#~ "for the %(lookup)s in %(date_field)s."
+#~ msgstr "Corrigez l'erreur ci-dessous s'il vous plaît."
+
+#, fuzzy
+#~| msgid "Please correct the errors below."
+#~ msgid "Please correct the duplicate values below."
+#~ msgstr "Corrigez les erreurs ci-dessous s'il vous plaît."
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "March"
+#~ msgstr "Rechercher"
+
+#, fuzzy
+#~| msgid "Members"
+#~ msgid "September"
+#~ msgstr "Membres"
+
+#, fuzzy
+#~| msgid "Members"
+#~ msgid "November"
+#~ msgstr "Membres"
+
+#, fuzzy
+#~| msgid "Members"
+#~ msgid "December"
+#~ msgstr "Membres"
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgctxt "abbrev. month"
+#~ msgid "March"
+#~ msgstr "Rechercher"
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgctxt "alt. month"
+#~ msgid "March"
+#~ msgstr "Rechercher"
+
+#, fuzzy
+#~| msgid "Members"
+#~ msgctxt "alt. month"
+#~ msgid "September"
+#~ msgstr "Membres"
+
+#, fuzzy
+#~| msgid "Members"
+#~ msgctxt "alt. month"
+#~ msgid "November"
+#~ msgstr "Membres"
+
+#, fuzzy
+#~| msgid "Members"
+#~ msgctxt "alt. month"
+#~ msgid "December"
+#~ msgstr "Membres"
+
+#, fuzzy
+#~| msgid "User does not exist"
+#~ msgid "\"%(path)s\" does not exist"
+#~ msgstr "L'utilisateur n'existe pas"
