@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-21 21:00+0200\n"
-"PO-Revision-Date: 2019-10-21 20:51+0200\n"
+"PO-Revision-Date: 2019-10-24 00:24+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -24,14 +24,12 @@ msgid "Name"
 msgstr "Nom"
 
 #: pytition/petition/admin.py:39
-#, fuzzy
-#| msgid "Your petitions"
 msgid "Number of petitions"
-msgstr "Vos pétitions"
+msgstr "Nombre de pétitions"
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
-msgstr ""
+msgstr "Nombre de membres"
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
@@ -379,10 +377,8 @@ msgid "Use custom e-mail settings?"
 msgstr "Utiliser une configuration particulière de mail ?"
 
 #: pytition/petition/admin.py:145 pytition/petition/admin.py:282
-#, fuzzy
-#| msgid "Confirmation email sender address"
 msgid "Confirmation email Reply-to address"
-msgstr "Adresse d'expéditeur de l'e-mail de confirmation"
+msgstr "Adresse de réponse de l'e-mail de confirmation"
 
 #: pytition/petition/admin.py:146 pytition/petition/admin.py:283
 msgid "SMTP server hostname"
@@ -449,10 +445,8 @@ msgid "Petition template name"
 msgstr "Nom du gabarit de pétition"
 
 #: pytition/petition/admin.py:297
-#, fuzzy
-#| msgid "Can modify petition templates?"
 msgid "To whom is this petition template?"
-msgstr "Peut modifier les gabarits de pétition ?"
+msgstr "A qui appartient cette pétition ?"
 
 #: pytition/petition/forms.py:23
 msgid "First name *"
@@ -495,6 +489,9 @@ msgid ""
 "confirmation email sent to signatories. People responding to confirmation "
 "email will in fact respond to this address."
 msgstr ""
+"Votre e-mail de contact. Il sera utilisé comme champs \"Répondre à\" de l'e-"
+"mail de confirmation envoyé aux signataires. Les gens qui répondront à l'e-"
+"mail de confirmation vont au final répondre à cette adresse."
 
 #: pytition/petition/forms.py:129
 msgid "Does this petition have a newsletter?"
@@ -608,7 +605,7 @@ msgstr "Vous avez déjà signé la pétition"
 
 #: pytition/petition/models.py:500
 msgid "A permlink cannot be empty. Please enter something."
-msgstr ""
+msgstr "Un permalien ne peut pas être vide. Entrez quelque chose svp."
 
 #: pytition/petition/models.py:511
 msgid "Organization related to these permissions"
@@ -730,15 +727,12 @@ msgid "Change password"
 msgstr "Changer de mot de passe"
 
 #: pytition/petition/templates/petition/account_settings.html:63
-#, fuzzy
-#| msgid ""
-#| "You cannot leave an organization where you are the last administrator"
 msgid ""
 "You cannot leave an organization where you are either the last administrator "
 "or the last member"
 msgstr ""
-"Vous ne pouvez pas quitter une organisation dont vous être le dernier "
-"administrateur"
+"Vous ne pouvez pas quitter une organisation dont vous être soit le dernier "
+"administrateur soit le dernier membre"
 
 #: pytition/petition/templates/petition/account_settings.html:72
 msgid "You are not part of any organization"
@@ -762,6 +756,12 @@ msgid ""
 "                                            in the validation field:\n"
 "                                        "
 msgstr ""
+"\n"
+"\t\t\t\t\tATTENTION : si vous faites ça, vos données seront perdues pour "
+"toujours.<br />\n"
+"\t\t\t\t\tConfirmez que vous comprenez les risques en tapant la phrase "
+"suivante dans le champs de texte de confirmation : \n"
+"\t\t\t\t\t"
 
 #: pytition/petition/templates/petition/account_settings.html:102
 #: pytition/petition/templates/petition/edit_petition.html:84
@@ -810,7 +810,7 @@ msgstr "Paramètres de la pétition"
 #: pytition/petition/templates/petition/edit_petition.html:166
 #: pytition/petition/templates/petition/edit_petition.html:172
 msgid "Style & Look"
-msgstr ""
+msgstr "Style & apparence"
 
 #: pytition/petition/templates/petition/edit_petition.html:38
 #: pytition/petition/templates/petition/edit_petition.html:194
@@ -844,16 +844,6 @@ msgid "Save"
 msgstr "Sauvegarder"
 
 #: pytition/petition/templates/petition/edit_petition.html:62
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        A slug is what allows you to share your petition "
-#| "with a nice link\n"
-#| "                        containing a meaningful small title instead of a "
-#| "number.\n"
-#| "                        With a slug your petition would be accessible via "
-#| "a link like:\n"
-#| "                    "
 msgid ""
 "\n"
 "                A permlink (permanent link) is what allows you to share your "
@@ -865,11 +855,11 @@ msgid ""
 msgstr ""
 "\n"
 "                Un permalien (lien permanent) permet de partager votre "
-"petition avec une url plus parlante\n"
+"pétition avec une url plus parlante\n"
 "                contenant un titre petit et ayant du sens, au lieu d'un "
 "nombre.\n"
 "                Avec un permalien votre pétition est accessible à l'aide "
-"d'un liendu type :\n"
+"d'un lien du type :\n"
 "            "
 
 #: pytition/petition/templates/petition/edit_petition.html:76
@@ -889,6 +879,12 @@ msgid ""
 "them in the preview.\n"
 "            "
 msgstr ""
+"\n"
+"\tAttention : cette prévisualisation affiche l'état actuel de la pétition."
+"<br />\n"
+"\tSi vous modifiez certains paramètres, veilliez à bien sauvegarder avant "
+"d'afficher la prévisualisation.\n"
+"\t"
 
 #: pytition/petition/templates/petition/edit_petition.html:153
 #: pytition/petition/templates/petition/edit_petition.html:167
@@ -896,7 +892,7 @@ msgstr ""
 #: pytition/petition/templates/petition/edit_petition.html:195
 #: pytition/petition/templates/petition/edit_petition.html:209
 msgid "unsaved"
-msgstr ""
+msgstr "modifications non sauvegardées"
 
 #: pytition/petition/templates/petition/edit_petition.html:288
 msgid "OK"
@@ -957,6 +953,12 @@ msgid ""
 "mail SMTP account accross several petitions.</p>\n"
 "                      "
 msgstr ""
+"\n"
+"                          <p class=\"mb-0\">A gabarit de pétition vous "
+"permet de mettre des valeurs par défaut pour vos pétitions futures.<br/>\n"
+"                          Par exemple vous pourriez vouloir ré-utiliser la "
+"même adresse e-mail \"Répondre à\" pour plusieurs de vos pétitions.</p>\n"
+"                      "
 
 #: pytition/petition/templates/petition/new_template.html:34
 msgid "Template name"
@@ -1235,16 +1237,12 @@ msgid "Delete template"
 msgstr "Supprimer le gabarit de pétition"
 
 #: pytition/petition/templates/petition/template_list.html:29
-#, fuzzy
-#| msgid "Delete template"
 msgid "Delete this template?"
-msgstr "Supprimer le gabarit de pétition"
+msgstr "Supprimer ce gabarit de pétition ?"
 
 #: pytition/petition/templates/petition/template_list.html:35
-#, fuzzy
-#| msgid "You are not member of the following organization: '{}'"
 msgid "You are about to delete the following petition template:"
-msgstr "Vous n\\'etes pas membre de l\\'organisation '{}'"
+msgstr "Vous allez supprimer le gabarit de pétition suivant : "
 
 #: pytition/petition/templates/petition/template_list.html:36
 msgid "Do you really want to do this?"
@@ -1445,14 +1443,20 @@ msgstr "S'enregistrer"
 #: pytition/petition/views.py:43
 msgid "You must set an INDEX_PAGE config in your settings"
 msgstr ""
+"Vous devez avoir une configuration \"INDEX_PAGE\" dans votre fichier de "
+"configuration"
 
 #: pytition/petition/views.py:48
 msgid "You must set an INDEX_PAGE_USER config in your settings"
 msgstr ""
+"Vous devez avoir une configuration \"INDEX_PAGE_USER\" dans votre fichier de "
+"configuration"
 
 #: pytition/petition/views.py:53
 msgid "You must set an INDEX_PAGE_ORGA config in your settings"
 msgstr ""
+"Vous devez avoir une configuration \"INDEX_PAGE_ORGA\" dans votre fichier de "
+"configuration"
 
 #: pytition/petition/views.py:133
 msgid ""
@@ -1499,6 +1503,8 @@ msgid ""
 "Internal error, cannot find your permissions attached to this organization "
 "('{orgname}')"
 msgstr ""
+"Erreur interne, impossible de trouver vos permissions dans cette "
+"organisation ('{orgname}')"
 
 #: pytition/petition/views.py:301
 msgid "Impossible to leave this organisation, you are the last administrator"
@@ -1507,13 +1513,9 @@ msgstr ""
 "administrateur"
 
 #: pytition/petition/views.py:304
-#, fuzzy
-#| msgid ""
-#| "Impossible to leave this organisation, you are the last administrator"
 msgid "Impossible to leave this organisation, you are the last member"
 msgstr ""
-"Vous ne pouvez pas quitter cette organisation, il ne reste plus que vous en "
-"administrateur"
+"Vous ne pouvez pas quitter cette organisation, vous êtes le dernier membre"
 
 #: pytition/petition/views.py:350
 msgid "This user does not exist (anylonger?)"
@@ -1561,6 +1563,8 @@ msgstr ""
 #: pytition/petition/views.py:463
 msgid "You don't have the permission to create a Template in this organization"
 msgstr ""
+"Vous n'avez pas la permission pour créer un gabarit de pétition dans cette "
+"organisation"
 
 #: pytition/petition/views.py:480
 msgid "You need to provide a template name."
@@ -1607,32 +1611,38 @@ msgstr "L'organisation '{name}' n'existe pas"
 #, python-brace-format
 msgid "The user '{username}' is not member of this organization ({orgname})."
 msgstr ""
+"L'utilisateur '{username}' n'est pas membre de cette organisation "
+"({orgname})."
 
 #: pytition/petition/views.py:752
 msgid ""
 "Internal error, this member does not have permissions attached to this "
 "organization."
 msgstr ""
+"Erreur interne, ce membre n'a pas de permission pour cette organisation."
 
 #: pytition/petition/views.py:788
 #, python-brace-format
 msgid "This user is not part of organization '{orgname}'"
-msgstr ""
+msgstr "Cet utilisateur n'est pas membre de l'organisation '{orgname}'"
 
 #: pytition/petition/views.py:794
 msgid ""
 "Fatal error, this user does not have permissions attached for this "
 "organization"
 msgstr ""
+"Erreur fatale, cet utilisateur n'a pas de permission pour cette organisation"
 
 #: pytition/petition/views.py:800
 msgid ""
 "Fatal error, you don't have permissions attached to you for this organization"
-msgstr ""
+msgstr "Erreur fatale, vous n'avez pas de permission pour cette organisation"
 
 #: pytition/petition/views.py:808
 msgid "You are not allowed to modify this organization members' permissions"
 msgstr ""
+"Vous n'êtes pas autorisé à modifier les permissions des membres de cette "
+"organisation"
 
 #: pytition/petition/views.py:836
 msgid ""
@@ -1640,16 +1650,21 @@ msgid ""
 "because you are the only one left who can do this. Give the permission to "
 "someone else before removing yours."
 msgstr ""
+"Vous ne pouvez pas vous enlever la permission de modifier les permissions "
+"dans cette organisation car vous êtes le dernier membre qui en a le droit. "
+"Donnez cette permission à un autre membre avant de vous l'enlever."
 
 #: pytition/petition/views.py:841
 msgid ""
 "You cannot remove your ability to change permissions on this Organization "
 "because you are the only member left."
 msgstr ""
+"Vous ne pouvez pas vous enlever la permission de modifier les permissions "
+"dans cette organisation car vous en êtes le dernier membre."
 
 #: pytition/petition/views.py:845
 msgid "Permissions successfully changed!"
-msgstr ""
+msgstr "Permissions mises à jour avec succès !"
 
 #: pytition/petition/views.py:927
 msgid "Cannot find this organization"
@@ -1663,6 +1678,8 @@ msgstr "Ce gabarit de pétition n'appartient pas à votre organisation"
 msgid ""
 "You don't have the permission to create a new petition in this Organization"
 msgstr ""
+"Vous n'avez pas la permission de créer une nouvelle pétition dans cette "
+"organisation"
 
 #: pytition/petition/views.py:964
 msgid "This template does not belong to you"
@@ -1674,7 +1691,7 @@ msgstr "Vous n\\'êtes pas le propriétaire de cette pétition"
 
 #: pytition/petition/views.py:1187 pytition/petition/views.py:1199
 msgid "save-the-kittens-from-bad-wolf"
-msgstr ""
+msgstr "sauver-les-chatons-du-grand-mechant-loup"
 
 #: pytition/petition/views.py:1226
 msgid "You are not member of the following organization: '{}'"
@@ -1688,15 +1705,17 @@ msgstr ""
 #: pytition/petition/views.py:1261
 msgid "You don't have permission to delete some or all of selected signatures"
 msgstr ""
+"Vous n'avez pas la permission de supprimer toutes ou partie des signatures "
+"sélectionnées"
 
 #: pytition/petition/views.py:1263 pytition/petition/views.py:1273
 #: pytition/petition/views.py:1284
 msgid "You successfully deleted all selected signatures"
-msgstr ""
+msgstr "Vous avez supprimé toutes les signatures sélectionnées avec succès"
 
 #: pytition/petition/views.py:1271 pytition/petition/views.py:1282
 msgid "An error happened while trying to re-send confirmation emails"
-msgstr ""
+msgstr "Une erreur est survenue lors du renvoie des e-mails de confirmation"
 
 #: pytition/petition/views.py:1330
 msgid "You successfully changed your password!"
@@ -1721,7 +1740,7 @@ msgstr "Vous avez saisi un slug vide"
 
 #: pytition/petition/views.py:1441
 msgid "Successful addition of the slug '{}'!"
-msgstr ""
+msgstr "Ajout du permalien '{}' avec succès !"
 
 #: pytition/petition/views.py:1443
 msgid "The slug '{}' already exists!"
@@ -1729,11 +1748,11 @@ msgstr "Le slug '{}' existe déjà !"
 
 #: pytition/petition/views.py:1448 pytition/petition/views.py:1474
 msgid "You don't have the permission to modify petitions"
-msgstr ""
+msgstr "Vous n'avez pas la permission pour modifier les pétitions"
 
 #: pytition/petition/views.py:1472
 msgid "Successful deletion of a slug"
-msgstr ""
+msgstr "Suppression du permalien avec succès"
 
 #, fuzzy
 #~| msgid "Invitations"
