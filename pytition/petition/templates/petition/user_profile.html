@@ -1,11 +1,11 @@
 {% extends 'layouts/layout.html' %}
 {% load static %}
 {% load i18n %}
-    {% block title %}
-    {% blocktrans with name=user.get_full_name %}
-        {{ name }}'s profile
-    {% endblocktrans %}
-    {% endblock title %}
+{% block title %}
+{% blocktrans with name=user.get_full_name %}
+    {{ name }}'s profile
+{% endblocktrans %}
+{% endblock title %}
 
 {% block container_type %}
     container
