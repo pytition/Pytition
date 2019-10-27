@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-21 21:00+0200\n"
+"POT-Creation-Date: 2019-10-27 16:40+0100\n"
 "PO-Revision-Date: 2019-10-24 00:24+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
@@ -778,14 +778,6 @@ msgstr "Quitter l'organisation"
 msgid "Are you sure you want to leave"
 msgstr "Êtes vous sur de vouloir quitter"
 
-#: pytition/petition/templates/petition/all_petitions.html:25
-#: pytition/petition/templates/petition/index.html:36
-#: pytition/petition/templates/petition/org_profile.html:38
-#: pytition/petition/templates/petition/search.html:47
-#: pytition/petition/templates/petition/user_profile.html:39
-msgid "Sign!"
-msgstr "Signez !"
-
 #: pytition/petition/templates/petition/confirmation_email.html:10
 msgid "Thank you"
 msgstr "Merci"
@@ -902,6 +894,23 @@ msgstr "OK"
 msgid "Template settings"
 msgstr "Paramètres du gabarit"
 
+#: pytition/petition/templates/petition/generic_petition_list.html:29
+msgid "Sign!"
+msgstr "Signez !"
+
+#: pytition/petition/templates/petition/generic_petition_list.html:34
+#, python-format
+msgid ""
+"\n"
+"              %(signature_number)s signature\n"
+"            "
+msgid_plural ""
+"\n"
+"              %(signature_number)s signatures\n"
+"            "
+msgstr[0] ""
+msgstr[1] ""
+
 #: pytition/petition/templates/petition/index.html:11
 msgid "Welcome to Pytition"
 msgstr "Bienvenue sur Pytition"
@@ -918,7 +927,7 @@ msgstr "Créer une pétition"
 msgid "View latest petitions"
 msgstr "Voir les dernières pétitions"
 
-#: pytition/petition/templates/petition/index.html:50
+#: pytition/petition/templates/petition/index.html:22
 msgid "View all petitions"
 msgstr "Voir toutes les pétitions"
 
@@ -1052,7 +1061,6 @@ msgid "Remove this member from the organization."
 msgstr "Enlever cet utilisateur de l\\'organisation'."
 
 #: pytition/petition/templates/petition/org_profile.html:5
-#: pytition/petition/templates/petition/user_profile.html:5
 #, python-format
 msgid ""
 "\n"
@@ -1367,8 +1375,27 @@ msgstr "Créer une organisation"
 msgid "New organization"
 msgstr "Nouvelle organisation"
 
-#: pytition/petition/templates/petition/user_profile.html:54
-msgid "This user has not created any petition yet"
+#: pytition/petition/templates/petition/user_profile.html:5
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        %(name)s's profile\n"
+#| "    "
+msgid ""
+"\n"
+"    %(name)s's profile\n"
+msgstr ""
+"\n"
+"        Profil de %(name)s\n"
+"    "
+
+#: pytition/petition/templates/petition/user_profile.html:21
+#, fuzzy
+#| msgid "This user has not created any petition yet"
+msgid ""
+"\n"
+"        This user has not created any petition yet\n"
+"    "
 msgstr "Cet utilisateur n'a pas encore créé de pétition"
 
 #: pytition/petition/templates/registration/login.html:8
