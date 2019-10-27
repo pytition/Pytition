@@ -12,9 +12,17 @@
           {% endif %}
         </a>
         <div class="card-body">
-          <div href="" class="text-muted">
-            {{ petition.owner }}
-          </div>
+          {% with owner=petition.owner %}
+            {% if owner.kind == 'org' %}
+              <a href="{% url 'org_profile' orgslugname=owner.slugname %}" class="text-muted">
+                {{ owner }}
+              </a>
+            {% elif owner.kind == 'user' %}{# It could be of another kind in the future. #}
+              <a href="{% url 'user_profile' user_name=owner.username %}" class="text-muted">
+                {{ owner }}
+              </a>
+            {% endif %}
+          {% endwith %}
           <h4 class="card-title">
             <a href="{{ petition.url }}">
               {{ petition.title|striptags }}
