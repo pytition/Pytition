@@ -312,12 +312,21 @@ def leave_org(request, orgslugname):
 # Show the profile of an organization
 def org_profile(request, orgslugname):
     try:
+        user = get_session_user(request)
+    except:
+        user = None
+    try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
         raise Http404(_("not found"))
 
     ctx = {'org': org,
            'petitions': org.petition_set.filter(published=True)}
+
+    # if a user is logged-in, put it in the context, it will feed the navbar dropdown
+    if user is not None:
+        ctx['user'] = user
+
     return render(request, "petition/org_profile.html", ctx)
 
 
