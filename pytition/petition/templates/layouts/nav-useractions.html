@@ -1,0 +1,50 @@
+{% load i18n %}
+<ul class="navbar-nav">
+  {% if user.is_authenticated %}
+    <li class="nav-item dropdown ml-3">
+      {% block navdropdown %}
+        <a class="nav-link dropdown-toggle btn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="oi oi-person"></span>
+          {{ user.get_full_name }}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url "user_dashboard" %}">
+            <span class="oi oi-person"></span>
+            {% trans "Your dashboard" %}
+          </a>
+          {% if user.organization_set.all %}
+            <div class="dropdown-divider"></div>
+            {% for org in user.organization_set.all %}
+              <a class="dropdown-item" href="{% url "org_dashboard" org.slugname %}">
+                <span class="oi oi-people"></span>
+                {{ org.name }}
+              </a>
+            {% endfor %}
+          {% endif %}
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url "user_petition_wizard" %}">
+            <span class="oi oi-plus"></span>
+            {% trans "New Petition" %}
+          </a>
+          <a class="dropdown-item" href="{% url "org_create" %}">
+            <span class="oi oi-plus"></span>
+            {% trans "New Organization" %}
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url "account_settings" %}">
+            <span class="oi oi-cog"></span>
+            {% trans "Settings" %}
+          </a>
+          <a class="dropdown-item" href="{% url "logout" %}?next=/">
+            <span class="oi oi-account-logout"></span>
+            {% trans "Logout" %}
+          </a>
+        </div>
+      {% endblock navdropdown %}
+    </li>
+  {% else %}
+    <li class="nav-item">
+      <a href="{% url "login" %}?next={% block login_next %}{{ request.path }}{% endblock login_next %}" class="nav-link">{% trans "Login" %}</a>
+    </li>
+  {% endif %}
+</ul>
