@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 from django.contrib.messages import constants as messages
 from django.urls import reverse_lazy
+from django.conf import global_settings
+from django.utils.translation import gettext_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -217,6 +219,8 @@ INDEX_PAGE = "HOME"
 # Anti bot feature
 SIGNATURE_THROTTLE = 5 # 5 signatures from same IP allowed
 SIGNATURE_THROTTLE_TIMING = 60*60*24 # in a 1 day time frame
+
+LANGUAGES = global_settings.LANGUAGES + [('oc', gettext_lazy('Occitan'))]
 
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")
