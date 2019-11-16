@@ -9,5 +9,5 @@ RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt requirements_dev.txt /code/
 RUN pip install -r requirements_dev.txt
-RUN pip install psycopg2-binary==2.7.7
+RUN pip install psycopg2-binary==2.8.4
 COPY . /code/
