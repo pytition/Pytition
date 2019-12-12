@@ -1034,10 +1034,10 @@ msgstr "Membres"
 
 #: pytition/petition/templates/petition/org_member_list.html:11
 msgid ""
-"You cannot edit this member's permissions, you don\\'t have the correct "
+"You cannot edit this member's permissions, you don't have the correct "
 "permission"
 msgstr ""
-"Vous n\\'avez pas les droits pour modifier les droits de cet utilisateur"
+"Vous n'avez pas les droits pour modifier les droits de cet utilisateur"
 
 #: pytition/petition/templates/petition/org_member_list.html:15
 msgid "Edit this member's permissions"
@@ -1045,14 +1045,14 @@ msgstr "Modifier les droits de cet utilisateur"
 
 #: pytition/petition/templates/petition/org_member_list.html:23
 msgid ""
-"You cannot remove this member from the organization, you don\\'t have the "
+"You cannot remove this member from the organization, you don't have the "
 "correct permission"
 msgstr ""
-"Vous n\\'avez pas les droits pour enlever cet utilisateur de l\\'organisation"
+"Vous n'avez pas les droits pour enlever cet utilisateur de l'organisation"
 
 #: pytition/petition/templates/petition/org_member_list.html:26
 msgid "Remove this member from the organization."
-msgstr "Enlever cet utilisateur de l\\'organisation'."
+msgstr "Enlever cet utilisateur de l'organisation'."
 
 #: pytition/petition/templates/petition/org_profile.html:5
 #, python-format
@@ -1514,7 +1514,7 @@ msgstr "L'organisation '{}' n'existe pas"
 
 #: pytition/petition/views.py:239
 msgid "You are not part of this organization: '{}'"
-msgstr "Vous n\\'etes pas membre de l\\'organisation '{}'"
+msgstr "Vous n'etes pas membre de l'organisation '{}'"
 
 #: pytition/petition/views.py:247 pytition/petition/views.py:470
 #: pytition/petition/views.py:523 pytition/petition/views.py:770
@@ -1708,7 +1708,7 @@ msgstr "Ce gabarit de pétition ne vous appartient pas"
 
 #: pytition/petition/views.py:1101
 msgid "You are not allowed to edit this petition"
-msgstr "Vous n\\'êtes pas le propriétaire de cette pétition"
+msgstr "Vous n'êtes pas le propriétaire de cette pétition"
 
 #: pytition/petition/views.py:1200 pytition/petition/views.py:1212
 msgid "save-the-kittens-from-bad-wolf"
@@ -1716,7 +1716,7 @@ msgstr "sauver-les-chatons-du-grand-mechant-loup"
 
 #: pytition/petition/views.py:1239
 msgid "You are not member of the following organization: '{}'"
-msgstr "Vous n\\'etes pas membre de l\\'organisation '{}'"
+msgstr "Vous n'etes pas membre de l'organisation '{}'"
 
 #: pytition/petition/views.py:1248
 msgid "You are not allowed to view signatures in this organization"
