@@ -10,7 +10,7 @@ cd pytition && python3 ./manage.py createsuperuser && cd -
 
 echo "Done"
 
-echo "Do you want to pre-populate the database with some users, organizations and petitions?"
+echo "Do you want to pre-populate the database with some users, organizations and petitions? (y/N)"
 
 read prepopulate
 
