@@ -78,6 +78,8 @@ $(function () {
             window.location = "{% url "user_dashboard" %}";
         else
             window.location = window.location.href;
+       }).fail((xhr, status, error) => {
+            alert("{% trans 'Unable to remove this member from the organization.' %}");
        });
     });
 });
