@@ -1052,7 +1052,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/org_member_list.html:26
 msgid "Remove this member from the organization."
-msgstr "Enlever cet utilisateur de l'organisation'."
+msgstr "Enlever cet utilisateur de l'organisation."
 
 #: pytition/petition/templates/petition/org_profile.html:5
 #, python-format
