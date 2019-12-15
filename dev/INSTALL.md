@@ -92,7 +92,7 @@ Require all granted
 
 I won't explain how to setup HTTPS and let's encrypt TLS certificate, but you should use and force use of HTTPS for security reasons.
 
-For more information about how to deploy a Django app, please see: https://docs.djangoproject.com/en/1.11/howto/deployment/ and https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment
+For more information about how to deploy a Django app, please see: https://docs.djangoproject.com/en/2.2/howto/deployment/ and https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment
 
 ### Test connecting to the application
 
