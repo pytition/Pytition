@@ -579,6 +579,7 @@ def edit_template(request, template_id):
             submitted_ctx['newsletter_form_submitted'] = True
             if newsletter_form.is_valid():
                 template.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
+                template.newsletter_text = newsletter_form.cleaned_data['newsletter_text']
                 template.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
                 template.newsletter_subscribe_http_mailfield = newsletter_form.cleaned_data['newsletter_subscribe_http_mailfield']
                 template.newsletter_subscribe_http_url = newsletter_form.cleaned_data['newsletter_subscribe_http_url']
@@ -1145,6 +1146,7 @@ def edit_petition(request, petition_id):
             newsletter_form = NewsletterForm(request.POST)
             if newsletter_form.is_valid():
                 petition.has_newsletter = newsletter_form.cleaned_data['has_newsletter']
+                petition.newsletter_text = newsletter_form.cleaned_data['newsletter_text']
                 petition.newsletter_subscribe_http_data = newsletter_form.cleaned_data['newsletter_subscribe_http_data']
                 petition.newsletter_subscribe_http_mailfield = newsletter_form.cleaned_data['newsletter_subscribe_http_mailfield']
                 petition.newsletter_subscribe_http_url = newsletter_form.cleaned_data['newsletter_subscribe_http_url']

@@ -127,7 +127,8 @@ class SocialNetworkForm(forms.Form):
 class NewsletterForm(forms.Form):
     ### Newsletter settings of Petition ###
     has_newsletter = SwitchField(required=False, label=_("Does this petition have a newsletter?"))
-    newsletter_subscribe_http_data = forms.CharField(required=False)
+    newsletter_text = forms.CharField(required=False)
+    newsletter_subscribe_http_data = forms.CharField(max_length=1000, required=False)
     newsletter_subscribe_http_mailfield = forms.CharField(max_length=100,required=False)
     newsletter_subscribe_http_url = forms.CharField(max_length=1000, required=False)
     newsletter_subscribe_mail_subject = forms.CharField(max_length=1000, required=False)
