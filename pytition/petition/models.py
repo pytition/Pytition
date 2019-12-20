@@ -10,11 +10,11 @@ from django.conf import settings
 from django.contrib.auth.hashers import get_hasher
 from django.db import transaction
 from django.urls import reverse
-from django.db.models import Q
-
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
+
+from .helpers import sanitize_html
 
 import html
 
@@ -298,11 +298,11 @@ class Petition(models.Model):
 
     @property
     def raw_twitter_description(self):
-        return html.unescape(mark_safe(strip_tags(self.twitter_description)))
+        return html.unescape(mark_safe(strip_tags(sanitize_html(self.twitter_description))))
 
     @property
     def raw_text(self):
-        return html.unescape(mark_safe(strip_tags(self.text)))
+        return html.unescape(mark_safe(strip_tags(sanitize_html(self.text))))
 
     def __str__(self):
         return self.title
@@ -363,7 +363,7 @@ class Petition(models.Model):
             if not self.salt:
                 hasher = get_hasher()
                 self.salt = hasher.salt().decode('utf-8')
-            super(Petition, self).save(*args, **kwargs)
+        super(Petition, self).save(*args, **kwargs)
 
 
 # --------------------------------- Signature ---------------------------------

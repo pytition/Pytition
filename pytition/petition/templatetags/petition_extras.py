@@ -1,4 +1,5 @@
 from django import template
+from petition.helpers import sanitize_html
 
 register = template.Library()
 
@@ -25,3 +26,7 @@ def bootstrap(field):
         if widget == "fileinput":
             return add_class(field, "form-control-file")
     return field
+
+@register.filter
+def html_sanitize(html):
+    return sanitize_html(html)

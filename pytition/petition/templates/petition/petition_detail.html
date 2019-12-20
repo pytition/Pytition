@@ -2,19 +2,20 @@
 {% load static %}
 {% load i18n %}
 {% load widget_tweaks %}
+{% load petition_extras %}
 
-{% block title %}{% autoescape off %}{{ petition.title }}{% endautoescape %}{% endblock title %}
+{% block title %}{{ petition.title }}{% endblock title %}
 
 <!-- Extra meta -->
 {% block extrameta %}
-<meta name="description" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
+<meta name="description" content="{{ petition.title }}"/>
 
-<meta property="og:title" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
+<meta property="og:title" content="{{ petition.title }}"/>
 {% if petition.twitter_description %}
 <meta property="og:description"
-content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+content="{{ petition.raw_twitter_description|safe }}"/>
 {% else %}
-<meta property="og:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
+<meta property="og:description" content="{{ petition.raw_text|safe }}"/>
 {% endif %}
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="{{ meta.petition_url }}" />
@@ -23,24 +24,24 @@ content="{% autoescape off%}{{ petition.raw_twitter_description }}{% endautoesca
 <meta property="og:image" content="{{ petition.twitter_image }}"/>
 {% endif %}
 
-<meta itemprop="name" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
+<meta itemprop="name" content="{{ petition.title }}"/>
 {% if petition.twitter_description %}
 <meta itemprop="description"
-content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+content="{{ petition.raw_twitter_description|safe }}"/>
 {% else %}
-<meta itemprop="description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
+<meta itemprop="description" content="{{ petition.raw_text|safe }}"/>
 {% endif %}
 <!-- FIXME: <meta itemprop="url" content=""/> //-->
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:creator" content="@yannsionneau"/>
-<meta name="twitter:site" content="{% autoescape off %}{{ petition.org_twitter_handle }}{% endautoescape %}"/>
-<meta name="twitter:title" content="{% autoescape off %}{{ petition.title }}{% endautoescape %}"/>
+<meta name="twitter:site" content="{{ petition.org_twitter_handle }}"/>
+<meta name="twitter:title" content="{{ petition.title }}"/>
 {% if petition.twitter_description %}
 <meta name="twitter:description"
-content="{% autoescape off %}{{ petition.raw_twitter_description }}{% endautoescape %}"/>
+content="{{ petition.raw_twitter_description|safe }}"/>
 {% else %}
-<meta name="twitter:description" content="{% autoescape off %}{{ petition.raw_text }}{% endautoescape %}"/>
+<meta name="twitter:description" content="{{ petition.raw_text|safe }}"/>
 {% endif %}
 {% if petition.twitter_image %}
 <meta name="twitter:image" content="{{ petition.twitter_image }}"/>
@@ -86,7 +87,7 @@ dataLayer = [];
 
 <div class="container">
   <div class="jumbotron text-center">
-    <h1 class="jumbotron-heading">{% autoescape off%}{{ petition.title|striptags }}{% endautoescape %}</h1>
+    <h1 class="jumbotron-heading">{{ petition.title|html_sanitize|striptags|safe }}</h1>
   </div>
   <div class="petition-wrapper">
     <div class="content">
@@ -94,7 +95,7 @@ dataLayer = [];
         <div class="form-wrapper">
           {% if petition.side_text %}
             <p class="intro" id="intro">
-              {% autoescape off%}{{ petition.side_text }}{% endautoescape %}
+                {{ petition.side_text|html_sanitize|safe }}
             </p>
           {% endif %}
           <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
@@ -176,7 +177,7 @@ dataLayer = [];
         </div>
       </div>
       <div class="presentation">
-        {% autoescape off%}{{ petition.text }}{% endautoescape %}
+        {{ petition.text|html_sanitize|safe }}
       </div>
     </div>
   </div>
@@ -193,10 +194,10 @@ dataLayer = [];
 <div class="footer-wrapper bg-dark">
     <footer role="contentinfo" class="footer">
         <div class="footer-links">
-            {% autoescape off %}{{ petition.footer_links }}{% endautoescape %}
+            {{ petition.footer_links|html_sanitize|safe }}
         </div>
         <div class="footer-text">
-            {% autoescape off %}{{ petition.footer_text }}{% endautoescape %}
+            {{ petition.footer_text|html_sanitize|safe }}
         </div>
     </footer>
 </div>

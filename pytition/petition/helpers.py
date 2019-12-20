@@ -1,4 +1,6 @@
 import requests
+import lxml
+from lxml.html.clean import Cleaner
 from django.http import Http404, HttpResponseForbidden
 from django.conf import settings
 from django.urls import reverse
@@ -7,9 +9,19 @@ from django.utils.html import strip_tags
 from django.core.mail import get_connection, EmailMultiAlternatives, EmailMessage
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
-from .models import PytitionUser, Petition
-from .forms import UpdateInfoForm
 
+
+# Remove all javascripts from HTML code
+def sanitize_html(unsecure_html_content):
+    cleaner = Cleaner(inline_style=False, scripts=True, javascript=True,
+                      safe_attrs=lxml.html.defs.safe_attrs | set(['style']),
+                      frames=False, embedded=False,
+                      meta=True, links=True, page_structure=True)
+    try:
+        secure_html_content = lxml.html.tostring(cleaner.clean_html(lxml.html.fromstring(unsecure_html_content)), method="html")
+    except:
+        secure_html_content = b''
+    return secure_html_content.decode()
 
 # Get the client IP address, considering proxies and RP
 def get_client_ip(request):
@@ -22,6 +34,7 @@ def get_client_ip(request):
 
 # Get the user of the current session
 def get_session_user(request):
+    from .models import PytitionUser
     try:
         pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
     except User.DoesNotExist:
@@ -38,6 +51,7 @@ def check_user_in_orga(user, orga):
 
 # Return a 404 if a petition does not exist
 def petition_from_id(id):
+    from .models import Petition
     petition = Petition.by_id(id)
     if petition is None:
         raise Http404(_("Petition does not exist"))
@@ -114,6 +128,7 @@ def subscribe_to_newsletter(petition, email):
                          connection=connection).send(fail_silently=True)
 
 def get_update_form(user, data=None):
+    from .forms import UpdateInfoForm
     if not data:
         _data = {
             'first_name': user.first_name,

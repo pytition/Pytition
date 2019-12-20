@@ -190,6 +190,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'insert_toolbar': 'forecolor backcolor',
     'fontsize_formats': '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
     'entity_encoding': 'raw',
+    'relative_urls' : False,
+    'convert_urls': True,
     'setup': """function(ed) {
        ed.on('change', function(e) {
             set_mce_changed(ed);
