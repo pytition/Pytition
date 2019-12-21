@@ -3,7 +3,7 @@
 {% load petition_extras %}
 
 {% block extrahead %}{{ block.super }}
-<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}" nonce="{{request.csp_nonce}}"></script>
 {{ media }}
 {% endblock %}
 
@@ -84,7 +84,7 @@
 {% block admin_change_form_document_ready %}
     <script type="text/javascript"
             id="django-admin-form-add-constants"
-            src="{% static 'admin/js/change_form.js' %}"
+            src="{% static 'admin/js/change_form.js' %}" nonce="{{request.csp_nonce}}"
             {% if adminform and add %}
                 data-model-name="{{ opts.model_name }}"
             {% endif %}>

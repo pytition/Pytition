@@ -3,12 +3,14 @@
 {% load widget_tweaks %}
 {% load petition_extras %}
 {% load static %}
+{% load media_csp %}
+
 {% block media %}
-    {{ form.media }}
+    {% media_csp form %}
 {% endblock %}
 {% block extracss %}
   {{ block.super }}
-    <link href="{% static 'vendor/smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'vendor/smartwizard/dist/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" nonce="{{ request.csp_nonce }}"/>
 {% endblock %}
 
 {% block content %}

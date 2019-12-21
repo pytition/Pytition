@@ -173,7 +173,8 @@ nav.navbar {
 .reassurance {
     padding-bottom: 30px;
     padding-top: 20px;
-    font-size: 11px
+    font-size: 11px;
+    text-align: justify
 }
 
 input[type=email],

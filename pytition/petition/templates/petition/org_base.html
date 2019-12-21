@@ -45,7 +45,7 @@
 
 {% block extrajs %}
 {{ block.super }}
-<script>
+<script nonce="{{request.csp_nonce}}">
    {% include "petition/orga.js" %}
 </script>
 {% endblock extrajs %}

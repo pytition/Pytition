@@ -110,7 +110,7 @@
 
 {% block extrajs %}
     {{ block.super }}
-    <script>
+    <script nonce="{{request.csp_nonce}}">
     $(function() {
         $("#re-send-all").on("click", function() {
             $("#action").val("re-send-all");

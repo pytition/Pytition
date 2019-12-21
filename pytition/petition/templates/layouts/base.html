@@ -55,9 +55,9 @@
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{% static "vendor/jquery-3.3.1/jquery-3.3.1.min.js" %}"></script>
-    <script src="{% static "vendor/popper-1.14.6/popper.min.js" %}"></script>
-    <script src="{% static "vendor/bootstrap-4.3.1/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "vendor/jquery-3.3.1/jquery-3.3.1.min.js" %}" nonce="{{request.csp_nonce}}"></script>
+    <script src="{% static "vendor/popper-1.14.6/popper.min.js" %}" nonce="{{request.csp_nonce}}"></script>
+    <script src="{% static "vendor/bootstrap-4.3.1/js/bootstrap.min.js" %}" nonce="{{request.csp_nonce}}"></script>
     {% block extrajs %}
     {% endblock %}
 </body>

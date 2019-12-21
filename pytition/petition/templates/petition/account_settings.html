@@ -132,7 +132,7 @@
 
 {% block extrajs %}
 {{ block.super }}
-<script>
+<script nonce="{{request.csp_nonce}}">
 $(function() {
     {% if not password_change_form_submitted %}
    $('#password_change_form').find('form input').removeClass('is-valid').removeClass('is-invalid');

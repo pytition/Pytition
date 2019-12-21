@@ -2,13 +2,15 @@
 {% load i18n %}
 {% load static %}
 {% load petition_extras %}
+{% load media_csp %}
+
 {% block media %}
     {{ block.super }}
-    {{ content_form.media }}
-    {{ email_form.media }}
-    {{ newsletter_form.media }}
-    {{ social_network_form.media }}
-    {{ style_form.media }}
+    {% media_csp content_form %}
+    {% media_csp email_form %}
+    {% media_csp newsletter_form %}
+    {% media_csp social_network_form %}
+    {% media_csp style_form %}
 {% endblock %}
 
 {% block extracss %}
@@ -128,7 +130,7 @@
 
 {% block extrajs %}
     {{ block.super }}
-<script>
+<script nonce="{{request.csp_nonce}}">
 $(function (){
 $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     const paneID = $(e.target).attr('href');

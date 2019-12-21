@@ -45,9 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'formtools',
+    'csp_helpers',
 ]
 
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -197,7 +199,7 @@ TINYMCE_DEFAULT_CONFIG = {
             set_mce_changed(ed);
        });}""",
 }
-TINYMCE_INCLUDE_JQUERY = True
+TINYMCE_INCLUDE_JQUERY = False
 
 SITE_NAME = "Pytition"
 ALLOW_REGISTER = True
@@ -223,6 +225,14 @@ SIGNATURE_THROTTLE = 5 # 5 signatures from same IP allowed
 SIGNATURE_THROTTLE_TIMING = 60*60*24 # in a 1 day time frame
 
 LANGUAGES = global_settings.LANGUAGES + [('oc', gettext_lazy('Occitan'))]
+
+# Content Security Policy configuration
+CSP_INCLUDE_NONCE_IN=('script-src', 'style-src')
+CSP_DEFAULT_SRC=["'none'"]
+CSP_SCRIPT_SRC=["'strict-dynamic'"]
+CSP_IMG_SRC=['*']
+CSP_STYLE_SRC=["'self'"]
+CSP_FONT_SRC=["'self'"]
 
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")

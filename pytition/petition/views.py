@@ -105,9 +105,10 @@ def search(request):
         }
     )
 
-
+from csp.decorators import csp_replace
 # /<int:petition_id>/
 # Show information on a petition
+@csp_replace(STYLE_SRC='unsafe-inline')
 def detail(request, petition_id):
     petition = petition_from_id(petition_id)
     check_petition_is_accessible(request, petition)
@@ -869,6 +870,10 @@ WizardForms = [("step1", PetitionCreationStep1),
 
 # Class Based Controller
 # PATH : subroutes of /wizard
+from csp.decorators import csp
+
+@method_decorator(csp(DEFAULT_SRC=["'self'"], SCRIPT_SRC=["'self'", "'unsafe-eval'", "'unsafe-inline'"],
+                      STYLE_SRC=["'self'", "'unsafe-inline'"]), name='dispatch')
 @method_decorator(login_required, name='dispatch')
 class PetitionCreationWizard(SessionWizardView):
     def get_template_names(self):
@@ -1396,9 +1401,10 @@ def org_create(request):
     ctx.update({'form': form})
     return render(request, "petition/org_create.html", ctx)
 
-
+from csp.decorators import csp_update
 # GET /org/<slug:orgslugname>/<slug:petitionname>
 # Show a petition
+@csp_replace(STYLE_SRC="'unsafe-inline'", INCLUDE_NONCE_IN=('script-src',))
 def slug_show_petition(request, orgslugname=None, username=None, petitionname=None):
     try:
         pytitionuser = get_session_user(request)
