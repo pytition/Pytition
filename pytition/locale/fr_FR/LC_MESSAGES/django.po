@@ -122,7 +122,7 @@ msgid ""
 msgstr ""
 "Seulement quand la méthode d'abonnement utilisée est HTTP POST ou GET. Nom "
 "du champ à envoyer via GET ou POST, contenant l'adresse e-mail à abonner. En "
-"suivant l'exemple du champs précédent, il s'agirait de 'your-email'"
+"suivant l'exemple du champ précédent, il s'agirait de 'your-email'"
 
 #: petition/admin.py:85
 msgid ""
@@ -170,7 +170,7 @@ msgid ""
 "POST or via sending EMAIL to the newsletter admin address"
 msgstr ""
 "Sélectionne la méthode d'abonnement à la liste de diffusion. Peut-être soit "
-"HTTP GET ou POST ou via un envoie d'EMAIL à l'adresse d'administration de la "
+"HTTP GET ou POST ou via un envoi d'EMAIL à l'adresse d'administration de la "
 "liste de diffusion"
 
 #: petition/admin.py:90
@@ -271,11 +271,11 @@ msgstr "Texte de la pétition"
 
 #: petition/admin.py:111
 msgid "Background image (non-working)"
-msgstr "Image d'arrière plan (non fonctionnel)"
+msgstr "Image d'arrière-plan (non fonctionnel)"
 
 #: petition/admin.py:112
 msgid "Mobile phone background image (non-working)"
-msgstr "Image d'arrière plan sur mobile (non fonctionnel)"
+msgstr "Image d'arrière-plan sur mobile (non fonctionnel)"
 
 #: petition/admin.py:113
 msgid "Top of text picture (non-working)"
@@ -339,7 +339,7 @@ msgid ""
 "Name of the field which should contain the email value in the PHP data "
 "structure"
 msgstr ""
-"Nom du champs qui doit contenir l'adresse e-mail dans la structure de donnée "
+"Nom du champ qui doit contenir l'adresse e-mail dans la structure de donnée "
 "PHP"
 
 #: petition/admin.py:127
