@@ -79,7 +79,7 @@ $(function () {
         else
             window.location = window.location.href;
        }).fail((xhr, status, error) => {
-            alert("{% trans 'Unable to remove this member from the organization.' %}");
+            $('#member_delete_error_modal').modal('show')
        });
     });
 });
