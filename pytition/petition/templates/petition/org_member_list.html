@@ -31,3 +31,18 @@
     {% endfor %}
   </ul>
 </div>
+
+<div class="modal fade" id="member_delete_error_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        {% trans "Unable to remove this member from the organization." %}
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>

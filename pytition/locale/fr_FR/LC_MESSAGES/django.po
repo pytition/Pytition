@@ -1054,7 +1054,7 @@ msgstr ""
 msgid "Remove this member from the organization."
 msgstr "Enlever cet utilisateur de l'organisation."
 
-#: pytition/petition/template/orga.js:82
+#: pytition/petition/templates/petition/org_member_list.html:39
 msgid "Unable to remove this member from the organization."
 msgstr "Impossible d'enlever cet utilisateur de l'organisation."
 
