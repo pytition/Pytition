@@ -84,7 +84,7 @@ fi
 
 echo "Updating settings to use your my.cnf"
 
-sed -i -e "s@/home/petition/www/@$PWD/@" pytition/pytition/settings.py
+sed -i -e "s@/home/petition/www/@$PWD/@" pytition/pytition/settings/base.py
 
 echo "Running database migrations"
 
