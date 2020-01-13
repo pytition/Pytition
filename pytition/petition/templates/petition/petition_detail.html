@@ -94,9 +94,9 @@ dataLayer = [];
       <div class="formular" id="petition">
         <div class="form-wrapper">
           {% if petition.side_text %}
-            <p class="intro" id="intro">
+            <div class="intro" id="intro">
                 {{ petition.side_text|html_sanitize|safe }}
-            </p>
+            </div>
           {% endif %}
           <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
           <div class="counter" id="counter">
