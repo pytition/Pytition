@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-11-13 21:27+0100\n"
-"PO-Revision-Date: 2019-11-13 21:30+0100\n"
+"PO-Revision-Date: 2020-01-13 20:24+0100\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Yann Sionneau\n"
 "Language: fr_FR\n"
@@ -1260,7 +1260,7 @@ msgstr "Fermer"
 
 #: pytition/petition/templates/petition/user_base.html:28
 msgid "Your public profile"
-msgstr "Votre profile publique"
+msgstr "Votre profil publique"
 
 #: pytition/petition/templates/petition/user_dashboard.html:4
 msgid "Your petitions"
