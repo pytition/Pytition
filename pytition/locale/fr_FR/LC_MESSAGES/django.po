@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-11-13 21:27+0100\n"
-"PO-Revision-Date: 2019-11-13 21:30+0100\n"
+"PO-Revision-Date: 2020-01-14 20:15+0000\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
-"Language-Team: Yann Sionneau\n"
+"Language-Team: French (France) <https://weblate.framasoft.org/projects/"
+"pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.9.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:75
 #: pytition/petition/models.py:434
@@ -893,7 +894,7 @@ msgid "Sign!"
 msgstr "Signez !"
 
 #: pytition/petition/templates/petition/generic_petition_list.html:42
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "              %(signature_number)s signature\n"
@@ -903,7 +904,13 @@ msgid_plural ""
 "              %(signature_number)s signatures\n"
 "            "
 msgstr[0] ""
+"\n"
+"              %(signature_number)s  signature\n"
+"            "
 msgstr[1] ""
+"\n"
+"              %(signature_number)s  signatures\n"
+"            "
 
 #: pytition/petition/templates/petition/index.html:11
 msgid "Welcome to Pytition"
