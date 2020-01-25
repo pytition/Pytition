@@ -1292,7 +1292,7 @@ def show_signatures(request, petition_id):
             if failed:
                 messages.error(request, _("An error happened while trying to re-send confirmation emails"))
             else:
-                messages.success(request, _("You successfully deleted all selected signatures"))
+                messages.success(request, _("You successfully re-sent all confirmation emails"))
         return redirect("show_signatures", petition_id)
 
     signatures = petition.signature_set.all()
