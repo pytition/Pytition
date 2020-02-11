@@ -196,6 +196,8 @@ class Petition(models.Model):
     sign_form_footer = models.TextField(blank=True)
     confirmation_email_reply = models.CharField(max_length=100, blank=True)
     salt = models.TextField(blank=True)
+    paper_signatures = models.IntegerField(default=0)
+    paper_signatures_enabled = models.BooleanField(default=False)
 
     def prepopulate_from_template(self, template, fields=None):
         if fields is None:
@@ -253,7 +255,11 @@ class Petition(models.Model):
         signatures = self.signature_set
         if confirmed is not None:
             signatures = signatures.filter(confirmed=confirmed)
-        return signatures.count()
+        nb_electronic_signatures = signatures.count()
+        if self.paper_signatures_enabled:
+            return nb_electronic_signatures + self.paper_signatures
+        else:
+            return nb_electronic_signatures
 
     def already_signed(self, email):
         signature_number = Signature.objects.filter(petition = self.id)\

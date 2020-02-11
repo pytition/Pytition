@@ -101,7 +101,8 @@ class ContentFormGeneric(forms.Form):
 
 class ContentFormPetition(ContentFormGeneric):
     title = forms.CharField(max_length=200)
-    field_order = ('title', )
+    paper_signatures = forms.IntegerField()
+    field_order = ('title', 'paper_signatures')
 
 
 class ContentFormTemplate(ContentFormGeneric):
