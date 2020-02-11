@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-13 21:27+0100\n"
+"POT-Creation-Date: 2020-02-11 21:42+0100\n"
 "PO-Revision-Date: 2019-11-20 21:28+0000\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Occitan\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: Weblate 3.9.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:75
-#: pytition/petition/models.py:434
+#: pytition/petition/models.py:440
 msgid "Name"
 msgstr "Nom"
 
@@ -38,7 +38,7 @@ msgstr "Confirmar las signaturas"
 msgid "Send the confirmation email once again"
 msgstr "Tornar enviar lo corrièl de confirmacion"
 
-#: pytition/petition/admin.py:85 pytition/petition/admin.py:222
+#: pytition/petition/admin.py:85 pytition/petition/admin.py:225
 msgid ""
 "This is a gradient color. If selected, the background color will be a "
 "gradient color. If not, the background color will be a monochrome background "
@@ -48,11 +48,11 @@ msgstr ""
 "gradient de color. Autrament, la color de fons serà unida."
 
 #: pytition/petition/admin.py:86 pytition/petition/admin.py:87
-#: pytition/petition/admin.py:223 pytition/petition/admin.py:224
+#: pytition/petition/admin.py:226 pytition/petition/admin.py:227
 msgid "Only used if gradient is selected"
 msgstr "Solament utilizat s’un gradient es seleccionat"
 
-#: pytition/petition/admin.py:88 pytition/petition/admin.py:225
+#: pytition/petition/admin.py:88 pytition/petition/admin.py:228
 msgid ""
 "Put a bullet point list of links, it will appear horizontally in the page "
 "footer"
@@ -60,7 +60,7 @@ msgstr ""
 "Picatz una lista de piuses de ligams, pareisserà a l’orizontal en pè de "
 "pagina"
 
-#: pytition/petition/admin.py:89 pytition/petition/admin.py:226
+#: pytition/petition/admin.py:89 pytition/petition/admin.py:229
 msgid ""
 "This is the description of the petition, it will be displayed in Twitter/"
 "Facebook cards when the link is posted to social networks. To be tested via "
@@ -72,7 +72,7 @@ msgstr ""
 "cards-dev.twitter.com/validator e https://developers.facebook.com/tools/"
 "debug/"
 
-#: pytition/petition/admin.py:90 pytition/petition/admin.py:227
+#: pytition/petition/admin.py:90 pytition/petition/admin.py:230
 msgid ""
 "Picture displayed in Twitter/Facebook cards when the link is posted to "
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
@@ -82,14 +82,14 @@ msgstr ""
 "publicat als malhums socials. Per provar https://cards-dev.twitter.com/"
 "validator e https://developers.facebook.com/tools/debug/"
 
-#: pytition/petition/admin.py:91 pytition/petition/admin.py:228
+#: pytition/petition/admin.py:91 pytition/petition/admin.py:231
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
 "Permet de causir se la casa d’inscripcion a la lista de difusion es mostrada "
 "o pas"
 
-#: pytition/petition/admin.py:92 pytition/petition/admin.py:229
+#: pytition/petition/admin.py:92 pytition/petition/admin.py:232
 msgid ""
 "Only in case subscription to the newsletter via HTTP POST or GET methods. "
 "Put here data to be sent, using Python dictionary syntax. e.g.: <br>\n"
@@ -112,7 +112,7 @@ msgstr ""
 "                    'your-email': ''<br>\n"
 "                    }"
 
-#: pytition/petition/admin.py:100 pytition/petition/admin.py:237
+#: pytition/petition/admin.py:100 pytition/petition/admin.py:240
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Name of the field to "
 "send via GET or POST, containing the email address to subscribe. Following "
@@ -122,7 +122,7 @@ msgstr ""
 "camp d’enviar via GET o POST que conten l’adreça electronica d’abonar. En "
 "seguissent l’exemple del camp precedent, s’agirà de 'your-mail'"
 
-#: pytition/petition/admin.py:101 pytition/petition/admin.py:238
+#: pytition/petition/admin.py:101 pytition/petition/admin.py:241
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Adresse HTTP à "
 "requêter via GET ou POST pour enregistrer quelqu'un sur la newsletter"
@@ -130,7 +130,7 @@ msgstr ""
 "Solament quand lo metòde d’abonament utilizat es HTTP POST o GET. Adreça "
 "HTTP de contactar via GET o POST per abonar qualqu’un a la lista de difusion"
 
-#: pytition/petition/admin.py:102 pytition/petition/admin.py:239
+#: pytition/petition/admin.py:102 pytition/petition/admin.py:242
 msgid ""
 "Only when EMAIL subscription method is used. Inscrire ici la syntaxe de "
 "sujet du mail qui permet d'inscrire quelqu'un à la newsletter. Indiquez {} à "
@@ -142,7 +142,7 @@ msgstr ""
 "l’infoletra. Indicatz {} a la plaça ont lo corrièl del signatari deu èsser "
 "inserit. Ex : 'ADD NOM_LISTA {} NOM_SIGNATARI'"
 
-#: pytition/petition/admin.py:103 pytition/petition/admin.py:240
+#: pytition/petition/admin.py:103 pytition/petition/admin.py:243
 msgid ""
 "Only when EMAIL subscription method is used. L'expéditeur du mail qui permet "
 "d'enregistrer quelqu'un à la newsletter. Il s'agit généralement d'une "
