@@ -1005,6 +1005,9 @@ class PetitionCreationWizard(SessionWizardView):
                       .format(orgname=org.name)), status=500)
             context.update({'org': org,
                             'user_permissions': permissions})
+        else:
+            petitions = pytitionuser.petition_set.all()
+            context.update({'petitions': petitions})
 
         if self.steps.current == "step3":
             context.update(self.get_cleaned_data_for_step("step1"))
