@@ -152,15 +152,19 @@ msgstr ""
 "corrièl que permet d’enregistrar qualqu’un a l’infroletra. S’agís "
 "generalament d’una adreça d’administracion de la lista SYPAM o MAILMAN"
 
-#: pytition/petition/admin.py:104 pytition/petition/admin.py:241
+#: pytition/petition/admin.py:104 pytition/petition/admin.py:244
+#, fuzzy
+#| msgid ""
+#| "Only when EMAIL subscription method is used. Adresse email "
+#| "d'administration de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
 msgid ""
 "Only when EMAIL subscription method is used. Adresse email d'administration "
-"de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
+"de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
 msgstr ""
-"Solament quand lo metòde d’abonament utilizat es CORRIÈL. L’adreça d’"
-"administracion de la lista, ex. : sympa@NOM_LISTA.listas.vox.coop"
+"Solament quand lo metòde d’abonament utilizat es CORRIÈL. L’adreça "
+"d’administracion de la lista, ex. : sympa@NOM_LISTA.listas.vox.coop"
 
-#: pytition/petition/admin.py:105 pytition/petition/admin.py:242
+#: pytition/petition/admin.py:105 pytition/petition/admin.py:245
 msgid ""
 "This selects the newsletter subscription method. It is either HTTP GET or "
 "POST or via sending EMAIL to the newsletter admin address"
@@ -169,7 +173,7 @@ msgstr ""
 "o POST o encara via un corrièl a l’adreça de l’administracion de la lista de "
 "difusion"
 
-#: pytition/petition/admin.py:106 pytition/petition/admin.py:243
+#: pytition/petition/admin.py:106 pytition/petition/admin.py:246
 msgid ""
 "If checked, the petition is published and accessible on the website by "
 "everybody. If not checked, the petition is only accessible by logged in "
@@ -179,13 +183,13 @@ msgstr ""
 "monde. Se pas marcada, la peticion es solament accessibla al monde inscrich "
 "e connectat, los autres auràn una error HTTP 404."
 
-#: pytition/petition/admin.py:107 pytition/petition/admin.py:244
+#: pytition/petition/admin.py:107 pytition/petition/admin.py:247
 msgid "E.g.: I want to receive updates or informations from this organization."
 msgstr ""
 "Ex. : desiri recebre las actualitats e informacions tocant aquesta "
 "organizacion."
 
-#: pytition/petition/admin.py:108 pytition/petition/admin.py:245
+#: pytition/petition/admin.py:108 pytition/petition/admin.py:248
 msgid ""
 "E.g.: Your data will stay strictly confidential and will not be sold, given "
 "away or exchanged with third parties. Informations about this campaign as "
@@ -198,7 +202,7 @@ msgstr ""
 "vos seràn enviadas se marcatz aquesta casa. Podètz vos desabonar quand "
 "volgatz."
 
-#: pytition/petition/admin.py:109 pytition/petition/admin.py:246
+#: pytition/petition/admin.py:109 pytition/petition/admin.py:249
 msgid ""
 "The twitter account handle of the organization, starting with the '@' "
 "symbol. E.g.: @RAP_Asso. This is necessary in order to attribute the "
@@ -210,19 +214,19 @@ msgstr ""
 "compte.Veire https://developer.twitter.com/en/docs/tweets/optimize-with-"
 "cards/overview/summary"
 
-#: pytition/petition/admin.py:110 pytition/petition/admin.py:247
+#: pytition/petition/admin.py:110 pytition/petition/admin.py:250
 msgid "Check if you want to use your own E-Mail SMTP account."
 msgstr "Marcatz amb una crotz se volètz utilizar vòstre pròpri servidor SMTP."
 
-#: pytition/petition/admin.py:111 pytition/petition/admin.py:248
+#: pytition/petition/admin.py:111 pytition/petition/admin.py:251
 msgid "e.g.: petition@mydomain.tld"
 msgstr "ex : peticion@mon-domeni.tld"
 
-#: pytition/petition/admin.py:112 pytition/petition/admin.py:249
+#: pytition/petition/admin.py:112 pytition/petition/admin.py:252
 msgid "If you don't have a real email account, leave 'localhost'."
 msgstr "S’avètz pas de verai compte mail, daissatz « localhost »."
 
-#: pytition/petition/admin.py:113 pytition/petition/admin.py:250
+#: pytition/petition/admin.py:113 pytition/petition/admin.py:253
 msgid ""
 "25 for cleartext connection, 587 for STARTTLS, 465 for TLS. Prefer TLS if "
 "the email server supports it."
@@ -231,11 +235,11 @@ msgstr ""
 "Preferir TLS se lo servidor es compatible."
 
 #: pytition/petition/admin.py:114 pytition/petition/admin.py:115
-#: pytition/petition/admin.py:251 pytition/petition/admin.py:252
+#: pytition/petition/admin.py:254 pytition/petition/admin.py:255
 msgid "Leave empty if you don't use any account autentication."
 msgstr "Daissatz void se utilizatz pas d’identificacion per vòstre compte."
 
-#: pytition/petition/admin.py:116 pytition/petition/admin.py:253
+#: pytition/petition/admin.py:116 pytition/petition/admin.py:256
 msgid ""
 "SMTP connection encrypted via TLS, prefer this rather than STARTTLS if "
 "possible. Don't check both. The 2 settings are mutually exclusive."
@@ -244,7 +248,7 @@ msgstr ""
 "de STARTTLS se possible. Marcar pas los 2. Los 2 reglatges son pas "
 "compatibles entre eles."
 
-#: pytition/petition/admin.py:117 pytition/petition/admin.py:254
+#: pytition/petition/admin.py:117 pytition/petition/admin.py:257
 msgid ""
 "Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas "
 "cocher les 2. Les 2 réglages sont mutuellement exclusifs."
@@ -256,55 +260,63 @@ msgstr ""
 msgid "Petition title"
 msgstr "Títol de la peticion"
 
-#: pytition/petition/admin.py:121 pytition/petition/admin.py:258
+#: pytition/petition/admin.py:121 pytition/petition/admin.py:261
 msgid "Petition text"
 msgstr "Tèxte de la peticion"
 
-#: pytition/petition/admin.py:122 pytition/petition/admin.py:259
+#: pytition/petition/admin.py:122 pytition/petition/admin.py:262
 msgid "Side text, on top of form"
 msgstr "Tèxte al costat, al dessús del formulari"
 
-#: pytition/petition/admin.py:123 pytition/petition/admin.py:260
+#: pytition/petition/admin.py:123 pytition/petition/admin.py:263
 msgid "Signature target number"
 msgstr "Objectiu de signaturas"
 
-#: pytition/petition/admin.py:124 pytition/petition/admin.py:261
+#: pytition/petition/admin.py:124
+msgid "Number of paper (or other external medium) signatures"
+msgstr ""
+
+#: pytition/petition/admin.py:125
+msgid "Enable paper signatures accounting"
+msgstr ""
+
+#: pytition/petition/admin.py:126 pytition/petition/admin.py:264
 msgid "Direction of linear gradient for background color"
 msgstr "Direccion del degradat linear de la color de fons"
 
-#: pytition/petition/admin.py:125 pytition/petition/admin.py:262
+#: pytition/petition/admin.py:127 pytition/petition/admin.py:265
 msgid "Source color for linear gradient"
 msgstr "Color de sorga pel gradient linear de color"
 
-#: pytition/petition/admin.py:126 pytition/petition/admin.py:263
+#: pytition/petition/admin.py:128 pytition/petition/admin.py:266
 msgid "Destinatoin color for linear gradient"
 msgstr "Color de destinacion pel gradient linear de color"
 
-#: pytition/petition/admin.py:127 pytition/petition/admin.py:264
+#: pytition/petition/admin.py:129 pytition/petition/admin.py:267
 msgid "Color for monochrome background color"
 msgstr "Color pels fons monocròm"
 
-#: pytition/petition/admin.py:128 pytition/petition/admin.py:265
+#: pytition/petition/admin.py:130 pytition/petition/admin.py:268
 msgid "Footer text"
 msgstr "Tèxte de pè de pagina"
 
-#: pytition/petition/admin.py:129 pytition/petition/admin.py:266
+#: pytition/petition/admin.py:131 pytition/petition/admin.py:269
 msgid "Footer links"
 msgstr "Ligams de pè de pagina"
 
-#: pytition/petition/admin.py:130 pytition/petition/admin.py:267
+#: pytition/petition/admin.py:132 pytition/petition/admin.py:270
 msgid "Description for Twitter/Facebook cards"
 msgstr "Descripcion pels cartelons Twitter/Facebook"
 
-#: pytition/petition/admin.py:131 pytition/petition/admin.py:268
+#: pytition/petition/admin.py:133 pytition/petition/admin.py:271
 msgid "Picture for Twitter/Facebook cards"
 msgstr "Imatge pels cartelonsTwitter/Facebook"
 
-#: pytition/petition/admin.py:132 pytition/petition/admin.py:269
+#: pytition/petition/admin.py:134 pytition/petition/admin.py:272
 msgid "Is the petition associated with a newsletter?"
 msgstr "Aquesta peticion es ligada a una lista de difusion (infoletra) ?"
 
-#: pytition/petition/admin.py:133 pytition/petition/admin.py:270
+#: pytition/petition/admin.py:135 pytition/petition/admin.py:273
 msgid ""
 "Data structure to be sent in order to subscribe someone to the newsletter in "
 "case of HTTP method"
@@ -312,7 +324,7 @@ msgstr ""
 "Estructura de donadas d’enviar per dire d’abonar qualqu’un a la lista de "
 "difusion, dins lo cas de l’utilizacion del metòde HTTP"
 
-#: pytition/petition/admin.py:134 pytition/petition/admin.py:271
+#: pytition/petition/admin.py:136 pytition/petition/admin.py:274
 msgid ""
 "Name of the field which should contain the email value in the PHP data "
 "structure"
@@ -320,121 +332,121 @@ msgstr ""
 "Nom del camp que deu conténer l’adreça electronica dins l’estructura de "
 "donadas PHP"
 
-#: pytition/petition/admin.py:135 pytition/petition/admin.py:272
+#: pytition/petition/admin.py:137 pytition/petition/admin.py:275
 msgid "HTTP URL for newsletter subscription"
 msgstr "URL HTTP d'inscripcion a la lista de difusion"
 
-#: pytition/petition/admin.py:136 pytition/petition/admin.py:273
+#: pytition/petition/admin.py:138 pytition/petition/admin.py:276
 msgid "Email subject for newsletter subscription command"
 msgstr ""
 "Subjècte del corrièl que conten la comanda d’inscripcion a la lista de "
 "difusion"
 
-#: pytition/petition/admin.py:137 pytition/petition/admin.py:274
+#: pytition/petition/admin.py:139 pytition/petition/admin.py:277
 msgid "FROM field for newsletter subscription command"
 msgstr ""
 "Expeditor del corrièl que conten la comanda d’inscripcion a la lista de "
 "difusion"
 
-#: pytition/petition/admin.py:138 pytition/petition/admin.py:275
+#: pytition/petition/admin.py:140 pytition/petition/admin.py:278
 msgid "TO field for newsletter subscription command"
 msgstr ""
 "Destinari (sympa/mailman etc) del corrièl que conten la comanda "
 "d’inscripcion a la lista de difusion"
 
-#: pytition/petition/admin.py:139 pytition/petition/admin.py:276
+#: pytition/petition/admin.py:141 pytition/petition/admin.py:279
 msgid "Newsletter subscription method"
 msgstr "Metòde d’inscripcion a la lista de difusion"
 
-#: pytition/petition/admin.py:140 pytition/petition/admin.py:277
+#: pytition/petition/admin.py:142 pytition/petition/admin.py:280
 msgid "Puslibhed"
 msgstr "Publicada"
 
-#: pytition/petition/admin.py:141 pytition/petition/admin.py:278
+#: pytition/petition/admin.py:143 pytition/petition/admin.py:281
 msgid "Form label text of newsletter subscription checkbox"
 msgstr "Tèxte del label de marcar per l’inscripcion a la lista de difusion"
 
-#: pytition/petition/admin.py:142 pytition/petition/admin.py:279
+#: pytition/petition/admin.py:144 pytition/petition/admin.py:282
 msgid "Sign form footer text"
 msgstr "Tèxte de pè de pagina del formulari"
 
-#: pytition/petition/admin.py:143 pytition/petition/admin.py:280
+#: pytition/petition/admin.py:145 pytition/petition/admin.py:283
 msgid "Organization Twitter handle"
 msgstr "Nom d’utilizaire Twitter de l’organizacion"
 
-#: pytition/petition/admin.py:144 pytition/petition/admin.py:281
+#: pytition/petition/admin.py:146 pytition/petition/admin.py:284
 msgid "Use custom e-mail settings?"
 msgstr "Utilizar una configuracion particulara de corrièl ?"
 
-#: pytition/petition/admin.py:145 pytition/petition/admin.py:282
+#: pytition/petition/admin.py:147 pytition/petition/admin.py:285
 msgid "Confirmation email Reply-to address"
 msgstr "Adreça de responsa al corrièl de confirmacion"
 
-#: pytition/petition/admin.py:146 pytition/petition/admin.py:283
+#: pytition/petition/admin.py:148 pytition/petition/admin.py:286
 msgid "SMTP server hostname"
 msgstr "Nom d’òst del servidor SMTP"
 
-#: pytition/petition/admin.py:147 pytition/petition/admin.py:284
+#: pytition/petition/admin.py:149 pytition/petition/admin.py:287
 msgid "SMTP port"
 msgstr "Pòrt SMTP"
 
-#: pytition/petition/admin.py:148 pytition/petition/admin.py:285
+#: pytition/petition/admin.py:150 pytition/petition/admin.py:288
 msgid "SMTP username"
 msgstr "Nom utilizaire SMTP"
 
-#: pytition/petition/admin.py:149 pytition/petition/admin.py:286
+#: pytition/petition/admin.py:151 pytition/petition/admin.py:289
 msgid "SMTP password"
 msgstr "Senhal SMTP"
 
-#: pytition/petition/admin.py:150 pytition/petition/admin.py:287
+#: pytition/petition/admin.py:152 pytition/petition/admin.py:290
 msgid "SMTP via TLS?"
 msgstr "SMTP via TLS ?"
 
-#: pytition/petition/admin.py:151 pytition/petition/admin.py:288
+#: pytition/petition/admin.py:153 pytition/petition/admin.py:291
 msgid "SMTP via STARTTLS?"
 msgstr "SMTP via STARTTLS ?"
 
-#: pytition/petition/admin.py:162
+#: pytition/petition/admin.py:164
 msgid "To whom is this petition?"
 msgstr "A qual aparten aquesta peticion ?"
 
-#: pytition/petition/admin.py:167 pytition/petition/admin.py:302
+#: pytition/petition/admin.py:169 pytition/petition/admin.py:305
 msgid "Content of the petition"
 msgstr "Contengut de la peticion"
 
-#: pytition/petition/admin.py:172 pytition/petition/admin.py:307
+#: pytition/petition/admin.py:175 pytition/petition/admin.py:310
 msgid "Background color"
 msgstr "Color de fons"
 
-#: pytition/petition/admin.py:177 pytition/petition/admin.py:312
+#: pytition/petition/admin.py:180 pytition/petition/admin.py:315
 msgid "Setup of the newsletter associated to the petition"
 msgstr "Configuracion de la lista de difusion ligada a la peticion"
 
-#: pytition/petition/admin.py:188 pytition/petition/admin.py:323
+#: pytition/petition/admin.py:191 pytition/petition/admin.py:326
 msgid "Confirmation email setup"
 msgstr "Configuracion del corrièl de confirmacion"
 
-#: pytition/petition/admin.py:193 pytition/petition/admin.py:328
+#: pytition/petition/admin.py:196 pytition/petition/admin.py:331
 msgid "Petition meta-data for social networks"
 msgstr "Meta-donadas de la peticion pels malhums socials"
 
-#: pytition/petition/admin.py:197
+#: pytition/petition/admin.py:200
 msgid "Publish the petition"
 msgstr "Publicar la peticion"
 
-#: pytition/petition/admin.py:205
+#: pytition/petition/admin.py:208
 msgid "Unconfirmed signatures"
 msgstr "Signaturas pas confirmadas"
 
-#: pytition/petition/admin.py:209
+#: pytition/petition/admin.py:212
 msgid "Confirmed signatures"
 msgstr "Signaturas confirmadas"
 
-#: pytition/petition/admin.py:257
+#: pytition/petition/admin.py:260
 msgid "Petition template name"
 msgstr "Nom del modèl de peticion"
 
-#: pytition/petition/admin.py:297
+#: pytition/petition/admin.py:300
 msgid "To whom is this petition template?"
 msgstr "A qual aparten aqueste modèl de peticion ?"
 
@@ -446,7 +458,7 @@ msgstr "Prenom *"
 msgid "Last name *"
 msgstr "Nom d’ostal *"
 
-#: pytition/petition/forms.py:25 pytition/petition/models.py:373
+#: pytition/petition/forms.py:25 pytition/petition/models.py:379
 msgid "Phone number"
 msgstr "Numèro de telefòn"
 
@@ -468,11 +480,11 @@ msgid "Publish the petition now?"
 msgstr "Publicar la peticion ara ?"
 
 #: pytition/petition/forms.py:89
-#: pytition/petition/templates/petition/new_petition_step3.html:28
+#: pytition/petition/templates/petition/new_petition_step3.html:26
 msgid "Save & Configure"
 msgstr "Salvar & Configurar"
 
-#: pytition/petition/forms.py:115
+#: pytition/petition/forms.py:116
 msgid ""
 "Your contact email. It will be used as \"Reply-To\" field of the "
 "confirmation email sent to signatories. People responding to confirmation "
@@ -482,60 +494,60 @@ msgstr ""
 "corrièl de confirmacion enviat als signataris. Lo monde que respondan al "
 "corrièl de confirmacion respondràn a aquesta adreça."
 
-#: pytition/petition/forms.py:129
+#: pytition/petition/forms.py:130
 msgid "Does this petition have a newsletter?"
 msgstr "Aquesta peticion a una lista de difusion (infoletra)?"
 
-#: pytition/petition/forms.py:142
+#: pytition/petition/forms.py:144
 msgid "Use TLS?"
 msgstr "Utilizar TLS ?"
 
-#: pytition/petition/forms.py:143
+#: pytition/petition/forms.py:145
 msgid "Use STARTTLS?"
 msgstr "Use STARTTLS ?"
 
-#: pytition/petition/forms.py:155
+#: pytition/petition/forms.py:157
 msgid "You cannot select both TLS and STARTTLS."
 msgstr "Podètz pas causir TLS e STARTTLS simultanèament."
 
-#: pytition/petition/forms.py:158
+#: pytition/petition/forms.py:160
 msgid "SMTP port must be >= 1 and <= 65535"
 msgstr "SMTP pòrt deu èsser >= 1 e <= 65535"
 
-#: pytition/petition/forms.py:210
+#: pytition/petition/forms.py:212
 #: pytition/petition/templates/petition/account_settings.html:95
 msgid "DROP MY ACCOUNT"
 msgstr "SUPRIMIR MON COMPTE"
 
-#: pytition/petition/forms.py:211
+#: pytition/petition/forms.py:213
 msgid "You miss-typed the validation code"
 msgstr "Còdi de validacion incorrècte"
 
-#: pytition/petition/forms.py:225
+#: pytition/petition/forms.py:227
 msgid "This is an invalid Organization name. Please try something else."
 msgstr "Nom d’organizacion invalid, ensajatz quicòm mai."
 
-#: pytition/petition/helpers.py:28 pytition/petition/views.py:280
-#: pytition/petition/views.py:294 pytition/petition/views.py:299
-#: pytition/petition/views.py:323 pytition/petition/views.py:407
-#: pytition/petition/views.py:417 pytition/petition/views.py:433
-#: pytition/petition/views.py:441
+#: pytition/petition/helpers.py:41 pytition/petition/views.py:279
+#: pytition/petition/views.py:293 pytition/petition/views.py:298
+#: pytition/petition/views.py:321 pytition/petition/views.py:405
+#: pytition/petition/views.py:415 pytition/petition/views.py:431
+#: pytition/petition/views.py:439
 msgid "not found"
 msgstr "pas trobat"
 
-#: pytition/petition/helpers.py:35 pytition/petition/views.py:815
+#: pytition/petition/helpers.py:48 pytition/petition/views.py:814
 msgid "You are not part of this organization"
 msgstr "Formatz pas part d’aquesta organizacion"
 
-#: pytition/petition/helpers.py:43
+#: pytition/petition/helpers.py:57
 msgid "Petition does not exist"
 msgstr "La peticion existís pas"
 
-#: pytition/petition/helpers.py:51
+#: pytition/petition/helpers.py:65
 msgid "This Petition is not published yet!"
 msgstr "Aquesta peticion es pas encara publicada !"
 
-#: pytition/petition/helpers.py:72
+#: pytition/petition/helpers.py:86
 msgid "Confirm your signature to our petition"
 msgstr "Confirmatz vòstra signatura a nòstra peticion"
 
@@ -548,58 +560,58 @@ msgstr "Modèl de peticion per defaut"
 msgid "Title"
 msgstr "Títol"
 
-#: pytition/petition/models.py:269
+#: pytition/petition/models.py:275
 msgid "Thank you for confirming your signature!"
 msgstr "Mercés d’aver confirmat vòstra signatura !"
 
-#: pytition/petition/models.py:355
+#: pytition/petition/models.py:361
 msgid "This petition is buggy. Sorry about that!"
 msgstr "O planhèm, i a quicòm que truca amb aquesta peticion !"
 
-#: pytition/petition/models.py:371
+#: pytition/petition/models.py:377
 #: pytition/petition/templates/petition/signature_data.html:54
 msgid "First name"
 msgstr "Prenom"
 
-#: pytition/petition/models.py:372
+#: pytition/petition/models.py:378
 #: pytition/petition/templates/petition/signature_data.html:55
 msgid "Last name"
 msgstr "Nom d’ostal"
 
-#: pytition/petition/models.py:374
+#: pytition/petition/models.py:380
 msgid "Email address"
 msgstr "Adreça electronica"
 
-#: pytition/petition/models.py:376
+#: pytition/petition/models.py:382
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: pytition/petition/models.py:377
+#: pytition/petition/models.py:383
 msgid "Petition"
 msgstr "Peticion"
 
-#: pytition/petition/models.py:378
+#: pytition/petition/models.py:384
 msgid "Subscribed to mailing list"
 msgstr "Abonat a la lista de difusion"
 
-#: pytition/petition/models.py:379
+#: pytition/petition/models.py:385
 #: pytition/petition/templates/petition/signature_data.html:60
 msgid "Date"
 msgstr "Data"
 
-#: pytition/petition/models.py:385
+#: pytition/petition/models.py:391
 msgid "You already signed the petition"
 msgstr "Avètz ja signat aquesta peticion"
 
-#: pytition/petition/models.py:500
+#: pytition/petition/models.py:506
 msgid "A permlink cannot be empty. Please enter something."
 msgstr "Un permaligam pòt pas èsser void. Picatz quicòm."
 
-#: pytition/petition/models.py:511
+#: pytition/petition/models.py:517
 msgid "Organization related to these permissions"
 msgstr "Organizacion ligada a aquestas autorizacions"
 
-#: pytition/petition/models.py:512
+#: pytition/petition/models.py:518
 msgid "User related to these permissions"
 msgstr "Utilizaire ligat a aquestas autorizacions"
 
@@ -813,7 +825,7 @@ msgstr "Apercebut de la peticion"
 #: pytition/petition/templates/petition/edit_petition.html:97
 #: pytition/petition/templates/petition/edit_petition.html:104
 #: pytition/petition/templates/petition/edit_petition.html:111
-#: pytition/petition/templates/petition/new_petition_step3.html:32
+#: pytition/petition/templates/petition/new_petition_step3.html:30
 msgid "Save"
 msgstr "Salvar"
 
@@ -867,7 +879,7 @@ msgstr ""
 msgid "unsaved"
 msgstr "pas salvadas"
 
-#: pytition/petition/templates/petition/edit_petition.html:288
+#: pytition/petition/templates/petition/edit_petition.html:294
 msgid "OK"
 msgstr "OK"
 
@@ -919,16 +931,16 @@ msgid "View all petitions"
 msgstr "Veire totas las peticions"
 
 #: pytition/petition/templates/petition/new_petition_step1.html:35
-#: pytition/petition/templates/petition/new_petition_step2.html:41
+#: pytition/petition/templates/petition/new_petition_step2.html:44
 msgid "Next"
 msgstr "Seguent"
 
-#: pytition/petition/templates/petition/new_petition_step2.html:39
-#: pytition/petition/templates/petition/new_petition_step3.html:49
+#: pytition/petition/templates/petition/new_petition_step2.html:42
+#: pytition/petition/templates/petition/new_petition_step3.html:47
 msgid "Previous step"
 msgstr "Etapa precedenta"
 
-#: pytition/petition/templates/petition/new_petition_step3.html:48
+#: pytition/petition/templates/petition/new_petition_step3.html:46
 msgid "First step"
 msgstr "Primièra etapa"
 
@@ -1045,6 +1057,12 @@ msgstr "Avètz pas los dreches per tirar aqueste utilizaire de l\\'organizacion"
 msgid "Remove this member from the organization."
 msgstr "Tirar aqueste utilizaire de l\\'organizacion."
 
+#: pytition/petition/templates/petition/org_member_list.html:39
+#, fuzzy
+#| msgid "Remove this member from the organization."
+msgid "Unable to remove this member from the organization."
+msgstr ""
+
 #: pytition/petition/templates/petition/org_profile.html:5
 #, python-format
 msgid ""
@@ -1107,7 +1125,7 @@ msgstr "Mercés de corregir l'error çai-jos."
 msgid "Please correct the errors below."
 msgstr "Mercés de corregir las errors çai-jos."
 
-#: pytition/petition/templates/petition/petition_detail.html:83
+#: pytition/petition/templates/petition/petition_detail.html:84
 msgid "SIGN"
 msgstr "SIGNAR"
 
@@ -1448,41 +1466,41 @@ msgstr "Mandatz-me las consignas !"
 msgid "Register"
 msgstr "Se marcar"
 
-#: pytition/petition/views.py:44
+#: pytition/petition/views.py:43
 msgid "You must set an INDEX_PAGE config in your settings"
 msgstr ""
 "Vos cal una configuracion INDEX_PAGE dins vòstre fichièr de configuracion"
 
-#: pytition/petition/views.py:49
+#: pytition/petition/views.py:48
 msgid "You must set an INDEX_PAGE_USER config in your settings"
 msgstr ""
 "Vos cal una configuracion INDEX_PAGE_USER dins vòstre fichièr de "
 "configuracion"
 
-#: pytition/petition/views.py:54
+#: pytition/petition/views.py:53
 msgid "You must set an INDEX_PAGE_ORGA config in your settings"
 msgstr ""
 "Vos cal una configuracion INDEX_PAGE_ORGA dins vòstre fichièr de "
 "configuracion"
 
-#: pytition/petition/views.py:134
+#: pytition/petition/views.py:133
 msgid ""
 "Error: This confirmation code is invalid. Maybe you've already confirmed?"
 msgstr ""
 "Error : aqueste còdi de confirmacion es invalid. Benlèu que l’avètz ja "
 "confirmat ?"
 
-#: pytition/petition/views.py:140
+#: pytition/petition/views.py:139
 msgid "Error: This confirmation code is invalid."
 msgstr "Error : aqueste còdi de confirmacion es invalid."
 
-#: pytition/petition/views.py:206
+#: pytition/petition/views.py:205
 msgid "Too many signatures from your IP address, please try again later."
 msgstr ""
 "Tròpas de signaturas de vòstra adreça IP estant, mercés de tornar ensajar "
 "mai tard."
 
-#: pytition/petition/views.py:214
+#: pytition/petition/views.py:213
 msgid ""
 "Thank you for signing this petition, an email has just been sent to you at "
 "your address '{}' in order to confirm your signature.<br>You will need to "
@@ -1495,17 +1513,17 @@ msgstr ""
 "corrièl dins vòstra bóstia de recepcion, agachatz dins lo dorsièr de "
 "corrièls indesirables se vos plai."
 
-#: pytition/petition/views.py:233
+#: pytition/petition/views.py:232
 msgid "This organization does not exist: '{}'"
 msgstr "L’organizacion « {} » existís pas"
 
-#: pytition/petition/views.py:239
+#: pytition/petition/views.py:238
 msgid "You are not part of this organization: '{}'"
 msgstr "Sètz pas membre d'aquesta organizacion : « {} »"
 
-#: pytition/petition/views.py:247 pytition/petition/views.py:470
-#: pytition/petition/views.py:523 pytition/petition/views.py:770
-#: pytition/petition/views.py:1005 pytition/petition/views.py:1244
+#: pytition/petition/views.py:246 pytition/petition/views.py:468
+#: pytition/petition/views.py:521 pytition/petition/views.py:769
+#: pytition/petition/views.py:1004 pytition/petition/views.py:1243
 #, python-brace-format
 msgid ""
 "Internal error, cannot find your permissions attached to this organization "
@@ -1514,121 +1532,121 @@ msgstr ""
 "Error intèrna, impossible de trobar las autorizacions dins aquesta "
 "organizacion ({orgname})"
 
-#: pytition/petition/views.py:302
+#: pytition/petition/views.py:301
 msgid "Impossible to leave this organisation, you are the last administrator"
 msgstr ""
 "Podètz pas quitar aquesta organizacion, sètz lo seu darrièr administrator"
 
-#: pytition/petition/views.py:305
+#: pytition/petition/views.py:304
 msgid "Impossible to leave this organisation, you are the last member"
 msgstr "Podètz pas quitar aquesta organizacion, sètz lo seu darrièr membre"
 
-#: pytition/petition/views.py:361
+#: pytition/petition/views.py:359
 msgid "This user does not exist (anylonger?)"
 msgstr "Aqueste utilizaire existís pas (pas mai ?)"
 
-#: pytition/petition/views.py:367
+#: pytition/petition/views.py:365
 msgid "This organization does not exist (anylonger?)"
 msgstr "Aquesta organizacion existís pas (pas mai ?)"
 
-#: pytition/petition/views.py:373
+#: pytition/petition/views.py:371
 msgid "You are not part of this organization."
 msgstr "Formatz pas part d’aquesta organizacion."
 
-#: pytition/petition/views.py:377
+#: pytition/petition/views.py:375
 #, python-brace-format
 msgid "User is already member of {orgname} organization"
 msgstr "L'utilizaire es ja membre de l'organizacion {orgname}"
 
-#: pytition/petition/views.py:381
+#: pytition/petition/views.py:379
 msgid "You are not allowed to invite new members into this organization."
 msgstr ""
 "Avètz pas l'autorizacion de convidar de nòus membres a aquesta organizacion."
 
-#: pytition/petition/views.py:388
+#: pytition/petition/views.py:386
 msgid "An error occured"
 msgstr "Una error s’es producha"
 
-#: pytition/petition/views.py:391
+#: pytition/petition/views.py:389
 #, python-brace-format
 msgid "You invited {username} to join {orgname}"
 msgstr "Avètz convidat {username} a rejónher {orgname}"
 
-#: pytition/petition/views.py:460 pytition/petition/views.py:713
-#: pytition/petition/views.py:796 pytition/petition/views.py:992
+#: pytition/petition/views.py:458 pytition/petition/views.py:712
+#: pytition/petition/views.py:795 pytition/petition/views.py:991
 msgid "Organization does not exist"
 msgstr "Aquesta organizacion existís pas"
 
-#: pytition/petition/views.py:463
+#: pytition/petition/views.py:461
 msgid "You are not allowed to view this organization dashboard"
 msgstr ""
 "Avètz pas l'autorizacion de veire lo panèl de configuracion d'aquesta "
 "organizacion"
 
-#: pytition/petition/views.py:474
+#: pytition/petition/views.py:472
 msgid "You don't have the permission to create a Template in this organization"
 msgstr ""
 "Avètz pas l’autorizacion de crear un nòu modèl de peticion dins aquesta "
 "organizacion"
 
-#: pytition/petition/views.py:491
+#: pytition/petition/views.py:489
 msgid "You need to provide a template name."
 msgstr "Vos cal donar un nom al modèl."
 
-#: pytition/petition/views.py:503
+#: pytition/petition/views.py:501
 msgid "You need to provide the template id to modify"
 msgstr "Devètz fornir lo numèro identificant del modèl a modificar"
 
-#: pytition/petition/views.py:508
+#: pytition/petition/views.py:506
 msgid "This template does not exist"
 msgstr "Aqueste modèl de peticion existís pas"
 
-#: pytition/petition/views.py:527
+#: pytition/petition/views.py:525
 msgid "You are not allowed to edit this organization's templates"
 msgstr "Sètz pas autorizat a modificar los modèls d'aquesta organizacion"
 
-#: pytition/petition/views.py:532
+#: pytition/petition/views.py:530
 msgid "You are not allowed to edit this user's templates"
 msgstr "Sètz pas autorizat a modificar los modèls d'aqueste utilizaire"
 
-#: pytition/petition/views.py:687
+#: pytition/petition/views.py:686
 msgid "You are not allowed to change this user's default template"
 msgstr ""
 "Sètz pas autorizat a modificar lo modèl per defaut d'aqueste utilizaire"
 
-#: pytition/petition/views.py:706 pytition/petition/views.py:790
+#: pytition/petition/views.py:705 pytition/petition/views.py:789
 msgid "User does not exist"
 msgstr "L’utilizaire existís pas"
 
-#: pytition/petition/views.py:746
+#: pytition/petition/views.py:745
 #, python-brace-format
 msgid "User '{name}' does not exist"
 msgstr "L’utilizaire « {name} » existís pas"
 
-#: pytition/petition/views.py:752
+#: pytition/petition/views.py:751
 #, python-brace-format
 msgid "Organization '{name}' does not exist"
 msgstr "L’organizacion « {name} » existís pas"
 
-#: pytition/petition/views.py:755
+#: pytition/petition/views.py:754
 #, python-brace-format
 msgid "The user '{username}' is not member of this organization ({orgname})."
 msgstr ""
 "L’utilizaire « {username}   es pas membre de l’organizacion « {orgname} »."
 
-#: pytition/petition/views.py:763
+#: pytition/petition/views.py:762
 msgid ""
 "Internal error, this member does not have permissions attached to this "
 "organization."
 msgstr ""
 "Error intèrna, aqueste membre a pas d'autorizacion per aquesta organizacion."
 
-#: pytition/petition/views.py:799
+#: pytition/petition/views.py:798
 #, python-brace-format
 msgid "This user is not part of organization '{orgname}'"
 msgstr "Aqueste utilizaire es pas membre de l’organizacion « {orgname} »"
 
-#: pytition/petition/views.py:805
+#: pytition/petition/views.py:804
 msgid ""
 "Fatal error, this user does not have permissions attached for this "
 "organization"
@@ -1636,18 +1654,18 @@ msgstr ""
 "Error critica, aqueste utilizaire a pas d’autorizacion per aquesta "
 "organizacion"
 
-#: pytition/petition/views.py:811
+#: pytition/petition/views.py:810
 msgid ""
 "Fatal error, you don't have permissions attached to you for this organization"
 msgstr "Error critica, avètz pas d’autorizacions per aquesta organizacion"
 
-#: pytition/petition/views.py:819
+#: pytition/petition/views.py:818
 msgid "You are not allowed to modify this organization members' permissions"
 msgstr ""
 "Sètz pas autorizat a modificar las autorizacions dels membres d’aquesta "
 "organizacion"
 
-#: pytition/petition/views.py:847
+#: pytition/petition/views.py:846
 msgid ""
 "You cannot remove your ability to change permissions on this Organization "
 "because you are the only one left who can do this. Give the permission to "
@@ -1657,7 +1675,7 @@ msgstr ""
 "organizacion perque sètz lo seu darrièr membre que pòt o far. Donatz "
 "l'autorizacion a qualqu'un mai abans de vos la tirar."
 
-#: pytition/petition/views.py:852
+#: pytition/petition/views.py:851
 msgid ""
 "You cannot remove your ability to change permissions on this Organization "
 "because you are the only member left."
@@ -1665,104 +1683,121 @@ msgstr ""
 "Podètz pas tirar l'autorizacion de modificar las autorizacions dins aquesta "
 "organizacion perque sètz lo seu darrièr membre."
 
-#: pytition/petition/views.py:856
+#: pytition/petition/views.py:855
 msgid "Permissions successfully changed!"
 msgstr "Cambiament d’autorizacion corrèctament realizat !"
 
-#: pytition/petition/views.py:938
+#: pytition/petition/views.py:937
 msgid "Cannot find this organization"
 msgstr "Impossible de trobar aquesta organizacion"
 
-#: pytition/petition/views.py:956
+#: pytition/petition/views.py:955
 msgid "This template does not belong to your organization"
 msgstr "Aqueste modèl de peticion aparten pas a vòstra organizacion"
 
-#: pytition/petition/views.py:965
+#: pytition/petition/views.py:964
 msgid ""
 "You don't have the permission to create a new petition in this Organization"
 msgstr ""
 "Avètz pas l’autorizacion de crear una nòva peticion dins aquesta organizacion"
 
-#: pytition/petition/views.py:975
+#: pytition/petition/views.py:974
 msgid "This template does not belong to you"
 msgstr "Aqueste modèl de peticion vos aparten pas"
 
-#: pytition/petition/views.py:1101
+#: pytition/petition/views.py:1098
 msgid "You are not allowed to edit this petition"
 msgstr "Sètz pas lo proprietari d’aquesta peticion"
 
-#: pytition/petition/views.py:1200 pytition/petition/views.py:1212
+#: pytition/petition/views.py:1199 pytition/petition/views.py:1211
 msgid "save-the-kittens-from-bad-wolf"
 msgstr "salvar-los-catons-del-lop"
 
-#: pytition/petition/views.py:1239
+#: pytition/petition/views.py:1238
 msgid "You are not member of the following organization: '{}'"
 msgstr "Sètz pas membre de l’organizacion : « {} »"
 
-#: pytition/petition/views.py:1248
+#: pytition/petition/views.py:1247
 msgid "You are not allowed to view signatures in this organization"
 msgstr ""
 "Avètz pas los dreches per dire de veire las signaturas d’aquesta organizacion"
 
-#: pytition/petition/views.py:1274
+#: pytition/petition/views.py:1273
 msgid "You don't have permission to delete some or all of selected signatures"
 msgstr "Avètz l'autorizacion de suprimir una o unas signaturas seleccionadas"
 
-#: pytition/petition/views.py:1276 pytition/petition/views.py:1286
-#: pytition/petition/views.py:1297
+#: pytition/petition/views.py:1275
 msgid "You successfully deleted all selected signatures"
 msgstr "Avètz suprimit corrèctament totas las signaturas seleccionadas"
 
-#: pytition/petition/views.py:1284 pytition/petition/views.py:1295
+#: pytition/petition/views.py:1283 pytition/petition/views.py:1294
 msgid "An error happened while trying to re-send confirmation emails"
 msgstr "Una error s’es producha en enviar de corrièls de confirmacion"
 
-#: pytition/petition/views.py:1343
+#: pytition/petition/views.py:1285
+#, fuzzy
+#| msgid "You successfully deleted all selected signatures"
+msgid "You successfully re-sent all selected confirmation emails"
+msgstr "Avètz suprimit corrèctament totas las signaturas seleccionadas"
+
+#: pytition/petition/views.py:1296
+#, fuzzy
+#| msgid "You successfully created organization '{}'"
+msgid "You successfully re-sent all confirmation emails"
+msgstr "Creacion de l’organizacion « {} » corrèctament realizada"
+
+#: pytition/petition/views.py:1342
 msgid "You successfully changed your password!"
 msgstr "Cambiament de senhal corrèctament realizat !"
 
-#: pytition/petition/views.py:1391
+#: pytition/petition/views.py:1390
 msgid "You successfully created organization '{}'"
 msgstr "Creacion de l’organizacion « {} » corrèctament realizada"
 
-#: pytition/petition/views.py:1415 pytition/petition/views.py:1422
-#: pytition/petition/views.py:1424
+#: pytition/petition/views.py:1414 pytition/petition/views.py:1421
+#: pytition/petition/views.py:1423
 msgid "Sorry, we are not able to find this petition"
 msgstr "O planhèm, avèm pas trobat aquesta peticion"
 
-#: pytition/petition/views.py:1441 pytition/petition/views.py:1475
+#: pytition/petition/views.py:1440 pytition/petition/views.py:1474
 msgid "This petition does not exist (anymore?)."
 msgstr "Aquesta peticion existís pas (pas mai ?)."
 
-#: pytition/petition/views.py:1447
+#: pytition/petition/views.py:1446
 msgid "You entered an empty slug text"
 msgstr "Avètz picatz un tèxte slug void"
 
-#: pytition/petition/views.py:1454
+#: pytition/petition/views.py:1453
 msgid "Successful addition of the slug '{}'!"
 msgstr "Apondon del permaligam « {} » corrèctament realizat !"
 
-#: pytition/petition/views.py:1456
+#: pytition/petition/views.py:1455
 msgid "The slug '{}' already exists!"
 msgstr "Lo slug « {} » existís ja !"
 
-#: pytition/petition/views.py:1461 pytition/petition/views.py:1487
+#: pytition/petition/views.py:1460 pytition/petition/views.py:1486
 msgid "You don't have the permission to modify petitions"
 msgstr "Avètz pas l’autorizacion per modificar las peticions"
 
-#: pytition/petition/views.py:1485
+#: pytition/petition/views.py:1484
 msgid "Successful deletion of a slug"
 msgstr "Permaligam suprimit corrèctament"
 
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr "Mercés de corregir lo duplicat pel camp %(field)s, que deu èsser unic."
-
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
+#: pytition/pytition/settings/base.py:225
+msgid "Occitan"
 msgstr ""
-"Mercés de corregir lo duplicat pel camp %(field_name)s, que deu èsser unic "
-"pel %(lookup)s dins %(date_field)s."
+
+#~ msgid ""
+#~ "Please correct the duplicate data for %(field)s, which must be unique."
+#~ msgstr ""
+#~ "Mercés de corregir lo duplicat pel camp %(field)s, que deu èsser unic."
+
+#~ msgid ""
+#~ "Please correct the duplicate data for %(field_name)s which must be unique "
+#~ "for the %(lookup)s in %(date_field)s."
+#~ msgstr ""
+#~ "Mercés de corregir lo duplicat pel camp %(field_name)s, que deu èsser "
+#~ "unic pel %(lookup)s dins %(date_field)s."
 
 #, fuzzy
 #~| msgid "Invitations"
