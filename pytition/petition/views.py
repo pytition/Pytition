@@ -119,7 +119,11 @@ def detail(request, petition_id):
     sign_form = SignatureForm(petition=petition)
     ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
            'meta': petition_detail_meta(request, petition_id)}
-    return render(request, 'petition/petition_detail.html', ctx)
+
+    if "application/json" in request.META.get('HTTP_ACCEPT', []):
+        return JsonResponse(petition.to_json)
+    else:
+        return render(request, 'petition/petition_detail.html', ctx)
 
 
 # /<int:petition_id>/confirm/<confirmation_hash>
@@ -1429,7 +1433,11 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
 
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form,
            'meta': petition_detail_meta(request, petition.id)}
-    return render(request, "petition/petition_detail.html", ctx)
+
+    if "application/json" in request.META.get('HTTP_ACCEPT', []):
+        return JsonResponse(petition.to_json)
+    else:
+        return render(request, "petition/petition_detail.html", ctx)
 
 
 # /<int:petition_id>/add_new_slug

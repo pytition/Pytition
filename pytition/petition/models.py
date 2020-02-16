@@ -285,11 +285,27 @@ class Petition(models.Model):
         self.save()
 
     @property
+    def to_json(self):
+        return {'title': self.title,
+                'signatures': self.get_signature_number(True),
+                'text': self.text,
+                'target': self.target,
+                'description': self.twitter_description,
+                'image': self.twitter_image,
+                'org_twitter_handle': self.org_twitter_handle,
+                'has_newsletter': self.has_newsletter,
+                'creator': self.owner_name}
+
+    @property
     def owner_type(self):
         if self.org:
             return "org"
         else:
             return "user"
+
+    @property
+    def owner_name(self):
+        return str(self.owner)
 
     @property
     def owner(self):
