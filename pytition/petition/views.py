@@ -121,7 +121,10 @@ def detail(request, petition_id):
            'meta': petition_detail_meta(request, petition_id)}
 
     if "application/json" in request.META.get('HTTP_ACCEPT', []):
-        return JsonResponse(petition.to_json)
+        response = JsonResponse(petition.to_json)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        return response
     else:
         return render(request, 'petition/petition_detail.html', ctx)
 
@@ -1435,7 +1438,10 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
            'meta': petition_detail_meta(request, petition.id)}
 
     if "application/json" in request.META.get('HTTP_ACCEPT', []):
-        return JsonResponse(petition.to_json)
+        response = JsonResponse(petition.to_json)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        return response
     else:
         return render(request, "petition/petition_detail.html", ctx)
 
