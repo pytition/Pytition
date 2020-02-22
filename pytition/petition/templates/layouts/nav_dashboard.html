@@ -14,7 +14,21 @@
         Menu <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
-      <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'search' %}" method="GET">
+      <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <select class="custom-select custom-select-sm" name="language" onchange='if(this.value !=  "{{ LANGUAGE_CODE }}") { this.form.submit(); }'>
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% get_language_info_list for LANGUAGES as languages %}
+          {% for language in languages %}
+            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
+              {{ language.code }}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+      <form class="form-inline my-2 my-lg-0 ml-0 ml-sm-3" action="{% url 'search' %}" method="GET">
         <div class="input-group input-group-sm">
           <input type="text" class="form-control" placeholder="{% trans "Search for petition" %}" name="q" value="{{ q }}">
           <div class="input-group-append">
