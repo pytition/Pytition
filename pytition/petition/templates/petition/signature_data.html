@@ -8,6 +8,11 @@
         </div>
     </div>
     <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h4><i>{{ petition.title }}</i></h4>
+        </div>
+    </div>
+    <div class="row">
         <form method="POST" id="signatureForm">
         {% csrf_token %}
         <div class="col">
