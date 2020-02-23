@@ -224,5 +224,8 @@ SIGNATURE_THROTTLE_TIMING = 60*60*24 # in a 1 day time frame
 
 LANGUAGES = global_settings.LANGUAGES + [('oc', gettext_lazy('Occitan'))]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
+MEDIA_URL = "/mediaroot/"
+
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")
