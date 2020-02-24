@@ -4,7 +4,7 @@
 {% block main_content %}
 <div class="container">
   <div class="row">
-    <div class="offset-3 col-6 text-center">
+    <div class="col-12 offset-sm-1 col-sm-10 offset-md-2 col-md-8 text-center">
       <h1 class="h3 mb-5 font-weight-normal">{% trans 'Please sign in' %}</h1>
       {% if form.errors %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -23,7 +23,7 @@
       {% endif %}
 
       <div class="row">
-        <div class="offset-3 col-6">
+        <div class="col-12 offset-sm-3 col-sm-6">
       <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <input type="text" name="username" id="{{ form.username.auto_id }}" class="form-control" placeholder="Username" required autofocus>

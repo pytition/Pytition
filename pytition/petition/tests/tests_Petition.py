@@ -97,3 +97,19 @@ class PetitionTest(TestCase):
         perm.can_modify_petitions = False
         perm.save()
         self.assertEqual(p2.is_allowed_to_edit(john), False)
+
+    def test_paper_signatures(self):
+        pu = PytitionUser.objects.get(user__username='julia')
+        p = Petition.objects.create(title="Petition", user=pu)
+        p.paper_signatures_enabled = True
+        p.paper_signatures = 42
+        p.save()
+        self.assertEqual(p.get_signature_number(), 42)
+        p.paper_signatures_enabled = False
+        p.save()
+        self.assertEqual(p.get_signature_number(), 0)
+        s = Signature.objects.create(first_name="User", last_name="User", email="user@example.org", petition=p)
+        self.assertEqual(p.get_signature_number(), 1)
+        p.paper_signatures_enabled = True
+        p.save()
+        self.assertEqual(p.get_signature_number(), 43)

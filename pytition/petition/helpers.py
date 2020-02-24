@@ -16,7 +16,7 @@ def sanitize_html(unsecure_html_content):
     cleaner = Cleaner(inline_style=False, scripts=True, javascript=True,
                       safe_attrs=lxml.html.defs.safe_attrs | set(['style']),
                       frames=False, embedded=False,
-                      meta=True, links=True, page_structure=True)
+                      meta=True, links=True, page_structure=True, remove_tags=['body'])
     try:
         secure_html_content = lxml.html.tostring(cleaner.clean_html(lxml.html.fromstring(unsecure_html_content)), method="html")
     except:

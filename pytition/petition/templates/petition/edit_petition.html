@@ -236,6 +236,12 @@ $(function () {
        hide_others_than(newsletter_box, true);
 });
 
+{% if not petition.paper_signatures_enabled %}
+$(function () {
+   paper_signatures = $('#id_paper_signatures').parent().parent().hide();
+});
+{% endif %}
+
 $(function () {
    $('#id_has_newsletter').on("change", function() {
         const box = $(this);

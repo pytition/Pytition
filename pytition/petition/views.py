@@ -119,7 +119,14 @@ def detail(request, petition_id):
     sign_form = SignatureForm(petition=petition)
     ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
            'meta': petition_detail_meta(request, petition_id)}
-    return render(request, 'petition/petition_detail.html', ctx)
+
+    if "application/json" in request.META.get('HTTP_ACCEPT', []):
+        response = JsonResponse(petition.to_json)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        return response
+    else:
+        return render(request, 'petition/petition_detail.html', ctx)
 
 
 # /<int:petition_id>/confirm/<confirmation_hash>
@@ -1005,6 +1012,9 @@ class PetitionCreationWizard(SessionWizardView):
                       .format(orgname=org.name)), status=500)
             context.update({'org': org,
                             'user_permissions': permissions})
+        else:
+            petitions = pytitionuser.petition_set.all()
+            context.update({'petitions': petitions})
 
         if self.steps.current == "step3":
             context.update(self.get_cleaned_data_for_step("step1"))
@@ -1112,6 +1122,7 @@ def edit_petition(request, petition_id):
             if content_form.is_valid():
                 petition.title = content_form.cleaned_data['title']
                 petition.target = content_form.cleaned_data['target']
+                petition.paper_signatures = content_form.cleaned_data['paper_signatures']
                 petition.text = content_form.cleaned_data['text']
                 petition.side_text = content_form.cleaned_data['side_text']
                 petition.footer_text = content_form.cleaned_data['footer_text']
@@ -1281,7 +1292,7 @@ def show_signatures(request, petition_id):
                 if failed:
                     messages.error(request, _("An error happened while trying to re-send confirmation emails"))
                 else:
-                    messages.success(request, _("You successfully deleted all selected signatures"))
+                    messages.success(request, _("You successfully re-sent all selected confirmation emails"))
         if action == "re-send-all":
             selected_signatures = Signature.objects.filter(petition=petition)
             for s in selected_signatures:
@@ -1292,7 +1303,7 @@ def show_signatures(request, petition_id):
             if failed:
                 messages.error(request, _("An error happened while trying to re-send confirmation emails"))
             else:
-                messages.success(request, _("You successfully deleted all selected signatures"))
+                messages.success(request, _("You successfully re-sent all confirmation emails"))
         return redirect("show_signatures", petition_id)
 
     signatures = petition.signature_set.all()
@@ -1425,7 +1436,14 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
 
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form,
            'meta': petition_detail_meta(request, petition.id)}
-    return render(request, "petition/petition_detail.html", ctx)
+
+    if "application/json" in request.META.get('HTTP_ACCEPT', []):
+        response = JsonResponse(petition.to_json)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        return response
+    else:
+        return render(request, "petition/petition_detail.html", ctx)
 
 
 # /<int:petition_id>/add_new_slug

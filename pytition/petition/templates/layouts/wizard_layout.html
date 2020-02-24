@@ -15,11 +15,11 @@
   <h1 class="my-3">{% trans "Create a new petition!" %}</h1>
   <div id="smartwizard">
     <ul>
-      <li><a href="#step-1">{% trans "Title" %}<br />
+      <li><a href="#step-1" id="step1_link">{% trans "Title" %}<br />
           <small>{% trans "Give a title to your petition" %}</small></a></li>
-      <li><a href="#step-2">{% trans "Content" %}<br />
+      <li><a href="#step-2" id="step2_link">{% trans "Content" %}<br />
           <small>{% trans "Write your petition content" %}</small></a></li>
-      <li><a href="#step-3">{% trans "Publish" %}<br />
+      <li><a href="#step-3" id="step3_link">{% trans "Publish" %}<br />
           <small>{% trans "Save your petition and publish it if it's ready" %}</small></a></li>
     </ul>
     {% block wizard_content %}

@@ -121,6 +121,8 @@ class PetitionAdminForm(ModelForm):
             'text': ugettext_lazy('Petition text'),
             'side_text': ugettext_lazy('Side text, on top of form'),
             'target': ugettext_lazy('Signature target number'),
+            'paper_signatures': ugettext_lazy('Number of paper (or other external medium) signatures'),
+            'paper_signatures_enabled': ugettext_lazy('Enable paper signatures accounting'),
             'linear_gradient_direction': ugettext_lazy('Direction of linear gradient for background color'),
             'gradient_from': ugettext_lazy('Source color for linear gradient'),
             'gradient_to': ugettext_lazy('Destinatoin color for linear gradient'),
@@ -166,7 +168,8 @@ class PetitionAdmin(admin.ModelAdmin):
          ),
         (ugettext_lazy('Content of the petition'),
          {
-          'fields': ('title', 'text', 'side_text', 'footer_text', 'footer_links', 'sign_form_footer', 'target')
+          'fields': ('title', 'text', 'side_text', 'footer_text', 'footer_links', 'sign_form_footer', 'target',
+                     'paper_signatures_enabled', 'paper_signatures')
          }
         ),
         (ugettext_lazy('Background color'),

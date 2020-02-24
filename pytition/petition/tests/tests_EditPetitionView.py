@@ -104,8 +104,9 @@ class EditPetitionViewTest(TestCase):
             'footer_links': 'tyty',
             'sign_form_footer': 'lorem',
             'target': 4242,
+            'paper_signatures': 0
         }
-        # For an org template
+        # For an org petition
         p = Petition.objects.create(title="My Petition", org=org)
         response = self.client.post(reverse("edit_petition", args=[p.id]), content_form_data)
         self.assertEqual(response.status_code, 200)
@@ -117,8 +118,9 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response.context['email_form_submitted'], False)
         self.assertEquals(response.context['social_network_form_submitted'], False)
         self.assertEquals(response.context['newsletter_form_submitted'], False)
+        self.assertEquals(p.get_signature_number(), 0)
 
-        # For an user template
+        # For a user petition
         p2 = Petition.objects.create(title="My Petition 2", user=julia)
         response = self.client.post(reverse("edit_petition", args=[p2.id]), content_form_data)
         self.assertEqual(response.status_code, 200)
@@ -135,6 +137,60 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response.context['email_form_submitted'], False)
         self.assertEquals(response.context['social_network_form_submitted'], False)
         self.assertEquals(response.context['newsletter_form_submitted'], False)
+        self.assertEquals(p2.get_signature_number(), 0)
+
+        for key, value in content_form_data.items():
+            if key == "content_form_submitted":
+                continue
+            self.assertEquals(getattr(p, key), value)
+            self.assertEquals(getattr(p2, key), value)
+
+    def test_edit_post_content_form_papersigntest(self):
+        julia = self.login('julia')
+        org = Organization.objects.get(name='RAP')
+        content_form_data = {
+            'content_form_submitted': 'yes',
+            'title': 'toto',
+            'text': 'tata',
+            'side_text': 'titi',
+            'footer_text': 'tutu',
+            'footer_links': 'tyty',
+            'sign_form_footer': 'lorem',
+            'target': 4242,
+            'paper_signatures': 42
+        }
+        # For an org petition
+        p = Petition.objects.create(title="My Petition", org=org)
+        response = self.client.post(reverse("edit_petition", args=[p.id]), content_form_data)
+        self.assertEqual(response.status_code, 200)
+        p.refresh_from_db()
+        self.assertTemplateUsed(response, "petition/edit_petition.html")
+        self.assertEquals(response.context['content_form'].is_valid(), True)
+        self.assertEquals(response.context['content_form'].is_bound, True)
+        self.assertEquals(response.context['content_form_submitted'], True)
+        self.assertEquals(response.context['email_form_submitted'], False)
+        self.assertEquals(response.context['social_network_form_submitted'], False)
+        self.assertEquals(response.context['newsletter_form_submitted'], False)
+        self.assertEquals(p.get_signature_number(), 0) # paper_signatures_enabled is False
+
+        # For a user petition
+        p2 = Petition.objects.create(title="My Petition 2", user=julia)
+        response = self.client.post(reverse("edit_petition", args=[p2.id]), content_form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/edit_petition.html")
+        p2.refresh_from_db()
+        for key, value in content_form_data.items():
+            if key == "content_form_submitted":
+                continue
+            self.assertEquals(getattr(p2, key), value)
+            self.assertEquals(getattr(p, key), value)
+        self.assertEquals(response.context['content_form'].is_valid(), True)
+        self.assertEquals(response.context['content_form'].is_bound, True)
+        self.assertEquals(response.context['content_form_submitted'], True)
+        self.assertEquals(response.context['email_form_submitted'], False)
+        self.assertEquals(response.context['social_network_form_submitted'], False)
+        self.assertEquals(response.context['newsletter_form_submitted'], False)
+        self.assertEquals(p2.get_signature_number(), 0) # paper_signatures_enabled is False
 
         for key, value in content_form_data.items():
             if key == "content_form_submitted":

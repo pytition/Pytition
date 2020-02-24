@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from petition.views import index
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', index, name="index"),
@@ -23,4 +25,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^i18n/', include('django.conf.urls.i18n')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

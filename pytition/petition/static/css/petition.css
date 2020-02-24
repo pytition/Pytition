@@ -36,18 +36,20 @@ nav.navbar {
 
 @media screen and (min-width:768px) {
     .petition-wrapper {
-        min-height: 530px;
+        padding: 0;
     }
-    .petition-wrapper {
-        padding: 15px 360px 15px 40px;
+    .petition-wrapper > .content {
+        display: flex;
+    }
+    .presentation {
+        flex-grow: 1;
+        padding: 15px;
     }
     .formular {
-        position: absolute;
-        top: 0;
-        right: 0;
-        height: 100%;
-        width: 320px;
-        margin-left: 0px;
+        order: 1;
+        flex-shrink: 0;
+        flex-basis: 320px;
+        margin-left: 40px;
         margin-right: 0px;
     }
 }
@@ -162,7 +164,6 @@ nav.navbar {
 }
 
 .intro {
-    font-size: 21px;
     line-height: 1.2
 }
 
