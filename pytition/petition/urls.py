@@ -26,6 +26,7 @@ urlpatterns = [
     path('<int:petition_id>/add_new_slug', views.add_new_slug, name="add_new_slug"),
     path('<int:petition_id>/del_slug', views.del_slug, name="del_slug"),
     path('all_petitions', views.all_petitions, name='all_petitions'),
+    path('transfer_petition/<int:petition_id>', views.transfer_petition, name='transfer_petition'),
     # Organisation
     path('org/create', views.org_create, name="org_create"),
     path('org/<slug:orgslugname>', views.org_profile, name='org_profile'),
@@ -48,7 +49,9 @@ urlpatterns = [
     path('user/new_template', views.new_template, name='user_new_template'),
     path('user/<user_name>', views.user_profile, name='user_profile'),
     path('user/<slug:username>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
+    # Actions
     path('get_user_list', views.get_user_list, name='get_user_list'),
+    path('search_users_and_orgs', views.search_users_and_orgs, name='search_users_and_orgs'),
     # Wizard
     path('wizard/org/<slug:orgslugname>/new_petition', PetitionCreationWizard.as_view(views.WizardForms), name='org_petition_wizard'),
     path('wizard/org/<slug:orgslugname>/new_petition/from_template/<int:template_id>', PetitionCreationWizard.as_view(views.WizardForms), name='org_petition_wizard_from_template'),

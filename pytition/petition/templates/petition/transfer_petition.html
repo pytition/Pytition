@@ -1,0 +1,116 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+      <div class="col-12">
+          <h2>{% trans "Transfer petition" %}</h2>
+      </div>
+</div>
+<div class="row">
+      <div class="col-12">
+          <div class="alert alert-warning">
+              {% blocktrans trimmed %}
+              You are going to transfer this petition to someone else:
+              {% endblocktrans %}
+              "<i>{{ petition.title }}</i>"
+          </div>
+      </div>
+</div>
+  <div class="row">
+      <div class="col-6">
+          <form>
+              <div class="form-group">
+                  <label for="searchbox">{% trans "Enter the name of the user or organization you want to give the petition to:" %}</label>
+                <input type="text" id="searchbox" placeholder="{% trans "User or Organization name" %}">
+              </div>
+          </form>
+          <ul class="list-group" id="search_results">
+          </ul>
+      </div>
+  </div>
+</div>
+
+  <div class="modal fade" id="modal_xfer_confirm" data-petition="" data-petition-delete="{% url 'petition_delete' petition.id %}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans "Transfer this petition?" %}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <b>
+          {% blocktrans trimmed%}
+            Do you really want to transfer the following petition?
+          {% endblocktrans %}
+          </b>
+            <br/>
+          <i>'{{ petition.title }}'</i>
+          <br/>
+          <b>
+          {% blocktrans trimmed %}
+            It will be transfered to:
+          {% endblocktrans %}
+          </b>
+           <br/>
+           <i><div id="xfer_to_name"></div></i>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-action="petition-transfer" data-dismiss="modal">{% trans "Transfer" %}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Cancel" %}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <form action="{% url "transfer_petition" petition.id %}" method="POST" id="xfer_req">{% csrf_token %}
+    <input type="hidden" name="new_owner_type" id="new_owner_type">
+    <input type="hidden" name="new_owner_name" id="new_owner_name">
+  </form>
+{% endblock content %}
+
+{% block extrajs %}
+{{ block.super }}
+<script>
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $("#searchbox").on("keyup", function() {
+   $.ajax({
+   url: "{% url "search_users_and_orgs" %}?q=" + $("#searchbox").val(),
+   dataType: "json",
+   }).done(function(data) {
+        $("#search_results").html("");
+        data.orgs.forEach(function(org, index) {
+            var orgname = org.name;
+            var orgslugname = org.slugname;
+            $("#search_results").append("<a href=\"#\" id=\"xferto_org_"+ index +"\" class=\"list-group-item list-group-item-primary list-group-item-action\"><span class=\"oi oi-people\" title=\"plus\" aria-hidden=\"true\"></span> "+ orgname +"</a>");
+            $("#xferto_org_" + index).on("click", function () {
+               $('#xfer_to_name').text(orgname);
+               $('#new_owner_name').val(orgslugname);
+               $('#new_owner_type').val('org');
+               $("#modal_xfer_confirm").modal('show');
+            });
+        });
+        data.users.forEach(function(user, index) {
+            var firstname = user.firstname;
+            var lastname = user.lastname;
+            var username = user.username;
+            $("#search_results").append("<a href=\"#\" id=\"xferto_user_"+ index +"\" class=\"list-group-item list-group-item-info list-group-item-action\"><span class=\"oi oi-person\" title=\"plus\" aria-hidden=\"true\"></span> "+ firstname + " " + lastname + " ("+username+") </a>");
+            $("#xferto_user_" + index).on("click", function () {
+               $('#xfer_to_name').text(firstname + " " + lastname + " (" + username + ")");
+               $('#new_owner_name').val(username);
+               $('#new_owner_type').val('user');
+               $("#modal_xfer_confirm").modal('show');
+            });
+        });
+   });
+  });
+  $('[data-action="petition-transfer"]').on('click', function () {
+      $("#xfer_req").submit();
+  });
+})
+</script>
+{% endblock extrajs %}
