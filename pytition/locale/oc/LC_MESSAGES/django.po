@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-23 20:04+0100\n"
-"PO-Revision-Date: 2019-11-20 21:28+0000\n"
-"Last-Translator: Quentin PAGÈS\n"
-"Language-Team: Occitan\n"
+"PO-Revision-Date: 2020-02-26 12:08+0000\n"
+"Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
+"Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/oc/>\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 3.11.2\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:75
 #: pytition/petition/models.py:456
@@ -153,16 +154,12 @@ msgstr ""
 "generalament d’una adreça d’administracion de la lista SYPAM o MAILMAN"
 
 #: pytition/petition/admin.py:104 pytition/petition/admin.py:244
-#, fuzzy
-#| msgid ""
-#| "Only when EMAIL subscription method is used. Adresse email "
-#| "d'administration de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
 msgid ""
 "Only when EMAIL subscription method is used. Adresse email d'administration "
 "de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
 msgstr ""
-"Solament quand lo metòde d’abonament utilizat es CORRIÈL. L’adreça "
-"d’administracion de la lista, ex. : sympa@NOM_LISTA.listas.vox.coop"
+"Solament quand lo metòde d’abonament utilizat es CORRIÈL. L’adreça d’"
+"administracion de la lista, ex. : sympa@NOM_LISTA.listas.vox.coop"
 
 #: pytition/petition/admin.py:105 pytition/petition/admin.py:245
 msgid ""
@@ -274,11 +271,11 @@ msgstr "Objectiu de signaturas"
 
 #: pytition/petition/admin.py:124
 msgid "Number of paper (or other external medium) signatures"
-msgstr ""
+msgstr "Nombre de signaturas papièr (o qual que siá supòrt)"
 
 #: pytition/petition/admin.py:125
 msgid "Enable paper signatures accounting"
-msgstr ""
+msgstr "Activar lo comptador de signaturas papièr"
 
 #: pytition/petition/admin.py:126 pytition/petition/admin.py:264
 msgid "Direction of linear gradient for background color"
@@ -1059,7 +1056,7 @@ msgstr "Tirar aqueste utilizaire de l\\'organizacion."
 
 #: pytition/petition/templates/petition/org_member_list.html:39
 msgid "Unable to remove this member from the organization."
-msgstr ""
+msgstr "Impossible de tirar aqueste utilizaire de l’organizacion."
 
 #: pytition/petition/templates/petition/org_profile.html:5
 #, python-format
@@ -1733,16 +1730,12 @@ msgid "An error happened while trying to re-send confirmation emails"
 msgstr "Una error s’es producha en enviar de corrièls de confirmacion"
 
 #: pytition/petition/views.py:1295
-#, fuzzy
-#| msgid "You successfully deleted all selected signatures"
 msgid "You successfully re-sent all selected confirmation emails"
-msgstr "Avètz suprimit corrèctament totas las signaturas seleccionadas"
+msgstr "Avètz tornat enviar corrèctament totas las confirmacions seleccionadas"
 
 #: pytition/petition/views.py:1306
-#, fuzzy
-#| msgid "You successfully created organization '{}'"
 msgid "You successfully re-sent all confirmation emails"
-msgstr "Creacion de l’organizacion « {} » corrèctament realizada"
+msgstr "Avètz corrèctament enviat totas las confirmacions de corrièl"
 
 #: pytition/petition/views.py:1352
 msgid "You successfully changed your password!"
@@ -1783,7 +1776,7 @@ msgstr "Permaligam suprimit corrèctament"
 
 #: pytition/pytition/settings/base.py:226
 msgid "Occitan"
-msgstr ""
+msgstr "Occitan"
 
 #~ msgid ""
 #~ "Please correct the duplicate data for %(field)s, which must be unique."
