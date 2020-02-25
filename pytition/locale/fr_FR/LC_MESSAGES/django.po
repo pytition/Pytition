@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.9.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:75
 #: pytition/petition/models.py:456
@@ -915,7 +915,13 @@ msgid_plural ""
 "              %(signature_number)s signatures\n"
 "            "
 msgstr[0] ""
+"\n"
+"              %(signature_number)s  signature\n"
+"            "
 msgstr[1] ""
+"\n"
+"              %(signature_number)s  signatures\n"
+"            "
 
 #: pytition/petition/templates/petition/index.html:11
 msgid "Welcome to Pytition"
