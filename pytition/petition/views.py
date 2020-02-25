@@ -1527,3 +1527,85 @@ def image_upload(request):
     newrelpath = os.path.relpath(name, storage.location)
 
     return JsonResponse({'location': storage.base_url + newrelpath})
+
+# /transfer_petition/<int:petition_id>
+# Transfer a petition to another org or user
+@login_required
+def transfer_petition(request, petition_id):
+    pytitionuser = get_session_user(request)
+    try:
+        petition = petition_from_id(petition_id)
+    except:
+        messages.error(request, _("This petition does not exist."))
+        return redirect("user_dashboard")
+
+    ctx = {'user': pytitionuser,
+           'petition': petition}
+
+    if petition.owner_type == "org":
+        org = petition.owner
+        if not org.is_allowed_to(pytitionuser, "can_modify_permissions"):
+            messages.error(request, _("You don't have the permission to transfer a petition from Organization '{}'"
+                                      .format(petition.owner)))
+            return redirect("org_dashboard", petition.owner)
+
+    if petition.owner_type == "org":
+        ctx['base_template'] = 'petition/org_base.html'
+    else:
+        ctx['base_template'] = 'petition/user_base.html'
+
+    if request.method == "GET":
+        return render(request, "petition/transfer_petition.html", ctx)
+
+    if request.method == "POST":
+        owner_type = request.POST.get('new_owner_type', '')
+        new_owner_name = request.POST.get('new_owner_name', '')
+        org = None
+        user = None
+        notFound = False
+        if owner_type == '' or new_owner_name == '':
+            messages.error(request, _("Incorrect request, something went wrong."))
+            return redirect(request, "petition/transfer_petition.html", ctx)
+        if owner_type == "org":
+            try:
+                org = Organization.objects.get(slugname=new_owner_name)
+            except:
+                notFound = True
+        if owner_type == "user":
+            try:
+                user = PytitionUser.objects.get(user__username=new_owner_name)
+            except:
+                notFound = True
+
+        if notFound:
+            messages.error(request, _("You tried to transfer a petition to a non-exiting account"))
+            return redirect("transfer_petition", petition.id)
+
+        try:
+            petition.transfer_to(user, org)
+            messages.success(request, _("Petition successfully transfered!"))
+            return redirect("user_dashboard")
+        except ValueError:
+            messages.error(request, _("Something went wrong while transferring this petition."))
+            return redirect("transfer_petition", petition.id)
+
+
+@login_required
+def search_users_and_orgs(request):
+    query = request.GET.get('q', '')
+    if query != "":
+        users = PytitionUser.objects.filter(Q(user__username__contains=query) | Q(user__first_name__icontains=query) |
+                                            Q(user__last_name__icontains=query)).all()
+        orgs = Organization.objects.filter(name__icontains=query).all()
+    else:
+        users = []
+        orgs = []
+
+    result = {
+        "orgs": [{'slugname': org.slugname,
+                  'name': org.name} for org in orgs],
+        "users": [{'username': user.user.username,
+                   'firstname': user.user.first_name,
+                   'lastname': user.user.last_name} for user in users]
+    }
+    return JsonResponse(result)

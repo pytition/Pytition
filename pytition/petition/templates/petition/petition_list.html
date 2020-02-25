@@ -67,6 +67,10 @@
              title="{% trans "View signatures" %}" aria-disabled="true">
               <span class="oi oi-spreadsheet"></span>
             </a>
+            <a href="{% url "transfer_petition" petition.id %}" class="btn btn-outline-primary btn-sm" data-toggle="tooltip"
+             title="{% trans "Transfer this petition" %}" aria-disabled="true">
+              <span class="oi oi-share-boxed"></span>
+            </a>
             <span data-toggle="tooltip" title="{% trans "Delete the petition" %}">
               <button class="btn btn-outline-danger btn-sm"
                     id="btn_petition_delete"

@@ -199,6 +199,19 @@ class Petition(models.Model):
     paper_signatures = models.IntegerField(default=0)
     paper_signatures_enabled = models.BooleanField(default=False)
 
+    def transfer_to(self, user=None, org=None):
+        if user is None and org is None:
+            raise ValueError("You should specify either an org or a user when transferring a petition")
+        if user is not None and org is not None:
+            raise ValueError("You cannot specify both a user and an org to transfer a petition to")
+        if user:
+            self.user = user
+            self.org = None
+        if org:
+            self.org = org
+            self.user = None
+        self.save()
+
     def prepopulate_from_template(self, template, fields=None):
         if fields is None:
             fields = [f.name for f in self._meta.fields if f.name not in ["id", "title", "salt", "user", "org"]]
