@@ -224,9 +224,10 @@ SIGNATURE_THROTTLE = 5 # 5 signatures from same IP allowed
 SIGNATURE_THROTTLE_TIMING = 60*60*24 # in a 1 day time frame
 
 LANGUAGES = [
-    ('en', 'English'),
-    ('fr', 'Français'),
-    ('oc', 'Occitan'),
+    ('en', gettext_lazy('English')),
+    ('es', gettext_lazy('Spanish')),
+    ('fr', gettext_lazy('French')),
+    ('oc', gettext_lazy('Occitan')),
 ]
 
 EXTRA_LANG_INFO = {
