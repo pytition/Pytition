@@ -351,5 +351,9 @@ function set_mce_changed(ed) {
     $(ed.formElement).data('mce_changed', true);
 }
 
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+function get_csrf_token() {
+    return csrftoken;
+}
 </script>
 {% endblock %}

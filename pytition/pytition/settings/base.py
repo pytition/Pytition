@@ -193,6 +193,37 @@ TINYMCE_DEFAULT_CONFIG = {
     'entity_encoding': 'raw',
     'relative_urls' : False,
     'convert_urls': True,
+    'file_picker_types': 'image',
+    'automatic_uploads': True,
+    'images_upload_url': '/petition/image_upload',
+    'image_upload_credentials': True,
+    'images_upload_handler': """function(blobInfo, success, failure) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/petition/image_upload');
+        xhr.setRequestHeader('X-CSRFTOKEN', get_csrf_token()); // manually set header
+    
+        xhr.onload = function() {
+            if (xhr.status !== 200) {
+                failure('HTTP Error: ' + xhr.status);
+                return;
+            }
+    
+            let json = JSON.parse(xhr.responseText);
+    
+            if (!json || typeof json.location !== 'string') {
+                failure('Invalid JSON: ' + xhr.responseText);
+                return;
+            }
+    
+            success(json.location);
+        };
+    
+        let formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+    
+        xhr.send(formData);
+        }
+    """,
     'setup': """function(ed) {
        ed.on('change', function(e) {
             set_mce_changed(ed);

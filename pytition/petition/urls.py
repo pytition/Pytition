@@ -58,4 +58,6 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', CreateView.as_view(template_name='registration/register.html', form_class=PytitionUserCreationForm, success_url=reverse_lazy("login")), name="register"),
     path('account_settings', views.account_settings, name="account_settings"),
+    # Misc
+    path('image_upload', views.image_upload, name="image_upload"),
 ]

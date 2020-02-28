@@ -1,6 +1,7 @@
 import csv
 import time
 from datetime import timedelta
+import os
 
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
@@ -18,6 +19,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.timezone import now
+from django.core.files.storage import FileSystemStorage
 
 from formtools.wizard.views import SessionWizardView
 
@@ -1506,3 +1508,22 @@ def del_slug(request, petition_id):
         else:
             return redirect("user_dashboard")
     return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
+
+
+@login_required
+def image_upload(request):
+    pytitionuser = get_session_user(request)
+
+    if request.method != "POST":
+        return HttpResponseForbidden()
+
+    file = request.FILES.get('file', '')
+    if file == '':
+        return HttpResponseForbidden()
+
+    storage = FileSystemStorage()
+    path = os.path.join(storage.location, pytitionuser.username, file.name)
+    name = storage._save(path, file)
+    newrelpath = os.path.relpath(name, storage.location)
+
+    return JsonResponse({'location': storage.base_url + newrelpath})
