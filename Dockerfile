@@ -1,9 +1,10 @@
-FROM python:3
+FROM python:3.8
 ENV PYTHONUNBUFFERED 1
 ENV USE_POSTGRESQL 1
 
-RUN apt-get -y update
-RUN apt-get install -y gettext
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y gettext && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /code
 WORKDIR /code
