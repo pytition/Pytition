@@ -7,37 +7,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2020-02-23 20:04+0100\n"
+"PO-Revision-Date: 2020-03-07 11:08+0000\n"
+"Last-Translator: ButterflyOfFire <butterflyoffire@protonmail.com>\n"
+"Language-Team: Arabic <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 3.11.2\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:75
 #: pytition/petition/models.py:469
 msgid "Name"
-msgstr ""
+msgstr "الإسم"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
-msgstr ""
+msgstr "عدد العرائض"
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
-msgstr ""
+msgstr "عدد الأعضاء"
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
-msgstr ""
+msgstr "خطأ: {}"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "تأكيد التوقيعات"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
@@ -625,7 +627,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:12
 msgid "Change Password"
-msgstr ""
+msgstr "تغيير الكلمة السرية"
 
 #: pytition/petition/templates/petition/account_settings.html:13
 #: pytition/petition/templates/petition/account_settings.html:41
@@ -644,7 +646,7 @@ msgstr ""
 #: pytition/petition/templates/petition/account_settings.html:31
 #: pytition/petition/templates/petition/account_settings.html:35
 msgid "Change password"
-msgstr ""
+msgstr "تغيير الكلمة السرية"
 
 #: pytition/petition/templates/petition/account_settings.html:63
 msgid ""
@@ -702,7 +704,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/confirmation_email.html:17
 msgid "See you soon!"
-msgstr ""
+msgstr "إلى اللقاء!"
 
 #: pytition/petition/templates/petition/edit_petition.html:28
 msgid "Petition settings"
@@ -923,7 +925,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/org_invite_user.html:10
 msgid "Username"
-msgstr ""
+msgstr "إسم المستخدم"
 
 #: pytition/petition/templates/petition/org_member_list.html:3
 msgid "Members"
@@ -1324,7 +1326,7 @@ msgstr ""
 
 #: pytition/petition/templates/registration/login.html:36
 msgid "I forgot my password!"
-msgstr ""
+msgstr "لقد نسيتُ كلمتي السرية!"
 
 #: pytition/petition/templates/registration/password_reset_done.html:4
 msgid "Email Sent"
@@ -1342,11 +1344,11 @@ msgstr ""
 
 #: pytition/petition/templates/registration/password_reset_form.html:4
 msgid "Forgot Your Password?"
-msgstr ""
+msgstr "هل نسيت كلمتك السرية؟"
 
 #: pytition/petition/templates/registration/password_reset_form.html:10
 msgid "Forgot your password?"
-msgstr ""
+msgstr "هل نسيت كلمتك السرية؟"
 
 #: pytition/petition/templates/registration/password_reset_form.html:11
 msgid ""
@@ -1456,7 +1458,7 @@ msgstr ""
 #: pytition/petition/views.py:398
 #, python-brace-format
 msgid "You invited {username} to join {orgname}"
-msgstr ""
+msgstr "لقد قمتَ بدعوة {username} للإنظمام إلى {orgname}"
 
 #: pytition/petition/views.py:467 pytition/petition/views.py:721
 #: pytition/petition/views.py:804 pytition/petition/views.py:1000
@@ -1512,7 +1514,7 @@ msgstr ""
 #: pytition/petition/views.py:763
 #, python-brace-format
 msgid "The user '{username}' is not member of this organization ({orgname})."
-msgstr ""
+msgstr "إنّ المستخدم '{username}' ليس عضوا في هذه المنظمة ({orgname})."
 
 #: pytition/petition/views.py:771
 msgid ""
@@ -1612,7 +1614,7 @@ msgstr ""
 
 #: pytition/petition/views.py:1354
 msgid "You successfully changed your password!"
-msgstr ""
+msgstr "لقد قمت بتعديل كلمتك السرية بنجاح!"
 
 #: pytition/petition/views.py:1402
 msgid "You successfully created organization '{}'"
