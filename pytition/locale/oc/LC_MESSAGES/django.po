@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: 2020-02-26 12:08+0000\n"
+"PO-Revision-Date: 2020-03-08 12:08+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -1154,10 +1154,8 @@ msgid "View signatures"
 msgstr "Veire las signaturas"
 
 #: pytition/petition/templates/petition/petition_list.html:71
-#, fuzzy
-#| msgid "To whom is this petition?"
 msgid "Transfer this petition"
-msgstr "A qual aparten aquesta peticion ?"
+msgstr "Transferir aquesta peticion"
 
 #: pytition/petition/templates/petition/petition_list.html:74
 msgid "Delete the petition"
@@ -1267,71 +1265,39 @@ msgid "Close"
 msgstr "Tancar"
 
 #: pytition/petition/templates/petition/transfer_petition.html:9
-#, fuzzy
-#| msgid "Create a petition"
 msgid "Transfer petition"
-msgstr "Crear una peticion"
+msgstr "Transferir la peticion"
 
 #: pytition/petition/templates/petition/transfer_petition.html:15
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "            Do you really want to delete petition '%(title)s'\n"
-#| "          "
 msgid "You are going to transfer this petition to someone else:"
-msgstr ""
-"\n"
-"            Volètz vertadièrament suprimir la peticion '%(title)s'\n"
-"          "
+msgstr "Sètz per transferir aquesta peticion a qualqu’un mai :"
 
 #: pytition/petition/templates/petition/transfer_petition.html:26
 msgid ""
 "Enter the name of the user or organization you want to give the petition to:"
 msgstr ""
+"Dintratz lo nom d’utilizaire o de l’organizacion a qui volètz donar aquesta "
+"peticion :"
 
 #: pytition/petition/templates/petition/transfer_petition.html:27
-#, fuzzy
-#| msgid "New Organization"
 msgid "User or Organization name"
-msgstr "Nòva organizacion"
+msgstr "Nom d’utilizaire o d’organizacion"
 
 #: pytition/petition/templates/petition/transfer_petition.html:40
-#, fuzzy
-#| msgid "To whom is this petition?"
 msgid "Transfer this petition?"
-msgstr "A qual aparten aquesta peticion ?"
+msgstr "Transferir aquesta peticion ?"
 
 #: pytition/petition/templates/petition/transfer_petition.html:46
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "            Do you really want to delete petition '%(title)s'\n"
-#| "          "
 msgid "Do you really want to transfer the following petition?"
-msgstr ""
-"\n"
-"            Volètz vertadièrament suprimir la peticion '%(title)s'\n"
-"          "
+msgstr "Volètz vertadièrament transferir la peticion seguenta ?"
 
 #: pytition/petition/templates/petition/transfer_petition.html:54
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "              %(signature_number)s signature\n"
-#| "            "
-#| msgid_plural ""
-#| "\n"
-#| "              %(signature_number)s signatures\n"
-#| "            "
 msgid "It will be transfered to:"
-msgstr ""
-"\n"
-"              %(signature_number)s signatura\n"
-"            "
+msgstr "Serà transferida a :"
 
 #: pytition/petition/templates/petition/transfer_petition.html:63
 msgid "Transfer"
-msgstr ""
+msgstr "Transferir"
 
 #: pytition/petition/templates/petition/user_base.html:28
 msgid "Your public profile"
@@ -1849,24 +1815,19 @@ msgid "Successful deletion of a slug"
 msgstr "Permaligam suprimit corrèctament"
 
 #: pytition/petition/views.py:1539
-#, fuzzy
-#| msgid "Petition does not exist"
 msgid "This petition does not exist."
-msgstr "La peticion existís pas"
+msgstr "Aquesta peticion existís pas."
 
 #: pytition/petition/views.py:1548
-#, fuzzy
-#| msgid ""
-#| "You don't have the permission to create a new petition in this "
-#| "Organization"
 msgid ""
 "You don't have the permission to transfer a petition from Organization '{}'"
 msgstr ""
-"Avètz pas l’autorizacion de crear una nòva peticion dins aquesta organizacion"
+"Avètz pas l’autorizacion de transferir una peticion dins l’organizacion « {] "
+"»"
 
 #: pytition/petition/views.py:1562
 msgid "Incorrect request, something went wrong."
-msgstr ""
+msgstr "Requèsta incorrècta, quicòm a trucat."
 
 #: pytition/petition/views.py:1576
 #, fuzzy
@@ -1878,10 +1839,8 @@ msgstr ""
 "Avètz pas l’autorizacion de crear una nòva peticion dins aquesta organizacion"
 
 #: pytition/petition/views.py:1581
-#, fuzzy
-#| msgid "Permissions successfully changed!"
 msgid "Petition successfully transfered!"
-msgstr "Cambiament d’autorizacion corrèctament realizat !"
+msgstr "Peticion corrèctament transferida !"
 
 #: pytition/petition/views.py:1584
 #, fuzzy
@@ -1891,15 +1850,15 @@ msgstr "O planhèm, avèm pas trobat aquesta peticion"
 
 #: pytition/pytition/settings/base.py:259
 msgid "English"
-msgstr ""
+msgstr "Anglés"
 
 #: pytition/pytition/settings/base.py:260
 msgid "Spanish"
-msgstr ""
+msgstr "Espanhòl"
 
 #: pytition/pytition/settings/base.py:261
 msgid "French"
-msgstr ""
+msgstr "Francés"
 
 #: pytition/pytition/settings/base.py:262
 msgid "Occitan"
