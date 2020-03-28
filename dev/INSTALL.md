@@ -10,7 +10,7 @@ $ source pytition_venv/bin/activate
 (pytition_venv) $ pip3 install -r requirements.txt
 ```
 
-### Configure pytition/pytition/pytition/settings.py:
+### Configure pytition/pytition/pytition/settings/base.py:
 
 In a production environment you should modify the following settings:
 * SECRET_KEY => put YOUR value, it's important for security.
@@ -40,7 +40,7 @@ default-character-set = utf8
 Then tell Django to use those credentials on settings.py:
 
 ```python
-~/www/pytition$ grep -A 8 DATABASE ./pytition/pytition/settings.py
+~/www/pytition$ grep -A 8 DATABASE ./pytition/pytition/settings/base.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
