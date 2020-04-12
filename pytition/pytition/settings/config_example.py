@@ -45,7 +45,7 @@ STATIC_URL = '/static/'
 #:| This will tell Django what database engine you want to use (supported ones are listed there: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASE-ENGINE)
 #:| It will also give parameters like user/password credentials, server host/port etc.
 #:
-#: ..seealso:: Details on how to set this up are available in Django documentation: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES
+#: .. seealso:: Details on how to set this up are available in Django documentation: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES
 #:
 #: In the following example, credentials are in my.cnf file::
 #:
