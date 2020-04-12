@@ -1,4 +1,4 @@
-[![Build Status](http://jenkins.sionneau.net:8080/buildStatus/icon?job=Pytition/master)](http://jenkins.sionneau.net:8080/job/Pytition/job/master/) [![Coverage status](https://img.shields.io/jenkins/coverage/cobertura/http/jenkins.sionneau.net:8080/job/Pytition/job/master.svg)](http://jenkins.sionneau.net:8080/job/Pytition/job/master/lastBuild/cobertura/)
+[![Build Status](http://jenkins.sionneau.net:8080/buildStatus/icon?job=Pytition/master)](http://jenkins.sionneau.net:8080/job/Pytition/job/master/) [![Coverage status](https://img.shields.io/jenkins/coverage/cobertura/http/jenkins.sionneau.net:8080/job/Pytition/job/master.svg)](http://jenkins.sionneau.net:8080/job/Pytition/job/master/lastBuild/cobertura/) [![Documentation Status](https://readthedocs.org/projects/pytition/badge/?version=latest)](https://pytition.readthedocs.io/en/latest/?badge=latest)
 
 # Pytition
 
