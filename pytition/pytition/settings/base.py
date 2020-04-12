@@ -20,17 +20,7 @@ from django.utils.translation import gettext_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lbkzn($sn*oi!azcw022%=o+av8+iqjl&^q3gy)$j&r68qh^-4'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '[::1]']
-
 
 # Application definition
 
@@ -91,30 +81,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pytition.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/home/petition/www/my.cnf',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
-}
-
 if os.environ.get('USE_POSTGRESQL'):
     from .pgsql import DATABASES
 
-# Set USE_MAIL_QUEUE to True if you want email sending to retry upon failure
-# email transmition naturally have retries *if the first SMTP server accepts it*
-# If your smtp server refuses to handle the email (anti-flood throttle?) then it
-# is up to you to retry, and this is what the mail queue does for you.
-# This is especially needed if you don't own the first-hop SMTP server
-# and cannot configure it to always accept your emails regardless of the sending
-# frequency.
+#:| Set it to ``True`` if you want email sending to retry upon failure.
+#:| Email transmition naturally have retries *if the first SMTP server accepts it*
+#:| If your SMTP server refuses to handle the email (anti-flood throttle?) then it
+#:| is up to you to retry, and this is what the mail queue does for you.
+#:| This is especially needed if you don't own the first-hop SMTP server
+#:| and cannot configure it to always accept your emails regardless of the sending
+#:| frequency.
+#:| It is **HIGHLY** recommended to set this to ``True``.
+#:| If you chose to use the mail queue, you must also either
+#:
+#: * set a cron job (automatic task execution), or
+#: * serve the Django app through uwsgi (recommended setup)
 USE_MAIL_QUEUE = False
 
 # email backend
@@ -163,8 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -231,15 +210,25 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 TINYMCE_INCLUDE_JQUERY = True
 
+#:| The name of your Pytition instance.
 SITE_NAME = "Pytition"
+
+#:| Whether you want to allow anyone to create an account and host petitions
+#:| on your Pytition instance.
+#:| Set it to ``False`` for a private instance.
+#:| Set it to ``True`` for a public instance.
 ALLOW_REGISTER = True
+
 LOGIN_REDIRECT_URL = reverse_lazy("user_dashboard")
 DEFAULT_INDEX_THUMBNAIL = "/img/petition_icon.svg"
 
-# Leave it set to None for no footer
-# This should contain the relative path to your footer template
-# That would be the location for any "legal mention" / "GDPR" / "TOS" link.
-#FOOTER_TEMPLATE = 'layouts/footer.html.example'
+#:| Leave it set to None for no footer.
+#:| This should contain the relative path to your footer template.
+#:| That would be the location for any "legal mention" / "GDPR" / "TOS" link.
+#:
+#: Example::
+#:
+#:   FOOTER_TEMPLATE = 'layouts/footer.html.example'
 FOOTER_TEMPLATE = None
 
 #INDEX_PAGE_ORGA = "RAP"
