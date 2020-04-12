@@ -19,9 +19,23 @@ password = pytition
 default-character-set = utf8
 ENDOFFILE
 
-echo "Updating settings to use your my.cnf"
+echo "Generating a basic config file"
 
-sed -i -e "s@/home/petition/www/@$PWD/@" pytition/pytition/settings/base.py
+echo "from .base import *" > pytition/pytition/settings/config.py
+echo "SECRET_KEY = '$(python3 -c "from django.core.management.utils import get_random_secret_key as g; print(g())")'" >> pytition/pytition/settings/config.py
+cat <<EOT >> pytition/pytition/settings/config.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '$PWD/my.cnf',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+    }
+}
+EOT
+
+export DJANGO_SETTINGS_MODULE=pytition.settings.config
 
 echo "Running database migrations"
 
