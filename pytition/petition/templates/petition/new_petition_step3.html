@@ -3,8 +3,10 @@
 {% load widget_tweaks %}
 {% load petition_extras %}
 {% load static %}
+{% load media_csp %}
+
 {% block media %}
-    {{ form.media }}
+    {% media_csp form %}
 {% endblock %}
 
 {% block wizard_content %}
@@ -53,8 +55,8 @@
 
 {% block extrajs %}
     {{ block.super }}
-    <script type="text/javascript" src="{%  static 'vendor/smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="{%  static 'vendor/smartwizard/dist/js/jquery.smartWizard.min.js' %}" nonce="{{request.csp_nonce}}"></script>
+    <script type="text/javascript" nonce="{{request.csp_nonce}}">
     $(document).ready(function(){
       $('#smartwizard').smartWizard({
                                     theme: 'arrows',

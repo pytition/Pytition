@@ -50,8 +50,8 @@ content="{{ petition.raw_twitter_description|safe }}"/>
 {% endblock %}
 
 {% block extracss %}
-<link href="{% static "css/petition.css" %}" rel="stylesheet" type="text/css">
-<style type="text/css">
+<link href="{% static "css/petition.css" %}" rel="stylesheet" type="text/css" nonce="{{ request.csp_nonce }}">
+<style type="text/css" nonce="{{request.csp_nonce}}">
 {% if petition.bgcolor != "#FFFFFF" %}
 body {
   background-color: {{ petition.bgcolor }};
@@ -66,7 +66,7 @@ body {
 {% endblock %}
 
 {% block extrajshead %}
-<script>
+<script nonce="{{request.csp_nonce}}">
 dataLayer = [];
 </script>
 {% endblock %}
@@ -169,7 +169,7 @@ dataLayer = [];
               </form>
             </div>
             <div class="reassurance" id="reassurance">
-              <p style="text-align:justify">
+              <p>
                 {{ petition.sign_form_footer }}
               </p>
             </div>
@@ -186,7 +186,7 @@ dataLayer = [];
 {% endblock main_content %}
 
 {% block extrajs %}
-<script type="text/javascript" src="{% static "js/petition.js" %}"></script>
+<script type="text/javascript" src="{% static "js/petition.js" %}" nonce="{{request.csp_nonce}}"></script>
 {% endblock %}
 
 {% block footer %}

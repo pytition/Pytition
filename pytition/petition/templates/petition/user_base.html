@@ -34,7 +34,7 @@
 
 {% block extrajs %}
 {{ block.super }}
-<script>
+<script nonce="{{request.csp_nonce}}">
   {% include "petition/user.js" %}
 </script>
 {% endblock %}
