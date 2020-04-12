@@ -41,6 +41,10 @@ echo "Running database migrations"
 
 cd pytition && python3 ./manage.py migrate && cd -
 
+echo "Generating documentation"
+
+cd doc && make html && cd -
+
 echo "Running tests"
 
 coverage erase
