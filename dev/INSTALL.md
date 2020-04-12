@@ -10,8 +10,11 @@ $ source pytition_venv/bin/activate
 (pytition_venv) $ pip3 install -r requirements.txt
 ```
 
-### Configure pytition/pytition/pytition/settings/base.py:
+### Configure pytition/pytition/pytition/settings/config.py:
 
+First copy `pytition/pytition/pytition/settings/config_example.py` to `pytition/pytition/pytition/settings/config.py`
+
+Then you can modify `pytition/pytition/pytition/settings/config.py`.
 In a production environment you should modify the following settings:
 * SECRET_KEY => put YOUR value, it's important for security.
 * DEBUG => False
@@ -75,6 +78,7 @@ WSGIPythonPath /home/YOUR_USER/www/pytition/pytition
 <VirtualHost *:80>
 ServerName petition.yourdomain.tld
 WSGIScriptAlias / /home/YOUR_USER/www/pytition/pytition/pytition/wsgi.py
+SetEnv DJANGO_SETTINGS_MODULE pytition.settings.config
 
 Alias /static /home/YOUR_USER/www/static
 
