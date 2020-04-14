@@ -8,39 +8,41 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-04-15 07:08+0000\n"
+"Last-Translator: Andrea Prejano <preja81@gmail.com>\n"
+"Language-Team: Italian <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.11.2\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:75
 #: pytition/petition/models.py:469
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
-msgstr ""
+msgstr "Numero di petizioni"
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
-msgstr ""
+msgstr "Numero di partecipanti"
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
-msgstr ""
+msgstr "Errore"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "Conferma la firma"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
-msgstr ""
+msgstr "Rinvia email di conferma"
 
 #: pytition/petition/admin.py:85 pytition/petition/admin.py:225
 msgid ""
@@ -48,17 +50,20 @@ msgid ""
 "gradient color. If not, the background color will be a monochrome background "
 "color."
 msgstr ""
+"Questo è un colore sfumato, disponibile (qualora selezionato) come colore di "
+"sfondo. In caso contrario lo sfondo sarà monocromatico."
 
 #: pytition/petition/admin.py:86 pytition/petition/admin.py:87
 #: pytition/petition/admin.py:226 pytition/petition/admin.py:227
 msgid "Only used if gradient is selected"
-msgstr ""
+msgstr "Attivo solo se avete selezionato l'opzione \"sfumato\""
 
 #: pytition/petition/admin.py:88 pytition/petition/admin.py:228
 msgid ""
 "Put a bullet point list of links, it will appear horizontally in the page "
 "footer"
 msgstr ""
+"Inserire un elenco puntato di link; apparirà in orizzontale a piè di pagina"
 
 #: pytition/petition/admin.py:89 pytition/petition/admin.py:229
 msgid ""
@@ -67,6 +72,10 @@ msgid ""
 "https://cards-dev.twitter.com/validator and https://developers.facebook.com/"
 "tools/debug/"
 msgstr ""
+"Questa è la descrizione della petizione che apparirà sulle cards Twitter/"
+"Facebook qualora il link venga pubblicato sui social network. Test su https"
+"://cards-dev.twitter.com/validator e https://developers.facebook.com/tools/"
+"debug/"
 
 #: pytition/petition/admin.py:90 pytition/petition/admin.py:230
 msgid ""
@@ -74,11 +83,16 @@ msgid ""
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
 "and https://developers.facebook.com/tools/debug/"
 msgstr ""
+"Immagine che apparirà sulle cards Twitter/Facebook qualora il link venga "
+"pubblicato sui social network. Test su https://cards-dev.twitter.com/"
+"validator e https://developers.facebook.com/tools/debug/"
 
 #: pytition/petition/admin.py:91 pytition/petition/admin.py:231
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
+"Permette di scegliere se mostrare o meno la casella da spuntare per "
+"l'iscrizione alla newsletter"
 
 #: pytition/petition/admin.py:92 pytition/petition/admin.py:232
 msgid ""
@@ -92,6 +106,16 @@ msgid ""
 "                    'your-email': ''<br>\n"
 "                    }"
 msgstr ""
+"Solo in caso di iscrizione alla newsletter con metodi HTTP POST o GET. "
+"Inserire qui i dati da inviare, utilizzando la sintassi dei dizionari "
+"Python. Es: <br>\n"
+"                    {'_wpcf7': 21,<br>\n"
+"                    '_wpcf7_version': '4.9',<br>\n"
+"                    '_wpcf7_locale': 'fr_FR',<br>\n"
+"                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',<br>\n"
+"                    '_wpcf7_container_post': '5398',<br>\n"
+"                    'your-email': ''<br>\n"
+"                    }"
 
 #: pytition/petition/admin.py:100 pytition/petition/admin.py:240
 msgid ""
@@ -99,12 +123,18 @@ msgid ""
 "send via GET or POST, containing the email address to subscribe. Following "
 "the example of preceding form field, that would be 'your-email'"
 msgstr ""
+"Solo quando si utilizzano i metodi di iscrizione HTTP POST o GET. Nome del "
+"campo da inviare via GET o POST, che contiene l'indirizzo email che si "
+"desidera iscrivere. Con riferimento all'esempio del campo precedente, "
+"sarebbe \"your-email\""
 
 #: pytition/petition/admin.py:101 pytition/petition/admin.py:241
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Adresse HTTP à "
 "requêter via GET ou POST pour enregistrer quelqu'un sur la newsletter"
 msgstr ""
+"Solo quando si utilizzano i metodi di iscrizione HTTP POST o GET. Richiedere "
+"indirizzo HTTP via GET o POST per iscrivere qualcuno sulla newsletter"
 
 #: pytition/petition/admin.py:102 pytition/petition/admin.py:242
 msgid ""
@@ -113,6 +143,10 @@ msgid ""
 "la place où le mail du signataire doit être inséré. Ex: 'ADD NOM_LISTE {} "
 "NOM_SIGNATAIRE'"
 msgstr ""
+"Solo quando si usa il metodo di iscrizione EMAIL. Inserire qui la sintassi "
+"del soggetto dell'email che permette di iscrivere qualcuno alla newsletter. "
+"Indicate {} al posto dell'indirizzo email del firmatario da inserire. Ex: "
+"'ADD NOME_LISTA {} NOME_FIRMATARIO'"
 
 #: pytition/petition/admin.py:103 pytition/petition/admin.py:243
 msgid ""
@@ -120,18 +154,26 @@ msgid ""
 "d'enregistrer quelqu'un à la newsletter. Il s'agit généralement d'une "
 "adresse qui est administratrice de la liste SYMPA ou MAILMAN"
 msgstr ""
+"Solo quando si usa il metodo di iscrizione EMAIL. Il mittente dell'email che "
+"permette di iscrivere qualcuno alla newsletter. Normalmente si tratta di un "
+"indirizzo amministratore della lista SYMPA o MAILMAN"
 
 #: pytition/petition/admin.py:104 pytition/petition/admin.py:244
 msgid ""
 "Only when EMAIL subscription method is used. Adresse email d'administration "
 "de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
 msgstr ""
+"Solo quando si usa il metodo di iscrizione EMAIL. Indirizzo email "
+"dell'amministratore della lista, es: sympa@NOME_LISTA.listes.vox.coop"
 
 #: pytition/petition/admin.py:105 pytition/petition/admin.py:245
 msgid ""
 "This selects the newsletter subscription method. It is either HTTP GET or "
 "POST or via sending EMAIL to the newsletter admin address"
 msgstr ""
+"Permette di scegliere il metodo di iscrizione alla newsletter: HTTP GET, "
+"POST, o attraverso invio di EMAIL all'indirizzo dell'amministratore della "
+"newsletter"
 
 #: pytition/petition/admin.py:106 pytition/petition/admin.py:246
 msgid ""
@@ -139,10 +181,14 @@ msgid ""
 "everybody. If not checked, the petition is only accessible by logged in "
 "users, others will get a 404 error."
 msgstr ""
+"Se spuntata, la petizione sarà pubblicata sul sito e accessibile a tutti. Se "
+"non spuntata, la petizione sarà accessibile ai soli utenti registrati; gli "
+"altri vedranno un errore 404."
 
 #: pytition/petition/admin.py:107 pytition/petition/admin.py:247
 msgid "E.g.: I want to receive updates or informations from this organization."
 msgstr ""
+"Es.: Desidero ricevere aggiornamenti e informazioni da questa organizzazione."
 
 #: pytition/petition/admin.py:108 pytition/petition/admin.py:248
 msgid ""
@@ -151,6 +197,11 @@ msgid ""
 "well as other news about this organization will be sent to you if you "
 "checked the checkbox. You can unsubscribe at any moment."
 msgstr ""
+"Es.: I vostri dati rimarranno strettamente confidenziali e non saranno "
+"venduti, ceduti o scambiati con terze parti. Se spuntate la casella "
+"riceverete ulteriori informazioni su questa campagna ed aggiornamenti su "
+"questa organizzazione. Potete cancellare l'iscrizione alla newsletter in "
+"qualsiasi momento."
 
 #: pytition/petition/admin.py:109 pytition/petition/admin.py:249
 msgid ""
