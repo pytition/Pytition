@@ -98,18 +98,6 @@ if os.environ.get('USE_POSTGRESQL'):
 #: * serve the Django app through uwsgi (recommended setup)
 USE_MAIL_QUEUE = False
 
-# email backend
-# Only supported configurations:
-# - [default] no mailer backend, emails are sent synchronously with no retry if sending fails
-# - mailer backend used with uwsgi without cron jobs (USE_MAIL_QUEUE=True)
-# - mailer backend used without uwsgi with cron jobs (USE_MAIL_QUEUE=True, MAIL_EXTERNAL_CRON_SET=True)
-# Note: if MAIL_EXTERNAL_CRON_SET is set, the responsability to setup external cron job to send mail is up to the administrator.
-# If none are set, the emails will never be send!
-if USE_MAIL_QUEUE:
-    INSTALLED_APPS += ('mailer',)
-    # this enable mailer by default in django.send_email
-    EMAIL_BACKEND = "mailer.backend.DbBackend"
-
 # set it to True if you use the 'mailer' backend, and a external Crontab has been set
 MAIL_EXTERNAL_CRON_SET = False
 
@@ -261,6 +249,3 @@ django.conf.locale.LANG_INFO = LANG_INFO
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
 MEDIA_URL = "/mediaroot/"
-
-if DEFAULT_INDEX_THUMBNAIL == "":
-    print("Please set a default index thumbnail or your index page will not be very beautiful")
