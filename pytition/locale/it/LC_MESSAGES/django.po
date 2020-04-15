@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: 2020-04-15 07:08+0000\n"
+"PO-Revision-Date: 2020-04-16 10:08+0000\n"
 "Last-Translator: Andrea Prejano <preja81@gmail.com>\n"
 "Language-Team: Italian <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/it/>\n"
@@ -144,7 +144,7 @@ msgid ""
 "NOM_SIGNATAIRE'"
 msgstr ""
 "Solo quando si usa il metodo di iscrizione EMAIL. Inserire qui la sintassi "
-"del soggetto dell'email che permette di iscrivere qualcuno alla newsletter. "
+"dell'oggetto dell'email che permette di iscrivere qualcuno alla newsletter. "
 "Indicate {} al posto dell'indirizzo email del firmatario da inserire. Ex: "
 "'ADD NOME_LISTA {} NOME_FIRMATARIO'"
 
@@ -210,137 +210,151 @@ msgid ""
 "'Twitter Card' to the correct account. See https://developer.twitter.com/en/"
 "docs/tweets/optimize-with-cards/overview/summary"
 msgstr ""
+"Il nome utente Twitter dell'organizzazione, che comincia con il simbolo '@'. "
+"Es.: @RAP_Asso. È necessario per attribuire la 'Twitter Card' al giusto "
+"account. Vedi https://developer.twitter.com/en/docs/tweets/"
+"optimize-with-cards/overview/summary"
 
 #: pytition/petition/admin.py:110 pytition/petition/admin.py:250
 msgid "Check if you want to use your own E-Mail SMTP account."
-msgstr ""
+msgstr "Spuntate se volete usare il vostro server SMTP."
 
 #: pytition/petition/admin.py:111 pytition/petition/admin.py:251
 msgid "e.g.: petition@mydomain.tld"
-msgstr ""
+msgstr "Es.: petition@mydomain.tld"
 
 #: pytition/petition/admin.py:112 pytition/petition/admin.py:252
 msgid "If you don't have a real email account, leave 'localhost'."
-msgstr ""
+msgstr "Se non avete un vero indirizzo email, lasciate 'localhost'."
 
 #: pytition/petition/admin.py:113 pytition/petition/admin.py:253
 msgid ""
 "25 for cleartext connection, 587 for STARTTLS, 465 for TLS. Prefer TLS if "
 "the email server supports it."
 msgstr ""
+"25 per une connessione in chiaro (non criptata), 587 per STARTTLS, 465 per "
+"TLS. Scelta consigliata: TLS (se il server di posta lo supporta)."
 
 #: pytition/petition/admin.py:114 pytition/petition/admin.py:115
 #: pytition/petition/admin.py:254 pytition/petition/admin.py:255
 msgid "Leave empty if you don't use any account autentication."
-msgstr ""
+msgstr "Lasciare campo vuoto se non usate un'autenticazione per l'account."
 
 #: pytition/petition/admin.py:116 pytition/petition/admin.py:256
 msgid ""
 "SMTP connection encrypted via TLS, prefer this rather than STARTTLS if "
 "possible. Don't check both. The 2 settings are mutually exclusive."
 msgstr ""
+"Scelta consigliata: connessione criptata via TLS piuttosto che STARTTLS (se "
+"possibile). Selezionare una sola opzione."
 
 #: pytition/petition/admin.py:117 pytition/petition/admin.py:257
 msgid ""
 "Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas "
 "cocher les 2. Les 2 réglages sont mutuellement exclusifs."
 msgstr ""
+"Scelta consigliata: TLS (piuttosto che la connessione criptata SMTP via "
+"STARTTLS). Selezionare una sola opzione."
 
 #: pytition/petition/admin.py:120
 msgid "Petition title"
-msgstr ""
+msgstr "Titolo della petizione"
 
 #: pytition/petition/admin.py:121 pytition/petition/admin.py:261
 msgid "Petition text"
-msgstr ""
+msgstr "Testo della petizione"
 
 #: pytition/petition/admin.py:122 pytition/petition/admin.py:262
 msgid "Side text, on top of form"
-msgstr ""
+msgstr "Testo a lato, sopra il modulo"
 
 #: pytition/petition/admin.py:123 pytition/petition/admin.py:263
 msgid "Signature target number"
-msgstr ""
+msgstr "Numero di firme da raggiungere"
 
 #: pytition/petition/admin.py:124
 msgid "Number of paper (or other external medium) signatures"
-msgstr ""
+msgstr "Numero di firme cartacee (o altri media esterni)"
 
 #: pytition/petition/admin.py:125
 msgid "Enable paper signatures accounting"
-msgstr ""
+msgstr "Attiva conteggio di firme cartacee"
 
 #: pytition/petition/admin.py:126 pytition/petition/admin.py:264
 msgid "Direction of linear gradient for background color"
-msgstr ""
+msgstr "Direzione della sfumatura lineare per il colore di sfondo"
 
 #: pytition/petition/admin.py:127 pytition/petition/admin.py:265
 msgid "Source color for linear gradient"
-msgstr ""
+msgstr "Colore di partenza per la sfumatura lineare"
 
 #: pytition/petition/admin.py:128 pytition/petition/admin.py:266
 msgid "Destinatoin color for linear gradient"
-msgstr ""
+msgstr "Colore di arrivo per la sfumatura lineare"
 
 #: pytition/petition/admin.py:129 pytition/petition/admin.py:267
 msgid "Color for monochrome background color"
-msgstr ""
+msgstr "Colore per sfondo monocromatico"
 
 #: pytition/petition/admin.py:130 pytition/petition/admin.py:268
 msgid "Footer text"
-msgstr ""
+msgstr "Testo a piè di pagina"
 
 #: pytition/petition/admin.py:131 pytition/petition/admin.py:269
 msgid "Footer links"
-msgstr ""
+msgstr "Link a piè di pagina"
 
 #: pytition/petition/admin.py:132 pytition/petition/admin.py:270
 msgid "Description for Twitter/Facebook cards"
-msgstr ""
+msgstr "Descrizione per le Twitter/Facebook cards"
 
 #: pytition/petition/admin.py:133 pytition/petition/admin.py:271
 msgid "Picture for Twitter/Facebook cards"
-msgstr ""
+msgstr "Immagine per le Twitter/Facebook cards"
 
 #: pytition/petition/admin.py:134 pytition/petition/admin.py:272
 msgid "Is the petition associated with a newsletter?"
-msgstr ""
+msgstr "Questa petizione è associata a una newsletter?"
 
 #: pytition/petition/admin.py:135 pytition/petition/admin.py:273
 msgid ""
 "Data structure to be sent in order to subscribe someone to the newsletter in "
 "case of HTTP method"
 msgstr ""
+"Struttura di dati da mandare per abbonare qualcuno a una newsletter (se si "
+"usa il metodo HTTP)"
 
 #: pytition/petition/admin.py:136 pytition/petition/admin.py:274
 msgid ""
 "Name of the field which should contain the email value in the PHP data "
 "structure"
 msgstr ""
+"Nome del campo che contiene l'indirizzo email nella struttura di dati PHP"
 
 #: pytition/petition/admin.py:137 pytition/petition/admin.py:275
 msgid "HTTP URL for newsletter subscription"
-msgstr ""
+msgstr "URL HTTP per iscrizione alla newsletter"
 
 #: pytition/petition/admin.py:138 pytition/petition/admin.py:276
 msgid "Email subject for newsletter subscription command"
-msgstr ""
+msgstr "Oggetto dell'email che contiene il link di iscrizione alla newsletter"
 
 #: pytition/petition/admin.py:139 pytition/petition/admin.py:277
 msgid "FROM field for newsletter subscription command"
-msgstr ""
+msgstr "Mittente dell'email che contiene il link di iscrizione alla newsletter"
 
 #: pytition/petition/admin.py:140 pytition/petition/admin.py:278
 msgid "TO field for newsletter subscription command"
 msgstr ""
+"Destinatario dell'email che contiene il link di iscrizione alla newsletter"
 
 #: pytition/petition/admin.py:141 pytition/petition/admin.py:279
 msgid "Newsletter subscription method"
-msgstr ""
+msgstr "Metodo di iscrizione alla newsletter"
 
 #: pytition/petition/admin.py:142 pytition/petition/admin.py:280
 msgid "Puslibhed"
-msgstr ""
+msgstr "Pubblicata"
 
 #: pytition/petition/admin.py:143 pytition/petition/admin.py:281
 msgid "Form label text of newsletter subscription checkbox"
