@@ -12,21 +12,21 @@ On Debian derivatives
 .. code-block:: bash
 
   $ sudo apt update
-  $ sudo apt install git virtualenv libmariadbclient-dev python3-dev build-essential mariadb-server
+  $ sudo apt install git virtualenv libmariadbclient-dev python3-dev build-essential mariadb-server gettext
 
 On Centos/Fedora derivatives
 ----------------------------
 
 .. code-block:: bash
 
-  $ sudo yum install MariaDB-server galera-4 MariaDB-client MariaDB-shared MariaDB-backup MariaDB-common git python3 python3-virtualenv make gcc
+  $ sudo yum install MariaDB-server galera-4 MariaDB-client MariaDB-shared MariaDB-backup MariaDB-common git python3 python3-virtualenv make gcc gettext
 
 On Arch Linux
 -------------
 
 .. code-block:: bash
 
-  $ sudo pacman -S mariadb mariadb-libs python make gcc
+  $ sudo pacman -S mariadb mariadb-libs python make gcc gettext
 
 Get the source, configure and initialize Pytition
 -------------------------------------------------
