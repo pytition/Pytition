@@ -118,7 +118,7 @@ Before trying to configure a web server you can try to see if your configuration
 
 .. code-block:: bash
 
-  $ DJANGO_SETTINGS_MODULE=pytition.settings.config python3 ./manage.py runserver
+  $ DEBUG=1 DJANGO_SETTINGS_MODULE=pytition.settings.config python3 ./manage.py runserver
 
 You can then point your browser to `http://yourdomain.tld:8000` and check that you can see Pytitiont's home page and log-in with your newly created admin account.
 

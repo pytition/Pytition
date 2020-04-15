@@ -76,6 +76,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '[::1]']
 #                               #
 #################################
 
+import os
+
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")
 
@@ -87,7 +89,9 @@ if DEFAULT_INDEX_THUMBNAIL == "":
 # Note: if MAIL_EXTERNAL_CRON_SET is set, the responsability to setup external cron job to send mail is up to the administrator.
 # If none are set, the emails will never be send!
 if USE_MAIL_QUEUE:
-    print("we use mailer!")
     INSTALLED_APPS += ('mailer',)
     # this enable mailer by default in django.send_email
     EMAIL_BACKEND = "mailer.backend.DbBackend"
+
+if os.environ.get('DEBUG'):
+    DEBUG = True
