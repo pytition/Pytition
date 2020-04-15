@@ -64,10 +64,16 @@ class PytitionUser(models.Model):
         return "user"
 
     def __str__(self):
-        return self.get_full_name
+        if self.get_full_name != '':
+            return self.get_full_name
+        else:
+            return self.username
 
     def __repr__(self):
-        return self.get_full_name
+        if self.get_full_name != '':
+            return self.get_full_name
+        else:
+            return self.username
 
 
 # --------------------------------- Organization ------------------------------

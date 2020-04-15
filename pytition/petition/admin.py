@@ -16,7 +16,7 @@ class PytitionUserAdmin(admin.ModelAdmin):
     list_display = ('name', )
 
     def name(self, pu):
-        return pu.user.get_full_name()
+        return pu
 
     name.description = ugettext_lazy("Name")
 
