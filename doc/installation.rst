@@ -63,8 +63,7 @@ Enter your virtualenv and install Pytition's dependencies:
 
 .. code-block:: bash
 
-  $ cd ../../pytition_venv
-  $ source pytition_venv/bin/activate
+  $ source ../../pytition_venv/bin/activate
   (pytition_venv) $ pip3 install -r requirements.txt
 
 Create a MySQL database and user for Pytition:
@@ -74,13 +73,22 @@ Create a MySQL database and user for Pytition:
   $ password="ENTER_A_SECURE_PASSWORD_YOU_WILL_REMEMBER_HERE"
   $ sudo mysql -h localhost -u root -Bse "CREATE USER pytition@localhost IDENTIFIED BY '${password}'; CREATE DATABASE pytition; GRANT USAGE ON *.* TO 'pytition'@localhost IDENTIFIED BY '${password}'; GRANT ALL privileges ON pytition.* TO pytition@localhost; FLUSH PRIVILEGES;"
 
-Write your MySQL credential file in `my.cnf` outside of `www`::
+Write your SQL credential file in `my.cnf` outside of `www`::
 
   [client]
   database = pytition
   user = pytition
   password = YOUR_PASSWORD_HERE
   default-character-set = utf8
+
+If your SQL server is MariaDB <= 10.2.1, you need to setup your SQL server to use table format compatible with larger-than-767-bytes columns. From 10.2.2 onward, row format is already DYNAMIC by default.
+So, if you have an old MariaDB, add the following lines after `[server]` in `/etc/mysql/mariadb.conf.d/50-server.cnf` (This path is for Ubuntu 18.04)::
+
+  innodb_large_prefix=true
+  innodb_file_format=barracuda
+  innodb_file_per_table=true
+  innodb_default_row_format=DYNAMIC
+
 
 Create your Pytition instance config file by copying the example one:
 
@@ -98,6 +106,7 @@ Initialize Pytition project database. Pay attention to be in your virtualenv to 
 .. code-block:: bash
 
   $ cd www/pytition/pytition
+  $ export DJANGO_SETTINGS_MODULE="pytition.settings.config"
   $ python3 manage.py migrate
   $ python3 manage.py collectstatic
   $ python3 manage.py compilemessages
