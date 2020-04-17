@@ -99,6 +99,18 @@ Create your Pytition instance config file by copying the example one:
 
 Now you can edit your config file in `pytition/pytition/settings/config.py` according to :ref:`Configuration`.
 
+You **must** *at least* configure the settings described in the :ref:`Mandatory settings<mandatory settings>` section of the :ref:`Configuration` page.
+
+Those are:
+
+.. hlist::
+
+  * SECRET_KEY
+  * STATIC_URL
+  * STATIC_ROOT
+  * DATABASES
+  * ALLOWED_HOSTS
+
 .. note:: Do not forget to put a correct path to your `my.cnf` MySQL credential file in your config `DATABASES` setting.
 
 Initialize Pytition project database. Pay attention to be in your virtualenv to enter the following commands:
@@ -214,3 +226,5 @@ Start uwsgi and nginx servers:
   sudo systemctl start nginx
 
 Your Pytition home page should be available over there: http://mydomain.tld
+
+Now it's time to :ref:`Configure<Configuration>` your Pytition instance the way you want!

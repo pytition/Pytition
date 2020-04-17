@@ -96,6 +96,8 @@ if os.environ.get('USE_POSTGRESQL'):
 #:
 #: * set a cron job (automatic task execution), or
 #: * serve the Django app through uwsgi (recommended setup)
+#:
+#: .. warning:: The first time you switch this setting from ``False`` to ``True``, you must run the ``DJANGO_SETTINGS_MODULE=pytition.settings.config python3 pytition/manage.py migrate`` command again. Beware to run it while being in your virtualenv.
 USE_MAIL_QUEUE = False
 
 # set it to True if you use the 'mailer' backend, and a external Crontab has been set

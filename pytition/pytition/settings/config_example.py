@@ -19,7 +19,7 @@ SECRET_KEY = ''
 #:| This must be an initially empty directory.
 #:| You must also configure a web server (apache, nginx or other) to serve
 #:| the content of this directory according to your *STATIC_URL* setting
-#:| which be default is ``'/static/'``.
+#:| which default is ``'/static/'`` in the example config.
 #:
 #: For instance you can have this kind of setting::
 #:
@@ -39,6 +39,30 @@ SECRET_KEY = ''
 #: .. seealso:: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-STATIC_ROOT for more details from Django Documentation
 #:
 STATIC_ROOT = None
+
+#:| Enter the prefix that will be used for the URL to refer to static files.
+#:| It must end with a forward slash '/'.
+#:| You must also configure a web server (apache, nginx or other) to serve
+#:| the content of the directory configured as STATIC_ROOT according to this setting
+#:| It defaults to ``'/static/'`` in the example config.
+#:
+#: For instance you can have this kind of setting::
+#:
+#:   STATIC_ROOT = '/home/pytition/www/static'
+#:   STATIC_URL = '/static/'
+#:
+#: And then in your apache config::
+#:
+#:   Alias /static /home/pytition/www/static
+#:
+#: Or in your nginx config::
+#:
+#:   location /static {
+#:       alias /home/pytition/www/static;
+#:   }
+#:
+#: .. seealso:: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-STATIC_URL for more details from Django Documentation
+#:
 STATIC_URL = '/static/'
 
 #:| Enter a database setting.
@@ -83,7 +107,7 @@ if DEFAULT_INDEX_THUMBNAIL == "":
 
 # email backend
 # Only supported configurations:
-# - [default] no mailer backend, emails are sent synchronously with no retry if sending fails
+# - [default] no mailer backend, emails are sent synchronously with no retry if sending fails (USE_MAIL_QUEUE=False)
 # - mailer backend used with uwsgi without cron jobs (USE_MAIL_QUEUE=True)
 # - mailer backend used without uwsgi with cron jobs (USE_MAIL_QUEUE=True, MAIL_EXTERNAL_CRON_SET=True)
 # Note: if MAIL_EXTERNAL_CRON_SET is set, the responsability to setup external cron job to send mail is up to the administrator.
