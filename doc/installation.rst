@@ -132,6 +132,12 @@ Configure your web server
 Nginx + uwsgi (recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+First install Nginx web server:
+
+.. code-block:: bash
+
+  $ sudo apt install nginx
+
 Here is an example of Nginx configuration that you can put in `/etc/nginx/sites-available/pytition`::
 
   server {
@@ -161,7 +167,24 @@ Here is an example of Nginx configuration that you can put in `/etc/nginx/sites-
 
 The previous example automatically redirects HTTP/80 to HTTPS/443 and uses Let's Encrypt generated certificate.
 
-Now let's create our uwsgi configuration in `/etc/uwsgi/apps-available/pytition.init`::
+Enable your new Nginx config:
+
+.. code-block:: bash
+
+  $ sudo ln -s /etc/nginx/sites-available/pytition /etc/nginx/sites-enabled/pytition
+  $ sudo systemctl reload nginx
+
+Install uwsgi dependency::
+
+  sudo apt install uwsgi uwsgi-plugin-python3 python3-uwsgidecorators
+
+Put the UNIX user of your install in `www-data` group (for Debian like systems) if your user wasn't `www-data` already. For instance in our case we use the `pytition` unix username:
+
+.. code-block:: bash
+
+  sudo usermod -a -G pytition www-data
+
+Now let's create our uwsgi configuration in `/etc/uwsgi/apps-available/pytition.ini`::
 
   [uwsgi]
   chdir = /home/pytition/www/pytition/pytition
@@ -171,6 +194,23 @@ Now let's create our uwsgi configuration in `/etc/uwsgi/apps-available/pytition.
   processes = 10
   vacuum = true
   socket = /var/run/uwsgi/app/pytition/socket
+  uid = ENTER_HERE_PYTITION_UNIX_USER
+  gid = www-data
+  chmod-socket = 664
   plugins = python3
-  plugin = python3
+  env = DJANGO_SETTINGS_MODULE=pytition.settings.config
 
+Create a symlink to enable or uwsgi configuration:
+
+.. code-block:: bash
+
+  sudo ln -s /etc/uwsgi/apps-available/pytition.ini /etc/uwsgi/apps-enabled/pytition.ini
+
+Start uwsgi and nginx servers:
+
+.. code-block:: bash
+
+  sudo systemctl start uwsgi
+  sudo systemctl start nginx
+
+Your Pytition home page should be available over there: http://mydomain.tld

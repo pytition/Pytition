@@ -9,3 +9,4 @@ beautifulsoup4~=4.6.3
 django-formtools==2.1
 bcrypt
 lxml
+uwsgi
