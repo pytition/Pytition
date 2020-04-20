@@ -1,7 +1,7 @@
 Configuration
 *************
 
-A configuration example is provided in `pytition/pytition/settings/config_example.py`.
+A configuration example is provided in `pytition/settings/config_example.py`.
 You should copy and edit it to configure Pytition.
 
 
@@ -10,7 +10,7 @@ Mandatory settings
 
 You **must** set the following variables:
 
-.. automodule:: pytition.pytition.settings.config_example
+.. automodule:: pytition.settings.config_example
   :members:
 
 
@@ -22,8 +22,8 @@ You are **highly encouraged** to set the following variables in a production env
 Pytition specific settings
 --------------------------
 
-.. autodata:: pytition.pytition.settings.base.USE_MAIL_QUEUE
-.. autodata:: pytition.pytition.settings.base.ALLOW_REGISTER
+.. autodata:: pytition.settings.base.USE_MAIL_QUEUE
+.. autodata:: pytition.settings.base.ALLOW_REGISTER
 
 Django settings
 ---------------
@@ -48,5 +48,5 @@ Other optional settings
 
 Those are things you can configure to customize your Pytition instance:
 
-.. autodata:: pytition.pytition.settings.base.SITE_NAME
-.. autodata:: pytition.pytition.settings.base.FOOTER_TEMPLATE
+.. autodata:: pytition.settings.base.SITE_NAME
+.. autodata:: pytition.settings.base.FOOTER_TEMPLATE

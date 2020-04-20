@@ -4,6 +4,14 @@ echo "Running database migrations"
 
 cd pytition && python3 ./manage.py migrate && cd -
 
+echo "Installing static files"
+
+cd pytition && python3 ./manage.py collectstatic && cd -
+
+echo "Generating translation files"
+
+cd pytition && python3 ./manage.py compilemessages && cd -
+
 echo "Creating superuser account"
 
 cd pytition && python3 ./manage.py createsuperuser && cd -

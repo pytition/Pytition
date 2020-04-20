@@ -1,8 +1,8 @@
 Installation
 ************
 
-Manual installation (recommended)
-=================================
+Manual installation (recommended for production)
+================================================
 
 Install system dependencies:
 
@@ -228,3 +228,59 @@ Start uwsgi and nginx servers:
 Your Pytition home page should be available over there: http://mydomain.tld
 
 Now it's time to :ref:`Configure<Configuration>` your Pytition instance the way you want!
+
+Installation via Docker (recommended for development)
+=====================================================
+
+.. warning:: Please, do **NOT** use this in production. You would have tons of security and performance issues. You could lose your SECRET_KEY, you would run with Django's DEBUG setting enabled, you would be serving static files via Django basic webserver. You would be running with no HTTPS possibility at all. etc etc. Please : don't.
+
+Clone latest development version of Pytition:
+
+.. code-block:: bash
+
+  $ git clone https://github.com/pytition/pytition
+
+Install docker and docker-compose:
+
+.. code-block:: bash
+
+  $ sudo apt install docker.io docker-compose
+
+Put your user in the docker group (needed for Ubuntu 18.04) and start docker daemon:
+
+.. code-block:: bash
+
+  $ sudo usermod -a -G docker $USER
+  $ # log-in again as your user for group change to take effect
+  $ # or just type the following line
+  $ su -l $USER
+  $ sudo systemctl enable docker
+  $ sudo systemctl start docker
+
+For the first run you need to create the database container and let it be ready:
+
+.. code-block:: bash
+
+  $ docker-compose up --build db
+
+Wait until it prints something like::
+
+  LOG:  database system is ready to accept connections
+
+Then hit ^C (ctrl+C) to shutdown the database container.
+
+From now on, you can just type this to run Pytition in a container:
+
+.. code-block:: bash
+
+  $ docker-compose up --build
+
+Last command before being able to click on the "http://0.0.0.0:8000/" link that the "web" container prints to out on the console. You need to run migrations, install static files, compile language files, create an admin account and lastly populate your database with some dummy data. You can do all of this with the `dev/initialize.sh` script:
+
+.. code-block:: bash
+
+  $ docker-compose exec web ./dev/initialize.sh
+
+Aaaand that's it! You can now just click on the "http://0.0.0.0:8000/" link!
+
+Next time, just run ``$ docker-compose up --build``
