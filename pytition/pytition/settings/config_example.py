@@ -1,4 +1,4 @@
-from .base import *
+from pytition.settings.base import *
 
 # 1/ The following settings MUST be set
 
