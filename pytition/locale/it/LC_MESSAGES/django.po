@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: 2020-04-21 18:08+0000\n"
+"PO-Revision-Date: 2020-04-23 19:08+0000\n"
 "Last-Translator: Andrea Prejano <preja81@gmail.com>\n"
 "Language-Team: Italian <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/it/>\n"
@@ -1748,102 +1748,102 @@ msgstr "Non sei membro dell'organizzazione '{}'"
 
 #: pytition/petition/views.py:1259
 msgid "You are not allowed to view signatures in this organization"
-msgstr ""
+msgstr "Non sei autorizzato a visualizzare le firme in questa organizzazione"
 
 #: pytition/petition/views.py:1285
 msgid "You don't have permission to delete some or all of selected signatures"
-msgstr ""
+msgstr "Non hai i diritti per eliminare le firme selezionate"
 
 #: pytition/petition/views.py:1287
 msgid "You successfully deleted all selected signatures"
-msgstr ""
+msgstr "Hai eliminato tutte le firme selezionate"
 
 #: pytition/petition/views.py:1295 pytition/petition/views.py:1306
 msgid "An error happened while trying to re-send confirmation emails"
-msgstr ""
+msgstr "Si è verificato un errore tentando di reinviare le email conferma"
 
 #: pytition/petition/views.py:1297
 msgid "You successfully re-sent all selected confirmation emails"
-msgstr ""
+msgstr "Hai reinviato con successo le email di conferma selezionate"
 
 #: pytition/petition/views.py:1308
 msgid "You successfully re-sent all confirmation emails"
-msgstr ""
+msgstr "Hai reinviato con successo tutte le email di conferma"
 
 #: pytition/petition/views.py:1354
 msgid "You successfully changed your password!"
-msgstr ""
+msgstr "Password modificata!"
 
 #: pytition/petition/views.py:1402
 msgid "You successfully created organization '{}'"
-msgstr ""
+msgstr "Hai creato l'organizzazione '{}'"
 
 #: pytition/petition/views.py:1426 pytition/petition/views.py:1433
 #: pytition/petition/views.py:1435
 msgid "Sorry, we are not able to find this petition"
-msgstr ""
+msgstr "Nessuna petizione trovata"
 
 #: pytition/petition/views.py:1459 pytition/petition/views.py:1493
 msgid "This petition does not exist (anymore?)."
-msgstr ""
+msgstr "Questa petizione non esiste (più?)."
 
 #: pytition/petition/views.py:1465
 msgid "You entered an empty slug text"
-msgstr ""
+msgstr "Hai lasciato un testo di permalink vuoto"
 
 #: pytition/petition/views.py:1472
 msgid "Successful addition of the slug '{}'!"
-msgstr ""
+msgstr "Permalink '{}' aggiunto con successo!"
 
 #: pytition/petition/views.py:1474
 msgid "The slug '{}' already exists!"
-msgstr ""
+msgstr "Permalink '{}' già esistente!"
 
 #: pytition/petition/views.py:1479 pytition/petition/views.py:1505
 msgid "You don't have the permission to modify petitions"
-msgstr ""
+msgstr "Non hai i diritti per modificare delle petizioni"
 
 #: pytition/petition/views.py:1503
 msgid "Successful deletion of a slug"
-msgstr ""
+msgstr "Permalink eliminato con successo"
 
 #: pytition/petition/views.py:1539
 msgid "This petition does not exist."
-msgstr ""
+msgstr "Petizione inesistente."
 
 #: pytition/petition/views.py:1548
 msgid ""
 "You don't have the permission to transfer a petition from Organization '{}'"
-msgstr ""
+msgstr "Non hai i diritti per trasferire una petizione dell'organizzazione '{}'"
 
 #: pytition/petition/views.py:1562
 msgid "Incorrect request, something went wrong."
-msgstr ""
+msgstr "Errore, richiesta errata."
 
 #: pytition/petition/views.py:1576
 msgid "You tried to transfer a petition to a non-exiting account"
-msgstr ""
+msgstr "Hai cercato di trasferire una petizione a un account inesistente"
 
 #: pytition/petition/views.py:1581
 msgid "Petition successfully transfered!"
-msgstr ""
+msgstr "Petizione trasferita con successo!"
 
 #: pytition/petition/views.py:1584
 msgid "Something went wrong while transferring this petition."
-msgstr ""
+msgstr "Si è verificato un errore durante il trasferimento della petizione."
 
 #: pytition/pytition/settings/base.py:259
 msgid "English"
-msgstr ""
+msgstr "Inglese"
 
 #: pytition/pytition/settings/base.py:260
 msgid "Spanish"
-msgstr ""
+msgstr "Spagnolo"
 
 #: pytition/pytition/settings/base.py:261
 msgid "French"
-msgstr ""
+msgstr "Francese"
 
 #: pytition/pytition/settings/base.py:262
 msgid "Occitan"
-msgstr ""
+msgstr "Occitano"
