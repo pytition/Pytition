@@ -38,7 +38,7 @@ See [dev/CONTRIBUTE.md](dev/CONTRIBUTE.md)
 
 ## Installing in production
 
-See [dev/INSTALL.md](dev/INSTALL.md)
+See https://pytition.readthedocs.io/en/latest/installation.html#manual-installation-recommended-for-production
 
 ## Included dependencies
 
