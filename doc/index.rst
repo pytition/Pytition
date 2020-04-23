@@ -6,11 +6,11 @@
 Welcome to Pytition's documentation!
 ====================================
 
-`Pytition` is a application for privacy-friendly online petitions
-wou can host on your own server.
+`Pytition` is an application for privacy-friendly online petitions
+you can host on your own server.
 `Pytition` uses the renown `Django` framework and is easy to install.
 
-Homepage and Demo: https://pytitiondemo.sionneau.net/
+Demo: https://pytitiondemo.sionneau.net/
 
 .. toctree::
    :maxdepth: 2
