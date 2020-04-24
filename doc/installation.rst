@@ -12,7 +12,7 @@ On Debian derivatives
 .. code-block:: bash
 
   $ sudo apt update
-  $ sudo apt install git virtualenv libmariadbclient-dev python3-dev build-essential mariadb-server gettext
+  $ sudo apt install git virtualenv libmariadb-dev-compat python3-dev build-essential mariadb-server gettext libzip-dev libssl-dev
 
 On Centos/Fedora derivatives
 ----------------------------
