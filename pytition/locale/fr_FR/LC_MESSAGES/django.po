@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: 2020-04-21 18:08+0000\n"
-"Last-Translator: Andrea Prejano <preja81@gmail.com>\n"
+"PO-Revision-Date: 2020-04-26 13:08+0000\n"
+"Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -575,7 +575,7 @@ msgstr "Merci d'avoir confirmé votre signature !"
 
 #: pytition/petition/models.py:390
 msgid "This petition is buggy. Sorry about that!"
-msgstr "Désolé, il y a un problème avec cette pétition!"
+msgstr "Désolé, il y a un problème avec cette pétition !"
 
 #: pytition/petition/models.py:406
 #: pytition/petition/templates/petition/signature_data.html:59
@@ -1267,7 +1267,7 @@ msgstr "Supprimer ce gabarit de pétition ?"
 
 #: pytition/petition/templates/petition/template_list.html:35
 msgid "You are about to delete the following petition template:"
-msgstr "Vous allez supprimer le gabarit de pétition suivant : "
+msgstr "Vous allez supprimer le gabarit de pétition suivant  :"
 
 #: pytition/petition/templates/petition/template_list.html:36
 msgid "Do you really want to do this?"
@@ -1283,7 +1283,7 @@ msgstr "Transférer la pétition"
 
 #: pytition/petition/templates/petition/transfer_petition.html:15
 msgid "You are going to transfer this petition to someone else:"
-msgstr "Vous allez transférer cette pétition à quelqu'un d'autre : "
+msgstr "Vous allez transférer cette pétition à quelqu'un d'autre :"
 
 #: pytition/petition/templates/petition/transfer_petition.html:26
 msgid ""
@@ -1328,7 +1328,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"        <h2>%(org)s: permissions du membre %(member)s</h2>\n"
+"        <h2>%(org)s : permissions du membre %(member)s</h2>\n"
 "    "
 
 #: pytition/petition/templates/petition/user_edit_permissions.html:12
@@ -1461,7 +1461,7 @@ msgstr "Pas encore de compte ?"
 
 #: pytition/petition/templates/registration/login.html:35
 msgid "Register!"
-msgstr "Créer un compte!"
+msgstr "Créer un compte !"
 
 #: pytition/petition/templates/registration/login.html:36
 msgid "I forgot my password!"
@@ -1481,7 +1481,7 @@ msgid ""
 "the email shortly!"
 msgstr ""
 "Nous vous avons envoyé les instructions pour changer votre mot de passe par "
-"e-mail. Vous devriez bientôt recevoir l'e-mail."
+"e-mail. Vous devriez bientôt recevoir l'e-mail !"
 
 #: pytition/petition/templates/registration/password_reset_form.html:4
 msgid "Forgot Your Password?"
