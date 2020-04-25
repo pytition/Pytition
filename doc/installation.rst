@@ -217,7 +217,7 @@ Now let's create our uwsgi configuration in `/etc/uwsgi/apps-available/pytition.
   master = true
   processes = 10
   vacuum = true
-  socket = /var/run/uwsgi/app/pytition/socket
+  socket = /run/uwsgi/app/pytition/socket
   uid = ENTER_HERE_PYTITION_UNIX_USER
   gid = www-data
   chmod-socket = 664
@@ -234,8 +234,8 @@ Start uwsgi and nginx servers:
 
 .. code-block:: bash
 
-  sudo systemctl start uwsgi
-  sudo systemctl start nginx
+  $ sudo systemctl start uwsgi
+  $ sudo systemctl start nginx
 
 Your Pytition home page should be available over there: http://mydomain.tld
 
