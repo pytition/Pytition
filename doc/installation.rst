@@ -22,7 +22,7 @@ On Ubuntu 18.04 LTS you need to install libmariadbclient-dev:
 
 On Ubuntu 20.04 LTS you need to install libmariadb-dev-compat:
 
-.. code-blocl:: bash
+.. code-block:: bash
 
   $ sudo apt install libmariadb-dev-compat
 
