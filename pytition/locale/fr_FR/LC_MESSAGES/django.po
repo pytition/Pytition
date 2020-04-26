@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: 2020-04-26 13:08+0000\n"
+"PO-Revision-Date: 2020-04-27 15:08+0000\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
@@ -1283,7 +1283,7 @@ msgstr "Transférer la pétition"
 
 #: pytition/petition/templates/petition/transfer_petition.html:15
 msgid "You are going to transfer this petition to someone else:"
-msgstr "Vous allez transférer cette pétition à quelqu'un d'autre :"
+msgstr "Vous allez transférer cette pétition à quelqu'un d'autre :"
 
 #: pytition/petition/templates/petition/transfer_petition.html:26
 msgid ""
@@ -1306,7 +1306,7 @@ msgstr "Voulez-vous vraiment transférer la pétition suivante ?"
 
 #: pytition/petition/templates/petition/transfer_petition.html:54
 msgid "It will be transfered to:"
-msgstr "Elle va être transférée à :"
+msgstr "Elle va être transférée à :"
 
 #: pytition/petition/templates/petition/transfer_petition.html:63
 msgid "Transfer"
