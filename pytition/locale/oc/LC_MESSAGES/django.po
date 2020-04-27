@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-29 18:51+0100\n"
-"PO-Revision-Date: 2020-03-08 12:08+0000\n"
+"PO-Revision-Date: 2020-04-24 20:08+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -1830,23 +1830,16 @@ msgid "Incorrect request, something went wrong."
 msgstr "Requèsta incorrècta, quicòm a trucat."
 
 #: pytition/petition/views.py:1576
-#, fuzzy
-#| msgid ""
-#| "You don't have the permission to create a new petition in this "
-#| "Organization"
 msgid "You tried to transfer a petition to a non-exiting account"
-msgstr ""
-"Avètz pas l’autorizacion de crear una nòva peticion dins aquesta organizacion"
+msgstr "Avètz ensajat de transferir una peticion a un compte inexistent"
 
 #: pytition/petition/views.py:1581
 msgid "Petition successfully transfered!"
 msgstr "Peticion corrèctament transferida !"
 
 #: pytition/petition/views.py:1584
-#, fuzzy
-#| msgid "Sorry, we are not able to find this petition"
 msgid "Something went wrong while transferring this petition."
-msgstr "O planhèm, avèm pas trobat aquesta peticion"
+msgstr "O planhèm, quicòm a trucat pendent lo transferiment."
 
 #: pytition/pytition/settings/base.py:259
 msgid "English"
