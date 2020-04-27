@@ -237,6 +237,7 @@ LANGUAGES = [
     ('en', gettext_lazy('English')),
     ('es', gettext_lazy('Spanish')),
     ('fr', gettext_lazy('French')),
+    ('it', gettext_lazy('Italian')),
     ('oc', gettext_lazy('Occitan')),
 ]
 
