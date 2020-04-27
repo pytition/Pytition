@@ -62,3 +62,12 @@ Those are external projects that are needed and used by Pytition, but included i
 * beautifulsoup4 4.6.3
 * django-formtools 2.1
 * bcrypt
+
+## Translations
+
+| Language      | Translation % |
+| ------------- | ------------- |
+| English       | <a href="https://weblate.framasoft.org/engage/pytition/en/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/en/pytitions/svg-badge.svg" alt="État de la traduction" /></a>|
+| French  | <a href="https://weblate.framasoft.org/engage/pytition/fr_FR/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/fr_FR/pytitions/svg-badge.svg" alt="État de la traduction" /></a>|
+| Italian       | <a href="https://weblate.framasoft.org/engage/pytition/it/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/it/pytitions/svg-badge.svg" alt="État de la traduction" /></a>|
+| Occitan       | <a href="https://weblate.framasoft.org/engage/pytition/oc/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/oc/pytitions/svg-badge.svg" alt="État de la traduction" /></a> |
