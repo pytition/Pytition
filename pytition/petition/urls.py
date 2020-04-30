@@ -6,6 +6,7 @@ from .forms import PytitionUserCreationForm
 from .views import PetitionCreationWizard
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.conf import settings
 
 urlpatterns = [
     # index
@@ -59,8 +60,14 @@ urlpatterns = [
     path('wizard/user/new_petition/from_template/<template_id>', PetitionCreationWizard.as_view(views.WizardForms), name='user_petition_wizard_from_template'),
     # Authentication
     path('', include('django.contrib.auth.urls')),
-    path('register/', CreateView.as_view(template_name='registration/register.html', form_class=PytitionUserCreationForm, success_url=reverse_lazy("login")), name="register"),
     path('account_settings', views.account_settings, name="account_settings"),
     # Misc
     path('image_upload', views.image_upload, name="image_upload"),
 ]
+
+if settings.ALLOW_REGISTER:
+    urlpatterns += [
+        path('register/',
+             CreateView.as_view(template_name='registration/register.html', form_class=PytitionUserCreationForm,
+                                success_url=reverse_lazy("login")), name="register"),
+    ]
