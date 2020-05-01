@@ -2,6 +2,7 @@ import csv
 import time
 from datetime import timedelta
 import os
+import urllib.parse
 
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
@@ -1145,14 +1146,25 @@ def edit_petition(request, petition_id):
 
         if 'social_network_form_submitted' in request.POST:
             submitted_ctx['social_network_form_submitted'] = True
-            social_network_form = SocialNetworkForm(request.POST)
+            social_network_form = SocialNetworkForm(request.POST, request.FILES)
             if social_network_form.is_valid():
+                storage = FileSystemStorage()
+                file = social_network_form.cleaned_data['twitter_image']
+                if file:
+                    path = os.path.join(storage.location, pytitionuser.username, file.name)
+                    name = storage._save(path, file)
+                    newrelpath = os.path.relpath(name, storage.location)
+                    petition.twitter_image = urllib.parse.urljoin(settings.MEDIA_URL, newrelpath)
+                if social_network_form.cleaned_data['remove_twitter_image']:
+                    petition.twitter_image = ""
                 petition.twitter_description = social_network_form.cleaned_data['twitter_description']
-                petition.twitter_image = social_network_form.cleaned_data['twitter_image']
                 petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
                 petition.save()
         else:
-            social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
+            data = {'twitter_description': petition.twitter_description,
+                    'org_twitter_handle': petition.org_twitter_handle}
+            social_network_form = SocialNetworkForm(data)
+
 
         if 'newsletter_form_submitted' in request.POST:
             submitted_ctx['newsletter_form_submitted'] = True
@@ -1189,10 +1201,12 @@ def edit_petition(request, petition_id):
         else:
             style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
     else:
+        data = {'twitter_description': petition.twitter_description,
+                'org_twitter_handle': petition.org_twitter_handle}
+        social_network_form = SocialNetworkForm(data)
         content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
         style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
         email_form = EmailForm({f: getattr(petition, f) for f in EmailForm.base_fields})
-        social_network_form = SocialNetworkForm({f: getattr(petition, f) for f in SocialNetworkForm.base_fields})
         newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
     ctx = {'user': pytitionuser,
