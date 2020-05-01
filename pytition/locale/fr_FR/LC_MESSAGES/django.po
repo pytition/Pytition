@@ -1879,7 +1879,7 @@ msgstr "Français"
 
 #: pytition/pytition/settings/base.py:240
 msgid "Italian"
-msgstr ""
+msgstr "Italien"
 
 #: pytition/pytition/settings/base.py:241
 msgid "Occitan"

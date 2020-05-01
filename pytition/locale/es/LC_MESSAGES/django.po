@@ -1857,19 +1857,19 @@ msgstr "Lo sentimos, no podemos encontrar esta petición"
 
 #: pytition/pytition/settings/base.py:237
 msgid "English"
-msgstr ""
+msgstr "Ingles"
 
 #: pytition/pytition/settings/base.py:238
 msgid "Spanish"
-msgstr ""
+msgstr "Espanol"
 
 #: pytition/pytition/settings/base.py:239
 msgid "French"
-msgstr ""
+msgstr "Francés"
 
 #: pytition/pytition/settings/base.py:240
 msgid "Italian"
-msgstr ""
+msgstr "Italiano"
 
 #: pytition/pytition/settings/base.py:241
 msgid "Occitan"
