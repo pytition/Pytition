@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-29 18:51+0100\n"
+"POT-Creation-Date: 2020-05-01 23:41+0200\n"
 "PO-Revision-Date: 2020-04-24 20:08+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
@@ -14,8 +14,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 3.11.2\n"
 
-#: pytition/petition/admin.py:21 pytition/petition/models.py:75
-#: pytition/petition/models.py:469
+#: pytition/petition/admin.py:21 pytition/petition/models.py:81
+#: pytition/petition/models.py:475
 msgid "Name"
 msgstr "Nom"
 
@@ -455,7 +455,7 @@ msgstr "Prenom *"
 msgid "Last name *"
 msgstr "Nom d’ostal *"
 
-#: pytition/petition/forms.py:25 pytition/petition/models.py:408
+#: pytition/petition/forms.py:25 pytition/petition/models.py:414
 msgid "Phone number"
 msgstr "Numèro de telefòn"
 
@@ -548,67 +548,67 @@ msgstr "Aquesta peticion es pas encara publicada !"
 msgid "Confirm your signature to our petition"
 msgstr "Confirmatz vòstra signatura a nòstra peticion"
 
-#: pytition/petition/models.py:26 pytition/petition/models.py:76
+#: pytition/petition/models.py:26 pytition/petition/models.py:82
 msgid "Default petition template"
 msgstr "Modèl de peticion per defaut"
 
-#: pytition/petition/models.py:163
+#: pytition/petition/models.py:169
 #: pytition/petition/templates/layouts/wizard_layout.html:18
 msgid "Title"
 msgstr "Títol"
 
-#: pytition/petition/models.py:288
+#: pytition/petition/models.py:294
 msgid "Thank you for confirming your signature!"
 msgstr "Mercés d’aver confirmat vòstra signatura !"
 
-#: pytition/petition/models.py:390
+#: pytition/petition/models.py:396
 msgid "This petition is buggy. Sorry about that!"
 msgstr "O planhèm, i a quicòm que truca amb aquesta peticion !"
 
-#: pytition/petition/models.py:406
+#: pytition/petition/models.py:412
 #: pytition/petition/templates/petition/signature_data.html:59
 msgid "First name"
 msgstr "Prenom"
 
-#: pytition/petition/models.py:407
+#: pytition/petition/models.py:413
 #: pytition/petition/templates/petition/signature_data.html:60
 msgid "Last name"
 msgstr "Nom d’ostal"
 
-#: pytition/petition/models.py:409
+#: pytition/petition/models.py:415
 msgid "Email address"
 msgstr "Adreça electronica"
 
-#: pytition/petition/models.py:411
+#: pytition/petition/models.py:417
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: pytition/petition/models.py:412
+#: pytition/petition/models.py:418
 msgid "Petition"
 msgstr "Peticion"
 
-#: pytition/petition/models.py:413
+#: pytition/petition/models.py:419
 msgid "Subscribed to mailing list"
 msgstr "Abonat a la lista de difusion"
 
-#: pytition/petition/models.py:414
+#: pytition/petition/models.py:420
 #: pytition/petition/templates/petition/signature_data.html:65
 msgid "Date"
 msgstr "Data"
 
-#: pytition/petition/models.py:420
+#: pytition/petition/models.py:426
 msgid "You already signed the petition"
 msgstr "Avètz ja signat aquesta peticion"
 
-#: pytition/petition/models.py:535
+#: pytition/petition/models.py:541
 msgid "A permlink cannot be empty. Please enter something."
 msgstr "Un permaligam pòt pas èsser void. Picatz quicòm."
 
-#: pytition/petition/models.py:546
+#: pytition/petition/models.py:552
 msgid "Organization related to these permissions"
 msgstr "Organizacion ligada a aquestas autorizacions"
 
-#: pytition/petition/models.py:547
+#: pytition/petition/models.py:553
 msgid "User related to these permissions"
 msgstr "Utilizaire ligat a aquestas autorizacions"
 
@@ -1177,7 +1177,7 @@ msgstr ""
 "          "
 
 #: pytition/petition/templates/petition/petition_list.html:101
-#: pytition/petition/templates/petition/transfer_petition.html:64
+#: pytition/petition/templates/petition/transfer_petition.html:63
 msgid "Cancel"
 msgstr "Anullar"
 
@@ -1264,38 +1264,38 @@ msgstr "Volètz vertadièrament far aquò ?"
 msgid "Close"
 msgstr "Tancar"
 
-#: pytition/petition/templates/petition/transfer_petition.html:9
+#: pytition/petition/templates/petition/transfer_petition.html:8
 msgid "Transfer petition"
 msgstr "Transferir la peticion"
 
-#: pytition/petition/templates/petition/transfer_petition.html:15
+#: pytition/petition/templates/petition/transfer_petition.html:14
 msgid "You are going to transfer this petition to someone else:"
 msgstr "Sètz per transferir aquesta peticion a qualqu’un mai :"
 
-#: pytition/petition/templates/petition/transfer_petition.html:26
+#: pytition/petition/templates/petition/transfer_petition.html:25
 msgid ""
 "Enter the name of the user or organization you want to give the petition to:"
 msgstr ""
 "Dintratz lo nom d’utilizaire o de l’organizacion a qui volètz donar aquesta "
 "peticion :"
 
-#: pytition/petition/templates/petition/transfer_petition.html:27
+#: pytition/petition/templates/petition/transfer_petition.html:26
 msgid "User or Organization name"
 msgstr "Nom d’utilizaire o d’organizacion"
 
-#: pytition/petition/templates/petition/transfer_petition.html:40
+#: pytition/petition/templates/petition/transfer_petition.html:39
 msgid "Transfer this petition?"
 msgstr "Transferir aquesta peticion ?"
 
-#: pytition/petition/templates/petition/transfer_petition.html:46
+#: pytition/petition/templates/petition/transfer_petition.html:45
 msgid "Do you really want to transfer the following petition?"
 msgstr "Volètz vertadièrament transferir la peticion seguenta ?"
 
-#: pytition/petition/templates/petition/transfer_petition.html:54
+#: pytition/petition/templates/petition/transfer_petition.html:53
 msgid "It will be transfered to:"
 msgstr "Serà transferida a :"
 
-#: pytition/petition/templates/petition/transfer_petition.html:63
+#: pytition/petition/templates/petition/transfer_petition.html:62
 msgid "Transfer"
 msgstr "Transferir"
 
@@ -1822,37 +1822,41 @@ msgstr "Aquesta peticion existís pas."
 msgid ""
 "You don't have the permission to transfer a petition from Organization '{}'"
 msgstr ""
-"Avètz pas l’autorizacion de transferir una peticion dins l’organizacion « {] "
-"»"
+"Avètz pas l’autorizacion de transferir una peticion dins l’organizacion "
+"« {] »"
 
-#: pytition/petition/views.py:1562
+#: pytition/petition/views.py:1568
 msgid "Incorrect request, something went wrong."
 msgstr "Requèsta incorrècta, quicòm a trucat."
 
-#: pytition/petition/views.py:1576
+#: pytition/petition/views.py:1582
 msgid "You tried to transfer a petition to a non-exiting account"
 msgstr "Avètz ensajat de transferir una peticion a un compte inexistent"
 
-#: pytition/petition/views.py:1581
+#: pytition/petition/views.py:1588
 msgid "Petition successfully transfered!"
 msgstr "Peticion corrèctament transferida !"
 
-#: pytition/petition/views.py:1584
+#: pytition/petition/views.py:1591
 msgid "Something went wrong while transferring this petition."
 msgstr "O planhèm, quicòm a trucat pendent lo transferiment."
 
-#: pytition/pytition/settings/base.py:259
+#: pytition/pytition/settings/base.py:237
 msgid "English"
 msgstr "Anglés"
 
-#: pytition/pytition/settings/base.py:260
+#: pytition/pytition/settings/base.py:238
 msgid "Spanish"
 msgstr "Espanhòl"
 
-#: pytition/pytition/settings/base.py:261
+#: pytition/pytition/settings/base.py:239
 msgid "French"
 msgstr "Francés"
 
-#: pytition/pytition/settings/base.py:262
+#: pytition/pytition/settings/base.py:240
+msgid "Italian"
+msgstr ""
+
+#: pytition/pytition/settings/base.py:241
 msgid "Occitan"
 msgstr "Occitan"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-29 18:51+0100\n"
+"POT-Creation-Date: 2020-05-01 23:41+0200\n"
 "PO-Revision-Date: 2020-05-01 11:51+0000\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: Italian <https://weblate.framasoft.org/projects/pytition/"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.11.2\n"
 
-#: pytition/petition/admin.py:21 pytition/petition/models.py:75
-#: pytition/petition/models.py:469
+#: pytition/petition/admin.py:21 pytition/petition/models.py:81
+#: pytition/petition/models.py:475
 msgid "Name"
 msgstr "Nome"
 
@@ -73,9 +73,9 @@ msgid ""
 "tools/debug/"
 msgstr ""
 "Questa è la descrizione della petizione che apparirà sulle cards Twitter/"
-"Facebook qualora il link venga pubblicato sui social network. Test su https"
-"://cards-dev.twitter.com/validator e https://developers.facebook.com/tools/"
-"debug/"
+"Facebook qualora il link venga pubblicato sui social network. Test su "
+"https://cards-dev.twitter.com/validator e https://developers.facebook.com/"
+"tools/debug/"
 
 #: pytition/petition/admin.py:90 pytition/petition/admin.py:230
 msgid ""
@@ -212,8 +212,8 @@ msgid ""
 msgstr ""
 "Il nome utente Twitter dell'organizzazione, che comincia con il simbolo '@'. "
 "Es.: @RAP_Asso. È necessario per attribuire la 'Twitter Card' al giusto "
-"account. Vedi https://developer.twitter.com/en/docs/tweets/"
-"optimize-with-cards/overview/summary"
+"account. Vedi https://developer.twitter.com/en/docs/tweets/optimize-with-"
+"cards/overview/summary"
 
 #: pytition/petition/admin.py:110 pytition/petition/admin.py:250
 msgid "Check if you want to use your own E-Mail SMTP account."
@@ -454,7 +454,7 @@ msgstr "Nome *"
 msgid "Last name *"
 msgstr "Cognome *"
 
-#: pytition/petition/forms.py:25 pytition/petition/models.py:408
+#: pytition/petition/forms.py:25 pytition/petition/models.py:414
 msgid "Phone number"
 msgstr "Telefono"
 
@@ -548,67 +548,67 @@ msgstr "Questa petizione non è ancora pubblicata!"
 msgid "Confirm your signature to our petition"
 msgstr "Conferma la tua firma per questa petizione"
 
-#: pytition/petition/models.py:26 pytition/petition/models.py:76
+#: pytition/petition/models.py:26 pytition/petition/models.py:82
 msgid "Default petition template"
 msgstr "Modello di layout di default per questa petizione"
 
-#: pytition/petition/models.py:163
+#: pytition/petition/models.py:169
 #: pytition/petition/templates/layouts/wizard_layout.html:18
 msgid "Title"
 msgstr "Titolo"
 
-#: pytition/petition/models.py:288
+#: pytition/petition/models.py:294
 msgid "Thank you for confirming your signature!"
 msgstr "Grazie per aver confermato la tua firma!"
 
-#: pytition/petition/models.py:390
+#: pytition/petition/models.py:396
 msgid "This petition is buggy. Sorry about that!"
 msgstr "Ci dispiace, c'è un problema con questa petizione!"
 
-#: pytition/petition/models.py:406
+#: pytition/petition/models.py:412
 #: pytition/petition/templates/petition/signature_data.html:59
 msgid "First name"
 msgstr "Nome"
 
-#: pytition/petition/models.py:407
+#: pytition/petition/models.py:413
 #: pytition/petition/templates/petition/signature_data.html:60
 msgid "Last name"
 msgstr "Cognome"
 
-#: pytition/petition/models.py:409
+#: pytition/petition/models.py:415
 msgid "Email address"
 msgstr "Email"
 
-#: pytition/petition/models.py:411
+#: pytition/petition/models.py:417
 msgid "Confirmed"
 msgstr "Confermato"
 
-#: pytition/petition/models.py:412
+#: pytition/petition/models.py:418
 msgid "Petition"
 msgstr "Petizione"
 
-#: pytition/petition/models.py:413
+#: pytition/petition/models.py:419
 msgid "Subscribed to mailing list"
 msgstr "Iscritto alla mailing list"
 
-#: pytition/petition/models.py:414
+#: pytition/petition/models.py:420
 #: pytition/petition/templates/petition/signature_data.html:65
 msgid "Date"
 msgstr "Data"
 
-#: pytition/petition/models.py:420
+#: pytition/petition/models.py:426
 msgid "You already signed the petition"
 msgstr "Hai già firmato questa petizione"
 
-#: pytition/petition/models.py:535
+#: pytition/petition/models.py:541
 msgid "A permlink cannot be empty. Please enter something."
 msgstr "Un permalink non può essere vuoto. Inserire testo."
 
-#: pytition/petition/models.py:546
+#: pytition/petition/models.py:552
 msgid "Organization related to these permissions"
 msgstr "Organizzazione legata a queste autorizzazioni"
 
-#: pytition/petition/models.py:547
+#: pytition/petition/models.py:553
 msgid "User related to these permissions"
 msgstr "Utente legato a queste autorizzazioni"
 
@@ -1177,7 +1177,7 @@ msgstr ""
 "          "
 
 #: pytition/petition/templates/petition/petition_list.html:101
-#: pytition/petition/templates/petition/transfer_petition.html:64
+#: pytition/petition/templates/petition/transfer_petition.html:63
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -1264,38 +1264,38 @@ msgstr "Sei sicuro?"
 msgid "Close"
 msgstr "Chiudi"
 
-#: pytition/petition/templates/petition/transfer_petition.html:9
+#: pytition/petition/templates/petition/transfer_petition.html:8
 msgid "Transfer petition"
 msgstr "Trasferisci petizione"
 
-#: pytition/petition/templates/petition/transfer_petition.html:15
+#: pytition/petition/templates/petition/transfer_petition.html:14
 msgid "You are going to transfer this petition to someone else:"
 msgstr "Stai trasferendo questa petizione a:"
 
-#: pytition/petition/templates/petition/transfer_petition.html:26
+#: pytition/petition/templates/petition/transfer_petition.html:25
 msgid ""
 "Enter the name of the user or organization you want to give the petition to:"
 msgstr ""
 "Inserisci il nome utente o dell'organizzazione a cui vuoi dare questa "
 "petizione:"
 
-#: pytition/petition/templates/petition/transfer_petition.html:27
+#: pytition/petition/templates/petition/transfer_petition.html:26
 msgid "User or Organization name"
 msgstr "Nome utente o dell'organizzazione"
 
-#: pytition/petition/templates/petition/transfer_petition.html:40
+#: pytition/petition/templates/petition/transfer_petition.html:39
 msgid "Transfer this petition?"
 msgstr "Trasferire petizione?"
 
-#: pytition/petition/templates/petition/transfer_petition.html:46
+#: pytition/petition/templates/petition/transfer_petition.html:45
 msgid "Do you really want to transfer the following petition?"
 msgstr "Sei sicuro di voler trasferire questa petizione?"
 
-#: pytition/petition/templates/petition/transfer_petition.html:54
+#: pytition/petition/templates/petition/transfer_petition.html:53
 msgid "It will be transfered to:"
 msgstr "La tua petizione sarà trasferita a:"
 
-#: pytition/petition/templates/petition/transfer_petition.html:63
+#: pytition/petition/templates/petition/transfer_petition.html:62
 msgid "Transfer"
 msgstr "Trasferisci"
 
@@ -1524,7 +1524,8 @@ msgstr "Errore: il codice di conferma è errato."
 
 #: pytition/petition/views.py:214
 msgid "Too many signatures from your IP address, please try again later."
-msgstr "Hai già inviato troppe firme da questo indirizzo IP. Riprova più tardi."
+msgstr ""
+"Hai già inviato troppe firme da questo indirizzo IP. Riprova più tardi."
 
 #: pytition/petition/views.py:222
 msgid ""
@@ -1814,36 +1815,41 @@ msgstr "Petizione inesistente."
 #: pytition/petition/views.py:1548
 msgid ""
 "You don't have the permission to transfer a petition from Organization '{}'"
-msgstr "Non hai i diritti per trasferire una petizione dell'organizzazione '{}'"
+msgstr ""
+"Non hai i diritti per trasferire una petizione dell'organizzazione '{}'"
 
-#: pytition/petition/views.py:1562
+#: pytition/petition/views.py:1568
 msgid "Incorrect request, something went wrong."
 msgstr "Errore, richiesta errata."
 
-#: pytition/petition/views.py:1576
+#: pytition/petition/views.py:1582
 msgid "You tried to transfer a petition to a non-exiting account"
 msgstr "Hai cercato di trasferire una petizione a un account inesistente"
 
-#: pytition/petition/views.py:1581
+#: pytition/petition/views.py:1588
 msgid "Petition successfully transfered!"
 msgstr "Petizione trasferita con successo!"
 
-#: pytition/petition/views.py:1584
+#: pytition/petition/views.py:1591
 msgid "Something went wrong while transferring this petition."
 msgstr "Si è verificato un errore durante il trasferimento della petizione."
 
-#: pytition/pytition/settings/base.py:259
+#: pytition/pytition/settings/base.py:237
 msgid "English"
 msgstr "Inglese"
 
-#: pytition/pytition/settings/base.py:260
+#: pytition/pytition/settings/base.py:238
 msgid "Spanish"
 msgstr "Spagnolo"
 
-#: pytition/pytition/settings/base.py:261
+#: pytition/pytition/settings/base.py:239
 msgid "French"
 msgstr "Francese"
 
-#: pytition/pytition/settings/base.py:262
+#: pytition/pytition/settings/base.py:240
+msgid "Italian"
+msgstr ""
+
+#: pytition/pytition/settings/base.py:241
 msgid "Occitan"
 msgstr "Occitano"
