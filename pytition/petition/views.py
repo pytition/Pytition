@@ -1551,6 +1551,7 @@ def transfer_petition(request, petition_id):
 
     if petition.owner_type == "org":
         ctx['base_template'] = 'petition/org_base.html'
+        ctx['org'] = petition.owner
     else:
         ctx['base_template'] = 'petition/user_base.html'
 
@@ -1583,6 +1584,7 @@ def transfer_petition(request, petition_id):
 
         try:
             petition.transfer_to(user, org)
+            petition.unpublish() # To prevent sending an unwanted published petition to an organization.
             messages.success(request, _("Petition successfully transfered!"))
             return redirect("user_dashboard")
         except ValueError:
