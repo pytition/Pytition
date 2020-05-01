@@ -45,6 +45,10 @@ echo "Generating documentation"
 
 cd doc && make html && cd -
 
+echo "Compiling translations"
+
+cd pytition && python3 ./manage.py compilemessages && cd -
+
 echo "Running tests"
 
 coverage erase
