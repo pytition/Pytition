@@ -53,9 +53,62 @@
     </div>
     <div class="tab-pane fade" id="social_network_form" role="tabpanel"
          aria-labelledby="list-social-network-form-list">
-        <form method="POST" id="form_sn">{% csrf_token %}
-            {% include "petition/bs4_form.html" with form=social_network_form %}
-            <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
+     <form method="POST" id="form_sn" enctype="multipart/form-data">
+         {% csrf_token %}
+  <div class="form-group row">
+    <label for="id_twitter_description" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Twitter description" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <input type="text" name="twitter_description" maxlength="200" class="is-valid form-control" id="id_twitter_description"
+             {% if petition.twitter_description %}value="{{ petition.twitter_description }}"{% endif %}>
+        </div>
+  </div>
+  <div class="form-group row">
+    <label for="id_org_twitter_handle" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Org twitter handle" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <input type="text" name="org_twitter_handle" maxlength="20" class="is-valid form-control" id="id_org_twitter_handle"
+             {% if petition.org_twitter_handle %}value="{{ petition.org_twitter_handle }}"{% endif %}>
+        </div>
+  </div>
+
+<div class="form-group row">
+<div class="input-group">
+<input type="checkbox" name="remove_twitter_image" id="remove_twitter_image" hidden>
+<label for="inputGroupFileAddon01" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Twitter image" %}</label>
+  <div class="input-group-prepend">
+    <a class="input-group-text" id="inputGroupFileAddon01">{% trans "Upload" %}</a>
+  </div>
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="id_twitter_image"
+      aria-describedby="inputGroupFileAddon01" name="twitter_image">
+    <label class="custom-file-label" for="id_twitter_image">{% trans "Choose file" %}</label>
+  </div>
+</div>
+</div>
+<div class="form-group row">
+    <label for="img_preview" class="col-sm-12 col-md-3 col-lg-2 col-form-label"></label>
+    <div class="col-sm-12 col-md-9 col-lg-10">
+<div class="card" id="twitter_img_card" style="width: 18rem;" {% if not petition.twitter_image %}hidden{% endif %}>
+<div class="card-header">{% trans "Image" %}</div>
+  <div class="card-body mx-auto text-center">
+    <div class="card-text">
+{% if petition.twitter_image %}
+            <img class="img-thumbnail img-fluid" alt="uploaded image preview" src="{{ petition.twitter_image }}" style="max-width: 200px; max-height: 200px;" id="img_preview"/>
+{% else %}
+            <img class="img-thumbnail img-fluid" alt="cloud clipart" src="{% static "vendor/open-iconic-1.1.1/png/cloud-upload-8x.png" %}" style="max-width: 200px; max-height: 200px;" id="img_preview"/>
+{% endif %}
+    </div>
+  <br/>
+<button type="button" class="btn btn-danger" id="twitter_img_remove_btn">
+    <span class="oi oi-trash"> {% trans "Remove image" %}</span>
+</button>
+  </div>
+</div>
+
+    </div>
+</div>
+
+
+<button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
         </form>
         <p>
         <div class="alert alert-info">
@@ -128,7 +181,33 @@
 
 {% block extrajs %}
     {{ block.super }}
+    <script src="{% static "vendor/bs-custom-file-input-1.3.4/bs-custom-file-input.min.js" %}"></script>
 <script>
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      $('#img_preview').prop('src', e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+$(function () {
+  $("#twitter_img_remove_btn").on("click", function() { /* reset input and remove preview when clicked delete button */
+     var label = $("label[for='" + $("#id_twitter_image").attr('id') + "']");
+     $("#remove_twitter_image").prop("checked", true);
+     $("#twitter_img_card").prop("hidden", true);
+     label.text('{% trans "Choose file" %}');
+  });
+  $("#id_twitter_image").change(function() { /* update image preview when file input changed */
+      readURL(this);
+      $("#twitter_img_card").prop("hidden", false);
+      $("#remove_twitter_image").prop("checked", false);
+  });
+});
+$(document).ready(function () { /* init bootstrap custom input */
+  bsCustomFileInput.init();
+});
 $(function (){
 $('a[data-toggle="list"]').on('shown.bs.tab', function(e){
     const paneID = $(e.target).attr('href');

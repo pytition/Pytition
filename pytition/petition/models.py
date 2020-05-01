@@ -327,6 +327,13 @@ class Petition(models.Model):
         return str(self.owner)
 
     @property
+    def owner_username(self):
+        if self.owner_type == "org":
+            return self.org.slugname
+        else:
+            return self.user.username
+
+    @property
     def owner(self):
         if self.org:
             return self.org
