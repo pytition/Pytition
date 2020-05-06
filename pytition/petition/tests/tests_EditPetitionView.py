@@ -1,10 +1,12 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 from petition.models import Organization, Petition, PytitionUser, Permission
 from .utils import add_default_data
 
+import os
 
 class EditPetitionViewTest(TestCase):
     """Test index view"""
@@ -240,15 +242,22 @@ class EditPetitionViewTest(TestCase):
     def test_edit_petition_POST_social_network_form(self):
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
+        thispath = os.path.join(os.path.dirname(__file__))
+        logo = os.path.join(thispath, '..', '..', '..', 'logo.png')
+        fp = open(logo, "rb")
         social_network_form_data = {
             'social_network_form_submitted': 'yes',
             'twitter_description': 'This is my twitter desc!',
-            'twitter_image': 'My Twitter img!',
             'org_twitter_handle': '@Rap_Asso',
+            'twitter_image': fp
         }
+
         # For an org template
         p = Petition.objects.create(title="My petition", org=org)
-        response = self.client.post(reverse("edit_petition", args=[p.id]), social_network_form_data)
+        social_network_form_data.update({'twitter_image': fp})
+        response = self.client.post(reverse("edit_petition", args=[p.id]),
+                                    social_network_form_data)
+        fp.close()
         self.assertEqual(response.status_code, 200)
         p.refresh_from_db()
         self.assertTemplateUsed(response, "petition/edit_petition.html")
@@ -259,6 +268,8 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response.context['social_network_form_submitted'], True)
         self.assertEquals(response.context['newsletter_form_submitted'], False)
 
+        fp = open(logo, "rb")
+        social_network_form_data.update({'twitter_image': fp})
         # For an user template
         p2 = Petition.objects.create(title="My petition 2", user=julia)
         response2 = self.client.post(reverse("edit_petition", args=[p2.id]), social_network_form_data)
@@ -268,6 +279,18 @@ class EditPetitionViewTest(TestCase):
 
         for key, value in social_network_form_data.items():
             if key == "social_network_form_submitted":
+                continue
+            if key == "twitter_image":
+                self.assertTrue(p.twitter_image.startswith(settings.MEDIA_URL))
+                self.assertTrue(p2.twitter_image.startswith(settings.MEDIA_URL))
+                petition_path = settings.MEDIA_ROOT + '/' + p.twitter_image[len(settings.MEDIA_URL):]
+                petition2_path = settings.MEDIA_ROOT + '/' + p2.twitter_image[len(settings.MEDIA_URL):]
+                with open(petition_path, "rb") as img:
+                    with open(petition2_path, "rb") as img2:
+                        with open(logo, "rb") as logofp:
+                            logocontent = logofp.read()
+                            self.assertEquals(img.read(), logocontent)
+                            self.assertEquals(img2.read(), logocontent)
                 continue
             self.assertEquals(getattr(p2, key), value)
             self.assertEquals(getattr(p, key), value)

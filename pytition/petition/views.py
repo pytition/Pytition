@@ -574,15 +574,25 @@ def edit_template(request, template_id):
             email_form = EmailForm({f: getattr(template, f) for f in EmailForm.base_fields})
 
         if 'social_network_form_submitted' in request.POST:
-            social_network_form = SocialNetworkForm(request.POST)
+            social_network_form = SocialNetworkForm(request.POST, request.FILES)
             submitted_ctx['social_network_form_submitted'] = True
             if social_network_form.is_valid():
+                storage = FileSystemStorage()
+                file = social_network_form.cleaned_data['twitter_image']
+                if file:
+                    path = os.path.join(storage.location, pytitionuser.username, file.name)
+                    name = storage._save(path, file)
+                    newrelpath = os.path.relpath(name, storage.location)
+                    template.twitter_image = urllib.parse.urljoin(settings.MEDIA_URL, newrelpath)
+                if social_network_form.cleaned_data['remove_twitter_image']:
+                    template.twitter_image = ""
                 template.twitter_description = social_network_form.cleaned_data['twitter_description']
-                template.twitter_image = social_network_form.cleaned_data['twitter_image']
                 template.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
                 template.save()
         else:
-            social_network_form = SocialNetworkForm({f: getattr(template, f) for f in SocialNetworkForm.base_fields})
+            remove_fields = ["twitter_image", "remove_twitter_image"]
+            fields = dict((k, v) for k,v in SocialNetworkForm.base_fields.items() if k not in remove_fields)
+            social_network_form = SocialNetworkForm({f: getattr(template, f) for f in fields})
 
         if 'newsletter_form_submitted' in request.POST:
             newsletter_form = NewsletterForm(request.POST)
@@ -619,9 +629,11 @@ def edit_template(request, template_id):
         else:
             style_form = StyleForm({f: getattr(template, f) for f in StyleForm.base_fields})
     else:
+        remove_fields = ["twitter_image", "remove_twitter_image"]
+        fields = dict((k, v) for k, v in SocialNetworkForm.base_fields.items() if k not in remove_fields)
+        social_network_form = SocialNetworkForm({f: getattr(template, f) for f in fields})
         content_form = ContentFormTemplate({f: getattr(template, f) for f in ContentFormTemplate.base_fields})
         email_form = EmailForm({f: getattr(template, f) for f in EmailForm.base_fields})
-        social_network_form = SocialNetworkForm({f: getattr(template, f) for f in SocialNetworkForm.base_fields})
         newsletter_form = NewsletterForm({f: getattr(template, f) for f in NewsletterForm.base_fields})
         style_form = StyleForm({f: getattr(template, f) for f in StyleForm.base_fields})
 

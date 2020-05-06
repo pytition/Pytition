@@ -1,11 +1,13 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from petition.models import Organization, Petition, PytitionUser, PetitionTemplate
 from petition.models import Permission
 from .utils import add_default_data
 
+import os
 
 class PetitionViewTest(TestCase):
     """Test index view"""
@@ -226,15 +228,19 @@ class PetitionViewTest(TestCase):
     def test_edit_template_POST_social_network_form(self):
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
+        thispath = os.path.join(os.path.dirname(__file__))
+        logo = os.path.join(thispath, '..', '..', '..', 'logo.png')
+        fp = open(logo, "rb")
         social_network_form_data = {
             'social_network_form_submitted': 'yes',
             'twitter_description': 'This is my twitter desc!',
-            'twitter_image': 'My Twitter img!',
+            'twitter_image': fp,
             'org_twitter_handle': '@Rap_Asso',
         }
         # For an org template
         pt = PetitionTemplate.objects.create(name="Default template", org=org)
         response = self.client.post(reverse("edit_template", args=[pt.id]), social_network_form_data)
+        fp.close()
         self.assertEqual(response.status_code, 200)
         pt.refresh_from_db()
         self.assertTemplateUsed(response, "petition/edit_template.html")
@@ -245,6 +251,9 @@ class PetitionViewTest(TestCase):
         self.assertEquals(response.context['social_network_form_submitted'], True)
         self.assertEquals(response.context['newsletter_form_submitted'], False)
 
+        fp = open(logo, "rb")
+        social_network_form_data.update({'twitter_image': fp})
+
         # For an user template
         pt2 = PetitionTemplate.objects.create(name="Default template 2", user=julia)
         response2 = self.client.post(reverse("edit_template", args=[pt2.id]), social_network_form_data)
@@ -254,6 +263,18 @@ class PetitionViewTest(TestCase):
 
         for key, value in social_network_form_data.items():
             if key == "social_network_form_submitted":
+                continue
+            if key == "twitter_image":
+                self.assertTrue(pt.twitter_image.startswith(settings.MEDIA_URL))
+                self.assertTrue(pt2.twitter_image.startswith(settings.MEDIA_URL))
+                petition_path = settings.MEDIA_ROOT + '/' + pt.twitter_image[len(settings.MEDIA_URL):]
+                petition2_path = settings.MEDIA_ROOT + '/' + pt2.twitter_image[len(settings.MEDIA_URL):]
+                with open(petition_path, "rb") as img:
+                    with open(petition2_path, "rb") as img2:
+                        with open(logo, "rb") as logofp:
+                            logocontent = logofp.read()
+                            self.assertEquals(img.read(), logocontent)
+                            self.assertEquals(img2.read(), logocontent)
                 continue
             self.assertEquals(getattr(pt2, key), value)
             self.assertEquals(getattr(pt, key), value)
