@@ -14,7 +14,7 @@
 
 ## Features
 
-* [x] Multi-lingual UI with i18n. For now only English and French translations available but you can send a Pull Request :)
+* [x] Multi-lingual UI with i18n: English, French, Italian, Occitan, Spanish.
 * [x] You can pre-visualize petitions before publishing them.
 * [x] Easy to use: petition content is typed-in via TinyMCE editors (like WordPress).
 * [x] You can setup real SMTP account for the confirmation e-mail so that it is less likely considered as SPAM.
