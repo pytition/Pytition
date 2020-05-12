@@ -1,5 +1,4 @@
 import logging
-import requests
 from django.core.management import BaseCommand
 
 from petition.models import PytitionUser, Organization, Petition
@@ -26,7 +25,7 @@ class Command(BaseCommand):
             return
         data = {
             'title': "Petition",
-            'text': 'blabla',
+            'text': 'content',
             'org_twitter_handle': "@RAP_Asso",
             'published': True,
         }
@@ -46,10 +45,5 @@ class Command(BaseCommand):
                 return
         for i in range(options['number']):
             data['title'] = "Petition %d" % i
-            try:
-                res = requests.get("https://baconipsum.com/api/?type=meat-and-filler")
-                data['text'] = "\n".join(res.json())
-            except:
-                data['text'] = "empty"
             Petition.objects.create(**data)
         logger.info("%d petitions created", options['number'])
