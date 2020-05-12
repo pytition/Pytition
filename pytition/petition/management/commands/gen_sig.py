@@ -41,14 +41,12 @@ class Command(BaseCommand):
             petition = petitions.first()
 
         for _ in range(options['number']):
+            firstname = ''.join([random.choice(string.ascii_letters) for n in range(7)])
+            lastname = ''.join([random.choice(string.ascii_letters) for n in range(7)])
             Signature.objects.create(
-                first_name=''\
-                    .join([random.choice(string.ascii_letters) for n in range(7)])\
-                    .capitalize(),
-                last_name=''\
-                    .join([random.choice(string.ascii_letters) for n in range(7)])\
-                    .capitalize(),
-                email='u@test.net',
+                first_name=firstname.capitalize(),
+                last_name=lastname.capitalize(),
+                email='{}@{}.net'.format(firstname, lastname),
                 petition=petition,
                 confirmed=True
             )
