@@ -20,12 +20,12 @@ class Command(BaseCommand):
         try:
             user = PytitionUser.objects.get(user__username=options['username'])
         except PytitionUser.DoesNotExist:
-            logger.warning("%s user does not exist", options['username'])
+            logger.error("%s user does not exist", options['username'])
             return
         try:
             org = Organization.objects.get(name=options['org'])
         except Organization.DoesNotExist:
-            logger.warning("%s org does not exist", options['org'])
+            logger.error("%s org does not exist", options['org'])
             return
         org.members.add(user)
         perms, created = Permission.objects.get_or_create(organization=org, user=user)

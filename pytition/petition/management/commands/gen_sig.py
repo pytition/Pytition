@@ -25,7 +25,7 @@ class Command(BaseCommand):
         try:
             petition = Petition.objects.get(id=int(options['petition']))
         except Petition.DoesNotExist:
-            logger.warning("%s petition id not found.", options['petition'])
+            logger.error("%s petition id not found.", options['petition'])
             return
         except ValueError:
             petitions = Petition.objects.filter(title=options['petition'])
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 )
                 return
             if petitions.count() < 1:
-                logger.warning("%s petition id not found.", options['petition'])
+                logger.error("%s petition id not found.", options['petition'])
                 return
             petition = petitions.first()
 

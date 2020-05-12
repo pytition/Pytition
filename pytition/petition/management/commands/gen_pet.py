@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not options['orga'] and not options['user']:
-            logger.warning("You must either specify --orga or --user")
+            logger.error("You must either specify --orga or --user")
             return
         data = {
             'title': "Petition",
@@ -34,14 +34,14 @@ class Command(BaseCommand):
                 orga = Organization.objects.get(name=options['orga'])
                 data.update({'org': orga})
             except Organization.DoesNotExist:
-                logger.warning("%s org not found.", options['orga'])
+                logger.error("%s org not found.", options['orga'])
                 return
         elif options['user']:
             try:
                 user = PytitionUser.objects.get(user__username=options['user'])
                 data.update({'user': user})
             except PytitionUser.DoesNotExist:
-                logger.warning("%s user not found.", options['user'])
+                logger.error("%s user not found.", options['user'])
                 return
         for i in range(options['number']):
             data['title'] = "Petition %d" % i
