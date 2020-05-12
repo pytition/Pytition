@@ -22,12 +22,13 @@ class Command(BaseCommand):
         parser.add_argument('--number', '-n', type=int, default=1)
 
     def handle(self, *args, **options):
-        try:
-            petition = Petition.objects.get(id=int(options['petition']))
-        except Petition.DoesNotExist:
-            logger.error("%s petition id not found.", options['petition'])
-            return
-        except ValueError:
+        if options['petition'].isnumeric():
+            try:
+                petition = Petition.objects.get(id=int(options['petition']))
+            except Petition.DoesNotExist:
+                logger.error("%s petition id not found.", options['petition'])
+                return
+        else:
             petitions = Petition.objects.filter(title=options['petition'])
             if petitions.count() > 1:
                 logger.warning(
