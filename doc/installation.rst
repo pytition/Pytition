@@ -293,6 +293,9 @@ Last command before being able to click on the "http://0.0.0.0:8000/" link that 
 
   $ docker-compose exec web ./dev/initialize.sh
 
-Aaaand that's it! You can now just click on the "http://0.0.0.0:8000/" link!
+Aaaand that's it! You can now just click on the links:
+
+- http://0.0.0.0:8000/ for the Pytition interface
+- http://0.0.0.0:8080/ for the mail server web interface
 
 Next time, just run ``$ docker-compose up --build``
