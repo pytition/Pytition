@@ -6,6 +6,12 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  smtp:
+    image: maildev/maildev:1.1.0
+    command: bin/maildev --web 8080 --smtp 2525 --verbose
+    ports:
+      - "8080:8080"
+      - "2525:2525"
   web:
     environment:
       - DJANGO_SETTINGS_MODULE=config.docker_config
@@ -18,3 +24,4 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - smtp
