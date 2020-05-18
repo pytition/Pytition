@@ -40,30 +40,80 @@ SECRET_KEY = ''
 #:
 STATIC_ROOT = None
 
-#:| Enter the prefix that will be used for the URL to refer to static files.
-#:| It must end with a forward slash '/'.
-#:| You must also configure a web server (apache, nginx or other) to serve
+#:| enter the prefix that will be used for the url to refer to static files.
+#:| it must end with a forward slash '/'.
+#:| you must also configure a web server (apache, nginx or other) to serve
 #:| the content of the directory configured as STATIC_ROOT according to this setting
-#:| It defaults to ``'/static/'`` in the example config.
+#:| it defaults to ``'/static/'`` in the example config.
 #:
-#: For instance you can have this kind of setting::
+#: for instance you can have this kind of setting::
 #:
 #:   STATIC_ROOT = '/home/pytition/www/static'
 #:   STATIC_URL = '/static/'
 #:
-#: And then in your apache config::
+#: and then in your apache config::
 #:
-#:   Alias /static /home/pytition/www/static
+#:   alias /static /home/pytition/www/static
 #:
-#: Or in your nginx config::
+#: or in your nginx config::
 #:
 #:   location /static {
 #:       alias /home/pytition/www/static;
 #:   }
 #:
-#: .. seealso:: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-STATIC_URL for more details from Django Documentation
+#: .. seealso:: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-static_url for more details from django documentation
 #:
 STATIC_URL = '/static/'
+
+#:| enter the prefix that will be used for the url to refer to uploaded files.
+#:| it must end with a forward slash '/'.
+#:| you must also configure a web server (apache, nginx or other) to serve
+#:| the content of the directory configured as MEDIA_ROOT according to this setting
+#:| it defaults to ``'/mediaroot/'`` in the example config.
+#:
+#: for instance you can have this kind of setting::
+#:
+#:   MEDIA_ROOT = '/home/pytition/www/mediaroot'
+#:   MEDIA_URL = '/mediaroot/'
+#:
+#: and then in your apache config::
+#:
+#:   alias /mediaroot /home/pytition/www/mediaroot
+#:
+#: or in your nginx config::
+#:
+#:   location /mediaroot {
+#:       alias /home/pytition/www/mediaroot;
+#:   }
+#:
+#: .. seealso:: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-MEDIA_URL for more details from django documentation
+#:
+MEDIA_URL = '/mediaroot/'
+
+#:| Enter the file system path to the directory that will be used to serve user uploaded files.
+#:| This must be an initially empty directory.
+#:| You must also configure a web server (apache, nginx or other) to serve
+#:| the content of this directory according to your *MEDIA_URL* setting
+#:| which default is ``'/mediaroot/'`` in the example config.
+#:
+#: For instance you can have this kind of setting::
+#:
+#:   MEDIA_ROOT = '/home/pytition/www/mediaroot'
+#:   MEDIA_URL = '/mediaroot/'
+#:
+#: And then in your apache config::
+#:
+#:   Alias /mediaroot /home/pytition/www/mediaroot
+#:
+#: Or in your nginx config::
+#:
+#:   location /mediaroot {
+#:       alias /home/pytition/www/mediaroot;
+#:   }
+#:
+#: .. seealso:: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-MEDIA_ROOT for more details from Django Documentation
+#:
+MEDIA_ROOT = ''
 
 #:| Enter a database setting.
 #:| This will tell Django what database engine you want to use (supported ones are listed there: https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASE-ENGINE)
