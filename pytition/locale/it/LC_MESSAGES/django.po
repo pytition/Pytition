@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-01 23:41+0200\n"
-"PO-Revision-Date: 2020-05-01 11:51+0000\n"
-"Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
+"PO-Revision-Date: 2020-05-19 07:24+0000\n"
+"Last-Translator: Italo Vignoli <italo@vignoli.org>\n"
 "Language-Team: Italian <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/it/>\n"
 "Language: it\n"
@@ -913,7 +913,7 @@ msgstr "Benvenuto su Pytition"
 
 #: pytition/petition/templates/petition/index.html:12
 msgid "Make things change!"
-msgstr ""
+msgstr "Cambiamo questa situazione!"
 
 #: pytition/petition/templates/petition/index.html:13
 msgid "Create a petition"
