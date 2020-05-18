@@ -54,7 +54,7 @@ Create a directory to host your Pytition instance and it's static files:
 
 .. code-block:: bash
 
-  $ mkdir -p www/static
+  $ mkdir -p www/static www/mediaroot
 
 Create a Python3 virtualenv to install Pytitiont's dependencies:
 
@@ -176,6 +176,10 @@ Here is an example of Nginx configuration that you can put in `/etc/nginx/sites-
       alias /home/pytition/www/static;
     }
 
+    location /mediaroot {
+      alias /home/pytition/www/mediaroot;
+    }
+
     listen 443 ssl; # managed by Certbot
     ssl_certificate /etc/letsencrypt/live/pytition.mydomain.tld/fullchain.pem; # managed by Certbot
     ssl_certificate_key /etc/letsencrypt/live/pytition.mydomain.tld/privkey.pem; # managed by Certbot
@@ -207,6 +211,14 @@ Put the UNIX user of your install in `www-data` group (for Debian like systems) 
 .. code-block:: bash
 
   sudo usermod -a -G pytition www-data
+
+
+Give both uwsgi and nginx access to your mediaroot directory:
+
+.. code-block:: bash
+
+  sudo chown -R pytition:www-data /home/pytition/www/mediaroot
+
 
 Now let's create our uwsgi configuration in `/etc/uwsgi/apps-available/pytition.ini`::
 
