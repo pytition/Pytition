@@ -252,3 +252,4 @@ django.conf.locale.LANG_INFO = LANG_INFO
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
 MEDIA_URL = "/mediaroot/"
+FILE_UPLOAD_PERMISSIONS = 0o644
