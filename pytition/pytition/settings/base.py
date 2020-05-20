@@ -104,12 +104,12 @@ USE_MAIL_QUEUE = False
 MAIL_EXTERNAL_CRON_SET = False
 
 # number of seconds to wait before sending emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
-UWSGI_WAIT_FOR_MAIL_SEND_IN_S=10
+UWSGI_WAIT_FOR_MAIL_SEND_IN_S = 10
 # number of seconds to wait before retrying emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
-UWSGI_WAIT_FOR_RETRY_IN_S=1 * 60
+UWSGI_WAIT_FOR_RETRY_IN_S = 1 * 60
 # number of seconds to wait before purging emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
-UWSGI_WAIT_FOR_PURGE_IN_S=1 * 24 * 60 * 60
-UWSGI_NB_DAYS_TO_KEEP=3
+UWSGI_WAIT_FOR_PURGE_IN_S = 1 * 24 * 60 * 60
+UWSGI_NB_DAYS_TO_KEEP = 3
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
