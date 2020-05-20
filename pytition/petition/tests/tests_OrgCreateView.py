@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
@@ -100,3 +100,24 @@ class OrgCreateViewTest(TestCase):
         self.assertRedirects(response, reverse("login")+"?next="+reverse("org_create"))
         new_org_num = Organization.objects.count()
         self.assertEqual(previous_org_num, new_org_num)
+
+    @override_settings(RESTRICT_ORG_CREATION=True)
+    def test_restrict_org_creation(self):
+        init_org_number = Organization.objects.count()
+        self.login("john")
+
+        response = self.client.get(reverse("org_create"), follow=True)
+        self.assertRedirects(response, reverse("user_dashboard"))
+        self.assertContains(response, "Only super users can create an organization.")
+
+        data = {'name': 'New Org'}
+        response = self.client.post(reverse("org_create"), data, follow=True)
+        self.assertRedirects(response, reverse("user_dashboard"))
+        self.assertEquals(Organization.objects.count(), init_org_number)
+        self.assertContains(response, "Only super users can create an organization.")
+
+        self.login("admin")
+        response = self.client.post(reverse("org_create"), data, follow=True)
+        self.assertRedirects(response, reverse("user_dashboard"))
+        self.assertEquals(Organization.objects.count(), init_org_number + 1)
+        self.assertNotContains(response, "Only super users can create an organization.")
