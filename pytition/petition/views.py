@@ -893,6 +893,12 @@ WizardForms = [("step1", PetitionCreationStep1),
 # PATH : subroutes of /wizard
 @method_decorator(login_required, name='dispatch')
 class PetitionCreationWizard(SessionWizardView):
+    def dispatch(self, request, *args, **kwargs):
+        if settings.DISABLE_USER_PETITION and "orgslugname" not in self.kwargs:
+            messages.error(request, _("Users are not allowed to create their own petitions."))
+            return redirect("user_dashboard")
+        return super().dispatch(request, *args, **kwargs)
+
     def get_template_names(self):
         return [WizardTemplates[self.steps.current]]
 
