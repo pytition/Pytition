@@ -9,3 +9,4 @@ echo "DEBUG = True" >> /config/docker_config.py
 echo "ALLOWED_HOSTS.append('0.0.0.0')" >> /config/docker_config.py
 echo "EMAIL_HOST = 'smtp'" >> /config/docker_config.py
 echo "EMAIL_PORT = 2525" >> /config/docker_config.py
+echo "MEDIA_ROOT = '/mediaroot/'" >> /config/docker_config.py
