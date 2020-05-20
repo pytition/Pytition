@@ -92,3 +92,4 @@ class PetitionCreateWizardViewTest(TestCase):
         org = Organization.objects.get(name='Les Amis de la Terre')
         response = self.client.get(reverse("org_petition_wizard", args=[org.slugname]))
         self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Users are not allowed to create their own petitions.")
