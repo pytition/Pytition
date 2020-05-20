@@ -255,4 +255,5 @@ MEDIA_URL = "/mediaroot/"
 FILE_UPLOAD_PERMISSIONS = 0o640
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 
+#:| If set to True, users won't be able to create petitions in their name, but only for an organization
 DISABLE_USER_PETITION = False
