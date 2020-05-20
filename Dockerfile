@@ -9,6 +9,7 @@ RUN apt-get update && \
 RUN mkdir /code
 RUN mkdir /config
 RUN mkdir /static
+RUN mkdir /mediaroot
 WORKDIR /code
 COPY requirements.txt requirements_dev.txt /code/
 RUN pip install -r requirements_dev.txt
