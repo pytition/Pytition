@@ -1,6 +1,7 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.messages import get_messages
 
 from petition.models import Organization, Petition, PytitionUser, Permission
 
@@ -74,4 +75,20 @@ class PetitionCreateWizardViewTest(TestCase):
         self.login("julia")
         org = Organization.objects.get(name='Les Amis de la Terre')
         response = self.client.get(reverse("user_petition_wizard"))
+        self.assertEqual(response.status_code, 200)
+
+    @override_settings(DISABLE_USER_PETITION=True)
+    def test_user_petition_disabled(self):
+        self.login("julia")
+        response = self.client.get(reverse("user_petition_wizard"))
+        self.assertRedirects(response, reverse("user_dashboard"))
+        response = self.client.get(reverse("user_petition_wizard"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Users are not allowed to create their own petitions.")
+
+    @override_settings(DISABLE_USER_PETITION=True)
+    def test_org_petition_still_working(self):
+        self.login("julia")
+        org = Organization.objects.get(name='Les Amis de la Terre')
+        response = self.client.get(reverse("org_petition_wizard", args=[org.slugname]))
         self.assertEqual(response.status_code, 200)
