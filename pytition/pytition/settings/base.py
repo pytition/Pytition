@@ -252,5 +252,10 @@ django.conf.locale.LANG_INFO = LANG_INFO
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
 MEDIA_URL = "/mediaroot/"
+
 FILE_UPLOAD_PERMISSIONS = 0o640
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
+
+#:| If set to True, regular users won't be able to create new organizations.
+#:| Only superusers will be allowed to
+RESTRICT_ORG_CREATION = False

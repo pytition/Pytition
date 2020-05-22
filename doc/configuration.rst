@@ -50,3 +50,4 @@ Those are things you can configure to customize your Pytition instance:
 
 .. autodata:: pytition.settings.base.SITE_NAME
 .. autodata:: pytition.settings.base.FOOTER_TEMPLATE
+.. autodata:: pytition.settings.base.RESTRICT_ORG_CREATION
