@@ -1606,7 +1606,7 @@ def transfer_petition(request, petition_id):
                 notFound = True
         if owner_type == "user":
             if settings.DISABLE_USER_PETITION:
-                messages.error(request, _("Users are not allowed to be transfered a petition."))
+                messages.error(request, _("Users are not allowed to transfer petitions to organizations on this instance."))
                 return redirect("user_dashboard")
             try:
                 user = PytitionUser.objects.get(user__username=new_owner_name)
