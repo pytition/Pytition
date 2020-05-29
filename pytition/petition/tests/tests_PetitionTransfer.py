@@ -93,7 +93,7 @@ class PetitionCreateWizardViewTest(TestCase):
         with override_settings(DISABLE_USER_PETITION=True):
             user_petition = Petition.objects.create(title="Petition 1", org=org)
             response = self.client.post(url, data={"new_owner_type": "user", "new_owner_name": user.user.username}, follow=True)
-            self.assertContains(response, "Users are not allowed to be transfered a petition.")
+            self.assertContains(response, "Users are not allowed to transfer petitions to organizations on this instance.")
             user_petition = Petition.objects.get(id=user_petition.id)
             self.assertIsNone(user_petition.user)
         
