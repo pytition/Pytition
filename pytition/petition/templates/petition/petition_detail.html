@@ -123,7 +123,7 @@ dataLayer = [];
               {{ message }}
             </div>
             {% endfor %}
-            <div class="fields">
+            <div class="fields" {% if petition_is_signed %}hidden{% endif %}>
               <form method='POST' name='petition' class='form-group'
               action='{% url "create_signature" petition.id %}'>
                 {% csrf_token %}

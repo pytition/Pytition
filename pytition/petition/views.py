@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.contrib import messages
+from django.contrib.messages import get_messages
 from django.utils.html import format_html
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -108,6 +109,11 @@ def search(request):
         }
     )
 
+def hide_sign_form_if_user_just_signed(request, ctx):
+    storage = get_messages(request)
+    for message in storage:
+        if message.level == messages.SUCCESS:
+            ctx.update({'form_is_signed': True})
 
 # /<int:petition_id>/
 # Show information on a petition
@@ -122,6 +128,9 @@ def detail(request, petition_id):
     sign_form = SignatureForm(petition=petition)
     ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
            'meta': petition_detail_meta(request, petition_id)}
+
+    # If we've just signed successfully the petition, do not show the sign form
+    hide_sign_form_if_user_just_signed(request, ctx)
 
     if "application/json" in request.META.get('HTTP_ACCEPT', []):
         response = JsonResponse(petition.to_json)
@@ -1420,6 +1429,9 @@ def account_settings(request):
 # Create a new organization
 @login_required
 def org_create(request):
+    if settings.RESTRICT_ORG_CREATION and not request.user.is_superuser:
+        messages.error(request, _("Only super users can create an organization."))
+        return redirect("user_dashboard")
     user = get_session_user(request)
 
     ctx = {'user': user}
@@ -1470,6 +1482,9 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
 
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form,
            'meta': petition_detail_meta(request, petition.id)}
+
+    # If we've just signed successfully the petition, do not show the sign form
+    hide_sign_form_if_user_just_signed(request, ctx)
 
     if "application/json" in request.META.get('HTTP_ACCEPT', []):
         response = JsonResponse(petition.to_json)
