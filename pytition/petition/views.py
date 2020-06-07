@@ -22,6 +22,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.timezone import now
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
 
 from formtools.wizard.views import SessionWizardView
 
@@ -42,7 +43,6 @@ from .helpers import get_update_form, petition_detail_meta
 # Depending on the settings.INDEX_PAGE, show a list of petitions or
 # redirect to an user/org profile page
 def index(request):
-    petitions = Petition.objects.filter(published=True).order_by('-id')[:12]
     if not hasattr(settings, 'INDEX_PAGE'):
         raise Http404(_("You must set an INDEX_PAGE config in your settings"))
     if settings.INDEX_PAGE == 'USER_PROFILE':
@@ -56,9 +56,7 @@ def index(request):
         except:
             raise Http404(_("You must set an INDEX_PAGE_ORGA config in your settings"))
 
-    if settings.INDEX_PAGE == 'ALL_PETITIONS':
-        return redirect("all_petitions")
-    elif settings.INDEX_PAGE == 'ORGA_PROFILE':
+    if settings.INDEX_PAGE == 'ORGA_PROFILE':
         org = Organization.objects.get(name=org_name)
         return redirect("org_profile", org.slugname)
     elif settings.INDEX_PAGE == 'USER_PROFILE':
@@ -74,6 +72,11 @@ def index(request):
             user = get_session_user(request)
         else:
             user = request.user
+        all_petitions = Petition.objects.filter(published=True).order_by('-id')
+        paginator = Paginator(all_petitions, settings.PAGINATOR_COUNT)
+        page = request.GET.get('page')
+        petitions = paginator.get_page(page)
+
         return render(request, 'petition/index.html',
                 {
                     'user': user,
@@ -109,13 +112,6 @@ def show_sympa_subscribe_bloc(request, petition_id):
 
     return HttpResponse(text_bloc)
 
-# /all_petitions
-# Show all the petitions in the database
-def all_petitions(request):
-    petitions = Petition.objects.filter(published=True).all()
-    return render(request, 'petition/all_petitions.html',
-            {'petitions': petitions})
-
 
 # /search?q=QUERY
 # Show results of a search query
@@ -125,7 +121,10 @@ def search(request):
         petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)[:15]
         orgs = Organization.objects.filter(name__icontains=q)
     else:
-        petitions = Petition.objects.filter(published=True)[:15]
+        petitions = Petition.objects.filter(published=True).order_by('-id')
+        paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
+        page = request.GET.get('page')
+        petitions = paginator.get_page(page)
         orgs = []
     return render(
         request, 'petition/search.html',
@@ -325,9 +324,16 @@ def user_profile(request, user_name):
     except PytitionUser.DoesNotExist:
         raise Http404(_("not found"))
 
-    ctx = {'user': user,
-           'petitions': user.petition_set.filter(published=True)}
-    return render(request, 'petition/user_profile.html', ctx)
+    petitions = user.petition_set.filter(published=True).order_by('-id')
+    paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
+    page = request.GET.get('page')
+    petitions = paginator.get_page(page)
+
+    return render(
+        request,
+        'petition/user_profile.html',
+        {'user': user, 'petitions': petitions}
+    )
 
 
 # /org/<slug:orgslugname>/leave_org
@@ -367,8 +373,13 @@ def org_profile(request, orgslugname):
     except Organization.DoesNotExist:
         raise Http404(_("not found"))
 
+    petitions = org.petition_set.filter(published=True).order_by('-id')
+    paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
+    page = request.GET.get('page')
+    petitions = paginator.get_page(page)
+
     ctx = {'org': org,
-           'petitions': org.petition_set.filter(published=True)}
+           'petitions': petitions}
 
     # if a user is logged-in, put it in the context, it will feed the navbar dropdown
     if user is not None:

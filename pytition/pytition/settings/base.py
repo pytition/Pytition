@@ -170,26 +170,26 @@ TINYMCE_DEFAULT_CONFIG = {
         let xhr = new XMLHttpRequest();
         xhr.open('POST', '/petition/image_upload');
         xhr.setRequestHeader('X-CSRFTOKEN', get_csrf_token()); // manually set header
-    
+
         xhr.onload = function() {
             if (xhr.status !== 200) {
                 failure('HTTP Error: ' + xhr.status);
                 return;
             }
-    
+
             let json = JSON.parse(xhr.responseText);
-    
+
             if (!json || typeof json.location !== 'string') {
                 failure('Invalid JSON: ' + xhr.responseText);
                 return;
             }
-    
+
             success(json.location);
         };
-    
+
         let formData = new FormData();
         formData.append('file', blobInfo.blob(), blobInfo.filename());
-    
+
         xhr.send(formData);
         }
     """,
@@ -224,10 +224,11 @@ FOOTER_TEMPLATE = None
 #INDEX_PAGE_ORGA = "RAP"
 #INDEX_PAGE_USER = "admin"
 INDEX_PAGE = "HOME"
-#INDEX_PAGE = "ALL_PETITIONS"
 #INDEX_PAGE = "ORGA_PROFILE"
 #INDEX_PAGE = "USER_PROFILE"
 #INDEX_PAGE = "LOGIN_REGISTER"
+
+PAGINATOR_COUNT = 12
 
 # Anti bot feature
 SIGNATURE_THROTTLE = 5 # 5 signatures from same IP allowed
