@@ -161,7 +161,7 @@ class AccountSettingsViewTest(TestCase):
 
     def test_UserjohnPOSTDeleteAccountOK(self):
         # to avoid 404 error when index page redirects to deleted Organization profile page
-        with self.settings(INDEX_PAGE="ALL_PETITIONS"):
+        with self.settings(INDEX_PAGE="HOME"):
             self.login("john")
             data = {
                 'validation': "DROP MY ACCOUNT",
@@ -170,7 +170,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("all_petitions"))
+            self.assertRedirects(response, reverse("index"))
             self.assertTemplateUsed(response, "layouts/base.html")
             self.logout()
             try:
@@ -245,7 +245,7 @@ class AccountSettingsViewTest(TestCase):
 
     def test_UsersarahPOSTDeleteAccountOK(self):
         # to avoid 404 error when index page redirects to deleted Organization profile page
-        with self.settings(INDEX_PAGE="ALL_PETITIONS"):
+        with self.settings(INDEX_PAGE="HOME"):
             username = "sarah"
             self.login(username)
             data = {
@@ -255,7 +255,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("all_petitions"))
+            self.assertRedirects(response, reverse("index"))
             self.assertTemplateUsed(response, "layouts/base.html")
             self.logout()
             try:
@@ -330,7 +330,7 @@ class AccountSettingsViewTest(TestCase):
 
     def test_UserjuliaPOSTDeleteAccountOK(self):
         # to avoid 404 error when index page redirects to deleted Organization profile page
-        with self.settings(INDEX_PAGE="ALL_PETITIONS"):
+        with self.settings(INDEX_PAGE="HOME"):
             username = "julia"
             self.login(username)
             data = {
@@ -340,7 +340,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("all_petitions"))
+            self.assertRedirects(response, reverse("index"))
             self.assertTemplateUsed(response, "layouts/base.html")
             self.logout()
             try:
@@ -414,7 +414,7 @@ class AccountSettingsViewTest(TestCase):
         self.assertRedirects(response3, reverse("login")+"?next="+reverse("user_dashboard"))
 
     def test_UsermaxPOSTDeleteAccountOK(self):
-        with self.settings(INDEX_PAGE="ALL_PETITIONS"):
+        with self.settings(INDEX_PAGE="HOME"):
             username = "max"
             self.login(username)
             data = {
@@ -424,7 +424,7 @@ class AccountSettingsViewTest(TestCase):
             f = DeleteAccountForm(data)
             self.assertEqual(f.is_valid(), True)
             response = self.client.post(reverse("account_settings"), data, follow=True)
-            self.assertRedirects(response, reverse("all_petitions"))
+            self.assertRedirects(response, reverse("index"))
             self.assertTemplateUsed(response, "layouts/base.html")
             self.logout()
             try:

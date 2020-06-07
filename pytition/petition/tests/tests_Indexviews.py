@@ -67,13 +67,6 @@ class IndexViewTest(TestCase):
             response = self.client.get('/', follow=True)
             self.assertTemplateUsed(response, "layouts/base.html")
 
-    def test_index_all_petition(self):
-        total_published_petitions = sum(org_published_petitions.values()) + sum(user_published_petitions.values())
-        with self.settings(INDEX_PAGE="ALL_PETITIONS"):
-            response = self.client.get('/', follow=True)
-            self.assertRedirects(response, reverse("all_petitions"))
-            self.assertEqual(len(response.context['petitions']), total_published_petitions)
-
     def test_index_orga_profile(self):
         for org in orgs:
             orgslugname = slugify(org)

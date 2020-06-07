@@ -58,3 +58,26 @@
     </i>
   {% endfor %}
 </div>
+{% if petitions.has_other_pages %}
+  <div>
+    <ul class="pagination justify-content-center">
+      {% if petitions.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ petitions.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+      {% endif %}
+      {% for i in petitions.paginator.page_range %}
+        {% if petitions.number == i %}
+          <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if petitions.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ petitions.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+      {% endif %}
+    </ul>
+  </div>
+{% endif %}

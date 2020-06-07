@@ -6,4 +6,4 @@ class AllPetitionsViewTest(TestCase):
 
     def test_allPetitionsOk(self):
         response = self.client.get(reverse('all_petitions'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)

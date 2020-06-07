@@ -1,9 +1,0 @@
-{% extends 'layouts/layout.html' %}
-
-{% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
-
-{% block main_content %}
-<div class="container">
-  {% include 'petition/generic_petition_list.html' with petitions=petitions %}
-</div>
-{% endblock main_content %}

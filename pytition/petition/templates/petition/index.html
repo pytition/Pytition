@@ -18,9 +18,6 @@
     <h2>{% trans "View latest petitions" %}</h2>
     {% include 'petition/generic_petition_list.html' with petitions=petitions %}
   </div>
-  <div class="text-center">
-    <a href="{% url "all_petitions" %}" class="btn btn-primary">{% trans "View all petitions" %}</a>
-  </div>
 </section>
 
 {% endblock main_content %}
