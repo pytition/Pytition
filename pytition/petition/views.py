@@ -197,8 +197,9 @@ def get_csv_signature(request, petition_id, only_confirmed):
     except Petition.DoesNotExist:
         return JsonResponse({}, status=404)
 
-    if petition.owner_type == "org":
-        if not petition.org.is_allowed_to(user, "can_view_signatures"):
+    if petition.owner_type == "org" and not petition.org.is_allowed_to(user, "can_view_signatures"):
+            return JsonResponse({}, status=403)
+    elif petition.owner_type == "user" and petition.owner != user:
             return JsonResponse({}, status=403)
 
     filename = '{}.csv'.format(petition)
@@ -1310,6 +1311,9 @@ def show_signatures(request, petition_id):
 
     if petition.owner_type == "user":
         base_template = 'petition/user_base.html'
+        if petition.user != pytitionuser:
+            messages.error(request, _("You are not allowed to view this petition's signatures."))
+            return redirect("user_dashboard")
     else:
         org = petition.org
         base_template = 'petition/org_base.html'
@@ -1345,10 +1349,7 @@ def show_signatures(request, petition_id):
                         else:
                             failed = True
                     else: # Petition is owned by a user, we check it's the one asking for deletion
-                        if pet.user == pytitionuser:
-                            s.delete()
-                        else:
-                            failed = True
+                        s.delete()
                 if failed:
                     messages.error(request, _("You don't have permission to delete some or all of selected signatures"))
                 else:

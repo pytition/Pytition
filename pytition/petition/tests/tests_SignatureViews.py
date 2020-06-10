@@ -162,8 +162,8 @@ class PetitionViewTest(TestCase):
             'signature_id': [sid],
         }
         response = self.client.post(reverse("show_signatures", args=[pid]), data, follow=True)
-        self.assertRedirects(response, reverse("show_signatures", args=[pid]))
-        self.assertTemplateUsed(response, "petition/signature_data.html")
+        self.assertRedirects(response, reverse("user_dashboard"))
+        self.assertTemplateUsed(response, "petition/user_dashboard.html")
         s = Signature.objects.get(pk=sid)
         self.assertEquals(s.id, sid) # dummy test, we just want the previous line not to raise a DoesNotExist exception
         messages = response.context['messages']
