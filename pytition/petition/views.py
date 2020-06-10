@@ -1623,6 +1623,9 @@ def transfer_petition(request, petition_id):
             messages.error(request, _("You don't have the permission to transfer a petition from Organization '{}'"
                                       .format(petition.owner)))
             return redirect("org_dashboard", petition.owner)
+    elif petition.owner_type == "user" and petition.user != pytitionuser:
+        messages.error(request, _("You don't have the permission to transfer this petition"))
+        return redirect("user_dashboard")
 
     if petition.owner_type == "org":
         ctx['base_template'] = 'petition/org_base.html'
