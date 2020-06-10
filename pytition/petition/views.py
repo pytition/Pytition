@@ -82,6 +82,33 @@ def index(request):
         )
 
 
+# <int:petition_id>/show_sympa_subscribe_bloc
+# Show sympa subscribe bloc to mass subscribe people to newsletter
+@login_required
+def show_sympa_subscribe_bloc(request, petition_id):
+    try:
+        pytitionuser = get_session_user(request)
+    except:
+        pytitionuser = None
+
+    if not pytitionuser:
+        return redirect('index')
+
+    petition = petition_from_id(petition_id)
+
+    if petition.owner_type == "org" and not petition.org.is_allowed_to(pytitionuser, "can_view_signatures"):
+        return redirect("index")
+    elif petition.owner_type == "user" and petition.owner != pytitionuser:
+        return redirect("index")
+
+    text_bloc = ""
+    for signature in petition.signature_set.filter(subscribed_to_mailinglist=True):
+        text_bloc = text_bloc + "{email} {firstname} {lastname}<br/>\n".format(email=signature.email,
+                                                                               firstname=signature.first_name,
+                                                                               lastname=signature.last_name)
+
+    return HttpResponse(text_bloc)
+
 # /all_petitions
 # Show all the petitions in the database
 def all_petitions(request):
