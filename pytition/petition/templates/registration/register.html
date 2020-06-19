@@ -1,6 +1,14 @@
 {% extends "layouts/layout.html" %}
 {% load i18n %}
 
+{% block extracss %}
+    <style>
+        .invalid-feedback {
+            display: block;
+        }
+    </style>
+{% endblock extracss %}
+
 {% block main_content %}
 <div class="container">
     <form action="" method="POST" novalidate="novalidate">{% csrf_token %}
