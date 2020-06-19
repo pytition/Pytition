@@ -1,8 +1,9 @@
 import csv
-import time
 from datetime import timedelta
 import os
 import urllib.parse
+import random
+from time import time
 
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
@@ -23,6 +24,7 @@ from django.utils.decorators import method_decorator
 from django.utils.timezone import now
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
+from django.views.generic.edit import CreateView
 
 from formtools.wizard.views import SessionWizardView
 
@@ -1614,6 +1616,7 @@ def image_upload(request):
 
     return JsonResponse({'location': storage.base_url + newrelpath})
 
+
 # /transfer_petition/<int:petition_id>
 # Transfer a petition to another org or user
 @login_required
@@ -1703,3 +1706,33 @@ def search_users_and_orgs(request):
                    'lastname': user.user.last_name} for user in users]
     }
     return JsonResponse(result)
+
+
+class PytitionUserCreateView(CreateView):
+
+    def save_numbers(self, request):
+        request.session['random_a'] = self.a
+        request.session['random_b'] = self.b
+        request.session['answer'] = self.answer
+
+    def get_new_numbers(self):
+        r = random.Random(time())
+        self.a = r.choice(range(0, 100))
+        self.b = r.choice(range(0, 100))
+        self.answer = self.a + self.b
+        self.form_class.base_fields['answer'].label = _("How much is {a} + {b}?").format(a=self.a, b=self.b)
+
+    def __init__(self, *args, **kwargs):
+        super(PytitionUserCreateView, self).__init__(*args, **kwargs)
+        self.get_new_numbers()
+
+    def get_context_data(self, **kwargs):
+        self.save_numbers(self.request)
+        return super(PytitionUserCreateView, self).get_context_data(**kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(PytitionUserCreateView, self).get_form_kwargs()
+        kwargs.update({
+            'request': self.request
+        })
+        return kwargs

@@ -3,9 +3,8 @@ from django.urls import path
 
 from . import views
 from .forms import PytitionUserCreationForm
-from .views import PetitionCreationWizard
+from .views import PetitionCreationWizard, PytitionUserCreateView
 from django.views.generic import RedirectView
-from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.conf import settings
 
@@ -70,6 +69,6 @@ urlpatterns = [
 if settings.ALLOW_REGISTER:
     urlpatterns += [
         path('register/',
-             CreateView.as_view(template_name='registration/register.html', form_class=PytitionUserCreationForm,
+             PytitionUserCreateView.as_view(template_name='registration/register.html', form_class=PytitionUserCreationForm,
                                 success_url=reverse_lazy("login")), name="register"),
     ]

@@ -174,15 +174,37 @@ class StyleForm(forms.Form):
 
 
 class PytitionUserCreationForm(UserCreationForm):
+    answer = forms.IntegerField(required=True)
+    email_confirm = forms.EmailField(widget=forms.HiddenInput, required=False)
     class Meta:
         model = get_user_model()
-        fields = ("username", "first_name", "last_name", "email")
+        fields = ("username", "first_name", "last_name", "email", "answer", "email_confirm")
         field_classes = {'username': UsernameField}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request=None, *args, **kwargs):
         super(PytitionUserCreationForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['email'].required = True
+        self.request = request
+
+    def clean(self):
+        session = self.request.session
+        cleaned_data = super(UserCreationForm, self).clean()
+        if "answer" in cleaned_data and int(cleaned_data["answer"]) != session['answer']:
+            self.add_error("answer", ValidationError(_("Wrong answer"), code="invalid"))
+        if "email_confirm" in cleaned_data and cleaned_data["email_confirm"] != "":
+            # Normal users should end up with email_confirm == "" because the field is hidden
+            # Robots might fill up this field, thus we throw an error
+            self.add_error("email_confirm", ValidationError("Incorrect email confirmation", code="invalid"))
+        if 'answer' in cleaned_data:
+            del cleaned_data['answer']
+        if 'answer' in self.data:
+            # QueryDict() objects are immutable!
+            newdata = dict(self.data.items())
+            del newdata['answer']
+            self.data = newdata
+        self.cleaned_data = cleaned_data
+        return cleaned_data
 
 
 class UpdateInfoForm(UserCreationForm):
