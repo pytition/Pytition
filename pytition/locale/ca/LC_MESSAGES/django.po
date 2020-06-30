@@ -8,39 +8,41 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-01 23:41+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-07-01 07:51+0000\n"
+"Last-Translator: Joan Montané <joan@montane.cat>\n"
+"Language-Team: Catalan <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:81
 #: pytition/petition/models.py:475
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
-msgstr ""
+msgstr "Nombre de peticions"
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
-msgstr ""
+msgstr "Nombre de membres"
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
-msgstr ""
+msgstr "Error: {}"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "Confirma les signatures"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
-msgstr ""
+msgstr "Envia el correu de confirmació una altra vegada"
 
 #: pytition/petition/admin.py:85 pytition/petition/admin.py:225
 msgid ""
@@ -48,11 +50,13 @@ msgid ""
 "gradient color. If not, the background color will be a monochrome background "
 "color."
 msgstr ""
+"Aquest és un color degradat. Si el seleccioneu, el color de fons serà un "
+"degradat. Si no ho feu, el color de fons serà un color sòlid monocromàtic."
 
 #: pytition/petition/admin.py:86 pytition/petition/admin.py:87
 #: pytition/petition/admin.py:226 pytition/petition/admin.py:227
 msgid "Only used if gradient is selected"
-msgstr ""
+msgstr "Només s'usa si heu marcat l'opció «gradient»"
 
 #: pytition/petition/admin.py:88 pytition/petition/admin.py:228
 msgid ""
