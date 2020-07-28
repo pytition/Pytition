@@ -141,7 +141,12 @@ def hide_sign_form_if_user_just_signed(request, ctx):
     storage = get_messages(request)
     for message in storage:
         if message.level == messages.SUCCESS:
-            ctx.update({'form_is_signed': True})
+            just_confirmed = request.session.get('just_confirmed', False)
+            if just_confirmed:
+                ctx.update({'signature_is_confirmed': True})
+                request.session['just_confirmed'] = False
+            else:
+                ctx.update({'petition_is_signed': True})
 
 # /<int:petition_id>/
 # Show information on a petition
@@ -180,6 +185,7 @@ def confirm(request, petition_id, confirmation_hash):
             messages.error(request, _("Error: This confirmation code is invalid. Maybe you\'ve already confirmed?"))
         else:
             messages.success(request, successmsg)
+            request.session['just_confirmed'] = True
     except ValidationError as e:
         messages.error(request, _(e.message))
     except Signature.DoesNotExist:

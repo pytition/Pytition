@@ -78,6 +78,58 @@ dataLayer = [];
 {% block navbar %}
 {% endblock navbar %}
 
+{% block modal %}
+{% if petition_is_signed %}
+  <div class="modal fade" id="show_sign_success">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans "Thank you!" %}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          {% blocktrans trimmed %}
+            Thank you for signing this petition!
+            Your signature will be accounted for as soon as you click on the link in the e-mail
+            we've just sent you.
+          {% endblocktrans %}
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">{% trans "Ok" %}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% if signature_is_confirmed %}
+  <div class="modal fade" id="show_confirm_success">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans "Thank you!" %}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          {% blocktrans trimmed %}
+            Thank you for confirming your signature to this petition!
+            Your signature is now accounted for. See you soon!
+          {% endblocktrans %}
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">{% trans "Ok" %}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock modal %}
+
 {% block main_content %}
 <div class="show-form" id="show-form">
   <div class="wrapper">
@@ -187,6 +239,16 @@ dataLayer = [];
 
 {% block extrajs %}
 <script type="text/javascript" src="{% static "js/petition.js" %}"></script>
+{% if petition_is_signed %}
+<script type="text/javascript">
+$("#show_sign_success").modal("show");
+</script>
+{% endif %}
+{% if signature_is_confirmed %}
+<script type="text/javascript">
+$("#show_confirm_success").modal("show");
+</script>
+{% endif %}
 {% endblock %}
 
 {% block footer %}

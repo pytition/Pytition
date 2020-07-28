@@ -36,6 +36,36 @@ class PetitionViewTest(TestCase):
         self.assertContains(response, text='<meta property="og:url" content="http://testserver/petition/{}/" />'
                             .format(petition.id))
 
+    def test_petition_success_msg(self):
+        """ Test that the success modal is there when signing and confirming """
+        petition = Petition.objects.filter(published=True).first()
+        data = {
+            'first_name': 'test first name',
+            'last_name': 'test last name',
+            'phone': '0123456789',
+            'email': 'toto@toto.com'
+        }
+        # First, let's sign the petition
+        response = self.client.post(reverse("create_signature", args=[petition.id]), data, follow=True)
+        self.assertRedirects(response, petition.url)
+        self.assertContains(response, text="""<script type="text/javascript">
+$("#show_sign_success").modal("show");
+</script>""")
+        self.assertContains(response, text='<div class="modal fade" id="show_sign_success">')
+        self.assertNotContains(response, text='show_confirm_success')
+        # Now, let's confirm our signature
+        signature = petition.signature_set.first()
+        self.assertFalse(signature.confirmed)
+        response = self.client.post(reverse("confirm", args=[petition.id, signature.confirmation_hash]), follow=True)
+        self.assertRedirects(response, petition.url)
+        signature.refresh_from_db()
+        self.assertTrue(signature.confirmed)
+        self.assertContains(response, text="""<script type="text/javascript">
+$("#show_confirm_success").modal("show");
+</script>""")
+        self.assertContains(response, text='<div class="modal fade" id="show_confirm_success">')
+        self.assertNotContains(response, text='show_sign_success')
+
     def test_petition_publish(self):
         self.logout()
         petition = Petition.objects.filter(user__user__username="julia").first()
