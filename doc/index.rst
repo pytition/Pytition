@@ -18,6 +18,7 @@ Demo: https://pytitiondemo.sionneau.net/
 
    installation
    configuration
+   update
 
 
 Indices and tables
