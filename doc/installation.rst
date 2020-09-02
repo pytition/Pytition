@@ -83,7 +83,7 @@ Create a MySQL database and user for Pytition:
 .. code-block:: bash
 
   $ password="ENTER_A_SECURE_PASSWORD_YOU_WILL_REMEMBER_HERE"
-  $ sudo mysql -h localhost -u root -Bse "CREATE USER pytition@localhost IDENTIFIED BY '${password}'; CREATE DATABASE pytition; GRANT USAGE ON *.* TO 'pytition'@localhost IDENTIFIED BY '${password}'; GRANT ALL privileges ON pytition.* TO pytition@localhost; FLUSH PRIVILEGES;"
+  $ sudo mysql -h localhost -u root -Bse "CREATE USER pytition@localhost IDENTIFIED BY '${password}'; CREATE DATABASE pytition; GRANT USAGE ON *.* TO 'pytition'@localhost; GRANT ALL privileges ON pytition.* TO pytition@localhost; FLUSH PRIVILEGES;"
 
 Write your SQL credential file in `my.cnf` outside of `www`::
 
