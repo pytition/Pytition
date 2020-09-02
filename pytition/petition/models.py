@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.auth.hashers import get_hasher
 from django.db import transaction
 from django.urls import reverse
+from django.utils import timezone
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
@@ -204,6 +205,8 @@ class Petition(models.Model):
     salt = models.TextField(blank=True)
     paper_signatures = models.IntegerField(default=0)
     paper_signatures_enabled = models.BooleanField(default=False)
+    creation_date = models.DateTimeField(blank=True)
+    last_modification_date = models.DateTimeField(blank=True)
 
     def transfer_to(self, user=None, org=None):
         if user is None and org is None:
@@ -411,6 +414,7 @@ class Petition(models.Model):
             if not self.salt:
                 hasher = get_hasher()
                 self.salt = hasher.salt().decode('utf-8')
+        self.last_modification_date = timezone.now()
         super(Petition, self).save(*args, **kwargs)
 
 
@@ -610,11 +614,18 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.pytitionuser.save()
 
+@receiver(pre_save, sender=Petition)
+def pre_save_petition(sender, instance, **kwargs):
+    if not instance.creation_date:
+        instance.creation_date = timezone.now()
 
 @receiver(post_save, sender=Petition)
 def save_petition(sender, instance, **kwargs):
     if instance.slugmodel_set.count() == 0:
         instance.slugify()
+    if kwargs['created']:
+        instance.creation_date = timezone.now()
+        instance.save()
 
 @receiver(post_delete, sender=PytitionUser)
 def post_delete_user(sender, instance, *args, **kwargs):
