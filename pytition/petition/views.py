@@ -179,6 +179,31 @@ def detail(request, petition_id):
         return render(request, 'petition/petition_detail.html', ctx)
 
 
+# /new_edit/<int:petition_id>/
+# Show information on a petition
+def new_edit(request, petition_id):
+    petition = petition_from_id(petition_id)
+    check_petition_is_accessible(request, petition)
+    try:
+        pytitionuser = get_session_user(request)
+    except:
+        pytitionuser = None
+
+    sign_form = SignatureForm(petition=petition)
+    ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
+           'meta': petition_detail_meta(request, petition_id)}
+
+    # If we've just signed successfully the petition, do not show the sign form
+    hide_sign_form_if_user_just_signed(request, ctx)
+
+    if "application/json" in request.META.get('HTTP_ACCEPT', []):
+        response = JsonResponse(petition.to_json)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        return response
+    else:
+        return render(request, 'petition/new_edit.html', ctx)
+
 # /<int:petition_id>/confirm/<confirmation_hash>
 # Confirm signature to a petition
 def confirm(request, petition_id, confirmation_hash):

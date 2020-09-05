@@ -1,0 +1,304 @@
+{% extends 'layouts/layout.html' %}
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load petition_extras %}
+
+{% block title %}{{ petition.title }}{% endblock title %}
+
+<!-- Extra meta -->
+{% block extrameta %}
+<meta name="description" content="{{ petition.title }}"/>
+
+<meta property="og:title" content="{{ petition.title }}"/>
+{% if petition.twitter_description %}
+<meta property="og:description"
+content="{{ petition.raw_twitter_description|safe }}"/>
+{% else %}
+<meta property="og:description" content="{{ petition.raw_text|safe }}"/>
+{% endif %}
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="{{ meta.petition_url }}" />
+<meta property="og:site_name" content="{{ meta.site_url }}" />
+{% if petition.twitter_image %}
+<meta property="og:image" content="{{ petition.twitter_image }}"/>
+{% endif %}
+
+<meta itemprop="name" content="{{ petition.title }}"/>
+{% if petition.twitter_description %}
+<meta itemprop="description"
+content="{{ petition.raw_twitter_description|safe }}"/>
+{% else %}
+<meta itemprop="description" content="{{ petition.raw_text|safe }}"/>
+{% endif %}
+<!-- FIXME: <meta itemprop="url" content=""/> //-->
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@yannsionneau"/>
+<meta name="twitter:site" content="{{ petition.org_twitter_handle }}"/>
+<meta name="twitter:title" content="{{ petition.title }}"/>
+{% if petition.twitter_description %}
+<meta name="twitter:description"
+content="{{ petition.raw_twitter_description|safe }}"/>
+{% else %}
+<meta name="twitter:description" content="{{ petition.raw_text|safe }}"/>
+{% endif %}
+{% if petition.twitter_image %}
+<meta name="twitter:image" content="{{ petition.twitter_image }}"/>
+{% endif %}
+
+{% endblock %}
+
+{% block extracss %}
+<link href="{% static "css/petition.css" %}" rel="stylesheet" type="text/css">
+<style type="text/css">
+.editable {
+    border-width: 2px;
+    border-color: red;
+    border-style: dashed;
+}
+{% if petition.bgcolor != "#FFFFFF" %}
+body {
+  background-color: {{ petition.bgcolor }};
+}
+{% endif %}
+{% if petition.linear_gradient_direction != petition.NO %}
+body {
+  background: linear-gradient({{ petition.linear_gradient_direction}}, {{ petition.gradient_from }}, {{ petition.gradient_to }});
+}
+{% endif %}
+</style>
+{% endblock %}
+
+{% block extrajshead %}
+<script>
+dataLayer = [];
+</script>
+{% endblock %}
+
+{% block container_type %}container petition{% endblock container_type %}
+
+{% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block main_content %}
+<div class="show-form" id="show-form">
+  <div class="wrapper">
+    <button type="button" class="btn btn-primary btn-block">{% trans "SIGN" %}</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="jumbotron text-center">
+    <h1 class="jumbotron-heading editable" id="petition-title">{{ petition.title|html_sanitize|striptags|safe }}</h1>
+  </div>
+  <div class="petition-wrapper">
+    <div class="content">
+      <div class="formular" id="petition">
+        <div class="form-wrapper">
+          {% if petition.side_text %}
+            <div class="intro editable" id="intro">
+                {{ petition.side_text|html_sanitize|safe }}
+            </div>
+          {% endif %}
+          <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
+          <div class="counter" id="counter">
+            <p>
+              Déjà <span id="nb-signatures">{{ petition.signature_number }}</span> signatures.
+              Objectif : <span class="format-number">{{ petition.target }}</span>
+            </p>
+            <div class="progress">
+              <div class="progress-bar bg-primary" role="progressbar" id="progress-bar"
+              data-target="{{ petition.target }}">
+              </div>
+            </div>
+          </div>
+          <div id="form-sticky" class="form-sticky">
+            {% for message in messages %}
+            <div
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            class="alert alert-danger" role="alert">
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            class="alert alert-success" role="alert">
+            {% else %}
+            class="alert {{ message.tags }}" role="alert">
+            {% endif %}
+              {{ message }}
+            </div>
+            {% endfor %}
+            <div class="fields" {% if petition_is_signed %}hidden{% endif %}>
+              <form method='POST' name='petition' class='form-group'
+              action='{% url "create_signature" petition.id %}'>
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
+                  {{ error }}
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% for field in form.visible_fields %}
+                <div class="form-group has-feedback">
+                  {{ field.label_tag }}
+
+                  {% if form.is_bound %}
+                    {% if field.errors %}
+                      {{ field|add_class:"is-invalid" }}
+                      <span class="oi oi-question-mark form-control-feedback invalid-feedback"></span>
+                      {% for error in field.errors %}
+                        <span class="invalid-feedback">{{ error }}</span>
+                      {% endfor %}
+                    {% else %}
+                      {{ field|add_class:"is-valid" }}
+                      <span class="oi oi-circle-check form-control-feedback valid-feedback"></span>
+                    {% endif %}
+                  {% else %}
+                    {{ field }}
+                  {% endif %}
+
+                  {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                </div>
+                {% endfor %}
+
+                <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
+                  type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
+              </form>
+            </div>
+            <div class="reassurance" id="reassurance">
+              <p style="text-align:justify">
+                  <div class="editable">
+                    {{ petition.sign_form_footer }}
+                  </div>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="presentation editable" id="petition_content">
+        {{ petition.text|html_sanitize|safe }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main_content %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static "js/petition.js" %}"></script>
+<script type="text/javascript" src="{% static "vendor/tinymce/js/tinymce/tinymce.min.js" %}"></script>
+<script type="text/javascript">
+jQuery(function (){
+    var content;
+   if ($("#footer-links").innerHeight() < 1) {
+       $("#footer-links").text("EDIT ME");
+   }
+   if ($("#footer-text").innerHeight() < 1) {
+       $("#footer-text").text("EDIT ME");
+   }
+   content = $("#footer-text").text().trim();
+   if (content == "") {
+       $("#footer-text").text("EDIT ME");
+   }
+   content = $("#footer-links").text().replace(" ", "").replace("\n", "").replace("\r", "");
+   if (content == "") {
+       $("#footer-links").text("EDIT ME");
+   }
+});
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+function get_csrf_token() {
+    return csrftoken;
+}
+  tinymce.init({
+    selector: '#petition-title',
+    inline: true
+  });
+tinymce.init({
+    selector: '#intro',
+    inline: true
+  });
+tinymce.init({
+    selector: '#footer-links',
+    inline: true
+  });
+tinymce.init({
+    selector: '#footer-text',
+    inline: true
+  });
+tinymce.init({
+    selector: '#petition_content',
+    plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+    cleanup_on_startup: true,
+    custom_undo_redo_levels: 10,
+    toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat | fontselect | fontsizeselect',
+    insert_toolbar: 'forecolor backcolor',
+    fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
+    entity_encoding: 'raw',
+    relative_urls : false,
+    convert_urls: true,
+    file_picker_types: 'image',
+    automatic_uploads: true,
+    images_upload_url: '/petition/image_upload',
+    image_upload_credentials: true,
+    inline: true,
+    images_upload_handler: function(blobInfo, success, failure) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/petition/image_upload');
+        xhr.setRequestHeader('X-CSRFTOKEN', get_csrf_token()); // manually set header
+
+        xhr.onload = function() {
+            if (xhr.status !== 200) {
+                failure('HTTP Error: ' + xhr.status);
+                return;
+            }
+
+            let json = JSON.parse(xhr.responseText);
+
+            if (!json || typeof json.location !== 'string') {
+                failure('Invalid JSON: ' + xhr.responseText);
+                return;
+            }
+
+            success(json.location);
+        };
+
+        let formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+        xhr.send(formData);
+        }
+  });
+  </script>
+
+{% endblock %}
+
+{% block footer %}
+<div class="container">
+<div class="footer-wrapper bg-dark">
+    <footer role="contentinfo" class="footer">
+        <div id="footer-links" class="footer-links editable">
+            {% if petition.footer_links %}
+            {{ petition.footer_links|html_sanitize|safe }}
+            {% else %}
+                <i>You can edit here</i>
+            {% endif %}
+        </div>
+        <div id="footer-text" class="footer-text editable">
+            {% if petition.footer_text %}
+            {{ petition.footer_text|html_sanitize|safe }}
+            {% else %}
+                <i>You can edit here</i>
+            {% endif %}
+        </div>
+    </footer>
+</div>
+</div>
+{% endblock %}
