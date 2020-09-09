@@ -1071,7 +1071,7 @@ class PetitionCreationWizard(SessionWizardView):
                 if publish:
                     petition.publish()
                 if _redirect and _redirect == '1':
-                    return redirect("edit_petition", petition.id)
+                    return redirect("new_edit", petition.id)
                 else:
                     return redirect("org_dashboard", orgslugname)
             else:
@@ -1090,7 +1090,7 @@ class PetitionCreationWizard(SessionWizardView):
             if publish:
                 petition.publish()
             if _redirect and _redirect == '1':
-                return redirect("edit_petition", petition.id)
+                return redirect("new_edit", petition.id)
             else:
                 return redirect("user_dashboard")
 
@@ -1601,7 +1601,7 @@ def add_new_slug(request, petition_id):
                             messages.error(request, message)
             else:
                 messages.error(request, _("You don't have the permission to modify petitions"))
-        return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
+        return redirect(reverse("new_edit", args=[petition_id]) + "#tab_social_network_form")
     else:
         return redirect("user_dashboard")
 
@@ -1619,7 +1619,7 @@ def del_slug(request, petition_id):
     if petition.is_allowed_to_edit(pytitionuser):
         slug_id = request.GET.get('slugid', None)
         if not slug_id:
-            return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
+            return redirect(reverse("new_edit", args=[petition_id]) + "#tab_social_network_form")
 
         slug = SlugModel.objects.get(pk=slug_id)
         petition.del_slug(slug)
@@ -1631,7 +1631,7 @@ def del_slug(request, petition_id):
             return redirect("org_dashboard", petition.owner.slugname)
         else:
             return redirect("user_dashboard")
-    return redirect(reverse("edit_petition", args=[petition_id]) + "#tab_social_network_form")
+    return redirect(reverse("new_edit", args=[petition_id]) + "#tab_social_network_form")
 
 
 @login_required

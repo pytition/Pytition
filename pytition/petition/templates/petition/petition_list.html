@@ -61,7 +61,7 @@
                title="{% trans "View petition" %}" aria-disabled="true" data-toggle="tooltip">
               <span class="oi oi-eye"></span>
             </a>
-            <a href="{% url "edit_petition" petition.id %}" class="btn btn-outline-warning btn-sm"
+            <a href="{% url "new_edit" petition.id %}" class="btn btn-outline-warning btn-sm"
                     title="{% trans "Edit petition" %}" data-toggle="tooltip"><span class="oi oi-pencil"></span></a>
             <a href="{% url "show_signatures" petition.id %}" class="btn btn-outline-info btn-sm" data-toggle="tooltip"
              title="{% trans "View signatures" %}" aria-disabled="true">
