@@ -83,13 +83,44 @@ dataLayer = [];
 {% block navbar %}
 {% endblock navbar %}
 
+{% block app-extra-classes %}w-100{% endblock %}
+
+{% block editor-sidebar %}
+<style>
+.page-wrapper {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+.sidebar {
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 100hv;
+}
+
+</style>
+
+<div class="page-wrapper">
+<div id="sidebar" class="sidebar">
+    <h2>Edit your petition!</h2>
+    <form action="{% url 'new_edit' petition.id %}" method="POST" id="edit_form">
+        {% csrf_token %}
+        <input type="hidden" name="petition_title" id="petition-title_field">
+        <input type="hidden" name="intro" id="intro_field">
+        <input type="hidden" name="footer-links" id="footer-links_field">
+        <input type="hidden" name="footer-text" id="footer-text_field">
+        <input type="hidden" name="petition_content" id="petition_content_field">
+        <input type="button" class="btn btn-primary" id="save_btn" value="{% trans "Save" %}">
+    </form>
+</div>
+{% endblock editor-sidebar %}
+
 {% block main_content %}
 <div class="show-form" id="show-form">
   <div class="wrapper">
     <button type="button" class="btn btn-primary btn-block">{% trans "SIGN" %}</button>
   </div>
 </div>
-
 <div class="container">
   <div class="jumbotron text-center">
     <h1 class="jumbotron-heading editable" id="petition-title">{{ petition.title|html_sanitize|striptags|safe }}</h1>
@@ -129,48 +160,18 @@ dataLayer = [];
             </div>
             {% endfor %}
             <div class="fields" {% if petition_is_signed %}hidden{% endif %}>
-              <form method='POST' name='petition' class='form-group'
-              action='{% url "create_signature" petition.id %}'>
-                {% csrf_token %}
-                {% for hidden_field in form.hidden_fields %}
-                {{ hidden_field }}
-                {% endfor %}
-
-                {% if form.non_field_errors %}
-                <div class="alert alert-danger" role="alert">
-                  {% for error in form.non_field_errors %}
-                  {{ error }}
-                  {% endfor %}
-                </div>
-                {% endif %}
-
+              <form name='petition' class='form-group'>
                 {% for field in form.visible_fields %}
                 <div class="form-group has-feedback">
                   {{ field.label_tag }}
-
-                  {% if form.is_bound %}
-                    {% if field.errors %}
-                      {{ field|add_class:"is-invalid" }}
-                      <span class="oi oi-question-mark form-control-feedback invalid-feedback"></span>
-                      {% for error in field.errors %}
-                        <span class="invalid-feedback">{{ error }}</span>
-                      {% endfor %}
-                    {% else %}
-                      {{ field|add_class:"is-valid" }}
-                      <span class="oi oi-circle-check form-control-feedback valid-feedback"></span>
-                    {% endif %}
-                  {% else %}
-                    {{ field }}
-                  {% endif %}
-
+                  {{ field }}
                   {% if field.help_text %}
                     <small class="form-text text-muted">{{ field.help_text }}</small>
                   {% endif %}
                 </div>
                 {% endfor %}
-
                 <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
-                  type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
+                  type="button" class="btn btn-primary eaSubmitButton" value="Signer"></span>
               </form>
             </div>
             <div class="reassurance" id="reassurance">
@@ -189,13 +190,24 @@ dataLayer = [];
     </div>
   </div>
 </div>
-
 {% endblock main_content %}
 
 {% block extrajs %}
 <script type="text/javascript" src="{% static "js/petition.js" %}"></script>
 <script type="text/javascript" src="{% static "vendor/tinymce/js/tinymce/tinymce.min.js" %}"></script>
 <script type="text/javascript">
+jQuery(function () {
+    $("#save_btn").on("click", function () {
+        $.each(tinymce.editors, function (index, editor) {
+            var elId = editor.getElement().id;
+            var formFieldId = elId + "_field";
+            var formField = $("#" + formFieldId);
+            formField.val(editor.getContent());
+        });
+        $('#edit_form').submit();
+    });
+});
+
 jQuery(function (){
     var content;
    if ($("#footer-links").innerHeight() < 1) {

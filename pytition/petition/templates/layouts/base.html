@@ -37,6 +37,8 @@
 {% block modal %}
 {% endblock modal %}
     </div>
+{% block editor-sidebar %}
+{% endblock editor-sidebar %}
     <div class="app d-flex flex-column
 {% block justify-app %}
 {% if footer_content %}
@@ -45,6 +47,8 @@
     justify-content-start
 {% endif %}
 {% endblock justify-app %}
+{% block app-extra-classes %}
+{% endblock app-extra-classes %}
     ">
     {% block nav %}{% include 'layouts/nav.html' %}{% endblock nav %}
 

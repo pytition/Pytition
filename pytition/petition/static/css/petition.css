@@ -143,7 +143,8 @@ nav.navbar {
 }
 
 .eaFullWidthContent input[type=submit],
-.eaSubmitResetButtonGroup input[type=submit] {
+.eaSubmitResetButtonGroup input[type=submit],
+.eaSubmitResetButtonGroup input[type=button] {
     width: 100%
 }
 

@@ -193,16 +193,16 @@ def new_edit(request, petition_id):
     ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
            'meta': petition_detail_meta(request, petition_id)}
 
-    # If we've just signed successfully the petition, do not show the sign form
-    hide_sign_form_if_user_just_signed(request, ctx)
+    if request.method == "POST":
+        # FIXME: check data and handle errors: show them to the user in a nice understandable way
+        content = request.POST
+        petition.title = content['petition_title']
+        petition.text = content['petition_content']
+        petition.footer_text = content['footer-text']
+        petition.footer_links = content['footer-links']
+        petition.save()
 
-    if "application/json" in request.META.get('HTTP_ACCEPT', []):
-        response = JsonResponse(petition.to_json)
-        response["Access-Control-Allow-Origin"] = "*"
-        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-        return response
-    else:
-        return render(request, 'petition/new_edit.html', ctx)
+    return render(request, 'petition/new_edit.html', ctx)
 
 # /<int:petition_id>/confirm/<confirmation_hash>
 # Confirm signature to a petition
