@@ -200,6 +200,7 @@ def new_edit(request, petition_id):
         petition.text = content['petition_content']
         petition.footer_text = content['footer-text']
         petition.footer_links = content['footer-links']
+        petition.bgcolor = content['background_color']
         petition.save()
 
     return render(request, 'petition/new_edit.html', ctx)

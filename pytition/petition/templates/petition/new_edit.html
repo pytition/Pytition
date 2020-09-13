@@ -96,6 +96,7 @@ dataLayer = [];
     min-width: 400px;
     max-width: 400px;
     min-height: 100hv;
+    background-color: #E0E0DD;
 }
 
 </style>
@@ -110,6 +111,14 @@ dataLayer = [];
         <input type="hidden" name="footer-links" id="footer-links_field">
         <input type="hidden" name="footer-text" id="footer-text_field">
         <input type="hidden" name="petition_content" id="petition_content_field">
+        <label>{% trans "Change background color" %}</label>
+        <input type="color" name="background_color" value="{% spaceless %}{% if petition.bgcolor %}
+            {{ petition.bgcolor }}
+            {% else %}
+            #ffffff
+            {% endif %}
+            {% endspaceless %}" id="bgcolor_chooser">
+        <br />
         <input type="button" class="btn btn-primary" id="save_btn" value="{% trans "Save" %}">
     </form>
 </div>
@@ -197,6 +206,9 @@ dataLayer = [];
 <script type="text/javascript" src="{% static "vendor/tinymce/js/tinymce/tinymce.min.js" %}"></script>
 <script type="text/javascript">
 jQuery(function () {
+    $("#bgcolor_chooser").change(function () {
+        $("body").css("background-color", $(this).val());
+    })
     $("#save_btn").on("click", function () {
         $.each(tinymce.editors, function (index, editor) {
             var elId = editor.getElement().id;
