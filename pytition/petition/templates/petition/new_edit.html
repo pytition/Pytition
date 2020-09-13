@@ -139,11 +139,9 @@ dataLayer = [];
     <div class="content">
       <div class="formular" id="petition">
         <div class="form-wrapper">
-          {% if petition.side_text %}
             <div class="intro editable" id="intro">
                 {{ petition.side_text|html_sanitize|safe }}
             </div>
-          {% endif %}
           <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
           <div class="counter" id="counter">
             <p>
@@ -223,19 +221,24 @@ jQuery(function () {
 
 jQuery(function (){
     var content;
+    var placeHolder = "{% trans "Edit me!" %}";
    if ($("#footer-links").innerHeight() < 1) {
-       $("#footer-links").text("EDIT ME");
+       $("#footer-links").text(placeHolder);
    }
    if ($("#footer-text").innerHeight() < 1) {
-       $("#footer-text").text("EDIT ME");
+       $("#footer-text").text(placeHolder);
    }
    content = $("#footer-text").text().trim();
    if (content == "") {
-       $("#footer-text").text("EDIT ME");
+       $("#footer-text").text(placeHolder);
    }
    content = $("#footer-links").text().replace(" ", "").replace("\n", "").replace("\r", "");
    if (content == "") {
-       $("#footer-links").text("EDIT ME");
+       $("#footer-links").text(placeHolder);
+   }
+   content = $("#intro").text().replace(" ", "").replace("\n", "").replace("\r", "");
+  if (content == "") {
+       $("#intro").text(placeHolder);
    }
 });
 var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
