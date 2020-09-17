@@ -201,6 +201,8 @@ def new_edit(request, petition_id):
         petition.footer_text = content['footer-text']
         petition.footer_links = content['footer-links']
         petition.bgcolor = content['background_color']
+        petition.sign_form_footer = content['reassurance']
+        petition.target = content['target']
         petition.save()
 
     return render(request, 'petition/new_edit.html', ctx)

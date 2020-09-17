@@ -112,13 +112,17 @@ dataLayer = [];
         <input type="hidden" name="footer-links" id="footer-links_field">
         <input type="hidden" name="footer-text" id="footer-text_field">
         <input type="hidden" name="petition_content" id="petition_content_field">
-        <label>{% trans "Change background color" %}</label>
+        <input type="hidden" name="reassurance" id="reassurance_field">
+        <label for="bgcolor_chooser">{% trans "Change background color" %}</label>
         <input type="color" name="background_color" value="{% spaceless %}{% if petition.bgcolor %}
             {{ petition.bgcolor }}
             {% else %}
             #ffffff
             {% endif %}
             {% endspaceless %}" id="bgcolor_chooser">
+        <label for="target_field">Signature number target</label>
+        <input type="number" min="{{ petition.signature_number }}" placeholder="500" value="{{ petition.target }}"
+               id="target_field" name="target">
         <br />
         <input type="button" class="btn btn-primary" id="save_btn" value="{% trans "Save" %}">
     </form>
@@ -146,7 +150,7 @@ dataLayer = [];
           <div class="counter" id="counter">
             <p>
               Déjà <span id="nb-signatures">{{ petition.signature_number }}</span> signatures.
-              Objectif : <span class="format-number">{{ petition.target }}</span>
+              Objectif : <span class="format-number" id="show_target">{{ petition.target }}</span>
             </p>
             <div class="progress">
               <div class="progress-bar bg-primary" role="progressbar" id="progress-bar"
@@ -182,12 +186,8 @@ dataLayer = [];
                   type="button" class="btn btn-primary eaSubmitButton" value="Signer"></span>
               </form>
             </div>
-            <div class="reassurance" id="reassurance">
-              <p style="text-align:justify">
-                  <div class="editable">
-                    {{ petition.sign_form_footer }}
-                  </div>
-              </p>
+            <div class="reassurance editable" id="reassurance">
+                    {{ petition.sign_form_footer|html_sanitize|safe }}
             </div>
           </div>
         </div>
@@ -217,6 +217,9 @@ jQuery(function () {
         });
         $('#edit_form').submit();
     });
+    $("#target_field").change(function () {
+       $("#show_target").text($(this).val());
+    });
 });
 
 jQuery(function (){
@@ -240,6 +243,10 @@ jQuery(function (){
   if (content == "") {
        $("#intro").text(placeHolder);
    }
+   content = $("#reassurance").text().replace(" ", "").replace("\n", "").replace("\r", "");
+  if (content == "") {
+       $("#reassurance").text(placeHolder);
+   }
 });
 var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 function get_csrf_token() {
@@ -259,6 +266,10 @@ tinymce.init({
   });
 tinymce.init({
     selector: '#footer-text',
+    inline: true
+  });
+tinymce.init({
+    selector: '#reassurance',
     inline: true
   });
 tinymce.init({
