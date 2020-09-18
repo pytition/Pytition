@@ -344,6 +344,13 @@ class Petition(models.Model):
             return self.user
 
     @property
+    def dashboard(self):
+        if self.org:
+            return reverse("org_dashboard", kwargs={'orgslugname': self.owner_username})
+        else:
+            return reverse("user_dashboard")
+
+    @property
     def signature_number(self):
         return self.get_signature_number(True)
 
