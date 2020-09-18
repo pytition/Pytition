@@ -39,8 +39,8 @@ urlpatterns = [
     path('org/<slug:orgslugname>/delete_member', views.org_delete_member, name='org_delete_member'),
     path('org/<slug:orgslugname>/invite_accept', views.invite_accept, name='invite_accept'),
     path('org/<slug:orgslugname>/invite_dismiss', views.invite_dismiss, name='invite_dismiss'),
-    path('org/<slug:orgslugname>/edit_user_permissions/<slug:user_name>', views.org_edit_user_perms, name='org_edit_user_perms'),
-    path('org/<slug:orgslugname>/set_user_permissions/<slug:user_name>', views.org_set_user_perms, name='org_set_user_perms'),
+    path('org/<slug:orgslugname>/edit_user_permissions/<user_name>', views.org_edit_user_perms, name='org_edit_user_perms'),
+    path('org/<slug:orgslugname>/set_user_permissions/<user_name>', views.org_set_user_perms, name='org_set_user_perms'),
     path('org/<slug:orgslugname>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
     # Templates
     path('templates/<int:template_id>/edit', views.edit_template, name='edit_template'),
@@ -50,7 +50,7 @@ urlpatterns = [
     path('user/dashboard', views.user_dashboard, name='user_dashboard'),
     path('user/new_template', views.new_template, name='user_new_template'),
     path('user/<user_name>', views.user_profile, name='user_profile'),
-    path('user/<slug:username>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
+    path('user/<username>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),
     # Actions
     path('get_user_list', views.get_user_list, name='get_user_list'),
     path('search_users_and_orgs', views.search_users_and_orgs, name='search_users_and_orgs'),
