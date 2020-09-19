@@ -8,39 +8,41 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-01 23:41+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-09-20 09:51+0000\n"
+"Last-Translator: Filip Bengtsson <filip@libreradio.org>\n"
+"Language-Team: Swedish <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:81
 #: pytition/petition/models.py:475
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
-msgstr ""
+msgstr "Antal petitioner"
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
-msgstr ""
+msgstr "Antal medlemmar"
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
-msgstr ""
+msgstr "Fel: {}"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "Bekräfta underskrifterna"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
-msgstr ""
+msgstr "Skicka e-postmeddelandet för bekräftelse en gång till"
 
 #: pytition/petition/admin.py:85 pytition/petition/admin.py:225
 msgid ""
@@ -52,13 +54,13 @@ msgstr ""
 #: pytition/petition/admin.py:86 pytition/petition/admin.py:87
 #: pytition/petition/admin.py:226 pytition/petition/admin.py:227
 msgid "Only used if gradient is selected"
-msgstr ""
+msgstr "Används bara om en gradient har valts"
 
 #: pytition/petition/admin.py:88 pytition/petition/admin.py:228
 msgid ""
 "Put a bullet point list of links, it will appear horizontally in the page "
 "footer"
-msgstr ""
+msgstr "Gör en punktlista med länkar som kommer visas horisontellt i sidfoten"
 
 #: pytition/petition/admin.py:89 pytition/petition/admin.py:229
 msgid ""
