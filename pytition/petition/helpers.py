@@ -89,6 +89,18 @@ def send_confirmation_email(request, signature):
         msg.attach_alternative(html_message, "text/html")
         msg.send(fail_silently=False)
 
+# Send welcome mail on account creation
+def send_welcome_mail(user_infos):
+    html_message = render_to_string("registration/confirmation_email.html", user_infos)
+    message = strip_tags(html_message)
+    with get_connection() as connection:
+        msg = EmailMultiAlternatives(_("Account created !"),
+                                     message, to=[user_infos["email"]], connection=connection,
+                                     reply_to=[settings.DEFAULT_NOREPLY_MAIL])
+        msg.attach_alternative(html_message, "text/html")
+        msg.send(fail_silently=False)
+
+
 
 # Generate a meta url for the HTML meta property
 def petition_detail_meta(request, petition_id):
