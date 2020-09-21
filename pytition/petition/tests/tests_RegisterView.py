@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.core import mail
 
 from petition.models import PytitionUser
 
@@ -171,6 +172,8 @@ class PytitionUserRegister(TestCase):
             self.assertEqual(toto.user.email, data["email"])
             self.assertEqual(toto.user.first_name, data["first_name"])
             self.assertEqual(toto.user.last_name, data["last_name"])
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(mail.outbox[0].subject, 'Account created !')
             # Let's try to authenticate, to check password is OK
             pu = authenticate(username=data['username'], password=data['password1'])
             self.assertNotEqual(pu, None)
