@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-01 23:41+0200\n"
-"PO-Revision-Date: 2020-09-20 09:51+0000\n"
+"PO-Revision-Date: 2020-09-22 12:38+0000\n"
 "Last-Translator: Filip Bengtsson <filip@libreradio.org>\n"
 "Language-Team: Swedish <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/sv/>\n"
@@ -69,6 +69,10 @@ msgid ""
 "https://cards-dev.twitter.com/validator and https://developers.facebook.com/"
 "tools/debug/"
 msgstr ""
+"En beskrivning av petitionen som kommer visas i inlägg på Twitter och "
+"Facebook när länken delas på sociala nätverk. Detta kan testas via https"
+"://cards-dev.twitter.com/validator och https://developers.facebook.com/tools/"
+"debug/"
 
 #: pytition/petition/admin.py:90 pytition/petition/admin.py:230
 msgid ""
@@ -76,6 +80,9 @@ msgid ""
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
 "and https://developers.facebook.com/tools/debug/"
 msgstr ""
+"En bild som kommer visas i inlägg på Twitter och Facebook när länken delas "
+"på sociala nätverk. Detta kan testas via https://cards-dev.twitter.com/"
+"validator och https://developers.facebook.com/tools/debug/"
 
 #: pytition/petition/admin.py:91 pytition/petition/admin.py:231
 msgid ""
@@ -168,22 +175,24 @@ msgstr ""
 
 #: pytition/petition/admin.py:111 pytition/petition/admin.py:251
 msgid "e.g.: petition@mydomain.tld"
-msgstr ""
+msgstr "t.ex: petition@min-domän.tld"
 
 #: pytition/petition/admin.py:112 pytition/petition/admin.py:252
 msgid "If you don't have a real email account, leave 'localhost'."
-msgstr ""
+msgstr "Skriv ’localhost’ om du inte har ett riktigt e-postkonto."
 
 #: pytition/petition/admin.py:113 pytition/petition/admin.py:253
 msgid ""
 "25 for cleartext connection, 587 for STARTTLS, 465 for TLS. Prefer TLS if "
 "the email server supports it."
 msgstr ""
+"25 för att ansluta i klartext, 587 för STARTTLS eller 465 för TLS. Använd "
+"TLS om e-postservern tillåter det."
 
 #: pytition/petition/admin.py:114 pytition/petition/admin.py:115
 #: pytition/petition/admin.py:254 pytition/petition/admin.py:255
 msgid "Leave empty if you don't use any account autentication."
-msgstr ""
+msgstr "Lämna fältet tomt om du inte behöver uppge inloggningsuppgifter."
 
 #: pytition/petition/admin.py:116 pytition/petition/admin.py:256
 msgid ""
@@ -199,11 +208,11 @@ msgstr ""
 
 #: pytition/petition/admin.py:120
 msgid "Petition title"
-msgstr ""
+msgstr "Petitionens titel"
 
 #: pytition/petition/admin.py:121 pytition/petition/admin.py:261
 msgid "Petition text"
-msgstr ""
+msgstr "Petitionens brödtext"
 
 #: pytition/petition/admin.py:122 pytition/petition/admin.py:262
 msgid "Side text, on top of form"
@@ -211,15 +220,15 @@ msgstr ""
 
 #: pytition/petition/admin.py:123 pytition/petition/admin.py:263
 msgid "Signature target number"
-msgstr ""
+msgstr "Namninsamlingens målantal"
 
 #: pytition/petition/admin.py:124
 msgid "Number of paper (or other external medium) signatures"
-msgstr ""
+msgstr "Antal underskrifter på papper (eller annat externt medium)"
 
 #: pytition/petition/admin.py:125
 msgid "Enable paper signatures accounting"
-msgstr ""
+msgstr "Tillåt signaturinsamling på papper"
 
 #: pytition/petition/admin.py:126 pytition/petition/admin.py:264
 msgid "Direction of linear gradient for background color"
@@ -239,11 +248,11 @@ msgstr ""
 
 #: pytition/petition/admin.py:130 pytition/petition/admin.py:268
 msgid "Footer text"
-msgstr ""
+msgstr "Text i sidfoten"
 
 #: pytition/petition/admin.py:131 pytition/petition/admin.py:269
 msgid "Footer links"
-msgstr ""
+msgstr "Länkar i sidfoten"
 
 #: pytition/petition/admin.py:132 pytition/petition/admin.py:270
 msgid "Description for Twitter/Facebook cards"
