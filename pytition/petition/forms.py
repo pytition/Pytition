@@ -8,6 +8,7 @@ from django.utils.html import mark_safe, strip_tags
 
 from .models import Signature, PetitionTemplate, Petition, Organization, PytitionUser, SlugModel
 from .widgets import SwitchField
+from .helpers import send_welcome_mail
 
 import uuid
 import html
@@ -206,6 +207,8 @@ class PytitionUserCreationForm(UserCreationForm):
         self.cleaned_data = cleaned_data
         return cleaned_data
 
+    def send_success_email(self):
+        send_welcome_mail(self.cleaned_data)
 
 class UpdateInfoForm(UserCreationForm):
     class Meta:

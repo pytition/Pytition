@@ -264,3 +264,5 @@ DISABLE_USER_PETITION = False
 #:| If set to True, regular users won't be able to create new organizations.
 #:| Only superusers will be allowed to
 RESTRICT_ORG_CREATION = False
+
+DEFAULT_NOREPLY_MAIL = "noreply@domain.tld"

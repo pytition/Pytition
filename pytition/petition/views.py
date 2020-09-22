@@ -35,7 +35,7 @@ from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, Peti
 from .forms import DeleteAccountForm, OrgCreationForm
 from .helpers import get_client_ip, get_session_user, petition_from_id
 from .helpers import check_petition_is_accessible
-from .helpers import send_confirmation_email, subscribe_to_newsletter
+from .helpers import send_confirmation_email, subscribe_to_newsletter, send_welcome_mail
 from .helpers import get_update_form, petition_detail_meta
 
 
@@ -1742,3 +1742,7 @@ class PytitionUserCreateView(CreateView):
             'request': self.request
         })
         return kwargs
+
+    def form_valid(self, form):
+        form.send_success_email()
+        return super().form_valid(form)
