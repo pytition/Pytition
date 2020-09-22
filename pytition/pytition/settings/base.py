@@ -265,4 +265,5 @@ DISABLE_USER_PETITION = False
 #:| Only superusers will be allowed to
 RESTRICT_ORG_CREATION = False
 
+#:| Default address for 'Reply to' field in mail sent on account creation
 DEFAULT_NOREPLY_MAIL = "noreply@domain.tld"
