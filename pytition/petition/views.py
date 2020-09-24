@@ -37,6 +37,7 @@ from .helpers import get_client_ip, get_session_user, petition_from_id
 from .helpers import check_petition_is_accessible
 from .helpers import send_confirmation_email, subscribe_to_newsletter, send_welcome_mail
 from .helpers import get_update_form, petition_detail_meta
+from .helpers import sanitize_html
 
 
 #------------------------------------ Views -----------------------------------
@@ -107,12 +108,16 @@ def show_sympa_subscribe_bloc(request, petition_id):
         return redirect("index")
 
     text_bloc = ""
-    for signature in petition.signature_set.filter(subscribed_to_mailinglist=True):
+    signatures = petition.signature_set.filter(subscribed_to_mailinglist=True)
+    if not signatures:
+        return HttpResponse(_("No newsletter subscription yet!"))
+
+    for signature in signatures:
         text_bloc = text_bloc + "{email} {firstname} {lastname}<br/>\n".format(email=signature.email,
                                                                                firstname=signature.first_name,
                                                                                lastname=signature.last_name)
 
-    return HttpResponse(text_bloc)
+    return HttpResponse(sanitize_html(text_bloc))
 
 
 # /search?q=QUERY
