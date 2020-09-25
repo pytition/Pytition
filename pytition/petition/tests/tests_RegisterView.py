@@ -13,7 +13,6 @@ class PytitionUserRegister(TestCase):
 
     def test_createPytitionUser(self):
         if settings.ALLOW_REGISTER:
-            print("on allow register")
             response = self.client.get(reverse("register"))
             self.assertEqual(response.status_code, 200)
 
