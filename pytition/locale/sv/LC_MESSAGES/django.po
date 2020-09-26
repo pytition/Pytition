@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-01 23:41+0200\n"
-"PO-Revision-Date: 2020-09-22 12:38+0000\n"
+"PO-Revision-Date: 2020-09-27 12:51+0000\n"
 "Last-Translator: Filip Bengtsson <filip@libreradio.org>\n"
 "Language-Team: Swedish <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/sv/>\n"
@@ -152,6 +152,8 @@ msgstr ""
 #: pytition/petition/admin.py:107 pytition/petition/admin.py:247
 msgid "E.g.: I want to receive updates or informations from this organization."
 msgstr ""
+"Exempel: Jag vill få uppdateringar och annan information från den här "
+"organisationen."
 
 #: pytition/petition/admin.py:108 pytition/petition/admin.py:248
 msgid ""
