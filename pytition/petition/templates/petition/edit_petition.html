@@ -30,7 +30,7 @@
 
 {% block edit_content %}
 <div data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}"
-    class="mb-4 custom-control custom-switch
+    class="petition-publish-switch mb-4 custom-control custom-switch
                        {% if not petition.published %}
                        text-muted
                        {% else %}
