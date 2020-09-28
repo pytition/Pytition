@@ -8,19 +8,22 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-01 23:41+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-09-30 19:51+0000\n"
+"Last-Translator: Vincent Finance <linuxmario@linuxmario.net>\n"
+"Language-Team: Japanese <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:81
 #: pytition/petition/models.py:475
+#, fuzzy
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
@@ -32,7 +35,7 @@ msgstr ""
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
-msgstr ""
+msgstr "エラー : {}"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
@@ -196,8 +199,9 @@ msgid ""
 msgstr ""
 
 #: pytition/petition/admin.py:120
+#, fuzzy
 msgid "Petition title"
-msgstr ""
+msgstr "請願名"
 
 #: pytition/petition/admin.py:121 pytition/petition/admin.py:261
 msgid "Petition text"
@@ -317,15 +321,17 @@ msgstr ""
 
 #: pytition/petition/admin.py:149 pytition/petition/admin.py:287
 msgid "SMTP port"
-msgstr ""
+msgstr "SMTPポート"
 
 #: pytition/petition/admin.py:150 pytition/petition/admin.py:288
+#, fuzzy
 msgid "SMTP username"
-msgstr ""
+msgstr "SMTPユーザ"
 
 #: pytition/petition/admin.py:151 pytition/petition/admin.py:289
+#, fuzzy
 msgid "SMTP password"
-msgstr ""
+msgstr "SMTPパスワード"
 
 #: pytition/petition/admin.py:152 pytition/petition/admin.py:290
 msgid "SMTP via TLS?"
@@ -341,11 +347,11 @@ msgstr ""
 
 #: pytition/petition/admin.py:169 pytition/petition/admin.py:305
 msgid "Content of the petition"
-msgstr ""
+msgstr "請願の内容"
 
 #: pytition/petition/admin.py:175 pytition/petition/admin.py:310
 msgid "Background color"
-msgstr ""
+msgstr "背景色"
 
 #: pytition/petition/admin.py:180 pytition/petition/admin.py:315
 msgid "Setup of the newsletter associated to the petition"
@@ -381,19 +387,19 @@ msgstr ""
 
 #: pytition/petition/forms.py:23
 msgid "First name *"
-msgstr ""
+msgstr "名 *"
 
 #: pytition/petition/forms.py:24
 msgid "Last name *"
-msgstr ""
+msgstr "姓 *"
 
 #: pytition/petition/forms.py:25 pytition/petition/models.py:414
 msgid "Phone number"
-msgstr ""
+msgstr "電話番号"
 
 #: pytition/petition/forms.py:26
 msgid "Email address *"
-msgstr ""
+msgstr "メールアドレス *"
 
 #: pytition/petition/forms.py:65
 msgid "There is already a petition with this title"
@@ -424,12 +430,14 @@ msgid "Does this petition have a newsletter?"
 msgstr ""
 
 #: pytition/petition/forms.py:144
+#, fuzzy
 msgid "Use TLS?"
-msgstr ""
+msgstr "TLSを使いますか?"
 
 #: pytition/petition/forms.py:145
+#, fuzzy
 msgid "Use STARTTLS?"
-msgstr ""
+msgstr "STARTTLSを使いますか?"
 
 #: pytition/petition/forms.py:157
 msgid "You cannot select both TLS and STARTTLS."
@@ -495,17 +503,19 @@ msgstr ""
 
 #: pytition/petition/models.py:412
 #: pytition/petition/templates/petition/signature_data.html:59
+#, fuzzy
 msgid "First name"
-msgstr ""
+msgstr "名前"
 
 #: pytition/petition/models.py:413
 #: pytition/petition/templates/petition/signature_data.html:60
+#, fuzzy
 msgid "Last name"
-msgstr ""
+msgstr "姓名"
 
 #: pytition/petition/models.py:415
 msgid "Email address"
-msgstr ""
+msgstr "メールアドレス"
 
 #: pytition/petition/models.py:417
 msgid "Confirmed"
@@ -513,7 +523,7 @@ msgstr ""
 
 #: pytition/petition/models.py:418
 msgid "Petition"
-msgstr ""
+msgstr "請願"
 
 #: pytition/petition/models.py:419
 msgid "Subscribed to mailing list"
@@ -522,11 +532,12 @@ msgstr ""
 #: pytition/petition/models.py:420
 #: pytition/petition/templates/petition/signature_data.html:65
 msgid "Date"
-msgstr ""
+msgstr "日付"
 
 #: pytition/petition/models.py:426
+#, fuzzy
 msgid "You already signed the petition"
-msgstr ""
+msgstr "この請願はもう署名されました"
 
 #: pytition/petition/models.py:541
 msgid "A permlink cannot be empty. Please enter something."
@@ -542,7 +553,7 @@ msgstr ""
 
 #: pytition/petition/templates/layouts/base.html:12
 msgid "Homepage"
-msgstr ""
+msgstr "ホーム"
 
 #: pytition/petition/templates/layouts/nav-useractions.html:13
 msgid "Your dashboard"
@@ -550,7 +561,7 @@ msgstr ""
 
 #: pytition/petition/templates/layouts/nav-useractions.html:27
 msgid "New Petition"
-msgstr ""
+msgstr "新規請願"
 
 #: pytition/petition/templates/layouts/nav-useractions.html:31
 msgid "New Organization"
@@ -558,37 +569,40 @@ msgstr ""
 
 #: pytition/petition/templates/layouts/nav-useractions.html:36
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: pytition/petition/templates/layouts/nav-useractions.html:40
 msgid "Logout"
-msgstr ""
+msgstr "ログアウト"
 
 #: pytition/petition/templates/layouts/nav-useractions.html:47
 #: pytition/petition/templates/registration/login.html:31
 msgid "Login"
-msgstr ""
+msgstr "ログイン"
 
 #: pytition/petition/templates/layouts/nav.html:28
 #: pytition/petition/templates/layouts/nav_dashboard.html:33
+#, fuzzy
 msgid "Search for petition"
-msgstr ""
+msgstr "請願を探索"
 
 #: pytition/petition/templates/layouts/nav.html:30
 #: pytition/petition/templates/layouts/nav_dashboard.html:35
 msgid "Search"
-msgstr ""
+msgstr "探索"
 
 #: pytition/petition/templates/layouts/nav_dashboard.html:8
 #: pytition/petition/templates/layouts/nav_dashboard.html:10
 #: pytition/petition/templates/petition/back_to_dashboard.html:3
 #: pytition/petition/templates/petition/back_to_dashboard.html:5
+#, fuzzy
 msgid "Back to dashboard"
-msgstr ""
+msgstr "ダッシュボードに戻る"
 
 #: pytition/petition/templates/layouts/wizard_layout.html:15
+#, fuzzy
 msgid "Create a new petition!"
-msgstr ""
+msgstr "新しい請願を作成 !"
 
 #: pytition/petition/templates/layouts/wizard_layout.html:19
 msgid "Give a title to your petition"
@@ -598,8 +612,9 @@ msgstr ""
 #: pytition/petition/templates/petition/edit_petition.html:34
 #: pytition/petition/templates/petition/edit_petition.html:152
 #: pytition/petition/templates/petition/edit_petition.html:158
+#, fuzzy
 msgid "Content"
-msgstr ""
+msgstr "内容"
 
 #: pytition/petition/templates/layouts/wizard_layout.html:21
 msgid "Write your petition content"
@@ -614,8 +629,9 @@ msgid "Save your petition and publish it if it's ready"
 msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:10
+#, fuzzy
 msgid "Personal Settings"
-msgstr ""
+msgstr "設定"
 
 #: pytition/petition/templates/petition/account_settings.html:11
 #: pytition/petition/templates/petition/account_settings.html:21
@@ -624,7 +640,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:12
 msgid "Change Password"
-msgstr ""
+msgstr "パスワードを変更"
 
 #: pytition/petition/templates/petition/account_settings.html:13
 #: pytition/petition/templates/petition/account_settings.html:41
@@ -634,16 +650,17 @@ msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:14
 msgid "Delete your account"
-msgstr ""
+msgstr "自分のアカウントを削除"
 
 #: pytition/petition/templates/petition/account_settings.html:25
+#, fuzzy
 msgid "Update"
-msgstr ""
+msgstr "アップデート"
 
 #: pytition/petition/templates/petition/account_settings.html:31
 #: pytition/petition/templates/petition/account_settings.html:35
 msgid "Change password"
-msgstr ""
+msgstr "パスワードを変更"
 
 #: pytition/petition/templates/petition/account_settings.html:63
 msgid ""
@@ -661,7 +678,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:80
 msgid "Delete Account"
-msgstr ""
+msgstr "アカウントを削除する"
 
 #: pytition/petition/templates/petition/account_settings.html:89
 msgid ""
@@ -679,7 +696,7 @@ msgstr ""
 #: pytition/petition/templates/petition/petition_list.html:100
 #: pytition/petition/templates/petition/template_list.html:40
 msgid "Delete"
-msgstr ""
+msgstr "削除"
 
 #: pytition/petition/templates/petition/account_settings.html:115
 msgid "Leaving an organization"
@@ -691,7 +708,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/confirmation_email.html:10
 msgid "Thank you"
-msgstr ""
+msgstr "ありがとうございます"
 
 #: pytition/petition/templates/petition/confirmation_email.html:12
 msgid ""
@@ -700,12 +717,13 @@ msgid ""
 msgstr ""
 
 #: pytition/petition/templates/petition/confirmation_email.html:17
+#, fuzzy
 msgid "See you soon!"
-msgstr ""
+msgstr "また今度 !"
 
 #: pytition/petition/templates/petition/edit_petition.html:28
 msgid "Petition settings"
-msgstr ""
+msgstr "請願設定"
 
 #: pytition/petition/templates/petition/edit_petition.html:36
 #: pytition/petition/templates/petition/edit_petition.html:166
@@ -716,14 +734,16 @@ msgstr ""
 #: pytition/petition/templates/petition/edit_petition.html:38
 #: pytition/petition/templates/petition/edit_petition.html:194
 #: pytition/petition/templates/petition/edit_petition.html:200
+#, fuzzy
 msgid "Social Networks"
-msgstr ""
+msgstr "SNS"
 
 #: pytition/petition/templates/petition/edit_petition.html:40
 #: pytition/petition/templates/petition/edit_petition.html:180
 #: pytition/petition/templates/petition/edit_petition.html:186
+#, fuzzy
 msgid "E-mail setup"
-msgstr ""
+msgstr "メール設定"
 
 #: pytition/petition/templates/petition/edit_petition.html:42
 #: pytition/petition/templates/petition/edit_petition.html:208
@@ -790,8 +810,9 @@ msgid "Template settings"
 msgstr ""
 
 #: pytition/petition/templates/petition/generic_petition_list.html:37
+#, fuzzy
 msgid "Sign!"
-msgstr ""
+msgstr "サイン !"
 
 #: pytition/petition/templates/petition/generic_petition_list.html:42
 #, python-format
@@ -807,7 +828,7 @@ msgstr[0] ""
 
 #: pytition/petition/templates/petition/index.html:11
 msgid "Welcome to Pytition"
-msgstr ""
+msgstr "ようこそPytitionへ"
 
 #: pytition/petition/templates/petition/index.html:12
 msgid "Make things change!"
@@ -815,33 +836,35 @@ msgstr ""
 
 #: pytition/petition/templates/petition/index.html:13
 msgid "Create a petition"
-msgstr ""
+msgstr "請願を作成"
 
 #: pytition/petition/templates/petition/index.html:18
 msgid "View latest petitions"
 msgstr ""
 
 #: pytition/petition/templates/petition/index.html:22
+#, fuzzy
 msgid "View all petitions"
-msgstr ""
+msgstr "全部の請願を見る"
 
 #: pytition/petition/templates/petition/new_petition_step1.html:35
 #: pytition/petition/templates/petition/new_petition_step2.html:41
 msgid "Next"
-msgstr ""
+msgstr "次へ"
 
 #: pytition/petition/templates/petition/new_petition_step2.html:39
 #: pytition/petition/templates/petition/new_petition_step3.html:47
 msgid "Previous step"
-msgstr ""
+msgstr "戻る"
 
 #: pytition/petition/templates/petition/new_petition_step3.html:46
 msgid "First step"
 msgstr ""
 
 #: pytition/petition/templates/petition/new_template.html:7
+#, fuzzy
 msgid "Create a petition template"
-msgstr ""
+msgstr "請願のテンプレートを作成"
 
 #: pytition/petition/templates/petition/new_template.html:19
 msgid "Beware, you are creating a template, not a petition!"
@@ -858,8 +881,9 @@ msgid ""
 msgstr ""
 
 #: pytition/petition/templates/petition/new_template.html:34
+#, fuzzy
 msgid "Template name"
-msgstr ""
+msgstr "テンプレート名"
 
 #: pytition/petition/templates/petition/new_template.html:36
 msgid "My template name"
@@ -871,33 +895,37 @@ msgstr ""
 
 #: pytition/petition/templates/petition/new_template.html:39
 #: pytition/petition/templates/petition/org_create.html:16
+#, fuzzy
 msgid "Create"
-msgstr ""
+msgstr "作成"
 
 #: pytition/petition/templates/petition/org_base.html:16
 #: pytition/petition/templates/petition/user_base.html:11
 msgid "Petitions"
-msgstr ""
+msgstr "請願"
 
 #: pytition/petition/templates/petition/org_base.html:17
 #: pytition/petition/templates/petition/user_base.html:12
 msgid "New petition"
-msgstr ""
+msgstr "新しい請願"
 
 #: pytition/petition/templates/petition/org_base.html:25
 #: pytition/petition/templates/petition/user_base.html:19
+#, fuzzy
 msgid "Petition templates"
-msgstr ""
+msgstr "請願のテンプレート"
 
 #: pytition/petition/templates/petition/org_base.html:26
 #: pytition/petition/templates/petition/user_base.html:20
+#, fuzzy
 msgid "Create a new petition template"
-msgstr ""
+msgstr "新規請願のテンプレートを作成する"
 
 #: pytition/petition/templates/petition/org_base.html:26
 #: pytition/petition/templates/petition/user_base.html:20
+#, fuzzy
 msgid "New template"
-msgstr ""
+msgstr "新規テンプレート"
 
 #: pytition/petition/templates/petition/org_create.html:7
 msgid "Create an organization"
@@ -917,11 +945,12 @@ msgstr ""
 
 #: pytition/petition/templates/petition/org_invite_user.html:10
 msgid "Username"
-msgstr ""
+msgstr "ユーザ名"
 
 #: pytition/petition/templates/petition/org_member_list.html:3
+#, fuzzy
 msgid "Members"
-msgstr ""
+msgstr "メンバー"
 
 #: pytition/petition/templates/petition/org_member_list.html:11
 msgid ""
@@ -958,7 +987,7 @@ msgstr ""
 #: pytition/petition/templates/petition/petition_change_form.html:19
 #: pytition/petition/templates/petition/signature_change_form.html:18
 msgid "Home"
-msgstr ""
+msgstr "ホーム"
 
 #: pytition/petition/templates/petition/petition_change_form.html:22
 #: pytition/petition/templates/petition/signature_change_form.html:21
@@ -989,8 +1018,9 @@ msgid "Preview the petition"
 msgstr ""
 
 #: pytition/petition/templates/petition/petition_change_form.html:50
+#, fuzzy
 msgid "Show the signatures"
-msgstr ""
+msgstr "サインを表示"
 
 #: pytition/petition/templates/petition/petition_change_form.html:51
 msgid "Show unconfirmed signatures"
@@ -1007,8 +1037,9 @@ msgid "Please correct the errors below."
 msgstr ""
 
 #: pytition/petition/templates/petition/petition_detail.html:84
+#, fuzzy
 msgid "SIGN"
-msgstr ""
+msgstr "サイン"
 
 #: pytition/petition/templates/petition/petition_list.html:14
 msgid "You don't have any petitions yet"
@@ -1016,8 +1047,9 @@ msgstr ""
 
 #: pytition/petition/templates/petition/petition_list.html:16
 #: pytition/petition/templates/petition/user_base.html:12
+#, fuzzy
 msgid "Create a new petition"
-msgstr ""
+msgstr "新規請願を作成"
 
 #: pytition/petition/templates/petition/petition_list.html:51
 msgid "Not published"
@@ -1028,16 +1060,18 @@ msgid "Published"
 msgstr ""
 
 #: pytition/petition/templates/petition/petition_list.html:61
+#, fuzzy
 msgid "View petition"
-msgstr ""
+msgstr "請願を表示"
 
 #: pytition/petition/templates/petition/petition_list.html:65
 msgid "Edit petition"
 msgstr ""
 
 #: pytition/petition/templates/petition/petition_list.html:67
+#, fuzzy
 msgid "View signatures"
-msgstr ""
+msgstr "サインを表示"
 
 #: pytition/petition/templates/petition/petition_list.html:71
 msgid "Transfer this petition"
@@ -1045,7 +1079,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/petition_list.html:74
 msgid "Delete the petition"
-msgstr ""
+msgstr "請願を削除"
 
 #: pytition/petition/templates/petition/petition_list.html:89
 msgid "Delete petition?"
@@ -1062,7 +1096,7 @@ msgstr ""
 #: pytition/petition/templates/petition/petition_list.html:101
 #: pytition/petition/templates/petition/transfer_petition.html:63
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: pytition/petition/templates/petition/signature_data.html:7
 msgid "Signatures"
@@ -1091,15 +1125,15 @@ msgstr ""
 
 #: pytition/petition/templates/petition/signature_data.html:46
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: pytition/petition/templates/petition/signature_data.html:61
 msgid "E-Mail"
-msgstr ""
+msgstr "メールアドレス"
 
 #: pytition/petition/templates/petition/signature_data.html:62
 msgid "Phone"
-msgstr ""
+msgstr "電話番号"
 
 #: pytition/petition/templates/petition/signature_data.html:63
 msgid "Confirmed?"
@@ -1143,7 +1177,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/template_list.html:39
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #: pytition/petition/templates/petition/transfer_petition.html:8
 msgid "Transfer petition"
@@ -1255,8 +1289,9 @@ msgid "Validate those new permissions"
 msgstr ""
 
 #: pytition/petition/templates/petition/user_edit_permissions.html:126
+#, fuzzy
 msgid "Return to dashboard"
-msgstr ""
+msgstr "ダッシュボードに戻る"
 
 #: pytition/petition/templates/petition/user_invitations.html:4
 msgid "Invitations"
@@ -1317,8 +1352,9 @@ msgid "Register!"
 msgstr ""
 
 #: pytition/petition/templates/registration/login.html:36
+#, fuzzy
 msgid "I forgot my password!"
-msgstr ""
+msgstr "パスワードを忘れてしまいました !"
 
 #: pytition/petition/templates/registration/password_reset_done.html:4
 msgid "Email Sent"
@@ -1335,12 +1371,14 @@ msgid ""
 msgstr ""
 
 #: pytition/petition/templates/registration/password_reset_form.html:4
+#, fuzzy
 msgid "Forgot Your Password?"
-msgstr ""
+msgstr "パスワードを忘れた場合 ?"
 
 #: pytition/petition/templates/registration/password_reset_form.html:10
+#, fuzzy
 msgid "Forgot your password?"
-msgstr ""
+msgstr "パスワードを忘れた場合 ?"
 
 #: pytition/petition/templates/registration/password_reset_form.html:11
 msgid ""
@@ -1350,11 +1388,11 @@ msgstr ""
 
 #: pytition/petition/templates/registration/password_reset_form.html:15
 msgid "Email"
-msgstr ""
+msgstr "メール"
 
 #: pytition/petition/templates/registration/password_reset_form.html:17
 msgid "email@example.com"
-msgstr ""
+msgstr "email@example.co.jp"
 
 #: pytition/petition/templates/registration/password_reset_form.html:20
 msgid "Send me instructions!"
@@ -1668,20 +1706,20 @@ msgstr ""
 
 #: pytition/pytition/settings/base.py:237
 msgid "English"
-msgstr ""
+msgstr "英語"
 
 #: pytition/pytition/settings/base.py:238
 msgid "Spanish"
-msgstr ""
+msgstr "スペイン語"
 
 #: pytition/pytition/settings/base.py:239
 msgid "French"
-msgstr ""
+msgstr "フランス語"
 
 #: pytition/pytition/settings/base.py:240
 msgid "Italian"
-msgstr ""
+msgstr "イタリア語"
 
 #: pytition/pytition/settings/base.py:241
 msgid "Occitan"
-msgstr ""
+msgstr "オック語"
