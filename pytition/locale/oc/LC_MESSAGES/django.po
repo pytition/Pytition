@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-01 23:41+0200\n"
-"PO-Revision-Date: 2020-05-02 22:24+0000\n"
+"PO-Revision-Date: 2020-10-08 22:06+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.11.2\n"
+"X-Generator: Weblate 4.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:81
 #: pytition/petition/models.py:475
@@ -751,7 +751,8 @@ msgstr ""
 "                                            ATENCION : se fasètz aquò, "
 "vòstras donadas seràn perdudas per totjorn.<br />\n"
 "                                            Confirmatz que comprenètz lo "
-"risc en picar la frasa seguenta dins lo camp tèxte :\n"
+"risc en picar la frasa seguenta\n"
+"                                            dins lo camp tèxte :\n"
 "                                        "
 
 #: pytition/petition/templates/petition/account_settings.html:102
