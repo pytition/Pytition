@@ -14,6 +14,7 @@ urlpatterns = [
     path('search', views.search, name='search'),
     # Petition
     path('<int:petition_id>/', views.detail, name='detail'),
+    path('<int:petition_id>/widget', views.widget, name='widget'),
     path('<int:petition_id>/confirm/<confirmation_hash>', views.confirm, name='confirm'),
     path('<int:petition_id>/get_csv_signature', views.get_csv_signature, {'only_confirmed': False}, name='get_csv_signature'),
     path('<int:petition_id>/get_csv_confirmed_signature', views.get_csv_signature, {'only_confirmed': True}, name='get_csv_confirmed_signature'),

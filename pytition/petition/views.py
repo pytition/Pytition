@@ -153,6 +153,29 @@ def hide_sign_form_if_user_just_signed(request, ctx):
             else:
                 ctx.update({'petition_is_signed': True})
 
+
+from django.views.decorators.clickjacking import xframe_options_exempt
+
+
+# /<int:petition_id>/widget
+# Show petition widget
+@xframe_options_exempt
+def widget(request, petition_id):
+    petition = petition_from_id(petition_id)
+    check_petition_is_accessible(request, petition)
+    try:
+        pytitionuser = get_session_user(request)
+    except:
+        pytitionuser = None
+
+    sign_form = SignatureForm(petition=petition)
+    ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
+           'meta': petition_detail_meta(request, petition_id)}
+
+    # If we've just signed successfully the petition, do not show the sign form
+    hide_sign_form_if_user_just_signed(request, ctx)
+    return render(request, 'petition/petition_widget.html', ctx)
+
 # /<int:petition_id>/
 # Show information on a petition
 def detail(request, petition_id):

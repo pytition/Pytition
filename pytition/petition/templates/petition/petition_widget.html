@@ -1,0 +1,268 @@
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load petition_extras %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ petition.title }}"/>
+
+    <meta property="og:title" content="{{ petition.title }}"/>
+    {% if petition.twitter_description %}
+    <meta property="og:description"
+    content="{{ petition.raw_twitter_description|safe }}"/>
+    {% else %}
+    <meta property="og:description" content="{{ petition.raw_text|safe }}"/>
+    {% endif %}
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{ meta.petition_url }}" />
+    <meta property="og:site_name" content="{{ meta.site_url }}" />
+    {% if petition.twitter_image %}
+    <meta property="og:image" content="{{ petition.twitter_image }}"/>
+    {% endif %}
+
+    <meta itemprop="name" content="{{ petition.title }}"/>
+    {% if petition.twitter_description %}
+    <meta itemprop="description"
+    content="{{ petition.raw_twitter_description|safe }}"/>
+    {% else %}
+    <meta itemprop="description" content="{{ petition.raw_text|safe }}"/>
+    {% endif %}
+    <!-- FIXME: <meta itemprop="url" content=""/> //-->
+
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:creator" content="@yannsionneau"/>
+    <meta name="twitter:site" content="{{ petition.org_twitter_handle }}"/>
+    <meta name="twitter:title" content="{{ petition.title }}"/>
+    {% if petition.twitter_description %}
+    <meta name="twitter:description"
+    content="{{ petition.raw_twitter_description|safe }}"/>
+    {% else %}
+    <meta name="twitter:description" content="{{ petition.raw_text|safe }}"/>
+    {% endif %}
+    {% if petition.twitter_image %}
+    <meta name="twitter:image" content="{{ petition.twitter_image }}"/>
+    {% endif %}
+
+    <title>{% block title %}{% trans "Homepage" %}{% endblock title %} – {{ settings.SITE_NAME }}</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static "vendor/bootstrap-4.3.1/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "vendor/open-iconic-1.1.1/font/css/open-iconic-bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/common.css" %}" rel="stylesheet">
+    {% load static %}
+
+
+    <link href="{% static "css/petition.css" %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+    {% if petition.bgcolor != "#FFFFFF" %}
+    body {
+      background-color: {{ petition.bgcolor }};
+    }
+    {% endif %}
+    {% if petition.linear_gradient_direction != petition.NO %}
+    body {
+      background: linear-gradient({{ petition.linear_gradient_direction}}, {{ petition.gradient_from }}, {{ petition.gradient_to }});
+    }
+    {% endif %}
+    </style>
+
+    <script>
+    dataLayer = [];
+    </script>
+</head>
+<body>
+    <div id="modalContainer">
+{% block modal %}
+{% endblock modal %}
+    </div>
+    <div class="app d-flex flex-column
+{% block justify-app %}
+{% if footer_content %}
+    justify-content-between
+{% else %}
+    justify-content-start
+{% endif %}
+{% endblock justify-app %}
+    ">
+
+      {% block main_content %}
+          {% if petition_is_signed %}
+  <div class="modal fade" id="show_sign_success">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans "Thank you!" %}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          {% blocktrans trimmed %}
+            Thank you for signing this petition!
+            Your signature will be accounted for as soon as you click on the link in the e-mail
+            we've just sent you.
+          {% endblocktrans %}
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">{% trans "Ok" %}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% if signature_is_confirmed %}
+  <div class="modal fade" id="show_confirm_success">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans "Thank you!" %}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          {% blocktrans trimmed %}
+            Thank you for confirming your signature to this petition!
+            Your signature is now accounted for. See you soon!
+          {% endblocktrans %}
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">{% trans "Ok" %}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+
+<div class="show-form" id="show-form">
+  <div class="wrapper">
+    <button type="button" class="btn btn-primary btn-block">{% trans "SIGN" %}</button>
+  </div>
+</div>
+
+<div class="container-fluid">
+<div class="row">
+    <div class="col-12">
+  <div class="jumbotron text-center">
+    <h1 class="jumbotron-heading">{{ petition.title|html_sanitize|striptags|safe }}</h1>
+  </div>
+    </div>
+</div>
+  <div class="row">
+      <div class="col">
+        {{ petition.text|html_sanitize|safe }}
+      </div>
+      <div class="col-3">
+          {% if petition.side_text %}
+            <div class="intro" id="intro">
+                {{ petition.side_text|html_sanitize|safe }}
+            </div>
+          {% endif %}
+          <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
+          <div class="counter" id="counter">
+            <p>
+              Déjà <span id="nb-signatures">{{ petition.signature_number }}</span> signatures.
+              Objectif : <span class="format-number">{{ petition.target }}</span>
+            </p>
+            <div class="progress">
+              <div class="progress-bar bg-primary" role="progressbar" id="progress-bar"
+              data-target="{{ petition.target }}">
+              </div>
+            </div>
+          </div>
+          <div>
+            {% for message in messages %}
+            <div
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            class="alert alert-danger" role="alert">
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            class="alert alert-success" role="alert">
+            {% else %}
+            class="alert {{ message.tags }}" role="alert">
+            {% endif %}
+              {{ message }}
+            </div>
+            {% endfor %}
+            <div class="fields" {% if petition_is_signed %}hidden{% endif %}>
+              <form method='POST' name='petition' class='form-group'
+              action='{% url "create_signature" petition.id %}'>
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
+                  {{ error }}
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% for field in form.visible_fields %}
+                <div class="form-group has-feedback">
+                  {{ field.label_tag }}
+
+                  {% if form.is_bound %}
+                    {% if field.errors %}
+                      {{ field|add_class:"is-invalid" }}
+                      <span class="oi oi-question-mark form-control-feedback invalid-feedback"></span>
+                      {% for error in field.errors %}
+                        <span class="invalid-feedback">{{ error }}</span>
+                      {% endfor %}
+                    {% else %}
+                      {{ field|add_class:"is-valid" }}
+                      <span class="oi oi-circle-check form-control-feedback valid-feedback"></span>
+                    {% endif %}
+                  {% else %}
+                    {{ field }}
+                  {% endif %}
+
+                  {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                </div>
+                {% endfor %}
+
+                <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
+                  type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
+              </form>
+            </div>
+            <div class="reassurance" id="reassurance">
+              <p style="text-align:justify">
+                {{ petition.sign_form_footer }}
+              </p>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+      {% endblock %}
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "vendor/jquery-3.3.1/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "vendor/popper-1.14.6/popper.min.js" %}"></script>
+    <script src="{% static "vendor/bootstrap-4.3.1/js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/petition.js" %}"></script>
+    {% if petition_is_signed %}
+    <script type="text/javascript">
+    $("#show_sign_success").modal("show");
+    </script>
+    {% endif %}
+    {% if signature_is_confirmed %}
+    <script type="text/javascript">
+    $("#show_confirm_success").modal("show");
+    </script>
+    {% endif %}
+</body>
+</html>
