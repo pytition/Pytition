@@ -75,7 +75,9 @@ def index(request):
             user = get_session_user(request)
         else:
             user = request.user
-        all_petitions = Petition.objects.filter(published=True).order_by('-id')
+        sort = request.GET.get('sort', 'desc')
+        creation_date = '-creation_date' if sort == 'desc' else 'creation_date'
+        all_petitions = Petition.objects.filter(published=True).order_by(creation_date)
         paginator = Paginator(all_petitions, settings.PAGINATOR_COUNT)
         page = request.GET.get('page')
         petitions = paginator.get_page(page)
@@ -83,7 +85,8 @@ def index(request):
         return render(request, 'petition/index.html',
                 {
                     'user': user,
-                    'petitions': petitions
+                    'petitions': petitions,
+                    'sort': sort
                 }
         )
 
@@ -336,8 +339,9 @@ def user_profile(request, user_name):
         user = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         raise Http404(_("not found"))
-
-    petitions = user.petition_set.filter(published=True).order_by('-id')
+    sort = request.GET.get('sort', 'desc')
+    creation_date = '-creation_date' if sort == 'desc' else 'creation_date'
+    petitions = user.petition_set.filter(published=True).order_by(creation_date)
     paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
     page = request.GET.get('page')
     petitions = paginator.get_page(page)
@@ -345,7 +349,7 @@ def user_profile(request, user_name):
     return render(
         request,
         'petition/user_profile.html',
-        {'user': user, 'petitions': petitions}
+        {'user': user, 'petitions': petitions, 'sort': sort }
     )
 
 
@@ -386,13 +390,16 @@ def org_profile(request, orgslugname):
     except Organization.DoesNotExist:
         raise Http404(_("not found"))
 
-    petitions = org.petition_set.filter(published=True).order_by('-id')
+    sort = request.GET.get('sort', 'desc')
+    creation_date = '-creation_date' if sort == 'desc' else 'creation_date'
+    petitions = org.petition_set.filter(published=True).order_by(creation_date)
     paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
     page = request.GET.get('page')
     petitions = paginator.get_page(page)
 
     ctx = {'org': org,
-           'petitions': petitions}
+           'petitions': petitions,
+           'sort': sort}
 
     # if a user is logged-in, put it in the context, it will feed the navbar dropdown
     if user is not None:

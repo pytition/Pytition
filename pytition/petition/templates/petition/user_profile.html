@@ -18,9 +18,17 @@
     <div class="row">
         <h2>{{user.name }} </h2>
     </div>
+    <div class="d-flex justify-content-end">
+        <div class="btn-group" role="group" aria-label="sort-buttons">
+            <a class="btn {% if sort == 'desc' %} btn-secondary {% else %} btn-outline-secondary {% endif %}"
+                href="{% url "user_profile" user.username %}?sort=desc" role="button">Last Created</a>
+            <a class="btn {% if sort == 'asc' %} btn-secondary {% else %} btn-outline-secondary {% endif %}"
+                href="{% url "user_profile" user.username %}?sort=asc" role="button">First Created</a>
+        </div>
+    </div>
     {% blocktrans asvar no_petitions_text %}
         This user has not created any petition yet
     {% endblocktrans %}
-    {% include 'petition/generic_petition_list.html' with petitions=petitions no_petitions_text=no_petitions_text %}
+    {% include 'petition/generic_petition_list.html' with petitions=petitions no_petitions_text=no_petitions_text sort=sort %}
 </div>
 {% endblock main_content %}

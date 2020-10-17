@@ -18,6 +18,14 @@
     <div class="row">
         <h2>{{ org.name }} </h2>
     </div>
-    {% include 'petition/generic_petition_list.html' with petitions=petitions %}
+    <div class="d-flex justify-content-end">
+        <div class="btn-group" role="group" aria-label="sort-buttons">
+            <a class="btn {% if sort == 'desc' %} btn-secondary {% else %} btn-outline-secondary {% endif %}"
+                href="{% url "org_profile" org.slugname %}?sort=desc" role="button">Last Created</a>
+            <a class="btn {% if sort == 'asc' %} btn-secondary {% else %} btn-outline-secondary {% endif %}"
+                href="{% url "org_profile" org.slugname %}?sort=asc" role="button">First Created</a>
+        </div>
+    </div>
+    {% include 'petition/generic_petition_list.html' with petitions=petitions sort=sort %}
 </div>
 {% endblock main_content %}

@@ -62,7 +62,7 @@
   <div>
     <ul class="pagination justify-content-center">
       {% if petitions.has_previous %}
-        <li class="page-item"><a class="page-link" href="?page={{ petitions.previous_page_number }}">&laquo;</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ petitions.previous_page_number }}&sort={{ sort }}">&laquo;</a></li>
       {% else %}
         <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
       {% endif %}
@@ -70,11 +70,11 @@
         {% if petitions.number == i %}
           <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
         {% else %}
-          <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ i }}&sort={{ sort }}">{{ i }}</a></li>
         {% endif %}
       {% endfor %}
       {% if petitions.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ petitions.next_page_number }}">&raquo;</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ petitions.next_page_number }}&sort={{ sort }}">&raquo;</a></li>
       {% else %}
         <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
       {% endif %}
