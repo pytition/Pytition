@@ -8,23 +8,53 @@ from .utils import add_default_data
 
 class OrganizationTest(TestCase):
     def setUp(self):
+        """
+        Sets the result of this thread.
+
+        Args:
+            self: (todo): write your description
+        """
         pass
 
     def test_createOrganization(self):
+        """
+        Initialize the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(Organization.objects.count(), 0)
         o = Organization.objects.create()
         self.assertEqual(Organization.objects.count(), 1)
 
     def test_org_autocreate_slug(self):
+        """
+        This is a simple organization.
+
+        Args:
+            self: (todo): write your description
+        """
         o = Organization.objects.create(name="RAP")
         self.assertEqual(o.slugname, "rap")
 
     def test_name_should_be_uniq(self):
+        """
+        Check if the name of the name name.
+
+        Args:
+            self: (todo): write your description
+        """
         o = Organization.objects.create(name="RAP")
         self.assertEqual(Organization.objects.count(), 1)
         self.assertRaises(django.db.utils.IntegrityError, Organization.objects.create, name="RAP")
 
     def test_add_member(self):
+        """
+        Add a new member to the model.
+
+        Args:
+            self: (todo): write your description
+        """
         o = Organization.objects.create(name="RAP")
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')
@@ -34,6 +64,12 @@ class OrganizationTest(TestCase):
         self.assertEqual(o.members.count(), 1)
 
     def test_delete_org(self):
+        """
+        * create organization.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.create(name="RAP")
         p = Petition.objects.create(title="Antipub", org=org)
         pt = PetitionTemplate.objects.create(name="Default", org=org)
@@ -45,6 +81,12 @@ class OrganizationTest(TestCase):
         self.assertEqual(PetitionTemplate.objects.count(), 0)
 
     def test_is_last_admin(self):
+        """
+        Check if the current user has an organization.
+
+        Args:
+            self: (todo): write your description
+        """
         add_default_data()
         julia = PytitionUser.objects.get(user__username="julia")
         org = Organization.objects.get(name='Les Amis de la Terre')
@@ -57,6 +99,12 @@ class OrganizationTest(TestCase):
         self.assertEqual(org.is_last_admin(julia), False)
 
     def test_is_allowed_to(self):
+        """
+        Check if allowed allowed allowed allowed allowed allowed allowed allowed users.
+
+        Args:
+            self: (todo): write your description
+        """
         o = Organization.objects.create(name="RAP")
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')

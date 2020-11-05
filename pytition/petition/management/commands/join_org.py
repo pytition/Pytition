@@ -13,10 +13,24 @@ class Command(BaseCommand):
     > Make user:username join org:orgname
     """
     def add_arguments(self, parser):
+        """
+        Add arguments to parser.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.add_argument('username', type=str)
         parser.add_argument('org', type=str)
 
     def handle(self, *args, **options):
+        """
+        Handles the presence of the organization.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         try:
             user = PytitionUser.objects.get(user__username=options['username'])
         except PytitionUser.DoesNotExist:

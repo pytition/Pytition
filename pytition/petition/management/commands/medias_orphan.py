@@ -8,6 +8,13 @@ class Command(BaseCommand):
     """find orphans medias in mediaroot
     """
     def handle(self, *args, **options):
+        """
+        Handles image images.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         mediaroot = Path(settings.MEDIA_ROOT)
         all_petition = list(Petition.objects.all())
         if all_petition:

@@ -46,6 +46,12 @@ from .helpers import sanitize_html
 # Depending on the settings.INDEX_PAGE, show a list of petitions or
 # redirect to an user/org profile page
 def index(request):
+    """
+    Index page. html page.
+
+    Args:
+        request: (todo): write your description
+    """
     if not hasattr(settings, 'INDEX_PAGE'):
         raise Http404(_("You must set an INDEX_PAGE config in your settings"))
     if settings.INDEX_PAGE == 'USER_PROFILE':
@@ -95,6 +101,13 @@ def index(request):
 # Show sympa subscribe bloc to mass subscribe people to newsletter
 @login_required
 def show_sympa_subscribe_bloc(request, petition_id):
+    """
+    Show an enrollment request.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     try:
         pytitionuser = get_session_user(request)
     except:
@@ -126,6 +139,12 @@ def show_sympa_subscribe_bloc(request, petition_id):
 # /search?q=QUERY
 # Show results of a search query
 def search(request):
+    """
+    Displays a search.
+
+    Args:
+        request: (todo): write your description
+    """
     q = request.GET.get('q', '')
     if q != "":
         petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)[:15]
@@ -146,6 +165,13 @@ def search(request):
     )
 
 def hide_sign_form_if_user_just_signed(request, ctx):
+    """
+    Hide the sign form was signed.
+
+    Args:
+        request: (todo): write your description
+        ctx: (todo): write your description
+    """
     storage = get_messages(request)
     for message in storage:
         if message.level == messages.SUCCESS:
@@ -159,6 +185,13 @@ def hide_sign_form_if_user_just_signed(request, ctx):
 # /<int:petition_id>/
 # Show information on a petition
 def detail(request, petition_id):
+    """
+    Displays a single detail.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     petition = petition_from_id(petition_id)
     check_petition_is_accessible(request, petition)
     try:
@@ -185,6 +218,14 @@ def detail(request, petition_id):
 # /<int:petition_id>/confirm/<confirmation_hash>
 # Confirm signature to a petition
 def confirm(request, petition_id, confirmation_hash):
+    """
+    Confirm a confirmation.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+        confirmation_hash: (str): write your description
+    """
     petition = petition_from_id(petition_id)
     check_petition_is_accessible(request, petition)
     try:
@@ -206,6 +247,14 @@ def confirm(request, petition_id, confirmation_hash):
 # returns the CSV files of the list of signatures
 @login_required
 def get_csv_signature(request, petition_id, only_confirmed):
+    """
+    Returns the signature for a user.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+        only_confirmed: (str): write your description
+    """
     user = get_session_user(request)
     try:
         petition = Petition.objects.get(pk=petition_id)
@@ -238,6 +287,13 @@ def get_csv_signature(request, petition_id, only_confirmed):
 # resend the signature confirmation email
 @login_required
 def go_send_confirmation_email(request, signature_id):
+    """
+    Sends an email confirmation email.
+
+    Args:
+        request: (todo): write your description
+        signature_id: (str): write your description
+    """
     app_label = Signature._meta.app_label
     signature = Signature.objects.filter(pk=signature_id).get()
     send_confirmation_email(request, signature)
@@ -247,6 +303,13 @@ def go_send_confirmation_email(request, signature_id):
 # <int:petition_id>/sign
 # Sign a petition
 def create_signature(request, petition_id):
+    """
+    Create a new signature.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     petition = petition_from_id(petition_id)
     check_petition_is_accessible(request, petition)
 
@@ -288,6 +351,13 @@ def create_signature(request, petition_id):
 # Show the dashboard of an organization
 @login_required
 def org_dashboard(request, orgslugname):
+    """
+    Displays of the organization.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
@@ -322,6 +392,12 @@ def org_dashboard(request, orgslugname):
 # Dashboard of the logged in user
 @login_required
 def user_dashboard(request):
+    """
+    Displays the dash dashboard.
+
+    Args:
+        request: (todo): write your description
+    """
     user = get_session_user(request)
     petitions = user.petition_set.all()
 
@@ -335,6 +411,13 @@ def user_dashboard(request):
 # /user/<user_name>
 # Show the user profile
 def user_profile(request, user_name):
+    """
+    Displays page.
+
+    Args:
+        request: (todo): write your description
+        user_name: (str): write your description
+    """
     try:
         user = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
@@ -357,6 +440,13 @@ def user_profile(request, user_name):
 # User is leaving the organisation
 @login_required
 def leave_org(request, orgslugname):
+    """
+    Leave a user is in organization.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     try:
         org = Organization.objects.get(slugname=orgslugname)
     except Organization.DoesNotExist:
@@ -381,6 +471,13 @@ def leave_org(request, orgslugname):
 # /org/<slug:orgslugname>
 # Show the profile of an organization
 def org_profile(request, orgslugname):
+    """
+    The organization profile.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     try:
         user = get_session_user(request)
     except:
@@ -412,6 +509,12 @@ def org_profile(request, orgslugname):
 # get the list of users
 @login_required
 def get_user_list(request):
+    """
+    Returns all users
+
+    Args:
+        request: (todo): write your description
+    """
     q = request.GET.get('q', '')
     if q != "":
         users = PytitionUser.objects.filter(Q(user__username__contains=q) | Q(user__first_name__icontains=q) |
@@ -429,6 +532,13 @@ def get_user_list(request):
 # Add an user to an organization
 @login_required
 def org_add_user(request, orgslugname):
+    """
+    Adds a user to the organization.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     adduser = request.GET.get('user', '')
 
     try:
@@ -473,6 +583,13 @@ def org_add_user(request, orgslugname):
 # Called from /user/dashboard
 @login_required
 def invite_accept(request, orgslugname):
+    """
+    Invoke a user the user.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     if orgslugname == "":
         return HttpResponse(status=500)
 
@@ -498,6 +615,13 @@ def invite_accept(request, orgslugname):
 # Dismiss the invitation to an organisation
 @login_required
 def invite_dismiss(request, orgslugname):
+    """
+    Invite a user.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     if orgslugname == "":
         return JsonResponse({}, status=500)
 
@@ -524,6 +648,13 @@ def invite_dismiss(request, orgslugname):
 # Create a new template
 @login_required
 def new_template(request, orgslugname=None):
+    """
+    Displays a new organization.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     pytitionuser = get_session_user(request)
     ctx = {'user': pytitionuser}
 
@@ -574,6 +705,13 @@ def new_template(request, orgslugname=None):
 # Edit a petition template
 @login_required
 def edit_template(request, template_id):
+    """
+    Edit a template.
+
+    Args:
+        request: (todo): write your description
+        template_id: (str): write your description
+    """
     id = template_id
     if id == '':
         return HttpResponseForbidden(_("You need to provide the template id to modify"))
@@ -723,6 +861,13 @@ def edit_template(request, template_id):
 # Delete a template
 @login_required
 def template_delete(request, template_id):
+    """
+    Deletes a template.
+
+    Args:
+        request: (todo): write your description
+        template_id: (str): write your description
+    """
     pytitionuser = get_session_user(request)
     if template_id == '':
         return JsonResponse({}, status=500)
@@ -754,6 +899,13 @@ def template_delete(request, template_id):
 # Set a template as favourite
 @login_required
 def template_fav_toggle(request, template_id):
+    """
+    Show or displays of a template.
+
+    Args:
+        request: (todo): write your description
+        template_id: (str): write your description
+    """
     pytitionuser = get_session_user(request)
     if template_id == '':
         return JsonResponse({}, status=500)
@@ -788,6 +940,13 @@ def template_fav_toggle(request, template_id):
 # Remove a member from an organization
 @login_required
 def org_delete_member(request, orgslugname):
+    """
+    Deletes a member of a organization.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+    """
     member_name = request.GET.get('member', '')
     try:
         member = PytitionUser.objects.get(user__username=member_name)
@@ -962,15 +1121,35 @@ WizardForms = [("step1", PetitionCreationStep1),
 @method_decorator(login_required, name='dispatch')
 class PetitionCreationWizard(SessionWizardView):
     def dispatch(self, request, *args, **kwargs):
+        """
+        This decorator sets the current view.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+        """
         if settings.DISABLE_USER_PETITION and "orgslugname" not in self.kwargs:
             messages.error(request, _("Users are not allowed to create their own petitions."))
             return redirect("user_dashboard")
         return super().dispatch(request, *args, **kwargs)
 
     def get_template_names(self):
+        """
+        Returns a list of template names.
+
+        Args:
+            self: (todo): write your description
+        """
         return [WizardTemplates[self.steps.current]]
 
     def get_form_initial(self, step):
+        """
+        Returns the initial form.
+
+        Args:
+            self: (todo): write your description
+            step: (int): write your description
+        """
         if step == "step2":
             use_template = False
             org_petition = "orgslugname" in self.kwargs
@@ -1005,6 +1184,13 @@ class PetitionCreationWizard(SessionWizardView):
         return self.initial_dict.get(step, {})
 
     def get_form_kwargs(self, step=None):
+        """
+        Returns the keyword arguments for instantiating the form.
+
+        Args:
+            self: (todo): write your description
+            step: (str): write your description
+        """
         if step == "step1":
             org_petition = "orgslugname" in self.kwargs
             if org_petition:
@@ -1018,6 +1204,13 @@ class PetitionCreationWizard(SessionWizardView):
             return {}
 
     def done(self, form_list, **kwargs):
+        """
+        This view of a user.
+
+        Args:
+            self: (todo): write your description
+            form_list: (list): write your description
+        """
         org_petition = "orgslugname" in self.kwargs
         title = self.get_cleaned_data_for_step("step1")["title"]
         message = self.get_cleaned_data_for_step("step2")["message"]
@@ -1077,6 +1270,13 @@ class PetitionCreationWizard(SessionWizardView):
                 return redirect("user_dashboard")
 
     def get_context_data(self, form, **kwargs):
+        """
+        Returns the data to provide to the template.
+
+        Args:
+            self: (todo): write your description
+            form: (todo): write your description
+        """
         org_petition = "orgslugname" in self.kwargs
         context = super(PetitionCreationWizard, self).get_context_data(form=form, **kwargs)
         if org_petition:
@@ -1115,6 +1315,13 @@ class PetitionCreationWizard(SessionWizardView):
 # Delete a petition
 @login_required
 def petition_delete(request, petition_id):
+    """
+    Deletes a delete
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     petition = petition_from_id(petition_id)
     pytitionuser = get_session_user(request)
 
@@ -1137,6 +1344,13 @@ def petition_delete(request, petition_id):
 # Publish a petition
 @login_required
 def petition_publish(request, petition_id):
+    """
+    Publish a generic association.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     pytitionuser = get_session_user(request)
     petition = petition_from_id(petition_id)
 
@@ -1164,6 +1378,13 @@ def petition_publish(request, petition_id):
 # Unpublish a petition
 @login_required
 def petition_unpublish(request, petition_id):
+    """
+    Petition unpublish a user.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     pytitionuser = get_session_user(request)
     petition = petition_from_id(petition_id)
 
@@ -1190,6 +1411,13 @@ def petition_unpublish(request, petition_id):
 # Edit a petition
 @login_required
 def edit_petition(request, petition_id):
+    """
+    Edit an existing account.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     petition = petition_from_id(petition_id)
     pytitionuser = get_session_user(request)
 
@@ -1336,6 +1564,13 @@ def edit_petition(request, petition_id):
 # Show the signatures of a petition
 @login_required
 def show_signatures(request, petition_id):
+    """
+    Show the signatures.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     petition = petition_from_id(petition_id)
     pytitionuser = get_session_user(request)
     ctx = {}
@@ -1421,6 +1656,12 @@ def show_signatures(request, petition_id):
 # Show settings for the user accounts
 @login_required
 def account_settings(request):
+    """
+    Update user settings.
+
+    Args:
+        request: (todo): write your description
+    """
     pytitionuser = get_session_user(request)
     submitted_ctx = {
         'update_info_form_submitted': False,
@@ -1488,6 +1729,12 @@ def account_settings(request):
 # Create a new organization
 @login_required
 def org_create(request):
+    """
+    Create organization.
+
+    Args:
+        request: (todo): write your description
+    """
     if settings.RESTRICT_ORG_CREATION and not request.user.is_superuser:
         messages.error(request, _("Only super users can create an organization."))
         return redirect("user_dashboard")
@@ -1516,6 +1763,15 @@ def org_create(request):
 # GET /org/<slug:orgslugname>/<slug:petitionname>
 # Show a petition
 def slug_show_petition(request, orgslugname=None, username=None, petitionname=None):
+    """
+    Show a single slug.
+
+    Args:
+        request: (todo): write your description
+        orgslugname: (str): write your description
+        username: (str): write your description
+        petitionname: (str): write your description
+    """
     try:
         pytitionuser = get_session_user(request)
     except:
@@ -1558,6 +1814,13 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
 # Add a new slug for a petition
 @login_required
 def add_new_slug(request, petition_id):
+    """
+    Add new slug.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     pytitionuser = get_session_user(request)
     try:
         petition = petition_from_id(petition_id)
@@ -1592,6 +1855,13 @@ def add_new_slug(request, petition_id):
 # Remove a slug from a petition
 @login_required
 def del_slug(request, petition_id):
+    """
+    This view is deleted slug.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     pytitionuser = get_session_user(request)
     try:
         petition = petition_from_id(petition_id)
@@ -1618,6 +1888,12 @@ def del_slug(request, petition_id):
 
 @login_required
 def image_upload(request):
+    """
+    Upload image upload toil.
+
+    Args:
+        request: (todo): write your description
+    """
     pytitionuser = get_session_user(request)
 
     if request.method != "POST":
@@ -1639,6 +1915,13 @@ def image_upload(request):
 # Transfer a petition to another org or user
 @login_required
 def transfer_petition(request, petition_id):
+    """
+    Transfer a transfer.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (int): write your description
+    """
     pytitionuser = get_session_user(request)
     try:
         petition = petition_from_id(petition_id)
@@ -1707,6 +1990,12 @@ def transfer_petition(request, petition_id):
 
 @login_required
 def search_users_and_orgs(request):
+    """
+    Return a user s organization.
+
+    Args:
+        request: (todo): write your description
+    """
     query = request.GET.get('q', '')
     if query != "":
         users = PytitionUser.objects.filter(Q(user__username__contains=query) | Q(user__first_name__icontains=query) |
@@ -1729,11 +2018,24 @@ def search_users_and_orgs(request):
 class PytitionUserCreateView(CreateView):
 
     def save_numbers(self, request):
+        """
+        Save the number of numbers to the database.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+        """
         request.session['random_a'] = self.a
         request.session['random_b'] = self.b
         request.session['answer'] = self.answer
 
     def get_new_numbers(self):
+        """
+        Return a random number of random numbers.
+
+        Args:
+            self: (todo): write your description
+        """
         r = random.Random(time())
         self.a = r.choice(range(0, 100))
         self.b = r.choice(range(0, 100))
@@ -1741,14 +2043,32 @@ class PytitionUserCreateView(CreateView):
         self.form_class.base_fields['answer'].label = _("How much is {a} + {b}?").format(a=self.a, b=self.b)
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize a new user
+
+        Args:
+            self: (todo): write your description
+        """
         super(PytitionUserCreateView, self).__init__(*args, **kwargs)
         self.get_new_numbers()
 
     def get_context_data(self, **kwargs):
+        """
+        This method data to save the context data to the user.
+
+        Args:
+            self: (todo): write your description
+        """
         self.save_numbers(self.request)
         return super(PytitionUserCreateView, self).get_context_data(**kwargs)
 
     def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+
+        Args:
+            self: (todo): write your description
+        """
         kwargs = super(PytitionUserCreateView, self).get_form_kwargs()
         kwargs.update({
             'request': self.request
@@ -1756,5 +2076,12 @@ class PytitionUserCreateView(CreateView):
         return kwargs
 
     def form_valid(self, form):
+        """
+        Formats an email.
+
+        Args:
+            self: (todo): write your description
+            form: (todo): write your description
+        """
         form.send_success_email()
         return super().form_valid(form)

@@ -16,6 +16,13 @@ class PytitionUserAdmin(admin.ModelAdmin):
     list_display = ('name', )
 
     def name(self, pu):
+        """
+        Returns the name of the given function.
+
+        Args:
+            self: (todo): write your description
+            pu: (str): write your description
+        """
         return pu
 
     name.description = ugettext_lazy("Name")
@@ -31,9 +38,23 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('name', 'petition_num', 'user_num')
 
     def petition_num(self, org):
+        """
+        Return the number of elements in the organization.
+
+        Args:
+            self: (todo): write your description
+            org: (todo): write your description
+        """
         return org.petition_set.count()
 
     def user_num(self, org):
+        """
+        Return the number of users in this user s organization.
+
+        Args:
+            self: (todo): write your description
+            org: (str): write your description
+        """
         return org.members.count()
 
     petition_num.description = ugettext_lazy('Number of petitions')
@@ -41,6 +62,14 @@ class OrganizationAdmin(admin.ModelAdmin):
 
 
 def confirm(modeladmin, request, queryset):
+    """
+    Confirm the given model.
+
+    Args:
+        modeladmin: (todo): write your description
+        request: (todo): write your description
+        queryset: (str): write your description
+    """
     try:
         for signature in queryset:
             signature.confirm()
@@ -50,6 +79,14 @@ def confirm(modeladmin, request, queryset):
 
 
 def resend_confirmation_mail(modeladmin, request, queryset):
+    """
+    Resend the confirmation confirmation email.
+
+    Args:
+        modeladmin: (todo): write your description
+        request: (todo): write your description
+        queryset: (todo): write your description
+    """
     for signature in queryset:
         send_confirmation_email(request, signature)
 
@@ -73,6 +110,12 @@ class SignatureAdmin(admin.ModelAdmin):
 
 class PetitionAdminForm(ModelForm):
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the field.
+
+        Args:
+            self: (todo): write your description
+        """
         super(PetitionAdminForm, self).__init__(*args, **kwargs)
         self.fields['user'].required = False
         self.fields['org'].required = False
@@ -204,16 +247,36 @@ class PetitionAdmin(admin.ModelAdmin):
     )
 
     def non_confirmed_signature_number(self, petition):
+        """
+        Return the number of the number of - signature.
+
+        Args:
+            self: (todo): write your description
+            petition: (todo): write your description
+        """
         return petition.get_signature_number(confirmed=False)
     non_confirmed_signature_number.short_description = ugettext_lazy('Unconfirmed signatures')
 
     def confirmed_signature_number(self, petition):
+        """
+        Return the number of signature signature : parameter.
+
+        Args:
+            self: (todo): write your description
+            petition: (todo): write your description
+        """
         return petition.get_signature_number(confirmed=True)
     confirmed_signature_number.short_description = ugettext_lazy('Confirmed signatures')
 
 
 class PetitionTemplateForm(ModelForm):
     def __init__(self, *args, **kwargs):
+        """
+        Initialize this field.
+
+        Args:
+            self: (todo): write your description
+        """
         super(PetitionTemplateForm, self).__init__(*args, **kwargs)
         self.fields['user'].required = False
         self.fields['org'].required = False

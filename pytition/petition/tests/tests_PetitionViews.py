@@ -10,18 +10,44 @@ class PetitionViewTest(TestCase):
     """Test index view"""
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def tearDown(self):
+        """
+        Tear down the next callable.
+
+        Args:
+            self: (todo): write your description
+        """
         # Clean up run after every test method.
         pass
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def test_petition_detail(self):
@@ -67,6 +93,12 @@ $("#show_confirm_success").modal("show");
         self.assertNotContains(response, text='show_sign_success')
 
     def test_petition_publish(self):
+        """
+        Publish a new organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.logout()
         petition = Petition.objects.filter(user__user__username="julia").first()
         petition.published = False
@@ -99,6 +131,12 @@ $("#show_confirm_success").modal("show");
         self.assertEqual(p3.published, False)
 
     def test_petition_unpublish(self):
+        """
+        Test for unpublish unpublish.
+
+        Args:
+            self: (todo): write your description
+        """
         petition = Petition.objects.filter(user__user__username="julia").first()
         self.assertEqual(petition.published, True)
         self.logout()
@@ -119,6 +157,12 @@ $("#show_confirm_success").modal("show");
         self.assertEqual(petition.published, False)
 
     def test_user_petition_delete(self):
+        """
+        Removes the user s user s twitter.
+
+        Args:
+            self: (todo): write your description
+        """
         petitions = Petition.objects.filter(user__user__username="julia")
         petition = petitions.first()
         nb_julia_petitions = petitions.count()
@@ -132,6 +176,12 @@ $("#show_confirm_success").modal("show");
         self.assertEqual(petitions.count(), nb_julia_petitions - 1)
 
     def test_org_petition_delete(self):
+        """
+        Test if the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.logout()
         petitions = Petition.objects.filter(org__name="Attac")
         petition = petitions.first()
@@ -145,6 +195,12 @@ $("#show_confirm_success").modal("show");
         self.assertEqual(petitions.count(), nb_attac_petitions - 1)
 
     def test_user_slug_show_petition(self):
+        """
+        Show the user who created.
+
+        Args:
+            self: (todo): write your description
+        """
         petition = Petition.objects.filter(user__user__username="julia").first()
         slug = petition.slugmodel_set.first().slug
         response = self.client.get(reverse("slug_show_petition", args=[petition.user.username, slug]))
@@ -152,6 +208,12 @@ $("#show_confirm_success").modal("show");
         self.assertTemplateUsed(response, "petition/petition_detail.html")
 
     def pending_org_slug_show_petition(self):
+        """
+        This method is_slug_org organization.
+
+        Args:
+            self: (todo): write your description
+        """
         # Problem here
         org = Organization.objects.first()
         petition = Petition.objects.create(title="NON NON NON", org=org)
@@ -161,6 +223,12 @@ $("#show_confirm_success").modal("show");
         self.assertTemplateUsed(response, "petition/petition_detail.html")
 
     def test_petition_publish_org(self):
+        """
+        Publish a organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.logout()
         petition = Petition.objects.filter(org__name="Les Amis de la Terre").first()
         petition.published = False
@@ -202,6 +270,12 @@ $("#show_confirm_success").modal("show");
         self.assertEqual(p3.published, False)
 
     def test_petition_unpublish_org(self):
+        """
+        Test for unpublish.
+
+        Args:
+            self: (todo): write your description
+        """
         petition = Petition.objects.filter(org__name="Les Amis de la Terre").first()
         petition.published = True
         petition.save()

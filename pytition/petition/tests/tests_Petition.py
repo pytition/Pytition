@@ -6,23 +6,47 @@ from petition.models import Organization, Petition, PytitionUser, SlugModel, Sig
 
 class PetitionTest(TestCase):
     def setUp(self):
+        """
+        Creates a new organization for this user.
+
+        Args:
+            self: (todo): write your description
+        """
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')
         org = Organization.objects.create(name="RAP")
 
     def test_createUserPetition(self):
+        """
+        Creates a new user.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(Petition.objects.count(), 0)
         pu = PytitionUser.objects.get(user__username='julia')
         Petition.objects.create(title="Petition", user=pu)
         self.assertEqual(Petition.objects.count(), 1)
 
     def test_createOrgPetition(self):
+        """
+        Create a new icalculate a new organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(Petition.objects.count(), 0)
         org = Organization.objects.first()
         Petition.objects.create(title="Petition", org=org)
         self.assertEqual(Petition.objects.count(), 1)
 
     def test_createPetitionRefused(self):
+        """
+        Creates a new user for the given user.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.first()
         pu = PytitionUser.objects.get(user__username='julia')
         self.assertEqual(Petition.objects.count(), 0)
@@ -32,6 +56,12 @@ class PetitionTest(TestCase):
         self.assertEqual(Petition.objects.count(), 0)
 
     def test_owner_type(self):
+        """
+        Create a new owner of owner.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.first()
         pu = PytitionUser.objects.get(user__username='julia')
         p1 = Petition.objects.create(title="Petition", org=org)
@@ -40,6 +70,12 @@ class PetitionTest(TestCase):
         self.assertEqual('user', p2.owner_type)
 
     def test_Petition_url(self):
+        """
+        Test if the user has a dict with the database.
+
+        Args:
+            self: (todo): write your description
+        """
         # If there is no slug, returns detail
         pu = PytitionUser.objects.get(user__username='julia')
         p = Petition.objects.create(title="Petition", user=pu)
@@ -52,6 +88,12 @@ class PetitionTest(TestCase):
         #p.add_slug('foobar')
 
     def test_PetitionDelete(self):
+        """
+        Deletes a user from the database.
+
+        Args:
+            self: (todo): write your description
+        """
         # Deleting a petition should delete related slugs and signatures
         pu = PytitionUser.objects.get(user__username='julia')
         p = Petition.objects.create(title="Petition", user=pu)
@@ -63,6 +105,12 @@ class PetitionTest(TestCase):
         self.assertEqual(SlugModel.objects.count(), 0)
 
     def testPetitionPublish(self):
+        """
+        Test if a user has already been published.
+
+        Args:
+            self: (todo): write your description
+        """
         pu = PytitionUser.objects.get(user__username='julia')
         p = Petition.objects.create(title="Petition", user=pu)
         self.assertEqual(p.published, False)
@@ -72,11 +120,23 @@ class PetitionTest(TestCase):
         self.assertEqual(p.published, False)
 
     def test_autocreation_salt(self):
+        """
+        Test if the autocreation is enabled.
+
+        Args:
+            self: (todo): write your description
+        """
         pu = PytitionUser.objects.get(user__username='julia')
         p = Petition.objects.create(title="Petition", user=pu)
         self.assertIsNotNone(p.salt)
 
     def test_is_allowed_edit(self):
+        """
+        Checks if a user is allowed to edit an issue.
+
+        Args:
+            self: (todo): write your description
+        """
         # if the petition belong to the user, yes
         pu = PytitionUser.objects.get(user__username='julia')
         p = Petition.objects.create(title="Petition", user=pu)
@@ -99,6 +159,12 @@ class PetitionTest(TestCase):
         self.assertEqual(p2.is_allowed_to_edit(john), False)
 
     def test_paper_signatures(self):
+        """
+        Create a new signatures.
+
+        Args:
+            self: (todo): write your description
+        """
         pu = PytitionUser.objects.get(user__username='julia')
         p = Petition.objects.create(title="Petition", user=pu)
         p.paper_signatures_enabled = True

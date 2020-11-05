@@ -12,23 +12,55 @@ class OrgSetUserPermsViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def test_OrgSetUserPermsViewGetRedirectOk(self):
+        """
+        Handles the default user to redirect to the login.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         response = self.client.get(reverse("org_set_user_perms", kwargs={'orgslugname': 'rap', 'user_name': 'julia'}),
                                    follow=True)
         self.assertRedirects(response, reverse("org_edit_user_perms", kwargs={'orgslugname': 'rap', 'user_name': 'julia'}))
 
     def test_OrgSetUserPermsViewPostOk(self):
+        """
+        Endpoint is a user s roles.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         julia_perms = Permission.objects.get(organization__slugname="rap", user=julia)
         data = {
@@ -43,6 +75,12 @@ class OrgSetUserPermsViewTest(TestCase):
         self.assertEquals(julia_perms.can_remove_members, False)
 
     def test_OrgSetUserPermsViewLastAdminRemoveItsPermsKO(self):
+        """
+        This view is a permission for a user.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         julia_perms = Permission.objects.get(organization__slugname="rap", user=julia)
         # Now let's try to remove admin rights from julia
@@ -67,6 +105,12 @@ class OrgSetUserPermsViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, True)
 
     def test_OrgSetUserPermsViewSeveralAdminsRemoveItsPermsOK(self):
+        """
+        This view is called when the user to a given permission.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         julia_perms = Permission.objects.get(organization__slugname="alternatiba", user=julia)
         # Now let's try to remove admin rights from julia
@@ -92,6 +136,12 @@ class OrgSetUserPermsViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, False)
 
     def test_OrgSetUserPermsViewLastAdminSeveralMembersRemoveItsPermsKO(self):
+        """
+        This view is called when the user is granted.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         julia_perms = Permission.objects.get(organization__slugname="les-amis-de-la-terre", user=julia)
         # Now let's try to remove admin rights from julia

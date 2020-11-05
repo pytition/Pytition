@@ -4,6 +4,13 @@ from django.db import migrations, models
 from django.utils import timezone
 
 def populate_dates(apps, schema_editor):
+    """
+    Populate a list of the given a list.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Petition = apps.get_model('petition', 'Petition')
     for petition in Petition.objects.all().iterator():
         petition.creation_date = timezone.now()

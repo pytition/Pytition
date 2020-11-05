@@ -12,17 +12,43 @@ class GoSendConfirmationEmailViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def test_GoSendConfirmationEmailViewLoginKO(self):
+        """
+        Sends a new email to the user.
+
+        Args:
+            self: (todo): write your description
+        """
         self.logout()
         data = {
             'first_name': 'Alan',
@@ -39,6 +65,12 @@ class GoSendConfirmationEmailViewTest(TestCase):
                                                                          args=[signature.id]))
 
     def test_GoSendConfirmationEmailViewLoginOK(self):
+        """
+        Sends a login request.
+
+        Args:
+            self: (todo): write your description
+        """
         self.login('admin')
         data = {
             'first_name': 'Alan',

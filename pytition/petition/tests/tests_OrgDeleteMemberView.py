@@ -11,14 +11,34 @@ class OrgDeleteMemberViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def test_OrgDeleteMemberViewOk(self):
@@ -87,6 +107,12 @@ class OrgDeleteMemberViewTest(TestCase):
         self.assertEqual(response['Content-Type'], 'application/json')
 
     def test_OrgDeleteMemberLastAdminKo(self):
+        """
+        This method deletes the permission of a group.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         julia_perms = Permission.objects.get(organization__slugname="rap", user=julia)
         # Add permission to remove members

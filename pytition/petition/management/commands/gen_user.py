@@ -14,12 +14,26 @@ class Command(BaseCommand):
     help = 'Create a new user'
 
     def add_arguments(self, parser):
+        """
+        Add command line arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.add_argument('username', type=str)
         parser.add_argument('password', type=str)
         parser.add_argument('--first-name', '-fn', dest='first_name', type=str)
         parser.add_argument('--last-name', '-ln', dest='last_name', type=str)
 
     def handle(self, *args, **options):
+        """
+        Creates user
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         created = False
         try:
             user = User.objects.get(username=options['username'])

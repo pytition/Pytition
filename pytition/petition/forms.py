@@ -30,6 +30,13 @@ class SignatureForm(ModelForm):
         labels = { f : '' for f in  ['first_name', 'last_name', 'phone', 'email'] }
 
     def __init__(self, petition=None, *args, **kwargs):
+        """
+        Initialize fields.
+
+        Args:
+            self: (todo): write your description
+            petition: (str): write your description
+        """
         super().__init__(*args, **kwargs)
         self.instance.petition = petition
         if not petition.has_newsletter:
@@ -38,6 +45,13 @@ class SignatureForm(ModelForm):
             self.fields['subscribed_to_mailinglist'].label = self.instance.petition.newsletter_text
 
     def save(self, commit=True):
+        """
+        Saves changes made to the database.
+
+        Args:
+            self: (todo): write your description
+            commit: (str): write your description
+        """
         object = super().save(commit=False)
         hashstring = str(uuid.uuid4())
         object.confirmation_hash = hashstring
@@ -52,6 +66,12 @@ class PetitionCreationStep1(forms.Form):
     title = forms.CharField(max_length=200)
 
     def clean_title(self):
+        """
+        Validate title
+
+        Args:
+            self: (todo): write your description
+        """
         title = self.cleaned_data.get('title')
         #slugtext = slugify(html.unescape(mark_safe(strip_tags(title).strip())))
         filters = {'title': title}
@@ -68,6 +88,12 @@ class PetitionCreationStep1(forms.Form):
         return title
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize users.
+
+        Args:
+            self: (todo): write your description
+        """
         if "orgslugname" in kwargs:
             self.orgslugname = kwargs.pop("orgslugname")
             self.owned_by_org = True
@@ -150,6 +176,12 @@ class NewsletterForm(forms.Form):
     newsletter_subscribe_mail_smtp_port.widget.attrs.update({'min': 1, 'max': 65535})
 
     def clean(self):
+        """
+        Validate fields. fields.
+
+        Args:
+            self: (todo): write your description
+        """
         # FIXME: WIP
         cleaned_data = super(NewsletterForm, self).clean()
         data = {}
@@ -183,12 +215,25 @@ class PytitionUserCreationForm(UserCreationForm):
         field_classes = {'username': UsernameField}
 
     def __init__(self, request=None, *args, **kwargs):
+        """
+        Initialize request fields. fields.
+
+        Args:
+            self: (todo): write your description
+            request: (dict): write your description
+        """
         super(PytitionUserCreationForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['email'].required = True
         self.request = request
 
     def clean(self):
+        """
+        Validate the user data.
+
+        Args:
+            self: (todo): write your description
+        """
         session = self.request.session
         cleaned_data = super(UserCreationForm, self).clean()
         if "answer" in cleaned_data and int(cleaned_data["answer"]) != session['answer']:
@@ -208,6 +253,12 @@ class PytitionUserCreationForm(UserCreationForm):
         return cleaned_data
 
     def send_success_email(self):
+        """
+        Sends an email.
+
+        Args:
+            self: (todo): write your description
+        """
         send_welcome_mail(self.cleaned_data)
 
 class UpdateInfoForm(UserCreationForm):
@@ -216,12 +267,26 @@ class UpdateInfoForm(UserCreationForm):
         fields = ("first_name", "last_name", "email")
 
     def __init__(self, user, *args, **kwargs):
+        """
+        This method to the user fields.
+
+        Args:
+            self: (todo): write your description
+            user: (str): write your description
+        """
         super(UpdateInfoForm, self).__init__(*args, **kwargs)
         self.user = user
         del self.fields['password1']
         del self.fields['password2']
 
     def save(self, commit=True):
+        """
+        Save the current user
+
+        Args:
+            self: (todo): write your description
+            commit: (str): write your description
+        """
         self.user.email = self.cleaned_data['email']
         self.user.first_name = self.cleaned_data['first_name']
         self.user.last_name = self.cleaned_data['last_name']
@@ -234,6 +299,12 @@ class DeleteAccountForm(forms.Form):
     validation = forms.CharField()
 
     def clean(self):
+        """
+        Validate that the form.
+
+        Args:
+            self: (todo): write your description
+        """
         cleaned_data = super(DeleteAccountForm, self).clean()
         valid = cleaned_data.get('validation')
         if valid != _("DROP MY ACCOUNT"):
@@ -247,6 +318,12 @@ class OrgCreationForm(forms.ModelForm):
         fields = ('name', )
 
     def clean(self):
+        """
+        Validate the field data.
+
+        Args:
+            self: (todo): write your description
+        """
         cleaned_data = super(OrgCreationForm, self).clean()
         name = cleaned_data.get('name')
         if name in ['..', '.']:

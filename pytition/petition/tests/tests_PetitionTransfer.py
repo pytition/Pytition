@@ -20,6 +20,12 @@ class PetitionCreateWizardViewTest(TestCase):
     """Test PetitionCreateWizard view"""
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the data for the organization.
+
+        Args:
+            cls: (todo): write your description
+        """
         User = get_user_model()
         for org in orgs:
             o = Organization.objects.create(name=org)
@@ -46,14 +52,34 @@ class PetitionCreateWizardViewTest(TestCase):
         perm.save()
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def test_model_transfer_method(self):
+        """
+        This method for creating a user.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.get(name="Les Amis de la Terre")
         user = PytitionUser.objects.get(user__username="julia")
 
@@ -74,6 +100,12 @@ class PetitionCreateWizardViewTest(TestCase):
             user_petition.transfer_to(org=org, user=user)
 
     def test_transfer_view(self):
+        """
+        Test if the user.
+
+        Args:
+            self: (todo): write your description
+        """
         self.login("julia")
         org = Organization.objects.get(name="Les Amis de la Terre")
         user = PytitionUser.objects.get(user__username="julia")

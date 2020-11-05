@@ -13,6 +13,13 @@ class Command(BaseCommand):
     """
 
     def handle(self, *args, **options):
+        """
+        Handles git - git commit.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         try:
             git_path = Path(settings.BASE_DIR).parent
             os.chdir(git_path)

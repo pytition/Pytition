@@ -18,10 +18,24 @@ class Command(BaseCommand):
     > Generate 10 signatures for Petition:Petition Test if unique
     """
     def add_arguments(self, parser):
+        """
+        Add command line arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.add_argument('petition', type=str)
         parser.add_argument('--number', '-n', type=int, default=1)
 
     def handle(self, *args, **options):
+        """
+        Handles a random record.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         if options['petition'].isnumeric():
             try:
                 petition = Petition.objects.get(id=int(options['petition']))

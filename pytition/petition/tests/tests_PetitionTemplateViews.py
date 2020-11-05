@@ -13,21 +13,53 @@ class PetitionViewTest(TestCase):
     """Test index view"""
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def tearDown(self):
+        """
+        Tear down the next callable.
+
+        Args:
+            self: (todo): write your description
+        """
         # Clean up run after every test method.
         pass
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def test_org_new_template_get(self):
+        """
+        Get a new organization.
+
+        Args:
+            self: (todo): write your description
+        """
         # GET request just shows the page
         # Not logged
         org = Organization.objects.get(name='RAP')
@@ -40,6 +72,12 @@ class PetitionViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/new_template.html")
 
     def test_org_new_template_post(self):
+        """
+        Creates a new organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.login('julia')
         org = Organization.objects.get(name='RAP')
         self.assertEqual(org.petitiontemplate_set.count(), 0)
@@ -51,6 +89,12 @@ class PetitionViewTest(TestCase):
         self.assertRedirects(response, reverse("edit_template", args=[pt.id]))
 
     def test_user_new_template_post(self):
+        """
+        Create a new login.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         data = {'template_name': 'This is a default template'}
         response = self.client.post(reverse("user_new_template"), data)
@@ -60,12 +104,24 @@ class PetitionViewTest(TestCase):
         self.assertRedirects(response, reverse("edit_template", args=[pt.id]))
 
     def test_user_new_template_get(self):
+        """
+        Test for new login template.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         response = self.client.get(reverse("user_new_template"))
         self.assertEqual(julia.petitiontemplate_set.count(), 0)
         self.assertEqual(response.status_code, 200)
 
     def test_edit_template(self):
+        """
+        Test if the login template.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         # For an org template
@@ -80,6 +136,12 @@ class PetitionViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/edit_template.html")
 
     def test_template_fav_toggle(self):
+        """
+        This method is_template in the database.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         # For an org template
@@ -96,6 +158,12 @@ class PetitionViewTest(TestCase):
         self.assertEqual(julia.default_template, pt2)
 
     def test_template_fav_toggletwice(self):
+        """
+        Create a github login
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         # For an org template
@@ -120,6 +188,12 @@ class PetitionViewTest(TestCase):
         self.assertEqual(julia.default_template, None)
 
     def test_org_template_delete(self):
+        """
+        Deletes the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         max = self.login('max')
         org = Organization.objects.get(name='Les Amis de la Terre')
         # For an org template
@@ -143,6 +217,12 @@ class PetitionViewTest(TestCase):
         self.assertEqual(PetitionTemplate.objects.count(), 0)
 
     def test_edit_template_POST_content_form(self):
+        """
+        Handle post template.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         content_form_data = {
@@ -187,6 +267,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(response.context['newsletter_form_submitted'], False)
 
     def test_edit_template_POST_email_form(self):
+        """
+        View for new email.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         email_form_data = {
@@ -226,6 +312,12 @@ class PetitionViewTest(TestCase):
             self.assertEquals(getattr(pt, key), value)
 
     def test_edit_template_POST_social_network_form(self):
+        """
+        Formats the network template.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         thispath = os.path.join(os.path.dirname(__file__))
@@ -286,6 +378,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(response2.context['newsletter_form_submitted'], False)
 
     def test_edit_template_POST_newsletter_form(self):
+        """
+        Edit templates template.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         newsletter_form_data = {

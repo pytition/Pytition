@@ -13,6 +13,12 @@ from django.contrib.auth.models import User
 
 # Remove all javascripts from HTML code
 def sanitize_html(unsecure_html_content):
+    """
+    Sanitize html. html.
+
+    Args:
+        unsecure_html_content: (bool): write your description
+    """
     cleaner = Cleaner(inline_style=False, scripts=True, javascript=True,
                       safe_attrs=lxml.html.defs.safe_attrs | set(['style']),
                       frames=False, embedded=False,
@@ -25,6 +31,12 @@ def sanitize_html(unsecure_html_content):
 
 # Get the client IP address, considering proxies and RP
 def get_client_ip(request):
+    """
+    Get client ip from request.
+
+    Args:
+        request: (todo): write your description
+    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -34,6 +46,12 @@ def get_client_ip(request):
 
 # Get the user of the current session
 def get_session_user(request):
+    """
+    Return the session object.
+
+    Args:
+        request: (todo): write your description
+    """
     from .models import PytitionUser
     try:
         pytitionuser = PytitionUser.objects.get(user__username=request.user.username)
@@ -44,6 +62,13 @@ def get_session_user(request):
 # Check if an user is in an organization
 # FIXME : move this as an org method ?
 def check_user_in_orga(user, orga):
+    """
+    Check if the user is in the organization.
+
+    Args:
+        user: (todo): write your description
+        orga: (todo): write your description
+    """
     if orga not in user.organizations.all():
         return HttpResponseForbidden(_("You are not part of this organization"))
     return None
@@ -51,6 +76,12 @@ def check_user_in_orga(user, orga):
 
 # Return a 404 if a petition does not exist
 def petition_from_id(id):
+    """
+    Retrieve a citation by its id.
+
+    Args:
+        id: (todo): write your description
+    """
     from .models import Petition
     petition = Petition.by_id(id)
     if petition is None:
@@ -61,16 +92,35 @@ def petition_from_id(id):
 
 # Check if a petition is publicly accessible
 def check_petition_is_accessible(request, petition):
+    """
+    Check if the given request is authorized.
+
+    Args:
+        request: (todo): write your description
+        petition: (str): write your description
+    """
     if not petition.published and not request.user.is_authenticated:
         raise Http404(_("This Petition is not published yet!"))
 
 
 # Get settings
 def settings_context_processor(request):
+    """
+    Returns context processor processor processor processor.
+
+    Args:
+        request: (todo): write your description
+    """
     return {'settings': settings}
 
 # Get footer content
 def footer_content_processor(request):
+    """
+    Renders footer processor.
+
+    Args:
+        request: (todo): write your description
+    """
     footer_content = None
     if settings.FOOTER_TEMPLATE:
         footer_content = render_to_string(settings.FOOTER_TEMPLATE)
@@ -78,6 +128,13 @@ def footer_content_processor(request):
 
 # Send Confirmation email
 def send_confirmation_email(request, signature):
+    """
+    Sends an email address.
+
+    Args:
+        request: (todo): write your description
+        signature: (str): write your description
+    """
     petition = signature.petition
     url = request.build_absolute_uri("/petition/{}/confirm/{}".format(petition.id, signature.confirmation_hash))
     html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
@@ -91,6 +148,12 @@ def send_confirmation_email(request, signature):
 
 # Send welcome mail on account creation
 def send_welcome_mail(user_infos):
+    """
+    Sends an email.
+
+    Args:
+        user_infos: (todo): write your description
+    """
     html_message = render_to_string("registration/confirmation_email.html", user_infos)
     message = strip_tags(html_message)
     with get_connection() as connection:
@@ -104,6 +167,13 @@ def send_welcome_mail(user_infos):
 
 # Generate a meta url for the HTML meta property
 def petition_detail_meta(request, petition_id):
+    """
+    Get detail metadata for a single detail table.
+
+    Args:
+        request: (todo): write your description
+        petition_id: (str): write your description
+    """
     url = "{scheme}://{host}{petition_path}".format(
         scheme=request.scheme,
         host=request.get_host(),
@@ -112,6 +182,13 @@ def petition_detail_meta(request, petition_id):
 
 
 def subscribe_to_newsletter(petition, email):
+    """
+    Subscribe to a single subscription to a single subscription.
+
+    Args:
+        petition: (todo): write your description
+        email: (str): write your description
+    """
     if petition.newsletter_subscribe_method in ["POST", "GET"]:
         if petition.newsletter_subscribe_http_url == '':
             return
@@ -140,6 +217,13 @@ def subscribe_to_newsletter(petition, email):
                          connection=connection).send(fail_silently=True)
 
 def get_update_form(user, data=None):
+    """
+    Returns the form data.
+
+    Args:
+        user: (todo): write your description
+        data: (str): write your description
+    """
     from .forms import UpdateInfoForm
     if not data:
         _data = {

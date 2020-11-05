@@ -12,17 +12,42 @@ class EditPetitionViewTest(TestCase):
     """Test index view"""
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def login(self, name):
+        """
+        Authenticate with the server.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+        """
         self.client.login(username=name, password=name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def tearDown(self):
+        """
+        Tear down the next callable.
+
+        Args:
+            self: (todo): write your description
+        """
         # Clean up run after every test method.
         pass
 
@@ -95,6 +120,12 @@ class EditPetitionViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/edit_petition.html")
 
     def test_edit_post_content_form(self):
+        """
+        Update the post form.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         content_form_data = {
@@ -148,6 +179,12 @@ class EditPetitionViewTest(TestCase):
             self.assertEquals(getattr(p2, key), value)
 
     def test_edit_post_content_form_papersigntest(self):
+        """
+        Update the organization form.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         content_form_data = {
@@ -201,6 +238,12 @@ class EditPetitionViewTest(TestCase):
             self.assertEquals(getattr(p2, key), value)
 
     def test_edit_petition_POST_email_form(self):
+        """
+        Edit a new organization email.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         email_form_data = {
@@ -240,6 +283,12 @@ class EditPetitionViewTest(TestCase):
             self.assertEquals(getattr(p, key), value)
 
     def test_edit_petition_POST_social_network_form(self):
+        """
+        Test if organization
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         thispath = os.path.join(os.path.dirname(__file__))
@@ -302,6 +351,12 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response2.context['newsletter_form_submitted'], False)
 
     def test_edit_template_POST_newsletter_form(self):
+        """
+        Edit template for edit template.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         newsletter_form_data = {
@@ -357,6 +412,12 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response2.context['newsletter_form_submitted'], True)
 
     def test_edit_template_POST_style_form(self):
+        """
+        Test for edit template.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         style_form_data = {
