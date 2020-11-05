@@ -15,11 +15,25 @@ class Command(BaseCommand):
     > Generate 10 petitions for org:orgname
     """
     def add_arguments(self, parser):
+        """
+        Add command line arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.add_argument('--user', type=str)
         parser.add_argument('--orga', type=str)
         parser.add_argument('--number', '-n', type=int, default=1)
 
     def handle(self, *args, **options):
+        """
+        Handles users
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         if not options['orga'] and not options['user']:
             logger.error("You must either specify --orga or --user")
             return

@@ -7,11 +7,23 @@ from petition.models import Organization, Petition, PytitionUser, SlugModel, Sig
 
 class PermissionTest(TestCase):
     def setUp(self):
+        """
+        Creates a new organization for this user.
+
+        Args:
+            self: (todo): write your description
+        """
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')
         org = Organization.objects.create(name="RAP")
 
     def test_createPermission(self):
+        """
+        Creates a permission of a permission.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(Permission.objects.count(), 0)
         org = Organization.objects.get(name="RAP")
         pu = PytitionUser.objects.get(user__username='julia')
@@ -33,6 +45,12 @@ class PermissionTest(TestCase):
         self.assertEqual(p.can_modify_permissions, False)
 
     def test_to_string(self):
+        """
+        Create a string representation of the test string.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(Permission.objects.count(), 0)
         org = Organization.objects.get(name="RAP")
         pu = PytitionUser.objects.get(user__username='julia')

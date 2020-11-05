@@ -15,6 +15,14 @@ class Command(LabelCommand):
     label = "Organization name"
 
     def handle_label(self, label, **options):
+        """
+        Handle the label of the given label.
+
+        Args:
+            self: (todo): write your description
+            label: (str): write your description
+            options: (dict): write your description
+        """
         org, created = Organization.objects.get_or_create(name=label)
         if created:
             logger.info("%s organization created.", org)

@@ -6,6 +6,12 @@ from petition.models import Organization, Petition, PytitionUser, SlugModel, Sig
 
 class SignatureTest(TestCase):
     def setUp(self):
+        """
+        Creates a new user for the current user.
+
+        Args:
+            self: (todo): write your description
+        """
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')
         org = Organization.objects.create(name="RAP")
@@ -13,12 +19,24 @@ class SignatureTest(TestCase):
         Petition.objects.create(title="Petition", user=pu)
 
     def test_createSignature(self):
+        """
+        A method to create signature.
+
+        Args:
+            self: (todo): write your description
+        """
         p = Petition.objects.get(title="Petition")
         self.assertEqual(Signature.objects.count(), 0)
         s = Signature.objects.create(first_name="User", last_name="User", email="user@example.org", petition=p)
         self.assertEqual(Signature.objects.count(), 1)
 
     def pending_signature_requires(self):
+        """
+        Determine if the signature.
+
+        Args:
+            self: (todo): write your description
+        """
         p = Petition.objects.get(title="Petition")
         # A signature requires a petition
         self.assertRaises(Signature.petition.RelatedObjectDoesNotExist, Signature.objects.create, first_name="User", last_name="User", email="user@example.org")
@@ -26,6 +44,12 @@ class SignatureTest(TestCase):
         self.assertEqual(Signature.objects.count(), 0)
 
     def pending_signature_should_be_uniq(self):
+        """
+        Verifies that the user can be authenticated.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.first()
         p1 = Petition.objects.get(title="Petition")
         #p2 = Petition.objects.create(title="Petition2", org=org)

@@ -10,21 +10,53 @@ class PetitionViewTest(TestCase):
     """Test index view"""
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def tearDown(self):
+        """
+        Tear down the next callable.
+
+        Args:
+            self: (todo): write your description
+        """
         # Clean up run after every test method.
         pass
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def test_show_signatures(self):
+        """
+        Show the details of the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         # User petition
         p = julia.petition_set.first()
@@ -57,6 +89,12 @@ class PetitionViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/signature_data.html")
 
     def test_get_csv_signature(self):
+        """
+        Fet of the signature.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login('julia')
         # User petition
         p = julia.petition_set.first()
@@ -92,6 +130,12 @@ class PetitionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_show_signatures_post_deleteOK(self):
+        """
+        Show the details : return :
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         petition = julia.petition_set.first()
         pid = petition.id
@@ -119,6 +163,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, False)
 
     def test_show_signatures_post_deleteOK_org(self):
+        """
+        Show the organization organization for the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.login("julia")
         org = Organization.objects.get(name="Les Amis de la Terre")
         petition = org.petition_set.first()
@@ -147,6 +197,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, False)
 
     def test_show_signatures_post_deleteKONoRightsUser(self):
+        """
+        Test if the user s signatures.
+
+        Args:
+            self: (todo): write your description
+        """
         self.login("julia")
         max = PytitionUser.objects.get(user__username="max")
         petition = max.petition_set.first()
@@ -175,6 +231,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, True)
 
     def test_show_signatures_post_deleteKONoRightsOrg(self):
+        """
+        : return the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         self.login("max")
         org = Organization.objects.get(name="Les Amis de la Terre")
         petition = org.petition_set.first()
@@ -203,6 +265,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, True)
 
     def test_show_signatures_post_resendOK_org(self):
+        """
+        : param organization : :
+
+        Args:
+            self: (todo): write your description
+        """
         self.login("julia")
         org = Organization.objects.get(name="Les Amis de la Terre")
         petition = org.petition_set.first()
@@ -229,6 +297,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, False)
 
     def test_show_signatures_post_resendOK(self):
+        """
+        : return : return :
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         petition = julia.petition_set.first()
         pid = petition.id
@@ -254,6 +328,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, False)
 
     def test_show_signatures_post_resendallOK(self):
+        """
+        Show the signatures of the user.
+
+        Args:
+            self: (todo): write your description
+        """
         julia = self.login("julia")
         petition = julia.petition_set.first()
         pid = petition.id
@@ -278,6 +358,12 @@ class PetitionViewTest(TestCase):
         self.assertEquals(ThereIsAnyError, False)
 
     def test_show_signatures_post_resendallOK_org(self):
+        """
+        : param organization : : return :
+
+        Args:
+            self: (todo): write your description
+        """
         self.login("julia")
         org = Organization.objects.get(name="Les Amis de la Terre")
         petition = org.petition_set.first()

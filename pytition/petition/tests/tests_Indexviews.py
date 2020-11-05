@@ -41,6 +41,12 @@ class IndexViewTest(TestCase):
     """Test index view"""
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the last push objects.
+
+        Args:
+            cls: (todo): write your description
+        """
         User = get_user_model()
         for org in orgs:
             o = Organization.objects.create(name=org)
@@ -60,14 +66,32 @@ class IndexViewTest(TestCase):
                 p = Petition.objects.create(published=False, user=pu, title="Petition D%i" % i)
 
     def tearDown(self):
+        """
+        Tear down the next callable.
+
+        Args:
+            self: (todo): write your description
+        """
         pass
 
     def test_index(self):
+        """
+        Updates the index.
+
+        Args:
+            self: (todo): write your description
+        """
         with self.settings(INDEX_PAGE="HOME"):
             response = self.client.get('/', follow=True)
             self.assertTemplateUsed(response, "layouts/base.html")
 
     def test_index_orga_profile(self):
+        """
+        The organization profile.
+
+        Args:
+            self: (todo): write your description
+        """
         for org in orgs:
             orgslugname = slugify(org)
             with self.settings(INDEX_PAGE="ORGA_PROFILE", INDEX_PAGE_ORGA=org):
@@ -77,6 +101,12 @@ class IndexViewTest(TestCase):
                     self.assertEqual(len(response.context['petitions']), org_published_petitions[org])
 
     def test_index_user_profile(self):
+        """
+        Test the user profile.
+
+        Args:
+            self: (todo): write your description
+        """
         for user in users:
             with self.settings(INDEX_PAGE="USER_PROFILE", INDEX_PAGE_USER=user):
                 with self.subTest(user=user):
@@ -85,6 +115,12 @@ class IndexViewTest(TestCase):
                     self.assertEqual(len(response.context['petitions']), user_published_petitions[user])
 
     def test_index_login_register(self):
+        """
+        Log in the login page.
+
+        Args:
+            self: (todo): write your description
+        """
         with self.settings(INDEX_PAGE="LOGIN_REGISTER"):
             response = self.client.get('/', follow=True)
             self.assertRedirects(response, reverse("login"))

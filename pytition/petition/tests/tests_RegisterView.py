@@ -9,9 +9,21 @@ from petition.models import PytitionUser
 
 class PytitionUserRegister(TestCase):
     def setUp(self):
+        """
+        Sets the result of this thread.
+
+        Args:
+            self: (todo): write your description
+        """
         pass
 
     def test_createPytitionUser(self):
+        """
+        Respond to create a new user.
+
+        Args:
+            self: (todo): write your description
+        """
         if settings.ALLOW_REGISTER:
             response = self.client.get(reverse("register"))
             self.assertEqual(response.status_code, 200)

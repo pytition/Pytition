@@ -5,6 +5,11 @@ import sys
 
 
 def get_parser():
+    """
+    Creates command line parser
+
+    Args:
+    """
     parser = argparse.ArgumentParser("cli_pytition")
     subparsers = parser.add_subparsers(help='sub-command help', dest="action")
     genorga = subparsers.add_parser("gen_orga", help="create Pytition Organization")
@@ -32,6 +37,11 @@ def get_parser():
 
 
 def main():
+    """
+    Main entry point.
+
+    Args:
+    """
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pytition.settings")
     import django
     django.setup()

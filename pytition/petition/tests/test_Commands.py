@@ -10,6 +10,12 @@ logging.disable(logging.CRITICAL)
 
 class CommandTestCase(TestCase):
     def test_gen_orga_command(self):
+        """
+        Generate the organization command.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(Organization.objects.count(), 0)
 
         call_command('gen_orga', 'test-org')
@@ -19,6 +25,12 @@ class CommandTestCase(TestCase):
         self.assertEqual(Organization.objects.count(), 1)
 
     def test_gen_user_command(self):
+        """
+        Generate a new user.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(User.objects.count(), 0)
 
         call_command('gen_user', 'user', 'password')
@@ -31,6 +43,12 @@ class CommandTestCase(TestCase):
         self.assertTrue(User.objects.first().check_password('password2'))
 
     def test_join_org_command(self):
+        """
+        Respond on - org command.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.create(name="org")
         User.objects.create_user(username="user", password="pass")
         self.assertEqual(Permission.objects.count(), 0)
@@ -49,6 +67,12 @@ class CommandTestCase(TestCase):
         self.assertEqual(org.members.count(), 1)
 
     def test_gen_pet_command(self):
+        """
+        Generate a user command.
+
+        Args:
+            self: (todo): write your description
+        """
         Organization.objects.create(name="org")
         User.objects.create_user(username="user", password="pass")
         self.assertEqual(Petition.objects.count(), 0)
@@ -60,6 +84,12 @@ class CommandTestCase(TestCase):
         self.assertEqual(Petition.objects.count(), 10)
 
     def test_gen_sig_command(self):
+        """
+        Respond to a user.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.create(name="org")
         user = User.objects.create_user(username="user", password="pass")
         pet = Petition.objects.create(title="Test", user=user.pytitionuser)

@@ -12,6 +12,13 @@ import html
 
 
 def createPytitionUsers(apps, schema_editor):
+    """
+    Creates all user objects.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     PytitionUser = apps.get_model('petition', 'PytitionUser')
     User = apps.get_model(*settings.AUTH_USER_MODEL.split('.'))
     for u in User.objects.all():
@@ -22,6 +29,13 @@ def createPytitionUsers(apps, schema_editor):
         u.save()
 
 def add_petitions_to_orgs_and_users(apps, schema_editor):
+    """
+    Add users to organization.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     print("we migrate existing petitions...")
     PytitionUser = apps.get_model('petition', 'PytitionUser')
     Petition = apps.get_model('petition', 'Petition')
@@ -41,6 +55,13 @@ def add_petitions_to_orgs_and_users(apps, schema_editor):
             pt.save(update_fields=['user'])
 
 def slugify_petitions(apps, schema_editor):
+    """
+    Slugify tags.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Petition = apps.get_model('petition', 'Petition')
     SlugModel = apps.get_model('petition', 'SlugModel')
     for p in Petition.objects.all():
@@ -49,6 +70,13 @@ def slugify_petitions(apps, schema_editor):
             SlugModel.objects.create(slug=slugify(raw_title[:200]), petition=p)
 
 def petition_title_strip_html(apps, schema_editor):
+    """
+    Strives html tags from a list.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Petition = apps.get_model('petition', 'Petition')
     for p in Petition.objects.all():
         p.title = strip_tags(p.title)

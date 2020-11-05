@@ -9,18 +9,45 @@ import string
 class SympaBlockTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        """
+        Creates a user data user.
+
+        Args:
+            cls: (todo): write your description
+        """
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')
 
     def login(self, name, password=None):
+        """
+        Login with the given credentials.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            password: (str): write your description
+        """
         self.client.login(username=name, password=password if password else name)
         self.pu = PytitionUser.objects.get(user__username=name)
         return self.pu
 
     def logout(self):
+        """
+        Logout of the client.
+
+        Args:
+            self: (todo): write your description
+        """
         self.client.logout()
 
     def create_signatures(self, petition):
+        """
+        Create random signatures.
+
+        Args:
+            self: (todo): write your description
+            petition: (str): write your description
+        """
         self.nb_subscribed = 0
         for i in range(10):
             firstname = ''.join([random.choice(string.ascii_letters) for n in range(7)])
@@ -39,6 +66,12 @@ class SympaBlockTest(TestCase):
             )
 
     def test_ShowSympaSubscribeBlock(self):
+        """
+        Test if the availability to see if the note : this session.
+
+        Args:
+            self: (todo): write your description
+        """
         pu = self.login("julia")
         p = Petition.objects.create(title="my test petition", user=pu)
         self.create_signatures(p)

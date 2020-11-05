@@ -10,9 +10,21 @@ class ConfirmViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """
+        Sets the default data set.
+
+        Args:
+            cls: (todo): write your description
+        """
         add_default_data()
 
     def test_ConfirmOk(self):
+        """
+        Test if this account is signed.
+
+        Args:
+            self: (todo): write your description
+        """
         data = {
             'first_name': 'Alan',
             'last_name': 'John',

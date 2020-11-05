@@ -27,6 +27,12 @@ class PytitionUser(models.Model):
     default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
 
     def drop(self):
+        """
+        Removes all the data from the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         with transaction.atomic():
             orgs = list(self.organization_set.all())
             petitions = list(self.petition_set.all())
@@ -42,35 +48,83 @@ class PytitionUser(models.Model):
 
     @property
     def is_authenticated(self):
+        """
+        Returns true if the user is authenticated
+
+        Args:
+            self: (todo): write your description
+        """
         return self.user.is_authenticated
 
     @property
     def name(self):
+        """
+        The name of this user.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.username
 
     @property
     def username(self):
+        """
+        Returns the username of the user.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.user.username
 
     @property
     def get_full_name(self):
+        """
+        Returns full name of the user
+
+        Args:
+            self: (todo): write your description
+        """
         return self.user.get_full_name()
 
     @property
     def fullname(self):
+        """
+        Returns the fullname : class : class :.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.get_full_name
 
     @property
     def kind(self):
+        """
+        Return the kind of this node.
+
+        Args:
+            self: (todo): write your description
+        """
         return "user"
 
     def __str__(self):
+        """
+        Returns the username of the username
+
+        Args:
+            self: (todo): write your description
+        """
         if self.get_full_name != '':
             return self.get_full_name
         else:
             return self.username
 
     def __repr__(self):
+        """
+        Return the username of the object.
+
+        Args:
+            self: (todo): write your description
+        """
         if self.get_full_name != '':
             return self.get_full_name
         else:
@@ -117,24 +171,60 @@ class Organization(models.Model):
             return getattr(perm, right)
 
     def __str__(self):
+        """
+        Return the string representation of this object.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.name
 
     def __repr__(self):
+        """
+        Return a human - friendly name.
+
+        Args:
+            self: (todo): write your description
+        """
         return '< {} >'.format(self.name)
 
     @property
     def owners(self):
+        """
+        Returns the list of users.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.members.filter(permission__can_modify_permissions=True)
 
     @property
     def kind(self):
+        """
+        Return the kind of this node.
+
+        Args:
+            self: (todo): write your description
+        """
         return "org"
 
     @property
     def fullname(self):
+        """
+        Returns the full name of this field.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.name
 
     def save(self, *args, **kwargs):
+        """
+        Custom save method.
+
+        Args:
+            self: (todo): write your description
+        """
         if not self.slugname:
             self.slugname = slugify(self.name)
         super(Organization, self).save(*args, **kwargs)
@@ -209,6 +299,14 @@ class Petition(models.Model):
     last_modification_date = models.DateTimeField(blank=True)
 
     def transfer_to(self, user=None, org=None):
+        """
+        Transfer the organization to the organization.
+
+        Args:
+            self: (todo): write your description
+            user: (todo): write your description
+            org: (array): write your description
+        """
         if user is None and org is None:
             raise ValueError("You should specify either an org or a user when transferring a petition")
         if user is not None and org is not None:
@@ -222,6 +320,14 @@ class Petition(models.Model):
         self.save()
 
     def prepopulate_from_template(self, template, fields=None):
+        """
+        Prepopulate template.
+
+        Args:
+            self: (todo): write your description
+            template: (str): write your description
+            fields: (list): write your description
+        """
         if fields is None:
             fields = [f.name for f in self._meta.fields if f.name not in ["id", "title", "salt", "user", "org"]]
         for field in fields:
@@ -232,12 +338,25 @@ class Petition(models.Model):
 
 
     def slugify(self):
+        """
+        Add slug. slug.
+
+        Args:
+            self: (todo): write your description
+        """
         # Slugify the petition title and save it as slugname
         if self.slugmodel_set.count() == 0:
             slugtext = slugify(self.title)
             self.add_slug(slugtext)
 
     def add_slug(self, slugtext):
+        """
+        Adds slug to slug.
+
+        Args:
+            self: (todo): write your description
+            slugtext: (str): write your description
+        """
         # Add a slug corectly
         with transaction.atomic():
             slugtext = slugify(slugtext)
@@ -262,18 +381,39 @@ class Petition(models.Model):
                     slug = SlugModel.objects.create(slug=slugtext, petition=self)
 
     def del_slug(self, slug):
+        """
+        Deletes a slug.
+
+        Args:
+            self: (todo): write your description
+            slug: (str): write your description
+        """
         # Delete a given slug
         s = SlugModel.objects.filter(slug=slug, petition=self).first()
         s.delete()
 
     @classmethod
     def by_id(cls, id):
+        """
+        Get a : class by its id.
+
+        Args:
+            cls: (todo): write your description
+            id: (int): write your description
+        """
         try:
             return Petition.objects.get(pk=id)
         except Petition.DoesNotExist:
             return None
 
     def get_signature_number(self, confirmed=None):
+        """
+        Return the signature number
+
+        Args:
+            self: (todo): write your description
+            confirmed: (todo): write your description
+        """
         signatures = self.signature_set
         if confirmed is not None:
             signatures = signatures.filter(confirmed=confirmed)
@@ -284,11 +424,25 @@ class Petition(models.Model):
             return nb_electronic_signatures
 
     def already_signed(self, email):
+        """
+        Returns the signed signed signed signed signed signed signed signed signed signed signed signed signed signed signed signed signature.
+
+        Args:
+            self: (todo): write your description
+            email: (str): write your description
+        """
         signature_number = Signature.objects.filter(petition = self.id)\
             .filter(confirmed = True).filter(email = email).count()
         return signature_number > 0
 
     def confirm_signature(self, conf_hash):
+        """
+        Confirm a signature.
+
+        Args:
+            self: (todo): write your description
+            conf_hash: (todo): write your description
+        """
         signature = Signature.objects.filter(petition=self.id).get(confirmation_hash=conf_hash)
         if signature:
             # Now confirm the signature corresponding to this hash
@@ -299,15 +453,33 @@ class Petition(models.Model):
             return None
 
     def publish(self):
+        """
+        Publish the published published published
+
+        Args:
+            self: (todo): write your description
+        """
         self.published = True
         self.save()
 
     def unpublish(self):
+        """
+        Unpublish the document
+
+        Args:
+            self: (todo): write your description
+        """
         self.published = False
         self.save()
 
     @property
     def to_json(self):
+        """
+        Serialize this image to a json dict.
+
+        Args:
+            self: (todo): write your description
+        """
         return {'title': self.title,
                 'signatures': self.get_signature_number(True),
                 'text': self.text,
@@ -320,6 +492,12 @@ class Petition(models.Model):
 
     @property
     def owner_type(self):
+        """
+        The owner type of the owner.
+
+        Args:
+            self: (todo): write your description
+        """
         if self.org:
             return "org"
         else:
@@ -327,10 +505,22 @@ class Petition(models.Model):
 
     @property
     def owner_name(self):
+        """
+        Returns the name of the owner.
+
+        Args:
+            self: (todo): write your description
+        """
         return str(self.owner)
 
     @property
     def owner_username(self):
+        """
+        Returns the owner of the user.
+
+        Args:
+            self: (todo): write your description
+        """
         if self.owner_type == "org":
             return self.org.slugname
         else:
@@ -338,6 +528,12 @@ class Petition(models.Model):
 
     @property
     def owner(self):
+        """
+        Return the owner of the organization.
+
+        Args:
+            self: (todo): write your description
+        """
         if self.org:
             return self.org
         else:
@@ -345,20 +541,50 @@ class Petition(models.Model):
 
     @property
     def signature_number(self):
+        """
+        Return the number of the signature.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.get_signature_number(True)
 
     @property
     def raw_twitter_description(self):
+        """
+        Strip html markup.
+
+        Args:
+            self: (todo): write your description
+        """
         return html.unescape(mark_safe(strip_tags(sanitize_html(self.twitter_description))))
 
     @property
     def raw_text(self):
+        """
+        Parse html.
+
+        Args:
+            self: (todo): write your description
+        """
         return html.unescape(mark_safe(strip_tags(sanitize_html(self.text))))
 
     def __str__(self):
+        """
+        Returns a string representation of the string.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.title
 
     def __repr__(self):
+        """
+        Return a human - like representation.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.title
 
     def is_allowed_to_edit(self, user):
@@ -386,6 +612,12 @@ class Petition(models.Model):
 
     @property
     def url(self):
+        """
+        Returns the url for this slug.
+
+        Args:
+            self: (todo): write your description
+        """
         slugs = self.slugmodel_set.all()
         if len(slugs) == 0:
             # If there is no slug, ugly url
@@ -406,6 +638,12 @@ class Petition(models.Model):
                 raise ValueError(_("This petition is buggy. Sorry about that!"))
 
     def save(self, *args, **kwargs):
+        """
+        Saves the current user s owner.
+
+        Args:
+            self: (todo): write your description
+        """
         if (self.org is None and self.user is None):
             raise Exception("You need to provide a user or org as owner")
         elif (self.org is not None and self.user is not None):
@@ -432,11 +670,23 @@ class Signature(models.Model):
     ipaddress = models.TextField(blank=True, null=True)
 
     def clean(self):
+        """
+        Ensure the signed identities.
+
+        Args:
+            self: (todo): write your description
+        """
         if self.petition.already_signed(self.email):
             if self.petition.signature_set.filter(email = self.email).get(confirmed = True).id != self.id:
                 raise ValidationError(_("You already signed the petition"))
 
     def save(self, *args, **kwargs):
+        """
+        Custom save method
+
+        Args:
+            self: (todo): write your description
+        """
         self.clean()
         if self.confirmed:
             # invalidating other signatures from same email
@@ -445,13 +695,31 @@ class Signature(models.Model):
         super().save(*args, **kwargs)
 
     def confirm(self):
+        """
+        Confirm the next confirmation.
+
+        Args:
+            self: (todo): write your description
+        """
         self.confirmed = True
 
     def __str__(self):
+        """
+        Return a human - readable string.
+
+        Args:
+            self: (todo): write your description
+        """
         return html.unescape("[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,
                                                     self.last_name))
 
     def __repr__(self):
+        """
+        Return a human - friendly representation.
+
+        Args:
+            self: (todo): write your description
+        """
         return html.unescape("[{}:{}] {} {}".format(self.petition.id, "OK" if self.confirmed else "..", self.first_name,
                                                     self.last_name))
 
@@ -521,19 +789,43 @@ class PetitionTemplate(models.Model):
     use_custom_email_settings = models.BooleanField(default=False)
 
     def __str__(self):
+        """
+        Return the string representation of this object.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.name
 
     def __repr__(self):
+        """
+        Return the __repr__ method.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.name
 
     @property
     def owner_type(self):
+        """
+        The owner type of the owner.
+
+        Args:
+            self: (todo): write your description
+        """
         if self.org:
             return "org"
         else:
             return "user"
 
     def save(self, *args, **kwargs):
+        """
+        Custom save **
+
+        Args:
+            self: (todo): write your description
+        """
         if (self.org is None and self.user is None):
             raise Exception("You need to provide a user or org as owner")
         elif (self.org is not None and self.user is not None):
@@ -548,14 +840,32 @@ class SlugModel(models.Model):
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
 
     def clean(self, *args, **kwargs):
+        """
+        Ensure that slug is unique.
+
+        Args:
+            self: (todo): write your description
+        """
         if self.slug == "" or self.slug is None:
             raise ValidationError(_("A permlink cannot be empty. Please enter something."), code="invalid")
         super(SlugModel, self).clean(*args, **kwargs)
 
     def __str__(self):
+        """
+        Return the string representation of the string.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.slug
 
     def __repr__(self):
+        """
+        Return a representation of this field.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.slug
 
 # ------------------------------------ Permission -----------------------------
@@ -576,6 +886,13 @@ class Permission(models.Model):
     can_modify_permissions = models.BooleanField(default=False)
 
     def set_all(self, value):
+        """
+        Sets the value of the field.
+
+        Args:
+            self: (todo): write your description
+            value: (todo): write your description
+        """
         self.can_add_members = value
         self.can_remove_members = value
         self.can_create_petitions = value
@@ -591,36 +908,84 @@ class Permission(models.Model):
         self.save()
 
     def __str__(self):
+        """
+        Returns the organization name.
+
+        Args:
+            self: (todo): write your description
+        """
         return "{} : {}".format(self.organization.name, self.user.name)
 
     def __repr__(self):
+        """
+        Return a repr representation of - repr repr.
+
+        Args:
+            self: (todo): write your description
+        """
         return '< {} >'.format(self.__str__())
 
 
 #------------------------------ Pre save actions -----------------------------
 @receiver(pre_save, sender=SlugModel)
 def check_slug_is_not_empty(sender, instance, **kwargs):
+    """
+    Validate that the slug is not empty.
+
+    Args:
+        sender: (todo): write your description
+        instance: (todo): write your description
+    """
     instance.clean()
     instance.validate_unique()
 
 #------------------------------ Post save actions -----------------------------
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
+    """
+    Creates a user profile.
+
+    Args:
+        sender: (todo): write your description
+        instance: (todo): write your description
+        created: (bool): write your description
+    """
     if created:
         PytitionUser.objects.create(user=instance)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
+    """
+    Save user profile.
+
+    Args:
+        sender: (todo): write your description
+        instance: (todo): write your description
+    """
     instance.pytitionuser.save()
 
 @receiver(pre_save, sender=Petition)
 def pre_save_petition(sender, instance, **kwargs):
+    """
+    Pre - save save save save_date.
+
+    Args:
+        sender: (todo): write your description
+        instance: (todo): write your description
+    """
     if not instance.creation_date:
         instance.creation_date = timezone.now()
 
 @receiver(post_save, sender=Petition)
 def save_petition(sender, instance, **kwargs):
+    """
+    Saves save ** save_pet.
+
+    Args:
+        sender: (todo): write your description
+        instance: (todo): write your description
+    """
     if instance.slugmodel_set.count() == 0:
         instance.slugify()
     if kwargs['created']:
@@ -629,5 +994,12 @@ def save_petition(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=PytitionUser)
 def post_delete_user(sender, instance, *args, **kwargs):
+    """
+    Post - user instance.
+
+    Args:
+        sender: (todo): write your description
+        instance: (todo): write your description
+    """
     if instance.user:  # just in case user is not specified
         instance.user.delete()

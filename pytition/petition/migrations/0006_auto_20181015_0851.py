@@ -8,11 +8,23 @@ from html import unescape
 from bs4 import BeautifulSoup
 
 def myescape(html_text):
+    """
+    Replace html.
+
+    Args:
+        html_text: (str): write your description
+    """
     strings = []
     soup = BeautifulSoup(html_text, 'html.parser')
     return str(soup.prettify(formatter="html5"))
 
 def myunescape(html_text):
+    """
+    Escape html tags.
+
+    Args:
+        html_text: (str): write your description
+    """
     strings = []
     soup = BeautifulSoup(html_text, 'html.parser')
     for tag in soup.find_all():
@@ -27,6 +39,13 @@ def myunescape(html_text):
 
 
 def htmlUnescapePetition(apps, schema_editor):
+    """
+    Generate html tags.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Petition = apps.get_model('petition', 'Petition')
     for p in Petition.objects.all():
         newtitle = myunescape(p.title)
@@ -37,6 +56,13 @@ def htmlUnescapePetition(apps, schema_editor):
 
 
 def htmlEscapePetition(apps, schema_editor):
+    """
+    Escape a list of html tags into an html document.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Petition = apps.get_model('petition', 'Petition')
     for p in Petition.objects.all():
         newtitle = myescape(p.title)

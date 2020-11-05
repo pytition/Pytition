@@ -6,23 +6,47 @@ from petition.models import Organization, Petition, PytitionUser, SlugModel, Sig
 
 class PetitionTemplateTest(TestCase):
     def setUp(self):
+        """
+        Creates a new organization for this user.
+
+        Args:
+            self: (todo): write your description
+        """
         User = get_user_model()
         u = User.objects.create_user('julia', password='julia')
         org = Organization.objects.create(name="RAP")
 
     def test_createUserPetitionTemplate(self):
+        """
+        Creates a new user.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(PetitionTemplate.objects.count(), 0)
         pu = PytitionUser.objects.get(user__username='julia')
         PetitionTemplate.objects.create(name="Default", user=pu)
         self.assertEqual(PetitionTemplate.objects.count(), 1)
 
     def test_createOrgPetitionTemplate(self):
+        """
+        Creates a newsolsolsol updates
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual(PetitionTemplate.objects.count(), 0)
         org = Organization.objects.first()
         PetitionTemplate.objects.create(name="Default", org=org)
         self.assertEqual(PetitionTemplate.objects.count(), 1)
 
     def test_createPetitionTemplateRefused(self):
+        """
+        Creates a new users.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.first()
         pu = PytitionUser.objects.get(user__username='julia')
         self.assertEqual(PetitionTemplate.objects.count(), 0)
@@ -32,6 +56,12 @@ class PetitionTemplateTest(TestCase):
         self.assertEqual(PetitionTemplate.objects.count(), 0)
 
     def test_owner_type(self):
+        """
+        Creates a new owner.
+
+        Args:
+            self: (todo): write your description
+        """
         org = Organization.objects.first()
         pu = PytitionUser.objects.get(user__username='julia')
         p1 = PetitionTemplate.objects.create(name="PetitionTemplate", org=org)
