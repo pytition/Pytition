@@ -25,6 +25,7 @@ ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '[::1]']
 # Application definition
 
 INSTALLED_APPS = [
+    'maintenance_mode',
     'tinymce',
     'colorfield',
     'petition.apps.PetitionConfig',
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 PASSWORD_HASHERS = [
@@ -73,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
+                'maintenance_mode.context_processors.maintenance_mode',
 
             ],
         },
@@ -267,3 +270,5 @@ RESTRICT_ORG_CREATION = False
 
 #:| Default address for 'Reply to' field in mail sent on account creation
 DEFAULT_NOREPLY_MAIL = "noreply@domain.tld"
+
+MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
