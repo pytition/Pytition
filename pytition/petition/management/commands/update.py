@@ -16,12 +16,12 @@ class Command(BaseCommand):
         try:
             git_path = Path(settings.BASE_DIR).parent
             os.chdir(git_path)
-            run("git checkout master && git pull")
+            run("git checkout master -q && git pull -q ")
             
             version_cmd = "curl -s https://api.github.com/repos/pytition/pytition/releases/latest | grep 'tag_name' | cut -d : -f2,3 | tr -d \\\" | tr -d ,"
             version = run(version_cmd, capture_output=True).stdout.decode().strip()
             
-            checkout_cmd = f"git checkout {version}"
+            checkout_cmd = f"git checkout {version} -q"
             run(checkout_cmd)
     
             run("pip3 install --upgrade -r requirements.txt")
