@@ -179,7 +179,12 @@ Here is an example of Apache configuration that you can put in `/etc/apache2/sit
   Proxypass /mediaroot !
   
   ProxyPass / unix:/var/run/uwsgi/app/pytition.orga1.org/socket|uwsgi://localhost/
+
   <Directory /srv/pytition/www/static>
+  Require all granted
+  </Directory>
+  
+  <Directory /srv/pytition/www/mediaroot>
   Require all granted
   </Directory>
   
