@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 23:20+0100\n"
-"PO-Revision-Date: 2020-10-08 22:06+0000\n"
+"PO-Revision-Date: 2021-02-08 20:14+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.1\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
@@ -513,7 +513,7 @@ msgstr "SMTP pòrt deu èsser >= 1 e <= 65535"
 
 #: pytition/petition/forms.py:195
 msgid "Wrong answer"
-msgstr ""
+msgstr "Marrida responsa"
 
 #: pytition/petition/forms.py:239
 #: pytition/petition/templates/petition/account_settings.html:95
@@ -554,7 +554,7 @@ msgstr "Confirmatz vòstra signatura a nòstra peticion"
 
 #: pytition/petition/helpers.py:97
 msgid "Account created !"
-msgstr ""
+msgstr "Compte creat !"
 
 #: pytition/petition/models.py:27 pytition/petition/models.py:83
 msgid "Default petition template"
@@ -802,6 +802,11 @@ msgid ""
 "\">GitHub</a><br> Documentation is available on <a href=\"https://pytition."
 "readthedocs.io\">ReadTheDocs</a>"
 msgstr ""
+"<em>Site web de demonstracion (i botetz pas res d’important aicí !)</em><br/"
+"> Aquesta aisinas es gratuita e open-source, la podètz installar sul vòstre "
+"servidor tanben !<br> Download the source code on <a href=\"https://github."
+"com/pytition/pytition\">GitHub</a><br> Documentacion disponibla a <a href="
+"\"https://pytition.readthedocs.io\">ReadTheDocs</a>"
 
 #: pytition/petition/templates/petition/edit_petition.html:28
 msgid "Petition settings"
@@ -845,37 +850,33 @@ msgid "Save"
 msgstr "Salvar"
 
 #: pytition/petition/templates/petition/edit_petition.html:59
-#, fuzzy
-#| msgid "Newsletter subscription method"
 msgid "Twitter description"
-msgstr "Metòde d’inscripcion a la lista de difusion"
+msgstr "Descripcion Twitter"
 
 #: pytition/petition/templates/petition/edit_petition.html:66
-#, fuzzy
-#| msgid "Organization Twitter handle"
 msgid "Org twitter handle"
 msgstr "Nom d’utilizaire Twitter de l’organizacion"
 
 #: pytition/petition/templates/petition/edit_petition.html:76
 msgid "Twitter image"
-msgstr ""
+msgstr "Imatge Twitter"
 
 #: pytition/petition/templates/petition/edit_petition.html:78
 msgid "Upload"
-msgstr ""
+msgstr "Enviar"
 
 #: pytition/petition/templates/petition/edit_petition.html:83
 #: pytition/petition/templates/petition/edit_petition.html:200
 msgid "Choose file"
-msgstr ""
+msgstr "Causir fichièr"
 
 #: pytition/petition/templates/petition/edit_petition.html:91
 msgid "Image"
-msgstr ""
+msgstr "Imatge"
 
 #: pytition/petition/templates/petition/edit_petition.html:102
 msgid "Remove image"
-msgstr ""
+msgstr "Suprimir l’imtage"
 
 #: pytition/petition/templates/petition/edit_petition.html:115
 msgid ""
@@ -980,7 +981,7 @@ msgstr "Veire las darrièras peticions"
 #, fuzzy
 #| msgid "Create"
 msgid "Last Created"
-msgstr "Crear"
+msgstr "Darrièrs creats"
 
 #: pytition/petition/templates/petition/index.html:29
 #: pytition/petition/templates/petition/org_profile.html:26
@@ -988,7 +989,7 @@ msgstr "Crear"
 #, fuzzy
 #| msgid "First name"
 msgid "First Created"
-msgstr "Prenom"
+msgstr "Primièrs creats"
 
 #: pytition/petition/templates/petition/new_petition_step1.html:35
 #: pytition/petition/templates/petition/new_petition_step2.html:41
@@ -1185,16 +1186,16 @@ msgstr "Mercés de corregir las errors çai-jos."
 
 #: pytition/petition/templates/petition/petition_detail.html:87
 #: pytition/petition/templates/petition/petition_detail.html:112
-#, fuzzy
-#| msgid "Thank you"
 msgid "Thank you!"
-msgstr "Mercés"
+msgstr "Mercés !"
 
 #: pytition/petition/templates/petition/petition_detail.html:92
 msgid ""
 "Thank you for signing this petition! Your signature will be accounted for as "
 "soon as you click on the link in the e-mail we've just sent you."
 msgstr ""
+"Mercés d’aver signat aquesta peticion ! Vòstra signatura serà comptabilizada "
+"tre que clicaretz sul ligam del corrièl que vos venem d’enviar."
 
 #: pytition/petition/templates/petition/petition_detail.html:100
 #: pytition/petition/templates/petition/petition_detail.html:124
@@ -1208,6 +1209,8 @@ msgid ""
 "Thank you for confirming your signature to this petition! Your signature is "
 "now accounted for. See you soon!"
 msgstr ""
+"Mercés d’aver confirmat vòstra signatura per aquesta peticion ! Vòstra "
+"signatura es ara comptabilizada. Al còp que ven !"
 
 #: pytition/petition/templates/petition/petition_detail.html:136
 msgid "SIGN"
@@ -1290,15 +1293,14 @@ msgstr ""
 "confirmadas"
 
 #: pytition/petition/templates/petition/signature_data.html:37
-#, fuzzy
-#| msgid "Subscribed to newsletter?"
 msgid "Subscribe signatories to the newsletter"
-msgstr "Abonat a la lista de difusion ?"
+msgstr "Abonar los signaires a la lista de difusion"
 
 #: pytition/petition/templates/petition/signature_data.html:44
 msgid ""
 "copy/paste the following text block into Sympa's mass-subscribe formular"
 msgstr ""
+"copiatz / pegatz lo blòt de tèxt seguent al formulari mass-subscribe de Sympa"
 
 #: pytition/petition/templates/petition/signature_data.html:64
 msgid "Re-send selected confirmation e-mail"
@@ -1531,15 +1533,16 @@ msgstr ""
 
 #: pytition/petition/templates/registration/confirmation_email.html:10
 msgid "Welcome"
-msgstr ""
+msgstr "La benvenguda"
 
 #: pytition/petition/templates/registration/confirmation_email.html:12
-#, fuzzy, python-format
-#| msgid "You successfully created organization '{}'"
+#, python-format
 msgid ""
 "\n"
 "You successfully created your account ! Your login is %(username)s\n"
-msgstr "Creacion de l’organizacion « {} » corrèctament realizada"
+msgstr ""
+"\n"
+"Compte creat amb succès ! Vòstre nom d’utilizaire es %(username)s\n"
 
 #: pytition/petition/templates/registration/login.html:8
 msgid "Please sign in"
@@ -1627,10 +1630,8 @@ msgstr ""
 "configuracion"
 
 #: pytition/petition/views.py:116
-#, fuzzy
-#| msgid "Newsletter subscription method"
 msgid "No newsletter subscription yet!"
-msgstr "Metòde d’inscripcion a la lista de difusion"
+msgstr "Cap d’inscripcion a la lista de difusion !"
 
 #: pytition/petition/views.py:193
 msgid ""
@@ -1837,10 +1838,8 @@ msgid "Permissions successfully changed!"
 msgstr "Cambiament d’autorizacion corrèctament realizat !"
 
 #: pytition/petition/views.py:966
-#, fuzzy
-#| msgid "You are not allowed to edit this petition"
 msgid "Users are not allowed to create their own petitions."
-msgstr "Sètz pas lo proprietari d’aquesta peticion"
+msgstr "Los utilizaires son pas autorizats a crear lor pròprias peticions."
 
 #: pytition/petition/views.py:1033
 msgid "Cannot find this organization"
@@ -1869,10 +1868,8 @@ msgid "save-the-kittens-from-bad-wolf"
 msgstr "salvar-los-catons-del-lop"
 
 #: pytition/petition/views.py:1346
-#, fuzzy
-#| msgid "You are not allowed to edit this petition"
 msgid "You are not allowed to view this petition's signatures."
-msgstr "Sètz pas lo proprietari d’aquesta peticion"
+msgstr "Sètz pas autorizat a veire los signaires d’aquesta peticion."
 
 #: pytition/petition/views.py:1353
 msgid "You are not member of the following organization: '{}'"
@@ -1990,7 +1987,7 @@ msgstr "O planhèm, quicòm a trucat pendent lo transferiment."
 #: pytition/petition/views.py:1741
 #, python-brace-format
 msgid "How much is {a} + {b}?"
-msgstr ""
+msgstr "Quant fa {a} + {b} ?"
 
 #: pytition/pytition/settings/base.py:241
 msgid "English"
