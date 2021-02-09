@@ -4,7 +4,7 @@
   <ul class="dashboard-org-list">
   {% for member in org.members.all %}
     <li class="d-flex align-items-center justify-content-between">
-      <a class="text-dark" href="{% url "user_profile" member.username %}">{{ member.get_full_name }}</a>
+      <a class="text-dark" href="{% url "user_profile" member.username %}">{% firstof member.get_full_name member.username %}</a>
       <div data-member="{{ member.username }}">
         <a href="{% url "org_edit_user_perms" org.slugname member.username %}"
           {% if not user_permissions.can_modify_permissions %}
