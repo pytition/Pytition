@@ -1,37 +1,35 @@
-
-Advance installation on Debian
-******************************
+Advanced installation on Debian
+*******************************
 
 Objectif
 ========
-Mutualiser le code de pytition pour pouvoir rendre indépendante la base de donnée 
-et le répertoire mediaroot pour chaque organisation
-En pratique sur un seul serveur, on aura par exemple deux organisations 
-qui auront leur propre pytition: pytition.orga1.org et pytition.orga2.org 
-et chaque site partagera un seul code de pytition avec des bases de données séparées et un repertoire mediaroot indépendants.
-Le code étant mutualisé, il sera plus simple de mettre toutes les sites à jour avec un compte dédié pour.
+Mutualize Pytition's code so that database and mediaroot directory stay separate for each organization.
+In practice, on a single hosting server, you will have for instance 2 organizations that will each have their own Pytition instance: pytition.orga1.org and pytition.orga2.org 
+and each web site will share Pytition's source code but will have its own independant database and mediaroot directory.
+Because the source code will be shared, it will be easier to keep all the web sites up-to-date, using a dedicated administration account.
 
-
-Création des users et des repertoires
-=====================================
+Creating user accounts and directories
+======================================
 .. code-block:: bash
 
-  sudo useradd -m -s /bin/bash pytition-admin
-  sudo useradd -m -s /bin/bash orga1-user
-  sudo useradd -m -s /bin/bash orga2-user
+  $ sudo useradd -m -s /bin/bash pytition-admin
+  $ sudo useradd -m -s /bin/bash orga1-user
+  $ sudo useradd -m -s /bin/bash orga2-user
 
-pytition-admin sera l'utilisateur dédié à la maintenance du code de pytition
-
-.. code-block:: bash
-  sudo mkdir -p /etc/pytition/{orga1,orga2,admin}
-  sudo touch /etc/pytition/{orga1,orga2,admin}/__init__.py
-  sudo touch /etc/pytition/__init__.py
-
-Le repertoitre /etc/pytition/ contient la configuration de la base de donnée et la configuration de pytition pour chaque site
+pytition-admin will be the user account dedicated to Pytition's code maintenance.
 
 .. code-block:: bash
-  sudo mkdir -p /srv/pytition/www/mediaroot/{admin,orga1,orga2}
-  sudo mkdir -p /srv/pytition/www/static
+
+  $ sudo mkdir -p /etc/pytition/{orga1,orga2,admin}
+  $ sudo touch /etc/pytition/{orga1,orga2,admin}/__init__.py
+  $ sudo touch /etc/pytition/__init__.py
+
+/etc/pytition will contain database config and credentials as well as Pytition's config file for each site.
+
+.. code-block:: bash
+
+  $ sudo mkdir -p /srv/pytition/www/mediaroot/{admin,orga1,orga2}
+  $ sudo mkdir -p /srv/pytition/www/static
 
 
 Install system dependencies:
@@ -56,38 +54,41 @@ Create a Python3 virtualenv to install Pytitiont's dependencies:
 
 .. code-block:: bash
 
-  cd /srv/pytition/
-  sudo virtualenv -p python3 pytition_venv
+  $ cd /srv/pytition/
+  $ sudo virtualenv -p python3 pytition_venv
 
 Clone Pytition git repository and checkout latest release:
 
 .. code-block:: bash
 
-  cd www
-  sudo git clone https://github.com/pytition/pytition
-  cd pytition
-  sudo git checkout $version
+  $ cd www
+  $ sudo git clone https://github.com/pytition/pytition
+  $ cd pytition
+  $ sudo git checkout $version
 
 Attribuer les bons propriétaires et les bons droits aux dossiers:
 .. code-block:: bash
-  sudo chown -R pytition-admin:www-data /srv/pytition
-  sudo chown orga1-user:www-data /srv/pytition/www/mediaroot/orga1
-  sudo chown orga2-user:www-data /srv/pytition/www/mediaroot/orga2
-  sudo chmod g+s /srv/pytition/www/static/
+
+  $ sudo chown -R pytition-admin:www-data /srv/pytition
+  $ sudo chown orga1-user:www-data /srv/pytition/www/mediaroot/orga1
+  $ sudo chown orga2-user:www-data /srv/pytition/www/mediaroot/orga2
+  $ sudo chmod g+s /srv/pytition/www/static/
 
 Enter your virtualenv and install Pytition's dependencies:
 
 .. code-block:: bash
-  sudo su pytition-admin
-  source /srv/pytition/pytition_venv/bin/activate
+
+  $ sudo su pytition-admin
+  $ source /srv/pytition/pytition_venv/bin/activate
   (pytition_venv) $ pip3 install -r /srv/pytition/www/pytition/requirements.txt
 
 Créer les bases de données db-pytition-orga1, db-pytition-orga2, db-pytition-admin ainsi 
 que les utilisateurs associés db-user-orga1, db-user-orga2 et db-user-admin sur votre serveur MariaDB
 
 Pour chaque organisation, écrire le fichier /etc/pytition/{orga1,orga2,admin}/my.cnf
-Exemple de fichier pour orga1
-  [client]
+Exemple de fichier pour orga1:
+
+[client]
   host = your-data-base-server
   database = db-pytition-orga1
   user = db-user-orga1
@@ -102,8 +103,9 @@ Pour chaque organisation, créer le fichier /etc/pytition/{orga1,orga2,admin}/co
 Les fichiers my.cnf et config.py doivent avoir les bonnes permissions et droits. Par exemple pour orga1:
 
 .. code-block:: bash
-  sudo chown orga1:pytition-admin /etc/pytition/orga1/{my.cnf,config.py}
-  sudo chmod u=rw,g=r,o=--- /etc/pytition/orga1/{my.cnf,config.py}
+
+  $ sudo chown orga1:pytition-admin /etc/pytition/orga1/{my.cnf,config.py}
+  $ sudo chmod u=rw,g=r,o=--- /etc/pytition/orga1/{my.cnf,config.py}
 
 Now you can edit your config file in `pytition/pytition/settings/config.py` according to :ref:`Configuration`.
 
@@ -122,8 +124,12 @@ Those are:
   * ALLOWED_HOSTS
 
 Attention aux valeurs suivantes:
-STATIC_ROOT = "/srv/pytition/www/static"
-MEDIA_ROOT = "/srv/pytition/www/mediaroot/orga1 (pour le config.py de l'orga1)
+
+.. code-block:: none
+
+  STATIC_ROOT = "/srv/pytition/www/static"
+  MEDIA_ROOT = "/srv/pytition/www/mediaroot/orga1 (pour le config.py de l'orga1)
+
 la configuratio de DATABASE doit bien pointer sur /etc/pytition/orga1/my.cnf 
 
 
@@ -132,6 +138,7 @@ la configuratio de DATABASE doit bien pointer sur /etc/pytition/orga1/my.cnf
 Initialiser Pytition ainsi que les bases de données. Vous devez être dans le virtualenv pour entrer les commandes suivantes:
 
 .. code-block:: bash
+
   $ export PYTHONPATH="/etc/pytition"
   $ cd /srv/pytition/www/pytition/pytition
   $ sudo -u pytition-admin -- DJANGO_SETTINGS_MODULE="admin.config" python3 manage.py migrate
@@ -157,15 +164,15 @@ You can then point your browser to `http://yourdomain.tld:8000` and check that y
 .. note:: If you switch ``USE_MAIL_QUEUE`` from ``False`` to ``True`` at some point, you might have to re-run ``python3 manage.py migrate`` to create the database structures needed for the mail queues.
 
 
-Apache + uwsgi + maintenance mode
-=================================
+Apache and uwsgi configuration
+==============================
 
 Install uwsgi dependency::
 
-  sudo apt install uwsgi uwsgi-plugin-python3 python3-uwsgidecorators
+  $ sudo apt install uwsgi uwsgi-plugin-python3 python3-uwsgidecorators
 
 and enable proxy_uwsgi on apache:
-  sudo a2enmod proxy_uwsgi
+  $ sudo a2enmod proxy_uwsgi
 
 Here is an example of Apache configuration that you can put in `/etc/apache2/sites-available/orga1`::
 
@@ -193,8 +200,10 @@ Here is an example of Apache configuration that you can put in `/etc/apache2/sit
   
   </VirtualHost>
 
-Voici un exemple de configuration pour uwsgi à mettre dans /etc/uwsgi/app-available avec un lien dans /etc/uwsgi/app-enabled
+Here is an example of uwsgi configuration that you can put in /etc/uwsgi/app-available/. Don't forget to create a symbolic link in /etc/uwsgi/app-enabled pointing to the previously created file.
 
+.. code-block:: none
+ 
   [uwsgi]
   chdir = /srv/pytition/www/pytition/pytition
   module = pytition.wsgi
@@ -232,10 +241,12 @@ Your Pytition home page should be available over there: http://pytition.orga1.or
 
 Now it's time to :ref:`Configure<Configuration>` your Pytition instance the way you want!
 
-Maintenance régulière (update)
-==============================
-Pour la mise à jour de tous les sites, voici un script (lancé par pytition-admin) qui peut être utilisé dans une tache cron:
+Regular maintenance (update)
+============================
+In order to update all your Pytition sites, here is a bach script (run by pytition-admin user) which can be used in a cron task:
+
 .. code-block:: bash
+
   #!/bin/bash
   set -e
   DJANGO_MANAGE="/srv/pytition/www/pytition/pytition/manage.py"
@@ -243,7 +254,7 @@ Pour la mise à jour de tous les sites, voici un script (lancé par pytition-adm
   export PYTHONPATH="/etc/pytition/"
   echo
   echo "###########################"
-  echo "Mise à jour pytition admin"
+  echo "Updating admin Pytition"
   echo "###########################"
   echo
   DJANGO_SETTINGS_MODULE="admin.config" python3 $DJANGO_MANAGE maintenance on
@@ -253,7 +264,7 @@ Pour la mise à jour de tous les sites, voici un script (lancé par pytition-adm
   do
   echo
   echo "#################################################"
-  echo "Mise à jour pytition $site"
+  echo "Updating $site Pytition"
   echo "#################################################"
   echo
     DJANGO_SETTINGS_MODULE="$site.config" python3 $DJANGO_MANAGE maintenance on
