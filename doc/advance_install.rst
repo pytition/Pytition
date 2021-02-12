@@ -32,7 +32,7 @@ pytition-admin will be the user account dedicated to Pytition's code maintenance
   $ sudo mkdir -p /srv/pytition/www/static
 
 
-Install system dependencies:
+Install system dependencies
 ============================
 
 .. code-block:: bash
@@ -66,7 +66,8 @@ Clone Pytition git repository and checkout latest release:
   $ cd pytition
   $ sudo git checkout $version
 
-Attribuer les bons propriétaires et les bons droits aux dossiers:
+Set correct ownership and group to directories:
+
 .. code-block:: bash
 
   $ sudo chown -R pytition-admin:www-data /srv/pytition
@@ -82,25 +83,26 @@ Enter your virtualenv and install Pytition's dependencies:
   $ source /srv/pytition/pytition_venv/bin/activate
   (pytition_venv) $ pip3 install -r /srv/pytition/www/pytition/requirements.txt
 
-Créer les bases de données db-pytition-orga1, db-pytition-orga2, db-pytition-admin ainsi 
-que les utilisateurs associés db-user-orga1, db-user-orga2 et db-user-admin sur votre serveur MariaDB
+Create db-pytition-orga, db-pytition-orga2, db-pytition-admin as well as associated SQL users db-user-orga1, db-user-orga2 and db-user-admin on your MariaDB SQL server.
 
-Pour chaque organisation, écrire le fichier /etc/pytition/{orga1,orga2,admin}/my.cnf
-Exemple de fichier pour orga1:
+You need to write a /etc/pytition/{orga1,orga2,admin}/my.cnf file for each organization.
 
-[client]
+.. code-block:: none
+
+  [client]
   host = your-data-base-server
   database = db-pytition-orga1
   user = db-user-orga1
   password = YOUR_PASSWORD_HERE
   default-character-set = utf8
 
-Pour l'admin, on pourra utiliser une base sqlite3 plutôt que de créer une nouvelle base sur les serveur mariaDB
+For the administration account, you can use an sqlite3 database instead of creating a new database on MariaDB.
 
-Pour chaque organisation, créer le fichier /etc/pytition/{orga1,orga2,admin}/config.py en copiant par exemple le fichier 
-/srv/pytition/www/pytition/config_example.py
+Create the /etc/pytition/{orga1,orga2,admin}/config.py file for each organization. You can start by copying the configuration example file /src/pytition/www/config_example.py
 
-Les fichiers my.cnf et config.py doivent avoir les bonnes permissions et droits. Par exemple pour orga1:
+The my.cnf and config.py files must have the correct permissions.
+
+E.g. for orga1:
 
 .. code-block:: bash
 
@@ -123,19 +125,18 @@ Those are:
   * DATABASES
   * ALLOWED_HOSTS
 
-Attention aux valeurs suivantes:
+.. warning:: Pay attention to the following config values:
 
 .. code-block:: none
 
   STATIC_ROOT = "/srv/pytition/www/static"
   MEDIA_ROOT = "/srv/pytition/www/mediaroot/orga1 (pour le config.py de l'orga1)
 
-la configuratio de DATABASE doit bien pointer sur /etc/pytition/orga1/my.cnf 
-
+The `DATABASE` config value should point to `/etc/pytition/orga1/my.cnf`
 
 .. note:: Do not forget to put a correct path to the `my.cnf` MySQL credential file in your each config `DATABASES` setting.
 
-Initialiser Pytition ainsi que les bases de données. Vous devez être dans le virtualenv pour entrer les commandes suivantes:
+Initialize Pytition as well as its databases. You must be in the virtualenv while entering the following commands:
 
 .. code-block:: bash
 
@@ -151,7 +152,7 @@ Initialiser Pytition ainsi que les bases de données. Vous devez être dans le v
 .. note:: You will be asked to enter a `username`, `email` and `password` for the administrator's
 
 Before trying to configure a web server you can try to see if your configuration is OK by running:
-Par exemple pour orga1:
+E.g. for orga1:
 
 .. code-block:: bash
 
@@ -172,7 +173,10 @@ Install uwsgi dependency::
   $ sudo apt install uwsgi uwsgi-plugin-python3 python3-uwsgidecorators
 
 and enable proxy_uwsgi on apache:
-  $ sudo a2enmod proxy_uwsgi
+
+.. code-block:: bash
+
+   $ sudo a2enmod proxy_uwsgi
 
 Here is an example of Apache configuration that you can put in `/etc/apache2/sites-available/orga1`::
 
