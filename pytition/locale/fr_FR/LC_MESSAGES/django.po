@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 23:20+0100\n"
-"PO-Revision-Date: 2021-02-12 13:14+0000\n"
-"Last-Translator: bbmt <bbmt@hotmail.fr>\n"
+"PO-Revision-Date: 2021-03-06 10:02+0000\n"
+"Last-Translator: Vincent Finance <linuxmario@linuxmario.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -109,7 +109,7 @@ msgid ""
 msgstr ""
 "Seulement en cas d'abonnement à la liste de diffusion via la méthode HTTP "
 "POST ou GET. Indiquez ici les données à envoyer, en utilisant la syntaxe des "
-"dictionnaires Python. ex. : <br>\n"
+"dictionnaires Python. ex.  : <br>\n"
 "                    {'_wpcf7': 21,<br>\n"
 "                    '_wpcf7_version': '4.9',<br>\n"
 "                    '_wpcf7_locale': 'fr_FR',<br>\n"
@@ -858,14 +858,10 @@ msgid "Save"
 msgstr "Sauvegarder"
 
 #: pytition/petition/templates/petition/edit_petition.html:59
-#, fuzzy
-#| msgid "Newsletter subscription method"
 msgid "Twitter description"
-msgstr "Méthode d'inscription à la liste de diffusion"
+msgstr "Description Twitter"
 
 #: pytition/petition/templates/petition/edit_petition.html:66
-#, fuzzy
-#| msgid "Organization Twitter handle"
 msgid "Org twitter handle"
 msgstr "Nom d'utilisateur Twitter de l'organisation"
 
@@ -1302,10 +1298,8 @@ msgstr ""
 "Renvoyer les e-mails de confirmation de toutes les signatures non confirmées"
 
 #: pytition/petition/templates/petition/signature_data.html:37
-#, fuzzy
-#| msgid "Subscribed to newsletter?"
 msgid "Subscribe signatories to the newsletter"
-msgstr "Enregistrer les signatures à la newsletter"
+msgstr "Enregistrer les signatures sur la newsletter"
 
 #: pytition/petition/templates/petition/signature_data.html:44
 msgid ""
@@ -1642,10 +1636,8 @@ msgstr ""
 "configuration"
 
 #: pytition/petition/views.py:116
-#, fuzzy
-#| msgid "Newsletter subscription method"
 msgid "No newsletter subscription yet!"
-msgstr "Méthode d'inscription à la liste de diffusion"
+msgstr "Pas encore d'inscriptions sur la newsletter !"
 
 #: pytition/petition/views.py:193
 msgid ""
