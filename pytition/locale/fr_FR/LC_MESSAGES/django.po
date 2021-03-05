@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 23:20+0100\n"
 "PO-Revision-Date: 2021-03-06 10:02+0000\n"
-"Last-Translator: Vincent Finance <linuxmario@linuxmario.net>\n"
+"Last-Translator: Cedric F. <cedric@frayssinet.org>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -815,6 +815,11 @@ msgid ""
 "\">GitHub</a><br> Documentation is available on <a href=\"https://pytition."
 "readthedocs.io\">ReadTheDocs</a>"
 msgstr ""
+"<em>Site de démonstration (ne mettez pas des choses importantes ici !)</em><"
+"br/> Cet outil est un logiciel libre, vous pouvez l'installer sur votre "
+"propre serveur !<br> Télécharger le code source sur <a href=\"https://github."
+"com/pytition/pytition\">GitHub</a><br> La documentation est disponible sur "
+"<a href=\"https://pytition.readthedocs.io\">ReadTheDocs</a>"
 
 #: pytition/petition/templates/petition/edit_petition.html:28
 msgid "Petition settings"
@@ -871,7 +876,7 @@ msgstr "Twitter image"
 
 #: pytition/petition/templates/petition/edit_petition.html:78
 msgid "Upload"
-msgstr ""
+msgstr "Envoi"
 
 #: pytition/petition/templates/petition/edit_petition.html:83
 #: pytition/petition/templates/petition/edit_petition.html:200
@@ -1305,6 +1310,8 @@ msgstr "Enregistrer les signatures sur la newsletter"
 msgid ""
 "copy/paste the following text block into Sympa's mass-subscribe formular"
 msgstr ""
+"copiez / collez le bloc de texte suivant dans votre formulaire de "
+"souscriptions multiples sur Sympa"
 
 #: pytition/petition/templates/petition/signature_data.html:64
 msgid "Re-send selected confirmation e-mail"
