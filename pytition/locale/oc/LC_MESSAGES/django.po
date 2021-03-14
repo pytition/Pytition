@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 23:20+0100\n"
-"PO-Revision-Date: 2021-02-28 18:14+0000\n"
+"PO-Revision-Date: 2021-03-15 10:14+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 4.5.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
@@ -978,16 +978,12 @@ msgstr "Veire las darrièras peticions"
 #: pytition/petition/templates/petition/index.html:27
 #: pytition/petition/templates/petition/org_profile.html:24
 #: pytition/petition/templates/petition/user_profile.html:24
-#, fuzzy
-#| msgid "Create"
 msgid "Last Created"
 msgstr "Darrièrs creats"
 
 #: pytition/petition/templates/petition/index.html:29
 #: pytition/petition/templates/petition/org_profile.html:26
 #: pytition/petition/templates/petition/user_profile.html:26
-#, fuzzy
-#| msgid "First name"
 msgid "First Created"
 msgstr "Primièrs creats"
 
@@ -1578,7 +1574,7 @@ msgid ""
 "the email shortly!"
 msgstr ""
 "Vos avèm mandat las consignas per cambiar vòstre senhal. Deuriatz recebre "
-"lèu l’e-mail."
+"lèu l’e-mail !"
 
 #: pytition/petition/templates/registration/password_reset_form.html:4
 msgid "Forgot Your Password?"
@@ -1905,10 +1901,8 @@ msgid "You successfully changed your password!"
 msgstr "Cambiament de senhal corrèctament realizat !"
 
 #: pytition/petition/views.py:1492
-#, fuzzy
-#| msgid "Create an organization"
 msgid "Only super users can create an organization."
-msgstr "Crear una organizacion"
+msgstr "Sonque los super utilizaires pòdon crear una organizacion."
 
 #: pytition/petition/views.py:1505
 msgid "You successfully created organization '{}'"
@@ -1955,22 +1949,20 @@ msgstr ""
 "« {] »"
 
 #: pytition/petition/views.py:1659
-#, fuzzy
-#| msgid "You don't have the permission to modify petitions"
 msgid "You don't have the permission to transfer this petition"
-msgstr "Avètz pas l’autorizacion per modificar las peticions"
+msgstr "Avètz pas l’autorizacion de transferir aquesta la peticion"
 
 #: pytition/petition/views.py:1678
 msgid "Incorrect request, something went wrong."
 msgstr "Requèsta incorrècta, quicòm a trucat."
 
 #: pytition/petition/views.py:1687
-#, fuzzy
-#| msgid "You are not allowed to edit this organization's templates"
 msgid ""
 "Users are not allowed to transfer petitions to organizations on this "
 "instance."
-msgstr "Sètz pas autorizat a modificar los modèls d'aquesta organizacion"
+msgstr ""
+"Los utilizaires son pas autorizats a transferir de peticions a d’"
+"organizacion sus aquesta instància."
 
 #: pytition/petition/views.py:1695
 msgid "You tried to transfer a petition to a non-exiting account"
