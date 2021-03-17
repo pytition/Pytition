@@ -1304,7 +1304,7 @@ msgstr ""
 
 #: pytition/petition/templates/petition/signature_data.html:37
 msgid "Subscribe signatories to the newsletter"
-msgstr "Enregistrer les signatures sur la newsletter"
+msgstr "Inscrire les signataires à la newsletter"
 
 #: pytition/petition/templates/petition/signature_data.html:44
 msgid ""
