@@ -272,3 +272,5 @@ RESTRICT_ORG_CREATION = False
 DEFAULT_NOREPLY_MAIL = "noreply@domain.tld"
 
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
+# Following setting prevents error 500, even though it is supposed to be the default value...
+MAINTENANCE_MODE_STATE_FILE_PATH = 'maintenance_mode_state.txt'
