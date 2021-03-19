@@ -272,5 +272,5 @@ RESTRICT_ORG_CREATION = False
 DEFAULT_NOREPLY_MAIL = "noreply@domain.tld"
 
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
-# Following setting prevents error 500, even though it is supposed to be the default value...
-MAINTENANCE_MODE_STATE_FILE_PATH = 'maintenance_mode_state.txt'
+# Following setting prevents error 500, due to issue #76 of django_maintenance_mode
+MAINTENANCE_MODE_STATE_FILE_PATH = os.path.join(BASE_DIR, 'maintenance_mode_state.txt')
