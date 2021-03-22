@@ -1,5 +1,5 @@
-Advanced installation on Debian
-*******************************
+Multi-domain installation example
+*********************************
 
 Objectif
 ========
