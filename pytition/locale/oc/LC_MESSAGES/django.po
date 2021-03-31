@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
-"PO-Revision-Date: 2021-03-15 10:14+0000\n"
+"PO-Revision-Date: 2021-04-01 08:14+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -795,13 +795,6 @@ msgid "See you soon!"
 msgstr "A lèu !"
 
 #: pytition/petition/templates/petition/demo_text.html:3
-#, fuzzy
-#| msgid ""
-#| "<em>Demo website (don't put important stuff here!)</em><br/> This tool is "
-#| "free and open-source software, you can install it on your server too!<br> "
-#| "Download the source code on <a href=\"https://github.com/pytition/pytition"
-#| "\">GitHub</a><br> Documentation is available on <a href=\"https://"
-#| "pytition.readthedocs.io\">ReadTheDocs</a>"
 msgid ""
 "<span style=\"color: red;font-weight: bold;\">Demonstration website (please "
 "DON'T put real petitions here!)</span><br/> This tool is free and open-"
@@ -810,11 +803,12 @@ msgid ""
 "a><br> Documentation is available on <a href=\"https://pytition.readthedocs."
 "io\">ReadTheDocs</a>"
 msgstr ""
-"<em>Site web de demonstracion (i botetz pas res d’important aicí !)</em><br/"
-"> Aquesta aisinas es gratuita e open-source, la podètz installar sul vòstre "
-"servidor tanben !<br> Download the source code on <a href=\"https://github."
-"com/pytition/pytition\">GitHub</a><br> Documentacion disponibla a <a href="
-"\"https://pytition.readthedocs.io\">ReadTheDocs</a>"
+"<span style=\"color: red;font-weight: bold;\"Site web de demonstracion (i "
+"botetz pas res d’important aicí !)</sapn><br/> Aquesta aisinas es gratuita e "
+"open-source, la podètz installar sul vòstre servidor tanben !<br> Download "
+"the source code on <a href=\"https://github.com/pytition/pytition\">GitHub</"
+"a><br> Documentacion disponibla a <a href=\"https://pytition.readthedocs.io\""
+">ReadTheDocs</a>"
 
 #: pytition/petition/templates/petition/edit_petition.html:28
 msgid "Petition settings"
@@ -1697,11 +1691,11 @@ msgstr "Podètz pas quitar aquesta organizacion, sètz lo seu darrièr membre"
 
 #: pytition/petition/views.py:437
 msgid "This user does not exist (anylonger?)"
-msgstr "Aqueste utilizaire existís pas (pas mai ?)"
+msgstr "Aqueste utilizaire existís pas (o pas mai ?)"
 
 #: pytition/petition/views.py:443
 msgid "This organization does not exist (anylonger?)"
-msgstr "Aquesta organizacion existís pas (pas mai ?)"
+msgstr "Aquesta organizacion existís pas (o pas mai ?)"
 
 #: pytition/petition/views.py:449
 msgid "You are not part of this organization."
@@ -1923,7 +1917,7 @@ msgstr "O planhèm, avèm pas trobat aquesta peticion"
 
 #: pytition/petition/views.py:1565 pytition/petition/views.py:1599
 msgid "This petition does not exist (anymore?)."
-msgstr "Aquesta peticion existís pas (pas mai ?)."
+msgstr "Aquesta peticion existís pas (o pas mai ?)."
 
 #: pytition/petition/views.py:1571
 msgid "You entered an empty slug text"
