@@ -8,20 +8,21 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-02 19:39+0200\n"
-"PO-Revision-Date: 2021-04-02 19:45+0200\n"
+"PO-Revision-Date: 2021-04-15 06:02+0000\n"
+"Last-Translator: Racida S. <rgebbid@gmail.com>\n"
+"Language-Team: Kabyle <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/kab/>\n"
 "Language: kab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.5.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
 msgid "Name"
-msgstr ""
+msgstr "Isem"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
@@ -29,15 +30,15 @@ msgstr ""
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
-msgstr ""
+msgstr "Amḍan n yiεeggalen"
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
-msgstr ""
+msgstr "Tuccḍa: {}"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "Sentem azmulen"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
@@ -1796,20 +1797,20 @@ msgstr ""
 
 #: pytition/pytition/settings/base.py:241
 msgid "English"
-msgstr ""
+msgstr "Taglizit"
 
 #: pytition/pytition/settings/base.py:242
 msgid "Spanish"
-msgstr ""
+msgstr "Taspanit"
 
 #: pytition/pytition/settings/base.py:243
 msgid "French"
-msgstr ""
+msgstr "Tafṛansist"
 
 #: pytition/pytition/settings/base.py:244
 msgid "Italian"
-msgstr ""
+msgstr "Taṭelyanit"
 
 #: pytition/pytition/settings/base.py:245
 msgid "Occitan"
-msgstr ""
+msgstr "Tuksitant"
