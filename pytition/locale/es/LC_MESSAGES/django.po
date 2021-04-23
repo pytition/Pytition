@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
-"PO-Revision-Date: 2020-02-27 19:08+0000\n"
-"Last-Translator: Alberto Teira <ateira@3fpj.com>\n"
+"PO-Revision-Date: 2021-04-25 21:15+0000\n"
+"Last-Translator: Berto Te <ateira@3fpj.com>\n"
 "Language-Team: Spanish <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11.2\n"
+"X-Generator: Weblate 4.5.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
@@ -372,7 +372,7 @@ msgstr "Formulario de firmar del pie de página"
 
 #: pytition/petition/admin.py:145 pytition/petition/admin.py:283
 msgid "Organization Twitter handle"
-msgstr "Organization Twitter handle"
+msgstr "Manejo de Twitter de la organización"
 
 #: pytition/petition/admin.py:146 pytition/petition/admin.py:284
 msgid "Use custom e-mail settings?"
@@ -516,7 +516,7 @@ msgstr "El puerto SMTP debe ser> = 1 y <= 65535"
 
 #: pytition/petition/forms.py:195
 msgid "Wrong answer"
-msgstr ""
+msgstr "Respuesta incorrecta"
 
 #: pytition/petition/forms.py:239
 #: pytition/petition/templates/petition/account_settings.html:95
@@ -558,7 +558,7 @@ msgstr "Confirme su firma en nuestra solicitud"
 
 #: pytition/petition/helpers.py:97
 msgid "Account created !"
-msgstr ""
+msgstr "¡Cuenta creada!"
 
 #: pytition/petition/models.py:27 pytition/petition/models.py:83
 msgid "Default petition template"
@@ -807,6 +807,12 @@ msgid ""
 "a><br> Documentation is available on <a href=\"https://pytition.readthedocs."
 "io\">ReadTheDocs</a>"
 msgstr ""
+"<span style = \"color: red; font-weight: bold;\"> Sitio web de demostración "
+"(¡NO pongas peticiones reales aquí!) </span> <br/> Esta herramienta es un "
+"software gratuito y de código abierto, puedes ¡instálelo también en su "
+"servidor! <br> Descargue el código fuente en <a href=\"https://github.com/"
+"pytition/pytition\"> GitHub </a> <br> La documentación está disponible en <a "
+"href = \" https://pytition.readthedocs.io \"> ReadTheDocs </a>"
 
 #: pytition/petition/templates/petition/edit_petition.html:28
 msgid "Petition settings"
@@ -850,37 +856,33 @@ msgid "Save"
 msgstr "Salvar"
 
 #: pytition/petition/templates/petition/edit_petition.html:59
-#, fuzzy
-#| msgid "Newsletter subscription method"
 msgid "Twitter description"
-msgstr "Método de suscripción al boletín"
+msgstr "Descripción de Twitter"
 
 #: pytition/petition/templates/petition/edit_petition.html:66
-#, fuzzy
-#| msgid "Organization Twitter handle"
 msgid "Org twitter handle"
-msgstr "Organization Twitter handle"
+msgstr "Manejo de Twitter de la organización"
 
 #: pytition/petition/templates/petition/edit_petition.html:76
 msgid "Twitter image"
-msgstr ""
+msgstr "Imagen de Twitter"
 
 #: pytition/petition/templates/petition/edit_petition.html:78
 msgid "Upload"
-msgstr ""
+msgstr "Subir"
 
 #: pytition/petition/templates/petition/edit_petition.html:83
 #: pytition/petition/templates/petition/edit_petition.html:200
 msgid "Choose file"
-msgstr ""
+msgstr "Elija el archivo"
 
 #: pytition/petition/templates/petition/edit_petition.html:91
 msgid "Image"
-msgstr ""
+msgstr "Imagen"
 
 #: pytition/petition/templates/petition/edit_petition.html:102
 msgid "Remove image"
-msgstr ""
+msgstr "Quita la imagen"
 
 #: pytition/petition/templates/petition/edit_petition.html:115
 msgid ""
@@ -982,18 +984,14 @@ msgstr "Ver las últimas peticiones"
 #: pytition/petition/templates/petition/index.html:27
 #: pytition/petition/templates/petition/org_profile.html:24
 #: pytition/petition/templates/petition/user_profile.html:24
-#, fuzzy
-#| msgid "Create"
 msgid "Last Created"
-msgstr "Crear"
+msgstr "Última creación"
 
 #: pytition/petition/templates/petition/index.html:29
 #: pytition/petition/templates/petition/org_profile.html:26
 #: pytition/petition/templates/petition/user_profile.html:26
-#, fuzzy
-#| msgid "First name"
 msgid "First Created"
-msgstr "Nombre"
+msgstr "Nombre Creado"
 
 #: pytition/petition/templates/petition/new_petition_step1.html:35
 #: pytition/petition/templates/petition/new_petition_step2.html:41
@@ -1193,16 +1191,16 @@ msgstr "Por favor corrija los siguientes errores."
 
 #: pytition/petition/templates/petition/petition_detail.html:87
 #: pytition/petition/templates/petition/petition_detail.html:112
-#, fuzzy
-#| msgid "Thank you"
 msgid "Thank you!"
-msgstr "Gracias"
+msgstr "¡Gracias!"
 
 #: pytition/petition/templates/petition/petition_detail.html:92
 msgid ""
 "Thank you for signing this petition! Your signature will be accounted for as "
 "soon as you click on the link in the e-mail we've just sent you."
 msgstr ""
+"¡Gracias por firmar esta petición! Su firma se contabilizará tan pronto como "
+"haga clic en el enlace del correo electrónico que le acabamos de enviar."
 
 #: pytition/petition/templates/petition/petition_detail.html:100
 #: pytition/petition/templates/petition/petition_detail.html:124
@@ -1216,6 +1214,8 @@ msgid ""
 "Thank you for confirming your signature to this petition! Your signature is "
 "now accounted for. See you soon!"
 msgstr ""
+"¡Gracias por confirmar su firma a esta petición! Su firma ahora está "
+"contabilizada. ¡Nos vemos pronto!"
 
 #: pytition/petition/templates/petition/petition_detail.html:136
 msgid "SIGN"
@@ -1251,10 +1251,8 @@ msgid "View signatures"
 msgstr "Ver firmas"
 
 #: pytition/petition/templates/petition/petition_list.html:71
-#, fuzzy
-#| msgid "To whom is this petition?"
 msgid "Transfer this petition"
-msgstr "¿Para quién es esta petición?"
+msgstr "Transferir esta petición"
 
 #: pytition/petition/templates/petition/petition_list.html:74
 msgid "Delete the petition"
@@ -1298,15 +1296,15 @@ msgid "Re-send confirmation e-mail to all unconfirmed"
 msgstr "Reenviar correo electrónico de confirmación a todos los no confirmados"
 
 #: pytition/petition/templates/petition/signature_data.html:37
-#, fuzzy
-#| msgid "Subscribed to newsletter?"
 msgid "Subscribe signatories to the newsletter"
-msgstr "¿Suscrito al boletín?"
+msgstr "Suscribir signatarios al boletín"
 
 #: pytition/petition/templates/petition/signature_data.html:44
 msgid ""
 "copy/paste the following text block into Sympa's mass-subscribe formular"
 msgstr ""
+"copie / pegue el siguiente bloque de texto en el formulario de suscripción "
+"masiva de Sympa"
 
 #: pytition/petition/templates/petition/signature_data.html:64
 msgid "Re-send selected confirmation e-mail"
@@ -1371,47 +1369,39 @@ msgid "Close"
 msgstr "Cerrar"
 
 #: pytition/petition/templates/petition/transfer_petition.html:8
-#, fuzzy
-#| msgid "Create a petition"
 msgid "Transfer petition"
-msgstr "Crea una petición"
+msgstr "Petición de transferencia"
 
 #: pytition/petition/templates/petition/transfer_petition.html:14
-#, fuzzy
-#| msgid "You are about to delete the following petition template:"
 msgid "You are going to transfer this petition to someone else:"
-msgstr "Está a punto de eliminar la siguiente plantilla de petición:"
+msgstr "Vas a transferir esta petición a otra persona:"
 
 #: pytition/petition/templates/petition/transfer_petition.html:25
 msgid ""
 "Enter the name of the user or organization you want to give the petition to:"
 msgstr ""
+"Ingrese el nombre del usuario u organización a la que desea entregar la "
+"petición:"
 
 #: pytition/petition/templates/petition/transfer_petition.html:26
-#, fuzzy
-#| msgid "New Organization"
 msgid "User or Organization name"
-msgstr "Nueva Organización"
+msgstr "Nombre de usuario u organización"
 
 #: pytition/petition/templates/petition/transfer_petition.html:39
-#, fuzzy
-#| msgid "To whom is this petition?"
 msgid "Transfer this petition?"
-msgstr "¿Para quién es esta petición?"
+msgstr "¿Transferir esta petición?"
 
 #: pytition/petition/templates/petition/transfer_petition.html:45
-#, fuzzy
-#| msgid "You are about to delete the following petition template:"
 msgid "Do you really want to transfer the following petition?"
-msgstr "Está a punto de eliminar la siguiente plantilla de petición:"
+msgstr "¿Realmente quieres transferir la siguiente petición?"
 
 #: pytition/petition/templates/petition/transfer_petition.html:53
 msgid "It will be transfered to:"
-msgstr ""
+msgstr "Será transferido a:"
 
 #: pytition/petition/templates/petition/transfer_petition.html:62
 msgid "Transfer"
-msgstr ""
+msgstr "Transferir"
 
 #: pytition/petition/templates/petition/user_base.html:28
 msgid "Your public profile"
@@ -1548,15 +1538,16 @@ msgstr ""
 
 #: pytition/petition/templates/registration/confirmation_email.html:10
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenido"
 
 #: pytition/petition/templates/registration/confirmation_email.html:12
-#, fuzzy, python-format
-#| msgid "You successfully created organization '{}'"
+#, python-format
 msgid ""
 "\n"
 "You successfully created your account ! Your login is %(username)s\n"
-msgstr "Has creado correctamente la organización '{}'"
+msgstr ""
+"\n"
+"¡Has creado tu cuenta con éxito! Tu nombre de usuario es %(username)s\n"
 
 #: pytition/petition/templates/registration/login.html:8
 msgid "Please sign in"
@@ -1639,10 +1630,8 @@ msgid "You must set an INDEX_PAGE_ORGA config in your settings"
 msgstr "Debes establecer una configuración INDEX_PAGE_ORGA en tus ajustes"
 
 #: pytition/petition/views.py:116
-#, fuzzy
-#| msgid "Newsletter subscription method"
 msgid "No newsletter subscription yet!"
-msgstr "Método de suscripción al boletín"
+msgstr "¡Aún no hay suscripción al boletín!"
 
 #: pytition/petition/views.py:193
 msgid ""
@@ -1840,10 +1829,8 @@ msgid "Permissions successfully changed!"
 msgstr "Los permisos cambiaron con éxito!"
 
 #: pytition/petition/views.py:966
-#, fuzzy
-#| msgid "You are not allowed to edit this petition"
 msgid "Users are not allowed to create their own petitions."
-msgstr "No tienes permiso para editar esta petición"
+msgstr "Los usuarios no pueden crear sus propias peticiones."
 
 #: pytition/petition/views.py:1033
 msgid "Cannot find this organization"
@@ -1871,10 +1858,8 @@ msgid "save-the-kittens-from-bad-wolf"
 msgstr "salvar-a-los-gatitos-del-lobo-malo"
 
 #: pytition/petition/views.py:1346
-#, fuzzy
-#| msgid "You are not allowed to edit this petition"
 msgid "You are not allowed to view this petition's signatures."
-msgstr "No tienes permiso para editar esta petición"
+msgstr "No se le permite ver las firmas de esta petición."
 
 #: pytition/petition/views.py:1353
 msgid "You are not member of the following organization: '{}'"
@@ -1914,10 +1899,8 @@ msgid "You successfully changed your password!"
 msgstr "¡Cambiaste tu contraseña con éxito!"
 
 #: pytition/petition/views.py:1492
-#, fuzzy
-#| msgid "Create an organization"
 msgid "Only super users can create an organization."
-msgstr "Crear una organización"
+msgstr "Solo los superusuarios pueden crear una organización."
 
 #: pytition/petition/views.py:1505
 msgid "You successfully created organization '{}'"
@@ -1953,58 +1936,46 @@ msgid "Successful deletion of a slug"
 msgstr "Eliminación exitosa de un Permalink"
 
 #: pytition/petition/views.py:1646
-#, fuzzy
-#| msgid "Petition does not exist"
 msgid "This petition does not exist."
-msgstr "Petición no existe"
+msgstr "Esta petición no existe."
 
 #: pytition/petition/views.py:1655
-#, fuzzy
-#| msgid ""
-#| "You don't have the permission to create a new petition in this "
-#| "Organization"
 msgid ""
 "You don't have the permission to transfer a petition from Organization '{}'"
-msgstr "No tienes permisos para crear una nueva petición en esta Organización"
+msgstr "No tiene permiso para transferir una petición de la organización '{}'"
 
 #: pytition/petition/views.py:1659
-#, fuzzy
-#| msgid "You don't have the permission to modify petitions"
 msgid "You don't have the permission to transfer this petition"
-msgstr "No tienes permiso para modificar peticiones"
+msgstr "No tienes permiso para transferir esta petición"
 
 #: pytition/petition/views.py:1678
 msgid "Incorrect request, something went wrong."
-msgstr ""
+msgstr "Solicitud incorrecta, algo salió mal."
 
 #: pytition/petition/views.py:1687
-#, fuzzy
-#| msgid "You are not allowed to edit this organization's templates"
 msgid ""
 "Users are not allowed to transfer petitions to organizations on this "
 "instance."
-msgstr "No tienes permiso para editar las plantillas de esta organización"
+msgstr ""
+"Los usuarios no pueden transferir peticiones a organizaciones en esta "
+"instancia."
 
 #: pytition/petition/views.py:1695
 msgid "You tried to transfer a petition to a non-exiting account"
-msgstr ""
+msgstr "Intentaste transferir una petición a una cuenta que no existía"
 
 #: pytition/petition/views.py:1701
-#, fuzzy
-#| msgid "Permissions successfully changed!"
 msgid "Petition successfully transfered!"
-msgstr "Los permisos cambiaron con éxito!"
+msgstr "¡Petición transferida con éxito!"
 
 #: pytition/petition/views.py:1704
-#, fuzzy
-#| msgid "Sorry, we are not able to find this petition"
 msgid "Something went wrong while transferring this petition."
-msgstr "Lo sentimos, no podemos encontrar esta petición"
+msgstr "Se produjo un error al transferir esta petición."
 
 #: pytition/petition/views.py:1741
 #, python-brace-format
 msgid "How much is {a} + {b}?"
-msgstr ""
+msgstr "¿Cuánto es {a} + {b}?"
 
 #: pytition/pytition/settings/base.py:241
 msgid "English"
