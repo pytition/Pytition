@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
-"PO-Revision-Date: 2021-03-06 10:02+0000\n"
+"PO-Revision-Date: 2021-04-25 21:15+0000\n"
 "Last-Translator: Cedric F. <cedric@frayssinet.org>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 4.5.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
@@ -1412,7 +1412,7 @@ msgstr "Transférer"
 
 #: pytition/petition/templates/petition/user_base.html:28
 msgid "Your public profile"
-msgstr "Votre profil publique"
+msgstr "Votre profil public"
 
 #: pytition/petition/templates/petition/user_dashboard.html:4
 msgid "Your petitions"
