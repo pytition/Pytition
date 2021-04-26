@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-02 19:39+0200\n"
-"PO-Revision-Date: 2021-04-15 06:02+0000\n"
+"PO-Revision-Date: 2021-04-25 21:15+0000\n"
 "Last-Translator: Racida S. <rgebbid@gmail.com>\n"
 "Language-Team: Kabyle <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/kab/>\n"
@@ -42,7 +42,7 @@ msgstr "Sentem azmulen"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
-msgstr ""
+msgstr "Azen imayl n usentem tikkelt-nniḍen"
 
 #: pytition/petition/admin.py:85 pytition/petition/admin.py:225
 msgid ""
@@ -54,7 +54,7 @@ msgstr ""
 #: pytition/petition/admin.py:86 pytition/petition/admin.py:87
 #: pytition/petition/admin.py:226 pytition/petition/admin.py:227
 msgid "Only used if gradient is selected"
-msgstr ""
+msgstr "Yettuseqdac kan mi ara yettufren uεessas"
 
 #: pytition/petition/admin.py:88 pytition/petition/admin.py:228
 msgid ""
@@ -76,11 +76,15 @@ msgid ""
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
 "and https://developers.facebook.com/tools/debug/"
 msgstr ""
+"Tugna yettwabḍan deg tkarḍiwin n Twitter/Facebook mi ara yettwazen useɣwen "
+"ɣer yizeḍwa inmettiyen. Ad yettusekyed s https://cards-dev.twitter.com/"
+"validator akked https://developers.facebook.com/tools/debug/"
 
 #: pytition/petition/admin.py:91 pytition/petition/admin.py:231
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
+"Sireg afran ma yella tabewwaḍt n uṛcam n ujerred n uɣmis tettwaskan neɣ ala"
 
 #: pytition/petition/admin.py:92 pytition/petition/admin.py:232
 msgid ""
@@ -94,6 +98,15 @@ msgid ""
 "                    'your-email': ''<br>\n"
 "                    }"
 msgstr ""
+"Ala deg ujerred ɣer uɣmis s tarrayt HTTP POST neɣ GET. Err dagi isefka ara "
+"yettwaznen, s useqdec n tseddast n yimawalen n Python am.: <br>\n"
+"                    {'_wpcf7': 21,<br>\n"
+"                    '_wpcf7_version': '4.9',<br>\n"
+"                    '_wpcf7_locale': 'fr_FR',<br>\n"
+"                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',<br>\n"
+"                    '_wpcf7_container_post': '5398',<br>\n"
+"                    'your-email': ''<br>\n"
+"                    }"
 
 #: pytition/petition/admin.py:100 pytition/petition/admin.py:240
 msgid ""
@@ -207,19 +220,19 @@ msgstr ""
 
 #: pytition/petition/admin.py:122 pytition/petition/admin.py:262
 msgid "Side text, on top of form"
-msgstr ""
+msgstr "Aḍris deg tama, nnig n tferkit"
 
 #: pytition/petition/admin.py:123 pytition/petition/admin.py:263
 msgid "Signature target number"
-msgstr ""
+msgstr "Uṭṭun n usaḍas n uzmul"
 
 #: pytition/petition/admin.py:124
 msgid "Number of paper (or other external medium) signatures"
-msgstr ""
+msgstr "Amḍan n yizmulen n lkaɣeḍ (neɣ talemmast-nniḍen akk)"
 
 #: pytition/petition/admin.py:125
 msgid "Enable paper signatures accounting"
-msgstr ""
+msgstr "Rmed asmiḍen n yizmulen n lkaɣeḍ"
 
 #: pytition/petition/admin.py:126 pytition/petition/admin.py:264
 msgid "Direction of linear gradient for background color"
