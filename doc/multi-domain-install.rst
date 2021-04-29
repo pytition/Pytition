@@ -261,9 +261,9 @@ In order to update all your Pytition sites, here is a bach script (run by pytiti
   echo "Updating admin Pytition"
   echo "###########################"
   echo
-  DJANGO_SETTINGS_MODULE="admin.config" python3 $DJANGO_MANAGE maintenance on
+  DJANGO_SETTINGS_MODULE="admin.config" python3 $DJANGO_MANAGE maintenance_mode on
   DJANGO_SETTINGS_MODULE="admin.config" python3 $DJANGO_MANAGE update
-  DJANGO_SETTINGS_MODULE="admin.config" python3 $DJANGO_MANAGE maintenance off
+  DJANGO_SETTINGS_MODULE="admin.config" python3 $DJANGO_MANAGE maintenance_mode off
   for site in $(ls /etc/pytition|grep -vE "^admin$|^__init__\.py$")
   do
   echo
@@ -271,9 +271,9 @@ In order to update all your Pytition sites, here is a bach script (run by pytiti
   echo "Updating $site Pytition"
   echo "#################################################"
   echo
-    DJANGO_SETTINGS_MODULE="$site.config" python3 $DJANGO_MANAGE maintenance on
+    DJANGO_SETTINGS_MODULE="$site.config" python3 $DJANGO_MANAGE maintenance_mode on
     DJANGO_SETTINGS_MODULE="$site.config" python3 $DJANGO_MANAGE migrate
-    DJANGO_SETTINGS_MODULE="$site.config" python3 $DJANGO_MANAGE maintenance off
+    DJANGO_SETTINGS_MODULE="$site.config" python3 $DJANGO_MANAGE maintenance_mode off
   done
   deactivate
 
