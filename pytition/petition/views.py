@@ -38,6 +38,7 @@ from .helpers import check_petition_is_accessible
 from .helpers import send_confirmation_email, subscribe_to_newsletter, send_welcome_mail
 from .helpers import get_update_form, petition_detail_meta
 from .helpers import sanitize_html
+from .helpers import remove_user_moderated
 
 
 #------------------------------------ Views -----------------------------------
@@ -77,7 +78,8 @@ def index(request):
             user = request.user
         sort = request.GET.get('sort', 'desc')
         creation_date = '-creation_date' if sort == 'desc' else 'creation_date'
-        all_petitions = Petition.objects.filter(published=True).order_by(creation_date)
+        all_petitions = Petition.objects.filter(published=True, moderated=False).order_by(creation_date)
+        all_petitions = remove_user_moderated(all_petitions)
         paginator = Paginator(all_petitions, settings.PAGINATOR_COUNT)
         page = request.GET.get('page')
         petitions = paginator.get_page(page)
@@ -128,10 +130,13 @@ def show_sympa_subscribe_bloc(request, petition_id):
 def search(request):
     q = request.GET.get('q', '')
     if q != "":
-        petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True)[:15]
+        petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True,
+                                                                                                 moderated=False)[:15]
+        petitions = remove_user_moderated(petitions)
         orgs = Organization.objects.filter(name__icontains=q)
     else:
-        petitions = Petition.objects.filter(published=True).order_by('-id')
+        petitions = Petition.objects.filter(published=True, moderated=False).order_by('-id')
+        petitions = remove_user_moderated(petitions)
         paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
         page = request.GET.get('page')
         petitions = paginator.get_page(page)
@@ -341,7 +346,8 @@ def user_profile(request, user_name):
         raise Http404(_("not found"))
     sort = request.GET.get('sort', 'desc')
     creation_date = '-creation_date' if sort == 'desc' else 'creation_date'
-    petitions = user.petition_set.filter(published=True).order_by(creation_date)
+    petitions = user.petition_set.filter(published=True, moderated=False).order_by(creation_date)
+    petitions = remove_user_moderated(petitions)
     paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
     page = request.GET.get('page')
     petitions = paginator.get_page(page)
@@ -392,7 +398,8 @@ def org_profile(request, orgslugname):
 
     sort = request.GET.get('sort', 'desc')
     creation_date = '-creation_date' if sort == 'desc' else 'creation_date'
-    petitions = org.petition_set.filter(published=True).order_by(creation_date)
+    petitions = org.petition_set.filter(published=True, moderated=False).order_by(creation_date)
+    petitions = remove_user_moderated(petitions)
     paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
     page = request.GET.get('page')
     petitions = paginator.get_page(page)
@@ -1537,6 +1544,7 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
         except SlugModel.DoesNotExist:
             raise Http404(_("Sorry, we are not able to find this petition"))
         petition = slug.petition
+    check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
 
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form,

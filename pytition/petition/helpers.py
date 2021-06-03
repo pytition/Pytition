@@ -10,6 +10,10 @@ from django.core.mail import get_connection, EmailMultiAlternatives, EmailMessag
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
+# Remove all moderated instances of Petition
+def remove_user_moderated(petitions):
+    petitions = [p for p in petitions if not p.is_moderated]
+    return petitions
 
 # Remove all javascripts from HTML code
 def sanitize_html(unsecure_html_content):
@@ -61,7 +65,17 @@ def petition_from_id(id):
 
 # Check if a petition is publicly accessible
 def check_petition_is_accessible(request, petition):
-    if not petition.published and not request.user.is_authenticated:
+    if petition.published and not petition.moderated:
+        return True
+    if request.user.is_authenticated:
+        user = get_session_user(request)
+        if petition.owner_type == "user" and user == petition.owner:
+            return True
+        if petition.owner_type == "orga" and user in petition.owner.members:
+            return True
+    if petition.moderated:
+        raise Http404(_("This Petition has been moderated!"))
+    if not petition.published:
         raise Http404(_("This Petition is not published yet!"))
 
 

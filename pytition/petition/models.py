@@ -25,6 +25,7 @@ class PytitionUser(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pytitionuser")
     invitations = models.ManyToManyField('Organization', related_name="invited", blank=True)
     default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
+    moderated = models.BooleanField(default=False)
 
     def drop(self):
         with transaction.atomic():
@@ -39,6 +40,10 @@ class PytitionUser(models.Model):
                 petition.delete()
             for template in templates:
                 template.delete()
+
+    def moderate(self, do_moderate=True):
+        self.moderated = do_moderate
+        self.save()
 
     @property
     def is_authenticated(self):
@@ -207,6 +212,13 @@ class Petition(models.Model):
     paper_signatures_enabled = models.BooleanField(default=False)
     creation_date = models.DateTimeField(blank=True)
     last_modification_date = models.DateTimeField(blank=True)
+    moderated = models.BooleanField(default=False)
+
+    @property
+    def is_moderated(self):
+        if self.owner_type == "user":
+            return self.owner.moderated or self.moderated
+        return self.moderated
 
     def transfer_to(self, user=None, org=None):
         if user is None and org is None:
@@ -417,6 +429,9 @@ class Petition(models.Model):
         self.last_modification_date = timezone.now()
         super(Petition, self).save(*args, **kwargs)
 
+    def moderate(self, do_moderate=True):
+        self.moderated = do_moderate
+        self.save()
 
 # --------------------------------- Signature ---------------------------------
 class Signature(models.Model):
@@ -631,3 +646,13 @@ def save_petition(sender, instance, **kwargs):
 def post_delete_user(sender, instance, *args, **kwargs):
     if instance.user:  # just in case user is not specified
         instance.user.delete()
+
+# ------------------------------------ ModerationReason -----------------------------
+
+class ModerationReason(models.Model):
+    msg = models.TextField(verbose_name=ugettext_lazy("message"))
+    visible = models.BooleanField(default=True)
+
+class Moderation(models.Model):
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
+    reason = models.ForeignKey(ModerationReason, on_delete=models.CASCADE)

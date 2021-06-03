@@ -140,6 +140,9 @@ dataLayer = [];
 <div class="container">
   <div class="jumbotron text-center">
     <h1 class="jumbotron-heading">{{ petition.title|html_sanitize|striptags|safe }}</h1>
+    {% if petition.is_moderated %}
+    <h2 class="text-danger">{% trans "This petition is moderated. You only see it because you are its creator" %}</h2>
+    {% endif %}
   </div>
   <div class="petition-wrapper">
     <div class="content">

@@ -20,7 +20,11 @@
 <div class="row petition-list">
   {% for petition in petitions %}
     <div class="col-xl-3 col-lg-4 col-sm-6 col-12 text-center sb-preview" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}">
-      <div class="card h-100">
+      <div class="card h-100
+      {% if petition.is_moderated %}
+      border border-danger
+      {% endif %}
+      ">
         <a href="{{ petition.url }}" class="sb-preview-img">
             {% if not petition.twitter_image%}
             <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
@@ -45,15 +49,19 @@
             <input type="checkbox" class="custom-control-input"
                    name="petition_published_{{ petition.id }}"
                    id="petition_published_{{ petition.id }}"
-                   {% if petition.published %} checked {% endif %}>
+                   {% if petition.published and not petition.is_moderated %} checked {% endif %}
+                   {% if petition.is_moderated %} disabled {% endif %}>
             <label class="custom-control-label" for="petition_published_{{ petition.id }}">
-            {% if not petition.published %}
+            {% if not petition.published or petition.is_moderated %}
               {% trans "Not published" %}
             {% else %}
               {% trans "Published" %}
             {% endif %}
             </label>
           </div>
+          {% if petition.is_moderated %}
+          <div class="text-danger"><b>{% trans "This petition is moderated" %}</b></div>
+          {% endif %}
         </div>
         <div class="card-footer mt-auto">
           <div class="d-flex justify-content-around">
