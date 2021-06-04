@@ -9,7 +9,14 @@
         Menu <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
-      <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'set_language' %}" method="post">
+    <ul class="navbar-nav ml-auto">
+    {% if petition %}
+        <li class="nav-item">
+            <button class="btn btn-outline-warning btn-sm">{% trans "Report to moderation" %}</button>
+        </li>
+    {% endif %}
+    <li class="nav-item">
+        <form class="form-inline ml-2 my-lg-0" action="{% url 'set_language' %}" method="post">
         {% csrf_token %}
         <input name="next" type="hidden" value="{{ redirect_to }}">
         <select class="custom-select custom-select-sm" name="language" onchange='if(this.value !=  "{{ LANGUAGE_CODE }}") { this.form.submit(); }'>
@@ -22,7 +29,9 @@
             </option>
           {% endfor %}
         </select>
-      </form>
+        </form>
+    </li>
+    <li class="nav-item">
       <form class="form-inline my-2 my-lg-0 ml-0 ml-sm-3" action="{% url 'search' %}" method="GET">
         <div class="input-group input-group-sm">
           <input type="text" class="form-control" placeholder="{% trans "Search for petition" %}" name="q" value="{{ q }}">
@@ -31,6 +40,8 @@
           </div>
         </div>
       </form>
+    </li>
+    </ul>
       {% include 'layouts/nav-useractions.html' %}
     </div>
   </div>
