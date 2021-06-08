@@ -43,3 +43,15 @@ $(document).ready(function() {
     };
     handle_scroll(jQuery, window);
 });
+$(function() {
+   $('[data-action="petition-report"]').on("click", function() {
+       var report_url = $("#reason_selector option:selected").val();
+       var report_success = $(this).closest("[data-report-success]").data("report-success");
+       var report_failure = $(this).closest("[data-report-failure]").data("report-failure");
+       $.ajax(report_url).done(function() {
+           alert(report_success);
+       }).fail(function () {
+           alert(report_failure);
+       })
+   });
+});

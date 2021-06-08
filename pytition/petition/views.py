@@ -29,7 +29,7 @@ from django.views.generic.edit import CreateView
 from formtools.wizard.views import SessionWizardView
 
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, Permission
-from .models import SlugModel
+from .models import SlugModel, ModerationReason, Moderation
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
 from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
 from .forms import DeleteAccountForm, OrgCreationForm
@@ -171,9 +171,11 @@ def detail(request, petition_id):
     except:
         pytitionuser = None
 
+    reasons = ModerationReason.objects.all()
     sign_form = SignatureForm(petition=petition)
     ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
-           'meta': petition_detail_meta(request, petition_id)}
+           'meta': petition_detail_meta(request, petition_id),
+           'moderation_reasons': reasons}
 
     # If we've just signed successfully the petition, do not show the sign form
     hide_sign_form_if_user_just_signed(request, ctx)
@@ -1547,8 +1549,10 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
     check_petition_is_accessible(request, petition)
     sign_form = SignatureForm(petition=petition)
 
+    reasons = ModerationReason.objects.all()
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form,
-           'meta': petition_detail_meta(request, petition.id)}
+           'meta': petition_detail_meta(request, petition.id),
+           'moderation_reasons': reasons}
 
     # If we've just signed successfully the petition, do not show the sign form
     hide_sign_form_if_user_just_signed(request, ctx)
@@ -1766,3 +1770,19 @@ class PytitionUserCreateView(CreateView):
     def form_valid(self, form):
         form.send_success_email()
         return super().form_valid(form)
+
+# /<int:petition_id>/report/<int:reason_id>
+# Report a petition to moderation
+def report_petition(request, petition_id, reason_id=None):
+    petition = petition_from_id(petition_id)
+    if reason_id:
+        try:
+            reason = ModerationReason.objects.get(pk=reason_id)
+        except:
+            return HttpResponse(status=500)
+
+    if reason_id:
+        Moderation.objects.create(petition=petition, reason=reason)
+    else:
+        Moderation.objects.create(petition=petition)
+    return HttpResponse(status=200)

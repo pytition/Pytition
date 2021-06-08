@@ -27,6 +27,8 @@ urlpatterns = [
     path('<int:petition_id>/edit', views.edit_petition, name='edit_petition'),
     path('<int:petition_id>/add_new_slug', views.add_new_slug, name="add_new_slug"),
     path('<int:petition_id>/del_slug', views.del_slug, name="del_slug"),
+    path('<int:petition_id>/report/<int:reason_id>', views.report_petition, name="report_petition"),
+    path('<int:petition_id>/report/', views.report_petition, name="report_petition"),
     path('all_petitions', RedirectView.as_view(pattern_name='index', permanent=False), name='all_petitions'),
     path('transfer_petition/<int:petition_id>', views.transfer_petition, name='transfer_petition'),
     # Organisation

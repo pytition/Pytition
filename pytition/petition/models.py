@@ -655,4 +655,4 @@ class ModerationReason(models.Model):
 
 class Moderation(models.Model):
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
-    reason = models.ForeignKey(ModerationReason, on_delete=models.CASCADE)
+    reason = models.ForeignKey(ModerationReason, blank=True, null=True, on_delete=models.SET_NULL)
