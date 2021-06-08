@@ -49,6 +49,7 @@
   </div>
 </nav>
 
+{% if petition %}
   <div class="modal fade" id="report_modal"
     data-report-success="{% trans "Thank you for your reporting!" %}"
     data-report-failure="{% trans "Reporting failed, please retry later." %}">
@@ -84,5 +85,5 @@
       </div>
     </div>
   </div>
-
+{% endif %}
 {% endblock %}
