@@ -1396,16 +1396,17 @@ def show_signatures(request, petition_id):
                     messages.success(request, _("You successfully deleted all selected signatures"))
             if action == "re-send":
                 for s in selected_signatures:
-                    try:
-                        send_confirmation_email(request, s)
-                    except:
-                        failed = True
+                    if not s.confirmed:
+                        try:
+                            send_confirmation_email(request, s)
+                        except:
+                            failed = True
                 if failed:
                     messages.error(request, _("An error happened while trying to re-send confirmation emails"))
                 else:
                     messages.success(request, _("You successfully re-sent all selected confirmation emails"))
         if action == "re-send-all":
-            selected_signatures = Signature.objects.filter(petition=petition)
+            selected_signatures = Signature.objects.filter(petition=petition, confirmed=False)
             for s in selected_signatures:
                 try:
                     send_confirmation_email(request, s)
