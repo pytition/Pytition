@@ -17,7 +17,7 @@ Demo: https://pytitiondemo.sionneau.net/
    :caption: Contents:
 
    installation
-   advance_install
+   multi-domain-install
    configuration
    update
 
