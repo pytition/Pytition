@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
 "PO-Revision-Date: 2021-08-03 14:15+0000\n"
-"Last-Translator: jmaselbas <jmaselbas@gmail.com>\n"
+"Last-Translator: Zilverspar <vuod@vivaldi.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -1771,12 +1771,12 @@ msgstr "Ce gabarit de pétition n'existe pas"
 #: pytition/petition/views.py:603
 msgid "You are not allowed to edit this organization's templates"
 msgstr ""
-"Vous n'êtes pas autorisé-e à modifier les gabarit de cette organisation"
+"Vous n'êtes pas autorisé-e à modifier les gabarits de cette organisation"
 
 #: pytition/petition/views.py:608
 msgid "You are not allowed to edit this user's templates"
 msgstr ""
-"Vous n'êtes pas autorisé-e à modifier les gabarit de cet utilisateur-ice"
+"Vous n'êtes pas autorisé-e à modifier les gabarits de cet utilisateur-ice"
 
 #: pytition/petition/views.py:776
 msgid "You are not allowed to change this user's default template"
