@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
-"PO-Revision-Date: 2021-08-02 13:48+0000\n"
-"Last-Translator: jmaselbas <jmaselbas@gmail.com>\n"
+"PO-Revision-Date: 2021-08-02 13:49+0000\n"
+"Last-Translator: Zilverspar <vuod@vivaldi.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -789,7 +789,7 @@ msgstr "Quitter l'organisation"
 
 #: pytition/petition/templates/petition/account_settings.html:121
 msgid "Are you sure you want to leave"
-msgstr "Êtes vous sur de vouloir quitter"
+msgstr "Êtes-vous sûr de vouloir quitter ?"
 
 #: pytition/petition/templates/petition/confirmation_email.html:10
 msgid "Thank you"
