@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
-"PO-Revision-Date: 2021-04-25 21:15+0000\n"
-"Last-Translator: Cedric F. <cedric@frayssinet.org>\n"
+"PO-Revision-Date: 2021-08-02 13:48+0000\n"
+"Last-Translator: Zilverspar <vuod@vivaldi.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.5.1\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
@@ -742,7 +742,7 @@ msgid ""
 "You cannot leave an organization where you are either the last administrator "
 "or the last member"
 msgstr ""
-"Vous ne pouvez pas quitter une organisation dont vous être soit le dernier "
+"Vous ne pouvez pas quitter une organisation dont vous êtes soit le dernier "
 "administrateur soit le dernier membre"
 
 #: pytition/petition/templates/petition/account_settings.html:72
