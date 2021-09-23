@@ -29,7 +29,7 @@
 {% endblock main_title %}
 
 {% block edit_content %}
-<div data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}"
+<div data-petition-id="{{ petition.id }}" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}"
     class="petition-publish-switch mb-4 custom-control custom-switch
                        {% if not petition.published %}
                        text-muted

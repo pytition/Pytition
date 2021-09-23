@@ -53,12 +53,13 @@ $(function () {
     var box = $(this);
     var publish = box.prop('checked');
     box.prop('checked', !publish);
+    var petition_id = $(this).closest("[data-petition-id]").data("petition-id");
     var petition_publish_url = $(this).closest("[data-petition-publish]").data("petition-publish");
     var petition_unpublish_url = $(this).closest("[data-petition-unpublish]").data("petition-unpublish");
     var label = box.siblings('label');
     var custom_switch = box.closest('.custom-switch');
     box.prop('disabled', true);
-    var loader_id = 'loader_to_remove_' + Math.round(Math.random() * 100);
+    var loader_id = 'loader_' + petition_id;
     $(`<div id=${loader_id} class="spinner-border spinner-border-sm ml-1" \
         style="color: initial" role="status"><span class="sr-only">Loading...</span></div>`)
            .insertAfter(label);
@@ -70,13 +71,17 @@ $(function () {
         box.prop('disabled', false);
         box.prop('checked', !box.prop('checked'));
         $(loader_id).remove();
+        if (document.getElementById(`failed_${petition_id}`) !== null)
+            $(`#failed_${petition_id}`).remove();
+
+
     }).fail(function () {
         setTimeout(function() {
             box.prop('disabled', false);
             $(loader_id).remove();
             var action = box.prop('checked') ? 'unpublish' : 'publish';
             if (!box.siblings("div.alert").length)
-                $(`<div class="alert alert-danger" role="alert">Failed to ${action} the petition, try to refresh the page</div>`).insertAfter(label);
+                $(`<div id="failed_${petition_id}" class="alert alert-danger" role="alert">Failed to ${action} the petition, try again or refresh the page</div>`).insertAfter(label);
         }, 1000);
     });
    });
