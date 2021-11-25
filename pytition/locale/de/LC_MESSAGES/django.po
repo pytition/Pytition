@@ -8,23 +8,25 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-11-27 08:01+0000\n"
+"Last-Translator: maxlath <max@inventaire.io>\n"
+"Language-Team: German <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
-msgstr ""
+msgstr "Anzahl der Petitionen"
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
