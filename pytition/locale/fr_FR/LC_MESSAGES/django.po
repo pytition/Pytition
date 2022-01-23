@@ -1858,7 +1858,8 @@ msgstr "Permissions mises à jour avec succès !"
 
 #: pytition/petition/views.py:966
 msgid "Users are not allowed to create their own petitions."
-msgstr "Les utilisateurs ne sont pas autorisés à créer leurs propres pétitions."
+msgstr ""
+"Les utilisateurs ne sont pas autorisés à créer leurs propres pétitions."
 
 #: pytition/petition/views.py:1033
 msgid "Cannot find this organization"
