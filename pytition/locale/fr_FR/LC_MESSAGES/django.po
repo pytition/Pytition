@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
 "PO-Revision-Date: 2022-01-24 11:05+0000\n"
-"Last-Translator: jmaselbas <jmaselbas@gmail.com>\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -789,7 +789,7 @@ msgstr "Quitter l'organisation"
 
 #: pytition/petition/templates/petition/account_settings.html:121
 msgid "Are you sure you want to leave"
-msgstr "Êtes-vous sûr de vouloir quitter"
+msgstr "Voulez-vous vraiment quitter"
 
 #: pytition/petition/templates/petition/confirmation_email.html:10
 msgid "Thank you"
@@ -968,11 +968,11 @@ msgid_plural ""
 "            "
 msgstr[0] ""
 "\n"
-"              %(signature_number)s  signature\n"
+"              %(signature_number)s signature\n"
 "            "
 msgstr[1] ""
 "\n"
-"              %(signature_number)s  signatures\n"
+"              %(signature_number)s signatures\n"
 "            "
 
 #: pytition/petition/templates/petition/index.html:11
