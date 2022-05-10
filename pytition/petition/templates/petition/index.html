@@ -13,7 +13,7 @@
     {% if settings.SHOW_DEMO_TEXT %}
       {% include 'petition/demo_text.html' %}
     {% endif %}
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated or settings.ALLOW_REGISTER %}
       <p><a href="{% url 'user_petition_wizard' %}" class="btn btn-primary">{% trans "Create a petition" %}</a></p>
     {% endif %}
   </div>
