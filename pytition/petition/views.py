@@ -657,10 +657,9 @@ def edit_template(request, template_id):
                 storage = FileSystemStorage()
                 file = social_network_form.cleaned_data['twitter_image']
                 if file:
-                    path = os.path.join(storage.location, pytitionuser.username, file.name)
-                    name = storage._save(path, file)
-                    newrelpath = os.path.relpath(name, storage.location)
-                    template.twitter_image = urllib.parse.urljoin(settings.MEDIA_URL, newrelpath)
+                    path = os.path.join(pytitionuser.username, file.name)
+                    name = storage.save(path, file)
+                    template.twitter_image = storage.url(name)
                 if social_network_form.cleaned_data['remove_twitter_image']:
                     template.twitter_image = ""
                 template.twitter_description = social_network_form.cleaned_data['twitter_description']
@@ -1246,10 +1245,9 @@ def edit_petition(request, petition_id):
                 storage = FileSystemStorage()
                 file = social_network_form.cleaned_data['twitter_image']
                 if file:
-                    path = os.path.join(storage.location, pytitionuser.username, file.name)
-                    name = storage._save(path, file)
-                    newrelpath = os.path.relpath(name, storage.location)
-                    petition.twitter_image = urllib.parse.urljoin(settings.MEDIA_URL, newrelpath)
+                    path = os.path.join(pytitionuser.username, file.name)
+                    name = storage.save(path, file)
+                    petition.twitter_image = storage.url(name)
                 if social_network_form.cleaned_data['remove_twitter_image']:
                     petition.twitter_image = ""
                 petition.twitter_description = social_network_form.cleaned_data['twitter_description']
@@ -1641,11 +1639,9 @@ def image_upload(request):
         return HttpResponseForbidden()
 
     storage = FileSystemStorage()
-    path = os.path.join(storage.location, pytitionuser.username, file.name)
-    name = storage._save(path, file)
-    newrelpath = os.path.relpath(name, storage.location)
-
-    return JsonResponse({'location': storage.base_url + newrelpath})
+    path = os.path.join(pytitionuser.username, file.name)
+    name = storage.save(path, file)
+    return JsonResponse({'location': storage.url(name)})
 
 
 # /transfer_petition/<int:petition_id>

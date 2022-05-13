@@ -1,4 +1,4 @@
-Django~=2.2.0
+Django>=2.2.28
 django-colorfield==0.1.15
 django-tinymce==2.8.0
 django-mailer==1.2.6
