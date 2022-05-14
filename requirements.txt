@@ -7,7 +7,7 @@ requests~=2.20.0
 mysqlclient==2.0.1
 django-widget-tweaks==1.4.3
 beautifulsoup4~=4.6.3
-django-formtools==2.1
+django-formtools==2.2
 bcrypt
 lxml
 uwsgi
