@@ -172,7 +172,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'image_upload_credentials': True,
     'images_upload_handler': """function(blobInfo, success, failure) {
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '/petition/image_upload');
+        xhr.open('POST', get_image_upload_url());
         xhr.setRequestHeader('X-CSRFTOKEN', get_csrf_token()); // manually set header
 
         xhr.onload = function() {
