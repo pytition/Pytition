@@ -125,6 +125,8 @@ Those are:
   * DATABASES
   * ALLOWED_HOSTS
 
+.. warning:: If you do not use the ``config_example.py`` sample file as a base for your config, do NOT forget to also set ``TINYMCE_JS_URL``. Most likely you will just need to set it to ``STATIC_URL + TINYMCE_JS_PATH``
+
 .. warning:: Pay attention to the following config values:
 
 .. code-block:: none

@@ -152,6 +152,10 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '[::1]']
 
 import os
 
+# This needs to be redefined because STATIC_URL might be set in this config
+# after TINYMCE_JS_URL was defined
+TINYMCE_JS_URL = STATIC_URL + TINYMCE_JS_PATH
+
 if DEFAULT_INDEX_THUMBNAIL == "":
     print("Please set a default index thumbnail or your index page will not be very beautiful")
 

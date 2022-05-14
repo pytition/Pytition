@@ -13,6 +13,7 @@ You **must** set the following variables:
 .. automodule:: pytition.settings.config_example
   :members:
 
+.. warning:: The ``TINYMCE_JS_URL`` setting must be present in your config file if you modified the ``STATIC_URL`` setting from its default value (``/static/``), either before of after the ``DO NOT EDIT AFTER THIS BANNER``. It is already present in the config_example.py file.
 
 Not mandatory but important settings
 ====================================

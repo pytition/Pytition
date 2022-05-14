@@ -125,6 +125,8 @@ Those are:
   * DATABASES
   * ALLOWED_HOSTS
 
+.. warning:: If you do not use the ``config_example.py`` sample file as a base for your config, do NOT forget to also set ``TINYMCE_JS_URL``. Most likely you will just need to set it to ``STATIC_URL + TINYMCE_JS_PATH``
+
 .. note:: Do not forget to put a correct path to your `my.cnf` MySQL credential file in your config `DATABASES` setting.
 
 Initialize Pytition project database. Pay attention to be in your virtualenv to enter the following commands:
