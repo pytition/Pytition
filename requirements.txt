@@ -11,3 +11,4 @@ django-formtools==2.2
 bcrypt
 lxml
 uwsgi
+jinja2<3.1
