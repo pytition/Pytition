@@ -25,12 +25,13 @@
   * Fine grain per-user per-organization permissions
 * [x] Email retry support through the use of a mail queue middleware
 * [x] Nice (multiple) permlink support for each petition
+* [x] Optinal share buttons
 
 ## Future features
 
 * [ ] Support for multi-lingual petition content: [v3.0](https://github.com/pytition/Pytition/milestone/3)
 * [ ] Support for adding several petition templates: [v4.0](https://github.com/pytition/Pytition/milestone/4)
-* [ ] Add optional Mastodon/Diaspora share-icons
+* [ ] Add optional Diaspora share icon
 
 ## Install development environment
 

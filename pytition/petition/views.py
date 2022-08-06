@@ -664,6 +664,7 @@ def edit_template(request, template_id):
                     template.twitter_image = ""
                 template.twitter_description = social_network_form.cleaned_data['twitter_description']
                 template.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
+                template.has_share_buttons = social_network_form.cleaned_data['has_share_buttons']
                 template.save()
         else:
             remove_fields = ["twitter_image", "remove_twitter_image"]
@@ -1252,10 +1253,12 @@ def edit_petition(request, petition_id):
                     petition.twitter_image = ""
                 petition.twitter_description = social_network_form.cleaned_data['twitter_description']
                 petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
+                petition.has_share_buttons = social_network_form.cleaned_data['has_share_buttons']
                 petition.save()
         else:
             data = {'twitter_description': petition.twitter_description,
-                    'org_twitter_handle': petition.org_twitter_handle}
+                    'org_twitter_handle': petition.org_twitter_handle,
+                    'has_share_buttons': petition.has_share_buttons}
             social_network_form = SocialNetworkForm(data)
 
 
@@ -1295,7 +1298,8 @@ def edit_petition(request, petition_id):
             style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
     else:
         data = {'twitter_description': petition.twitter_description,
-                'org_twitter_handle': petition.org_twitter_handle}
+                'org_twitter_handle': petition.org_twitter_handle,
+                'has_share_buttons': petition.has_share_buttons}
         social_network_form = SocialNetworkForm(data)
         content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
         style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
