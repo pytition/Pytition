@@ -213,6 +213,7 @@ class Petition(models.Model):
     creation_date = models.DateTimeField(blank=True)
     last_modification_date = models.DateTimeField(blank=True)
     moderated = models.BooleanField(default=False)
+    has_share_buttons = models.BooleanField(default=True)
 
     @property
     def is_moderated(self):
@@ -534,6 +535,7 @@ class PetitionTemplate(models.Model):
     sign_form_footer = models.TextField(blank=True)
     confirmation_email_reply = models.EmailField(max_length=100, blank=True)
     use_custom_email_settings = models.BooleanField(default=False)
+    has_share_buttons = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

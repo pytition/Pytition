@@ -88,7 +88,16 @@
              {% if petition.org_twitter_handle %}value="{{ petition.org_twitter_handle }}"{% endif %}>
         </div>
   </div>
-
+ <div class="form-group row">
+     <label for="id_has_share_buttons" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable share buttons?" %}</label>
+     <div class="col-sm-12 col-md-9 col-lg-10">
+         <div class="custom-control custom-switch">
+             <input type="checkbox" name="has_share_buttons"  class="is-valid custom-control-input" id="id_has_share_buttons"
+                     {% if petition.has_share_buttons %} checked {% endif %}>
+             <label class="custom-control-label" for="id_has_share_buttons">{% trans "Enable share buttons?" %}</label>
+         </div>
+     </div>
+ </div>
 <div class="form-group row">
 <div class="input-group">
 <input type="checkbox" name="remove_twitter_image" id="remove_twitter_image" hidden>

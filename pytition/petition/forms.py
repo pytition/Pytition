@@ -126,6 +126,7 @@ class SocialNetworkForm(forms.Form):
     twitter_image = forms.FileField(max_length=500, required=False)
     org_twitter_handle = forms.CharField(max_length=20, required=False)
     remove_twitter_image = forms.BooleanField(required=False, initial=False)
+    has_share_buttons = forms.BooleanField(required=False)
 
 
 class NewsletterForm(forms.Form):
