@@ -719,7 +719,8 @@ def edit_template(request, template_id):
            'social_network_form': social_network_form,
            'newsletter_form': newsletter_form,
            'style_form': style_form,
-           'petition': template}
+           'petition': template,
+           'is_template': True}
 
 
     context['base_template'] = base_template
@@ -1312,7 +1313,8 @@ def edit_petition(request, petition_id):
         'email_form': email_form,
         'social_network_form': social_network_form,
         'newsletter_form': newsletter_form,
-        'petition': petition}
+        'petition': petition,
+        'is_template': False}
     url_prefix = request.scheme + "://" + request.get_host()
 
     if petition.owner_type == "org":

@@ -29,6 +29,7 @@
 {% endblock main_title %}
 
 {% block edit_content %}
+{% if not is_template %}
 <div data-petition-id="{{ petition.id }}" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}"
     class="petition-publish-switch mb-4 custom-control custom-switch
                        {% if not petition.published %}
@@ -48,6 +49,7 @@
         {% endif %}
     </label>
 </div>
+{% endif %}
 <div class="list-group list-group-horizontal mb-5" id="list-tab" role="tablist">
     <a href="#content_form" class="list-group-item list-group-item-info list-group-item-action"
     data-toggle="list" aria-controls="content_form" role="tab"><span class="oi oi-clipboard"></span> {% trans "Content" %}</a>
