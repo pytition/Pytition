@@ -21,7 +21,7 @@ content="{{ petition.raw_twitter_description|safe }}"/>
 <meta property="og:url" content="{{ meta.petition_url }}" />
 <meta property="og:site_name" content="{{ meta.site_url }}" />
 {% if petition.twitter_image %}
-<meta property="og:image" content="{{ petition.twitter_image }}"/>
+<meta property="og:image" content="{{ og_image_absolute_url }}" />
 {% endif %}
 
 <meta itemprop="name" content="{{ petition.title }}"/>
@@ -44,7 +44,7 @@ content="{{ petition.raw_twitter_description|safe }}"/>
 <meta name="twitter:description" content="{{ petition.raw_text|safe }}"/>
 {% endif %}
 {% if petition.twitter_image %}
-<meta name="twitter:image" content="{{ petition.twitter_image }}"/>
+<meta name="twitter:image" content="{{ og_image_absolute_url }}"/>
 {% endif %}
 
 {% endblock %}

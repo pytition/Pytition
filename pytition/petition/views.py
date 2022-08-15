@@ -175,7 +175,8 @@ def detail(request, petition_id):
     sign_form = SignatureForm(petition=petition)
     ctx = {"user": pytitionuser, 'petition': petition, 'form': sign_form,
            'meta': petition_detail_meta(request, petition_id),
-           'moderation_reasons': reasons}
+           'moderation_reasons': reasons,
+           'og_image_absolute_url': request.build_absolute_uri(petition.twitter_image)}
 
     # If we've just signed successfully the petition, do not show the sign form
     hide_sign_form_if_user_just_signed(request, ctx)
@@ -259,8 +260,14 @@ def create_signature(request, petition_id):
 
     if request.method == "POST":
         form = SignatureForm(petition=petition, data=request.POST)
+        ctx = {
+            'petition': petition,
+            'form': form,
+            'meta': petition_detail_meta(request, petition_id),
+            'og_image_absolute_url': request.build_absolute_uri(petition.twitter_image)
+        }
         if not form.is_valid():
-            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form, 'meta': petition_detail_meta(request, petition_id)})
+            return render(request, 'petition/petition_detail.html', ctx)
 
         ipaddr = make_password(
                 get_client_ip(request),
@@ -272,7 +279,7 @@ def create_signature(request, petition_id):
             date__gt=since)
         if signatures.count() > settings.SIGNATURE_THROTTLE:
             messages.error(request, _("Too many signatures from your IP address, please try again later."))
-            return render(request, 'petition/petition_detail.html', {'petition': petition, 'form': form, 'meta': petition_detail_meta(request, petition_id)})
+            return render(request, 'petition/petition_detail.html', ctx)
         else:
             signature = form.save()
             signature.ipaddress = ipaddr
@@ -1557,7 +1564,8 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
     reasons = ModerationReason.objects.all()
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form,
            'meta': petition_detail_meta(request, petition.id),
-           'moderation_reasons': reasons}
+           'moderation_reasons': reasons,
+           'og_image_absolute_url': request.build_absolute_uri(petition.twitter_image)}
 
     # If we've just signed successfully the petition, do not show the sign form
     hide_sign_form_if_user_just_signed(request, ctx)
