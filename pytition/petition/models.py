@@ -11,6 +11,7 @@ from django.contrib.auth.hashers import get_hasher
 from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
@@ -438,7 +439,7 @@ class Petition(models.Model):
 class Signature(models.Model):
     first_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("First name"))
     last_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Last name"))
-    phone = models.CharField(max_length=20, blank=True, verbose_name=ugettext_lazy("Phone number"))
+    phone = PhoneNumberField(max_length=20, blank=True, verbose_name=ugettext_lazy("Phone number"))
     email = models.EmailField(verbose_name=ugettext_lazy("Email address"))
     confirmation_hash = models.CharField(max_length=128)
     confirmed = models.BooleanField(default=False, verbose_name=ugettext_lazy("Confirmed"))
