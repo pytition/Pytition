@@ -11,10 +11,10 @@ from django.contrib.auth.hashers import get_hasher
 from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
-from phonenumber_field.modelfields import PhoneNumberField
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
+from phonenumber_field.modelfields import PhoneNumberField
 
 from .helpers import sanitize_html
 
