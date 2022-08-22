@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'formtools',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -275,3 +276,8 @@ DEFAULT_NOREPLY_MAIL = "noreply@domain.tld"
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
 # Following setting prevents error 500, due to issue #76 of django_maintenance_mode
 MAINTENANCE_MODE_STATE_FILE_PATH = os.path.join(BASE_DIR, 'maintenance_mode_state.txt')
+
+# Set default region to France with regard to accepting phone numbers without international prefix.
+# The +33 prefix for France is therefore optional, but it might be mandatory to add a prefix for 
+# other countries. This does not change anything for translations.
+PHONENUMBER_DEFAULT_REGION = "FR"

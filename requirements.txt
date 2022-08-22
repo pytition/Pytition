@@ -3,6 +3,7 @@ django-colorfield==0.1.15
 django-tinymce==2.8.0
 django-mailer==1.2.6
 django-maintenance-mode
+django-phonenumber-field[phonenumbers]==6.3.0
 requests~=2.20.0
 mysqlclient==2.0.1
 django-widget-tweaks==1.4.3
