@@ -25,7 +25,7 @@
   * Fine grain per-user per-organization permissions
 * [x] Email retry support through the use of a mail queue middleware
 * [x] Nice (multiple) permlink support for each petition
-* [x] Optinal share buttons
+* [x] Optional share buttons
 
 ## Future features
 
