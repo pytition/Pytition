@@ -20,7 +20,7 @@ On Ubuntu 18.04 LTS you need to install libmariadbclient-dev:
 
   $ sudo apt install libmariadbclient-dev
 
-On Ubuntu 20.04 LTS you need to install libmariadb-dev-compat:
+On Ubuntu 20.04 LTS and later you need to install libmariadb-dev-compat:
 
 .. code-block:: bash
 
@@ -146,7 +146,7 @@ Before trying to configure a web server you can try to see if your configuration
 
 .. code-block:: bash
 
-  $ DEBUG=1 DJANGO_SETTINGS_MODULE=pytition.settings.config python3 ./manage.py runserver
+  $ DEBUG=1 DJANGO_SETTINGS_MODULE=pytition.settings.config python3 ./manage.py runserver 0.0.0.0:8000
 
 You can then point your browser to `http://yourdomain.tld:8000` and check that you can see Pytitiont's home page and log-in with your newly created admin account.
 
