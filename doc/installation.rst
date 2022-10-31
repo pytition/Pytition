@@ -56,7 +56,7 @@ Create a directory to host your Pytition instance and it's static files:
 
   $ mkdir -p www/static www/mediaroot
 
-Create a Python3 virtualenv to install Pytitiont's dependencies:
+Create a Python3 virtualenv to install Pytition's dependencies:
 
 .. code-block:: bash
 
@@ -148,7 +148,7 @@ Before trying to configure a web server you can try to see if your configuration
 
   $ DEBUG=1 DJANGO_SETTINGS_MODULE=pytition.settings.config python3 ./manage.py runserver 0.0.0.0:8000
 
-You can then point your browser to `http://yourdomain.tld:8000` and check that you can see Pytitiont's home page and log-in with your newly created admin account.
+You can then point your browser to `http://yourdomain.tld:8000` and check that you can see Pytition's home page and log-in with your newly created admin account.
 
 .. warning:: If you've set ``USE_MAIL_QUEUE`` to ``True`` and ``MAIL_EXTERNAL_CRON_SET`` to ``False``, running Pytition via ``manage.py runserver`` might not work well since you need to be run via `uwsgi`. Especially emails might not be sent.
 
