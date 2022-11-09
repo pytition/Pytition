@@ -71,7 +71,7 @@ def check_petition_is_accessible(request, petition):
         user = get_session_user(request)
         if petition.owner_type == "user" and user == petition.owner:
             return True
-        if petition.owner_type == "orga" and user in petition.owner.members:
+        if petition.owner_type == "org" and user in petition.owner.members.all():
             return True
     if petition.moderated:
         raise Http404(_("This Petition has been moderated!"))
