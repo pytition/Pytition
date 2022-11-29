@@ -259,8 +259,8 @@ django.conf.locale.LANG_INFO = LANG_INFO
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
 MEDIA_URL = "/mediaroot/"
 
-FILE_UPLOAD_PERMISSIONS = 0o640
-FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
+FILE_UPLOAD_PERMISSIONS = 0o644
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 
 
 #:| If set to True, users won't be able to create petitions in their name, but only for an organization
