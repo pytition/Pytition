@@ -8,7 +8,7 @@ node {
 
         sh '''
 cd $WORKSPACE
-rm -rf venv && virtualenv -p python3 venv
+rm -rf venv && python3.8 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements_dev.txt
 cat <<ENDOFFILE > my.cnf
