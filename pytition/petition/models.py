@@ -215,6 +215,7 @@ class Petition(models.Model):
     last_modification_date = models.DateTimeField(blank=True)
     moderated = models.BooleanField(default=False)
     has_share_buttons = models.BooleanField(default=True)
+    publication_date = models.DateTimeField(blank=True, null=True)
 
     @property
     def is_moderated(self):
