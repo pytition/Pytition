@@ -330,6 +330,11 @@ dataLayer = [];
         </div>
       </div>
       <div class="presentation">
+        {% if petition.publication_date %}
+        <div class="font-weight-light font-italic">
+          Published on: {{ petition.publication_date|date:"M d, Y"  }}
+        </div>
+        {% endif %}
         {{ petition.text|html_sanitize|safe }}
       </div>
     </div>
