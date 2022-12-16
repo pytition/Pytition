@@ -216,6 +216,7 @@ class Petition(models.Model):
     moderated = models.BooleanField(default=False)
     has_share_buttons = models.BooleanField(default=True)
     publication_date = models.DateTimeField(blank=True, null=True)
+    show_publication_date = models.BooleanField(default=False)
 
     @property
     def is_moderated(self):
@@ -315,10 +316,12 @@ class Petition(models.Model):
 
     def publish(self):
         self.published = True
+        self.publication_date = timezone.now()
         self.save()
 
     def unpublish(self):
         self.published = False
+        self.publication_date = None
         self.save()
 
     @property

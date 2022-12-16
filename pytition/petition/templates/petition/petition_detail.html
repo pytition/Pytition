@@ -330,7 +330,7 @@ dataLayer = [];
         </div>
       </div>
       <div class="presentation">
-        {% if petition.publication_date %}
+        {% if petition.publication_date and petition.show_publication_date %}
         <div class="font-weight-light font-italic">
           Published on: {{ petition.publication_date|date:"M d, Y"  }}
         </div>
