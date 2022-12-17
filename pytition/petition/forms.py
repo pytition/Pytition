@@ -92,6 +92,8 @@ class PetitionCreationStep3(forms.Form):
 
 class ContentFormGeneric(forms.Form):
     ### Content of a Petition ###
+    publication_date = forms.DateField(required=False)
+    show_publication_date = SwitchField(required=False, label=_("Show publication date"))
     text = forms.CharField(widget=TinyMCE)
     target = forms.IntegerField(required=False)
     side_text = forms.CharField(widget=TinyMCE, required=False)
