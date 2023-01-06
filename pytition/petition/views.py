@@ -637,6 +637,7 @@ def edit_template(request, template_id):
             content_form = ContentFormTemplate(request.POST)
             submitted_ctx['content_form_submitted'] = True
             if content_form.is_valid():
+                template.target = content_form.cleaned_data['target']
                 template.name = content_form.cleaned_data['name']
                 template.text = content_form.cleaned_data['text']
                 template.side_text = content_form.cleaned_data['side_text']
