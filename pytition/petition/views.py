@@ -1067,7 +1067,7 @@ class PetitionCreationWizard(SessionWizardView):
                 if use_template:
                     template = PetitionTemplate.objects.get(pk=template_id)
                     if template in org.petitiontemplate_set.all():
-                        petition.prepopulate_from_template(template)
+                        petition.prepopulate_from_template(template, exclude_fields=['text'])
                         petition.save()
                     else:
                         messages.error(self.request, _("This template does not belong to your organization"))
@@ -1086,7 +1086,7 @@ class PetitionCreationWizard(SessionWizardView):
             if use_template:
                 template = PetitionTemplate.objects.get(pk=template_id)
                 if template in pytitionuser.petitiontemplate_set.all():
-                    petition.prepopulate_from_template(template)
+                    petition.prepopulate_from_template(template, exclude_fields=['text'])
                     petition.save()
                 else:
                     messages.error(self.request, _("This template does not belong to you"))

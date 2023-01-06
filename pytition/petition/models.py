@@ -235,10 +235,12 @@ class Petition(models.Model):
             self.user = None
         self.save()
 
-    def prepopulate_from_template(self, template, fields=None):
+    def prepopulate_from_template(self, template, fields=None, exclude_fields=None):
         if fields is None:
             fields = [f.name for f in self._meta.fields if f.name not in ["id", "title", "salt", "user", "org"]]
         for field in fields:
+            if field in exclude_fields:
+                continue
             if hasattr(self, field) and hasattr(template, field):
                 template_value = getattr(template, field)
                 if template_value is not None and template_value != "":
