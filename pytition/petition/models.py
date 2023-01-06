@@ -537,6 +537,7 @@ class PetitionTemplate(models.Model):
     confirmation_email_reply = models.EmailField(max_length=100, blank=True)
     use_custom_email_settings = models.BooleanField(default=False)
     has_share_buttons = models.BooleanField(default=True)
+    paper_signatures_enabled = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
