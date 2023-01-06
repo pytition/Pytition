@@ -10,6 +10,8 @@
 {% block wizard_content %}
 <div id="step-3" class="px-3 pt-3">
   <form method="POST">{% csrf_token %}
+  {{ form.use_template }}
+  {{ form.template_id }}
   {{ wizard.management_form }}
   <input type="hidden" name="redirect" id="redirectField" value="0">
     <div class="col-xl-4 col-lg-6 col-sm-12 col-12 mx-auto text-center sb-preview">

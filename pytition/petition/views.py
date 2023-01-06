@@ -988,36 +988,38 @@ class PetitionCreationWizard(SessionWizardView):
         return [WizardTemplates[self.steps.current]]
 
     def get_form_initial(self, step):
+        template = None
+        org_petition = "orgslugname" in self.kwargs
+        if org_petition:
+            orgslugname = self.kwargs['orgslugname']
+            org = Organization.objects.get(slugname=orgslugname)
+        else:
+            pytitionuser = get_session_user(self.request)
+
+        # Get the template, if any
+        if "template_id" in self.kwargs:
+            template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+        elif org_petition:
+            template = org.default_template
+        else:
+            template = pytitionuser.default_template
+
+        # Check the template is actually ours
+        if template is not None and org_petition:
+            if template not in org.petitiontemplate_set.all():
+                template = None
+        elif template is not None and template not in pytitionuser.petitiontemplate_set.all():
+            template = None
+
         if step == "step2":
-            use_template = False
-            org_petition = "orgslugname" in self.kwargs
-            if org_petition:
-                orgslugname = self.kwargs['orgslugname']
-                org = Organization.objects.get(slugname=orgslugname)
-            else:
-                pytitionuser = get_session_user(self.request)
-
-            # Use a specific template if its id is given
-            if "template_id" in self.kwargs:
-                template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
-                if org_petition:
-                    if template in org.petitiontemplate_set.all():
-                        return {'message': template.text}
-                else:
-                    if template in pytitionuser.petitiontemplate_set.all():
-                        return {'message': template.text}
-
-            # if no template id is given, check for default templates
-            if org_petition:
-                if org.default_template is not None:
-                    template = org.default_template
-                    use_template = True
-            elif pytitionuser.default_template is not None:
-                template = pytitionuser.default_template
-                use_template = True
-
-            if use_template:
+            if template is not None:
                 return {'message': template.text}
+
+        if step == "step3":
+            if template is not None:
+                return {'use_template': True, 'template_id': template.id}
+            else:
+                return {'use_template': False, 'template_id': 0}
 
         return self.initial_dict.get(step, {})
 
@@ -1039,6 +1041,8 @@ class PetitionCreationWizard(SessionWizardView):
         title = self.get_cleaned_data_for_step("step1")["title"]
         message = self.get_cleaned_data_for_step("step2")["message"]
         publish = self.get_cleaned_data_for_step("step3")["publish"]
+        template_id = self.get_cleaned_data_for_step("step3")["template_id"]
+        use_template = self.get_cleaned_data_for_step("step3")["use_template"]
         pytitionuser = get_session_user(self.request)
         _redirect = self.request.POST.get('redirect', '')
 
@@ -1059,8 +1063,8 @@ class PetitionCreationWizard(SessionWizardView):
             if pytitionuser in org.members.all() and permissions.can_create_petitions:
                 #FIXME I think new here is better than create
                 petition = Petition.objects.create(title=title, text=message, org=org)
-                if "template_id" in self.kwargs:
-                    template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+                if use_template:
+                    template = PetitionTemplate.objects.get(pk=template_id)
                     if template in org.petitiontemplate_set.all():
                         petition.prepopulate_from_template(template)
                         petition.save()
@@ -1078,8 +1082,8 @@ class PetitionCreationWizard(SessionWizardView):
                 return redirect("org_dashboard", orgslugname)
         else:
             petition = Petition.objects.create(title=title, text=message, user=pytitionuser)
-            if "template_id" in self.kwargs:
-                template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+            if use_template:
+                template = PetitionTemplate.objects.get(pk=template_id)
                 if template in pytitionuser.petitiontemplate_set.all():
                     petition.prepopulate_from_template(template)
                     petition.save()
