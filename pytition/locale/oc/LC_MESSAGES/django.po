@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2021-04-01 08:14+0000\n"
+"PO-Revision-Date: 2023-01-24 15:11+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.5.1\n"
+"X-Generator: Weblate 4.15.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
@@ -545,10 +545,8 @@ msgid "Petition does not exist"
 msgstr "La peticion existís pas"
 
 #: pytition/petition/helpers.py:77
-#, fuzzy
-#| msgid "This Petition is not published yet!"
 msgid "This Petition has been moderated!"
-msgstr "Aquesta peticion es pas encara publicada !"
+msgstr "Aquesta peticion es estada moderada !"
 
 #: pytition/petition/helpers.py:79
 msgid "This Petition is not published yet!"
@@ -628,7 +626,7 @@ msgstr "Utilizaire ligat a aquestas autorizacions"
 
 #: pytition/petition/models.py:655
 msgid "message"
-msgstr ""
+msgstr "Messatge"
 
 #: pytition/petition/templates/layouts/base.html:12
 msgid "Homepage"
@@ -661,7 +659,7 @@ msgstr "Connexion"
 
 #: pytition/petition/templates/layouts/nav.html:16
 msgid "Report to moderation"
-msgstr ""
+msgstr "Senhalar a la moderacion"
 
 #: pytition/petition/templates/layouts/nav.html:39
 #: pytition/petition/templates/layouts/nav_dashboard.html:33
@@ -674,34 +672,28 @@ msgid "Search"
 msgstr "Cercar"
 
 #: pytition/petition/templates/layouts/nav.html:54
-#, fuzzy
-#| msgid "Thank you for confirming your signature!"
 msgid "Thank you for your reporting!"
-msgstr "Mercés d’aver confirmat vòstra signatura !"
+msgstr "Mercés pel senhalament !"
 
 #: pytition/petition/templates/layouts/nav.html:55
 msgid "Reporting failed, please retry later."
-msgstr ""
+msgstr "Lo senhalament a plantat, tornatz ensajar mai tard."
 
 #: pytition/petition/templates/layouts/nav.html:59
 msgid "Report this petition to moderation"
-msgstr ""
+msgstr "Senhalar aquesta peticion a la moderacion"
 
 #: pytition/petition/templates/layouts/nav.html:65
-#, fuzzy
-#| msgid "Do you really want to transfer the following petition?"
 msgid "Why do you want to report this petition?"
-msgstr "Volètz vertadièrament transferir la peticion seguenta ?"
+msgstr "Perqué volètz senhalar aquesta peticion ?"
 
 #: pytition/petition/templates/layouts/nav.html:76
-#, fuzzy
-#| msgid "You are going to transfer this petition to someone else:"
 msgid "You are about to report this petition to moderation."
-msgstr "Sètz per transferir aquesta peticion a qualqu’un mai :"
+msgstr "Sètz per senhalar aquesta peticion a lo moderacion."
 
 #: pytition/petition/templates/layouts/nav.html:81
 msgid "Report"
-msgstr ""
+msgstr "Senhalar"
 
 #: pytition/petition/templates/layouts/nav.html:82
 #: pytition/petition/templates/petition/petition_list.html:109
@@ -922,7 +914,7 @@ msgstr "Nom d’utilizaire Twitter de l’organizacion"
 #: pytition/petition/templates/petition/edit_petition.html:94
 #: pytition/petition/templates/petition/edit_petition.html:99
 msgid "Enable share buttons?"
-msgstr ""
+msgstr "Activar lo boton de partatge ?"
 
 #: pytition/petition/templates/petition/edit_petition.html:106
 msgid "Twitter image"
@@ -1276,14 +1268,12 @@ msgstr ""
 "signatura es ara comptabilizada. Al còp que ven !"
 
 #: pytition/petition/templates/petition/petition_detail.html:139
-#, fuzzy
-#| msgid "Email address"
 msgid "Instance address"
-msgstr "Adreça electronica"
+msgstr "Adreça de vòstra instància Mastodon"
 
 #: pytition/petition/templates/petition/petition_detail.html:146
 msgid "Enter your Mastodon instance's address"
-msgstr ""
+msgstr "Picatz l’adreça de vòstra instància Mastodon"
 
 #: pytition/petition/templates/petition/petition_detail.html:151
 #: pytition/petition/templates/petition/template_list.html:39
@@ -1292,7 +1282,7 @@ msgstr "Tancar"
 
 #: pytition/petition/templates/petition/petition_detail.html:152
 msgid "Share"
-msgstr ""
+msgstr "Partejar"
 
 #: pytition/petition/templates/petition/petition_detail.html:163
 msgid "SIGN"
@@ -1300,16 +1290,14 @@ msgstr "SIGNAR"
 
 #: pytition/petition/templates/petition/petition_detail.html:171
 msgid "This petition is moderated. You only see it because you are its creator"
-msgstr ""
+msgstr "Aquesta peticion es moderada. La vesètz sonque perque l’avètz creada"
 
 #: pytition/petition/templates/petition/petition_detail.html:256
 #: pytition/petition/templates/petition/petition_detail.html:283
 #: pytition/petition/templates/petition/petition_detail.html:292
 #: pytition/petition/templates/petition/petition_detail.html:301
-#, fuzzy
-#| msgid "Publish the petition"
 msgid "Sign the petition!"
-msgstr "Publicar la peticion"
+msgstr "Signar la peticion !"
 
 #: pytition/petition/templates/petition/petition_list.html:14
 msgid "You don't have any petitions yet"
@@ -1321,10 +1309,8 @@ msgid "Create a new petition"
 msgstr "Crear una nòva peticion"
 
 #: pytition/petition/templates/petition/petition_list.html:63
-#, fuzzy
-#| msgid "This petition does not exist."
 msgid "This petition is moderated"
-msgstr "Aquesta peticion existís pas."
+msgstr "Aquesta peticion es moderada"
 
 #: pytition/petition/templates/petition/petition_list.html:69
 msgid "View petition"
