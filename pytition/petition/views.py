@@ -894,15 +894,29 @@ def org_set_user_perms(request, orgslugname, user_name):
     pytitionuser = get_session_user(request)
 
     try:
+        org = Organization.objects.get(slugname=orgslugname)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    if pytitionuser not in org.members.all():
+        messages.error(request, _("You are not part of this organization"))
+        return redirect("user_dashboard")
+
+    try:
+        userperms = Permission.objects.get(user=pytitionuser, organization=org)
+    except:
+        messages.error(request, _("Fatal error, you don't have permissions attached to you for this organization"))
+        return redirect("org_dashboard", org.slugname)
+
+    if not userperms.can_modify_permissions:
+        messages.error(request, _("You are not allowed to modify this organization members' permissions"))
+        return redirect("org_edit_user_perms", orgslugname, user_name)
+
+    try:
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         messages.error(request, _("User does not exist"))
         return redirect("org_dashboard", orgslugname)
-
-    try:
-        org = Organization.objects.get(slugname=orgslugname)
-    except Organization.DoesNotExist:
-        raise Http404(_("Organization does not exist"))
 
     if org not in member.organization_set.all():
         messages.error(request, _("This user is not part of organization \'{orgname}\'".format(orgname=org.name)))
@@ -913,20 +927,6 @@ def org_set_user_perms(request, orgslugname, user_name):
     except Permission.DoesNotExist:
         messages.error(request, _("Fatal error, this user does not have permissions attached for this organization"))
         return redirect("org_dashboard", org.slugname)
-
-    try:
-        userperms = Permission.objects.get(user=pytitionuser, organization=org)
-    except:
-        messages.error(request, _("Fatal error, you don't have permissions attached to you for this organization"))
-        return redirect("org_dashboard", org.slugname)
-
-    if pytitionuser not in org.members.all():
-        messages.error(request, _("You are not part of this organization"))
-        return redirect("user_dashboard")
-
-    if not userperms.can_modify_permissions:
-        messages.error(request, _("You are not allowed to modify this organization members' permissions"))
-        return redirect("org_edit_user_perms", orgslugname, user_name)
 
     if request.method == "POST":
         error = False
