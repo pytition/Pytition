@@ -4,10 +4,12 @@
   <div class="container-fluid">
     {% block brand %}
       <a class="navbar-brand" href="{% url 'index' %}">{{ sitename }}</a>
+    {% if displaying_dashboard is None %}
     {% if is_org %}
     <a class="btn btn-outline-primary" href="{% url 'org_dashboard' slug %}" aria-label="{% trans "Back to dashboard" %}"><span class="oi oi-dashboard"> {% trans "Back to dashboard" %}</span></a>
     {% else %}
     <a class="btn btn-outline-primary" href="{% url 'user_dashboard' %}" aria-label="{% trans "Back to dashboard" %}"><span class="oi oi-dashboard"> {% trans "Back to dashboard" %}</span></a>
+    {% endif %}
     {% endif %}
     {% endblock brand %}
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

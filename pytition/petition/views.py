@@ -329,7 +329,8 @@ def org_dashboard(request, orgslugname):
     return render(request, 'petition/org_dashboard.html',
             {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
             'petitions': petitions, 'user_permissions': permissions,
-             'can_create_petition': can_create_petition})
+             'can_create_petition': can_create_petition,
+             'displaying_dashboard': True})
 
 
 # /user/dashboard
@@ -342,7 +343,8 @@ def user_dashboard(request):
     return render(
         request,
         'petition/user_dashboard.html',
-        {'user': user, 'petitions': petitions, 'can_create_petition': True}
+        {'user': user, 'petitions': petitions, 'can_create_petition': True,
+         'displaying_dashboard': True}
     )
 
 
