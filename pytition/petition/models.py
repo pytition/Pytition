@@ -382,23 +382,18 @@ class Petition(models.Model):
         Check if a user is allowed to edit this petition
         """
         if self.owner_type == "user":
-            if self.user == user:
-                # The user is the owner of the petition
-                return True
-            else:
-                return False
-        else:
-            # But it is an org petition
-            try:
-                perm = Permission.objects.get(
-                    organization=self.org,
-                    user=user
-                )
-            except Permission.DoesNotExist:
-                # No such permission, denied
-                return False
-            else:
-                return perm.can_modify_petitions
+            # The user is the owner of the petition
+            return self.user == user
+        # The petition is owned by an organization
+        try:
+            perm = Permission.objects.get(
+                organization=self.org,
+                user=user
+            )
+        except Permission.DoesNotExist:
+            # No such permission, denied
+            return False
+        return perm.can_modify_petitions
 
     @property
     def url(self):
