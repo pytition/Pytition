@@ -165,6 +165,18 @@ dataLayer = [];
 </div>
 
 <div class="container">
+{% if not petition.published %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>{% trans "Careful!" %}</strong>
+    {% blocktrans trimmed %}
+        This petition is not published yet. You can only see it because you are logged-in as either its creator or a member of the organization
+        which created it. Other visitors won't be able to see it.
+    {% endblocktrans %}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
   <div class="jumbotron text-center">
     <h1 class="jumbotron-heading">{{ petition.title|html_sanitize|striptags|safe }}</h1>
     {% if petition.is_moderated %}
