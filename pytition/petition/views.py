@@ -329,7 +329,8 @@ def org_dashboard(request, orgslugname):
     return render(request, 'petition/org_dashboard.html',
             {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
             'petitions': petitions, 'user_permissions': permissions,
-             'can_create_petition': can_create_petition})
+             'can_create_petition': can_create_petition,
+             'displaying_dashboard': True})
 
 
 # /user/dashboard
@@ -342,7 +343,8 @@ def user_dashboard(request):
     return render(
         request,
         'petition/user_dashboard.html',
-        {'user': user, 'petitions': petitions, 'can_create_petition': True}
+        {'user': user, 'petitions': petitions, 'can_create_petition': True,
+         'displaying_dashboard': True}
     )
 
 
@@ -637,6 +639,7 @@ def edit_template(request, template_id):
             content_form = ContentFormTemplate(request.POST)
             submitted_ctx['content_form_submitted'] = True
             if content_form.is_valid():
+                template.target = content_form.cleaned_data['target']
                 template.name = content_form.cleaned_data['name']
                 template.text = content_form.cleaned_data['text']
                 template.side_text = content_form.cleaned_data['side_text']
@@ -891,15 +894,29 @@ def org_set_user_perms(request, orgslugname, user_name):
     pytitionuser = get_session_user(request)
 
     try:
+        org = Organization.objects.get(slugname=orgslugname)
+    except Organization.DoesNotExist:
+        raise Http404(_("Organization does not exist"))
+
+    if pytitionuser not in org.members.all():
+        messages.error(request, _("You are not part of this organization"))
+        return redirect("user_dashboard")
+
+    try:
+        userperms = Permission.objects.get(user=pytitionuser, organization=org)
+    except:
+        messages.error(request, _("Fatal error, you don't have permissions attached to you for this organization"))
+        return redirect("org_dashboard", org.slugname)
+
+    if not userperms.can_modify_permissions:
+        messages.error(request, _("You are not allowed to modify this organization members' permissions"))
+        return redirect("org_edit_user_perms", orgslugname, user_name)
+
+    try:
         member = PytitionUser.objects.get(user__username=user_name)
     except PytitionUser.DoesNotExist:
         messages.error(request, _("User does not exist"))
         return redirect("org_dashboard", orgslugname)
-
-    try:
-        org = Organization.objects.get(slugname=orgslugname)
-    except Organization.DoesNotExist:
-        raise Http404(_("Organization does not exist"))
 
     if org not in member.organization_set.all():
         messages.error(request, _("This user is not part of organization \'{orgname}\'".format(orgname=org.name)))
@@ -910,20 +927,6 @@ def org_set_user_perms(request, orgslugname, user_name):
     except Permission.DoesNotExist:
         messages.error(request, _("Fatal error, this user does not have permissions attached for this organization"))
         return redirect("org_dashboard", org.slugname)
-
-    try:
-        userperms = Permission.objects.get(user=pytitionuser, organization=org)
-    except:
-        messages.error(request, _("Fatal error, you don't have permissions attached to you for this organization"))
-        return redirect("org_dashboard", org.slugname)
-
-    if pytitionuser not in org.members.all():
-        messages.error(request, _("You are not part of this organization"))
-        return redirect("user_dashboard")
-
-    if not userperms.can_modify_permissions:
-        messages.error(request, _("You are not allowed to modify this organization members' permissions"))
-        return redirect("org_edit_user_perms", orgslugname, user_name)
 
     if request.method == "POST":
         error = False
@@ -988,36 +991,38 @@ class PetitionCreationWizard(SessionWizardView):
         return [WizardTemplates[self.steps.current]]
 
     def get_form_initial(self, step):
+        template = None
+        org_petition = "orgslugname" in self.kwargs
+        if org_petition:
+            orgslugname = self.kwargs['orgslugname']
+            org = Organization.objects.get(slugname=orgslugname)
+        else:
+            pytitionuser = get_session_user(self.request)
+
+        # Get the template, if any
+        if "template_id" in self.kwargs:
+            template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+        elif org_petition:
+            template = org.default_template
+        else:
+            template = pytitionuser.default_template
+
+        # Check the template is actually ours
+        if template is not None and org_petition:
+            if template not in org.petitiontemplate_set.all():
+                template = None
+        elif template is not None and template not in pytitionuser.petitiontemplate_set.all():
+            template = None
+
         if step == "step2":
-            use_template = False
-            org_petition = "orgslugname" in self.kwargs
-            if org_petition:
-                orgslugname = self.kwargs['orgslugname']
-                org = Organization.objects.get(slugname=orgslugname)
-            else:
-                pytitionuser = get_session_user(self.request)
-
-            # Use a specific template if its id is given
-            if "template_id" in self.kwargs:
-                template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
-                if org_petition:
-                    if template in org.petitiontemplate_set.all():
-                        return {'message': template.text}
-                else:
-                    if template in pytitionuser.petitiontemplate_set.all():
-                        return {'message': template.text}
-
-            # if no template id is given, check for default templates
-            if org_petition:
-                if org.default_template is not None:
-                    template = org.default_template
-                    use_template = True
-            elif pytitionuser.default_template is not None:
-                template = pytitionuser.default_template
-                use_template = True
-
-            if use_template:
+            if template is not None:
                 return {'message': template.text}
+
+        if step == "step3":
+            if template is not None:
+                return {'use_template': True, 'template_id': template.id}
+            else:
+                return {'use_template': False, 'template_id': 0}
 
         return self.initial_dict.get(step, {})
 
@@ -1039,6 +1044,8 @@ class PetitionCreationWizard(SessionWizardView):
         title = self.get_cleaned_data_for_step("step1")["title"]
         message = self.get_cleaned_data_for_step("step2")["message"]
         publish = self.get_cleaned_data_for_step("step3")["publish"]
+        template_id = self.get_cleaned_data_for_step("step3")["template_id"]
+        use_template = self.get_cleaned_data_for_step("step3")["use_template"]
         pytitionuser = get_session_user(self.request)
         _redirect = self.request.POST.get('redirect', '')
 
@@ -1059,10 +1066,10 @@ class PetitionCreationWizard(SessionWizardView):
             if pytitionuser in org.members.all() and permissions.can_create_petitions:
                 #FIXME I think new here is better than create
                 petition = Petition.objects.create(title=title, text=message, org=org)
-                if "template_id" in self.kwargs:
-                    template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+                if use_template:
+                    template = PetitionTemplate.objects.get(pk=template_id)
                     if template in org.petitiontemplate_set.all():
-                        petition.prepopulate_from_template(template)
+                        petition.prepopulate_from_template(template, exclude_fields=['text'])
                         petition.save()
                     else:
                         messages.error(self.request, _("This template does not belong to your organization"))
@@ -1078,10 +1085,10 @@ class PetitionCreationWizard(SessionWizardView):
                 return redirect("org_dashboard", orgslugname)
         else:
             petition = Petition.objects.create(title=title, text=message, user=pytitionuser)
-            if "template_id" in self.kwargs:
-                template = PetitionTemplate.objects.get(pk=self.kwargs['template_id'])
+            if use_template:
+                template = PetitionTemplate.objects.get(pk=template_id)
                 if template in pytitionuser.petitiontemplate_set.all():
-                    petition.prepopulate_from_template(template)
+                    petition.prepopulate_from_template(template, exclude_fields=['text'])
                     petition.save()
                 else:
                     messages.error(self.request, _("This template does not belong to you"))

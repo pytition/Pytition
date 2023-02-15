@@ -88,6 +88,9 @@ class PetitionCreationStep3(forms.Form):
     ### Ask for publication ###
     publish = forms.BooleanField(required=False, label=_("Publish the petition now?"))
     configure = forms.BooleanField(required=False, label=_("Save & Configure"))
+    ### Hidden fields ###
+    use_template = forms.BooleanField(widget=forms.HiddenInput, required=False, label=_("Use template"))
+    template_id = forms.IntegerField(widget=forms.HiddenInput, required=False, label=_("Template id"))
 
 
 class ContentFormGeneric(forms.Form):
