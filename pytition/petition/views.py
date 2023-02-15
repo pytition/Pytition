@@ -1233,6 +1233,8 @@ def edit_petition(request, petition_id):
             submitted_ctx['content_form_submitted'] = True
             content_form = ContentFormPetition(request.POST)
             if content_form.is_valid():
+                petition.publication_date = content_form.cleaned_data['publication_date']
+                petition.show_publication_date = content_form.cleaned_data['show_publication_date']
                 petition.title = content_form.cleaned_data['title']
                 petition.target = content_form.cleaned_data['target']
                 petition.paper_signatures = content_form.cleaned_data['paper_signatures']
