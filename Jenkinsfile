@@ -37,6 +37,10 @@ EOT
 
 export DJANGO_SETTINGS_MODULE=pytition.settings.config
 
+echo "Create Pytition database from scratch"
+
+mysql --defaults-extra-file=$PWD/my.cnf -e "drop database pytition; create database pytition;"
+
 echo "Running database migrations"
 
 cd pytition && python3 ./manage.py migrate && cd -
