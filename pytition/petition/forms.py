@@ -21,7 +21,8 @@ class SignatureForm(ModelForm):
                                     widget=forms.CheckboxInput(
                                         attrs={'class': 'form-check-input', 'group_class': 'form-check'}
                                     ),
-                                    label_suffix="")
+                                    label_suffix="",
+                                    required=False)
     class Meta:
         model = Signature
         fields = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist']
