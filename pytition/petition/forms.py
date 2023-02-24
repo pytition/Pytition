@@ -17,6 +17,11 @@ from colorfield.fields import ColorWidget
 
 
 class SignatureForm(ModelForm):
+    subscribed_to_mailinglist = forms.BooleanField(
+                                    widget=forms.CheckboxInput(
+                                        attrs={'class': 'form-check-input', 'group_class': 'form-check'}
+                                    ),
+                                    label_suffix="")
     class Meta:
         model = Signature
         fields = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist']
@@ -29,7 +34,6 @@ class SignatureForm(ModelForm):
                                             'group_class': 'form-group has-feedback'}),
             'email': forms.EmailInput(attrs={'placeholder': _('Email address *'), 'class': 'form-control has-feedback eaFullWidthContent',
                                              'group_class': 'form-group has-feedback'}),
-            'subscribed_to_mailinglist': forms.CheckboxInput(attrs={'class': 'form-check-input', 'group_class': 'form-check'})
         }
 
         labels = { f : '' for f in  ['first_name', 'last_name', 'phone', 'email'] }
