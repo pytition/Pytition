@@ -21,10 +21,15 @@ class SignatureForm(ModelForm):
         model = Signature
         fields = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist']
         widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': _('First name *'), 'class': 'form-control has-feedback eaFullWidthContent'}),
-            'last_name': forms.TextInput(attrs={'placeholder': _('Last name *'), 'class': 'form-control has-feedback eaFullWidthContent'}),
-            'phone': forms.TextInput(attrs={'placeholder': _('Phone number'), 'class': 'form-control has-feedback eaFullWidthContent'}),
-            'email': forms.EmailInput(attrs={'placeholder': _('Email address *'), 'class': 'form-control has-feedback eaFullWidthContent'})
+            'first_name': forms.TextInput(attrs={'placeholder': _('First name *'), 'class': 'form-control has-feedback eaFullWidthContent',
+                                                 'group_class': 'form-group has-feedback'}),
+            'last_name': forms.TextInput(attrs={'placeholder': _('Last name *'), 'class': 'form-control has-feedback eaFullWidthContent',
+                                                'group_class': 'form-group has-feedback'}),
+            'phone': forms.TextInput(attrs={'placeholder': _('Phone number'), 'class': 'form-control has-feedback eaFullWidthContent',
+                                            'group_class': 'form-group has-feedback'}),
+            'email': forms.EmailInput(attrs={'placeholder': _('Email address *'), 'class': 'form-control has-feedback eaFullWidthContent',
+                                             'group_class': 'form-group has-feedback'}),
+            'subscribed_to_mailinglist': forms.CheckboxInput(attrs={'class': 'form-check-input', 'group_class': 'form-check'})
         }
 
         labels = { f : '' for f in  ['first_name', 'last_name', 'phone', 'email'] }

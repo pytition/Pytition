@@ -234,9 +234,12 @@ dataLayer = [];
                 {% endif %}
 
                 {% for field in form.visible_fields %}
-                <div class="form-group has-feedback">
-                  {{ field.label_tag }}
-
+                <div class="{{ field.field.widget.attrs.group_class }}">
+                  {% if field.field.widget.attrs.group_class != "form-check" %}
+                    {% if field.label %}
+                    {{ field.label_tag }}
+                    {% endif %}
+                  {% endif %}
                   {% if form.is_bound %}
                     {% if field.errors %}
                       {{ field|add_class:"is-invalid" }}
@@ -250,6 +253,9 @@ dataLayer = [];
                     {% endif %}
                   {% else %}
                     {{ field }}
+                    {% if field.field.widget.attrs.group_class == "form-check" %}
+                      {{ field.label_tag }}
+                    {% endif %}
                   {% endif %}
 
                   {% if field.help_text %}
