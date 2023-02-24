@@ -230,7 +230,8 @@ a.share-item:hover {
 
 .progress {
     height: 10px;
-    border-radius: 0
+    border-radius: 0;
+    margin-bottom: 1em
 }
 
 .assos {
