@@ -1806,3 +1806,49 @@ def report_petition(request, petition_id, reason_id=None):
     else:
         Moderation.objects.create(petition=petition)
     return HttpResponse(status=200)
+
+def petition_admin(request, petition_id):
+    pytitionuser = get_session_user(request)
+    try:
+        petition = petition_from_id(petition_id)
+    except:
+        messages.error(request, _("This petition does not exist."))
+        return redirect("user_dashboard")
+
+    if not petition.is_accessible_to(pytitionuser):
+        messages.error(request, _("You don't have access to this petition"))
+        return redirect("user_dashboard")
+
+    ctx = {'user': pytitionuser,
+           'petition': petition}
+
+    if petition.owner_type == "org":
+        ctx['base_template'] = 'petition/org_base.html'
+        ctx['org'] = petition.owner
+    else:
+        ctx['base_template'] = 'petition/user_base.html'
+
+    return render(request, "petition/petition_admin.html", ctx)
+
+def petition_share(request, petition_id):
+    pytitionuser = get_session_user(request)
+    try:
+        petition = petition_from_id(petition_id)
+    except:
+        messages.error(request, _("This petition does not exist."))
+        return redirect("user_dashboard")
+
+    if not petition.is_accessible_to(pytitionuser):
+        messages.error(request, _("You don't have access to this petition"))
+        return redirect("user_dashboard")
+
+    ctx = {'user': pytitionuser,
+           'petition': petition}
+
+    if petition.owner_type == "org":
+        ctx['base_template'] = 'petition/org_base.html'
+        ctx['org'] = petition.owner
+    else:
+        ctx['base_template'] = 'petition/user_base.html'
+
+    return render(request, "petition/petition_share.html", ctx)

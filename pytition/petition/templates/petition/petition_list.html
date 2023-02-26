@@ -25,7 +25,7 @@
       border border-danger
       {% endif %}
       ">
-        <a href="{{ petition.url }}" class="sb-preview-img">
+        <a href="{% url "petition_admin" petition.id %}" class="sb-preview-img">
             {% if not petition.twitter_image%}
             <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
                  src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">

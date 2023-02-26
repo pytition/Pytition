@@ -25,6 +25,7 @@ import html
 class PytitionUser(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pytitionuser")
     invitations = models.ManyToManyField('Organization', related_name="invited", blank=True)
+    campaign_proposals = models.ManyToManyField('Petition', blank=True, null=True, through='CampaignProposal')
     default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
     moderated = models.BooleanField(default=False)
 
@@ -89,6 +90,7 @@ class Organization(models.Model):
     default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
     slugname = models.SlugField(max_length=200, unique=True)
     members = models.ManyToManyField(PytitionUser, through='Permission')
+    campaign_proposals = models.ManyToManyField('Petition', blank=True, null=True, through='CampaignProposal')
 
     def is_last_admin(self, user):
         """
@@ -217,6 +219,7 @@ class Petition(models.Model):
     has_share_buttons = models.BooleanField(default=True)
     publication_date = models.DateTimeField(blank=True, null=True)
     show_publication_date = models.BooleanField(default=False)
+    linked_petitions = models.ManyToManyField("self")
 
     @property
     def is_moderated(self):
@@ -398,6 +401,19 @@ class Petition(models.Model):
             # No such permission, denied
             return False
         return perm.can_modify_petitions
+
+    def is_accessible_to(self, user):
+        """
+        Check if a user is allowed to access a petition.
+        Meaning either the user is the owner or the user
+        is a member of the owning organization.
+        This is a weaker version of is_allowed_to_edit()
+        """
+        if self.owner_type == "user":
+            # The user is the owner of the petition
+            return self.user == user
+        # The petition is owned by an organization
+        return user in self.org.members.all()
 
     @property
     def url(self):
@@ -616,6 +632,11 @@ class Permission(models.Model):
     def __repr__(self):
         return '< {} >'.format(self.__str__())
 
+
+class CampaignProposal(models.Model):
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, blank=True, null=True)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, blank=True, null=True)
 
 #------------------------------ Pre save actions -----------------------------
 @receiver(pre_save, sender=SlugModel)
