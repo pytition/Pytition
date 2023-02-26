@@ -241,13 +241,11 @@ dataLayer = [];
                   {% if form.is_bound %}
                     {% if field.errors %}
                       {{ field|add_class:"is-invalid" }}
-                      <span class="oi oi-question-mark form-control-feedback invalid-feedback"></span>
                       {% for error in field.errors %}
                         <span class="invalid-feedback">{{ error }}</span>
                       {% endfor %}
                     {% else %}
                       {{ field|add_class:"is-valid" }}
-                      <span class="oi oi-circle-check form-control-feedback valid-feedback"></span>
                     {% endif %}
                   {% else %}
                     {{ field }}
