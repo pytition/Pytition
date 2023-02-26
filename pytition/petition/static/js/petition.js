@@ -31,7 +31,7 @@ $(document).ready(function() {
           k = b.document,
           l = 0,
           m = 0;
-      window_width = 0, mobile_breakpoint = 768, j.on("scroll", function() {
+      window_width = 0, mobile_breakpoint = 992, j.on("scroll", function() {
           m = j.scrollTop(), d()
       }).on("resize", e), a(k).ready(function() {
           f = a("#form-sticky"), g = f.find(".eaFullWidthContent:first"), h = a("#show-form"), i = a("body"), h.on("click", function() {

@@ -24,33 +24,10 @@ nav.navbar {
   margin-bottom: 1rem;
 }
 
-.petition-wrapper,
-.formular {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-.formular {
-    margin-left: -15px;
-    margin-right: -15px;
-}
-
 @media screen and (min-width:768px) {
-    .petition-wrapper {
-        padding: 0;
-    }
-    .petition-wrapper > .content {
-        display: flex;
-    }
     .presentation {
         flex-grow: 1;
         padding: 15px;
-    }
-    .formular {
-        order: 1;
-        flex-shrink: 0;
-        flex-basis: 320px;
-        margin-left: 40px;
-        margin-right: 0px;
     }
 }
 
@@ -76,10 +53,9 @@ nav.navbar {
 .formular {
     background-color: #666;
     color: #fff;
-}
-
-.formular .form-wrapper {
-    padding-top: 20px
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .show-form {
@@ -157,7 +133,7 @@ nav.navbar {
     text-transform: uppercase;
 }
 
-@media screen and (min-width:768px) {
+@media screen and (min-width:992px) {
     .show-form {
         display: none
     }

@@ -183,10 +183,8 @@ dataLayer = [];
     <h2 class="text-danger">{% trans "This petition is moderated. You only see it because you are its creator" %}</h2>
     {% endif %}
   </div>
-  <div class="petition-wrapper">
-    <div class="content">
-      <div class="formular" id="petition">
-        <div class="form-wrapper">
+  <div class="row petition-wrapper">
+      <div class="col-lg-4 formular form-wrapper order-lg-1" id="petition">
           {% if petition.side_text %}
             <div class="intro" id="intro">
                 {{ petition.side_text|html_sanitize|safe }}
@@ -264,7 +262,7 @@ dataLayer = [];
                 </div>
                 {% endfor %}
 
-                <span class="eaSubmitResetButtonGroup" id="eaFormButtonGroup_1"><input
+                <span class="eaSubmitResetButtonGroup mb-1" id="eaFormButtonGroup_1"><input
                   type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
               {% if petition.has_share_buttons %}
                   <div>
@@ -346,8 +344,7 @@ dataLayer = [];
             </div>
           </div>
         </div>
-      </div>
-      <div class="presentation">
+      <div class="col-lg-8 presentation">
         {% if petition.publication_date and petition.show_publication_date %}
         <div class="font-weight-light font-italic">
           {% trans "Published on: "%} {{ petition.publication_date|date:"SHORT_DATE_FORMAT" }}
@@ -355,7 +352,6 @@ dataLayer = [];
         {% endif %}
         {{ petition.text|html_sanitize|safe }}
       </div>
-    </div>
   </div>
 </div>
 
@@ -398,12 +394,12 @@ $("#show_confirm_success").modal("show");
 
 {% block footer %}
 <div class="container">
-<div class="footer-wrapper bg-dark">
-    <footer role="contentinfo" class="footer">
-        <div class="footer-links">
+<div class="row footer-wrapper bg-dark">
+    <footer role="contentinfo" class="footer col-12">
+        <div class="footer-links ml-2">
             {{ petition.footer_links|html_sanitize|safe }}
         </div>
-        <div class="footer-text">
+        <div class="footer-text ml-2">
             {{ petition.footer_text|html_sanitize|safe }}
         </div>
     </footer>
