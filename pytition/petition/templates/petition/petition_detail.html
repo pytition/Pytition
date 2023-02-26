@@ -251,9 +251,9 @@ dataLayer = [];
                     {% endif %}
                   {% else %}
                     {{ field }}
-                    {% if field.field.widget.attrs.group_class == "form-check" %}
-                      {{ field.label_tag }}
-                    {% endif %}
+                  {% endif %}
+                  {% if field.field.widget.attrs.group_class == "form-check" %}
+                    {{ field.label_tag }}
                   {% endif %}
 
                   {% if field.help_text %}
