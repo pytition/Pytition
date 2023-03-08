@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2021-02-27 00:14+0000\n"
-"Last-Translator: x <hardwired1.0@protonmail.com>\n"
+"PO-Revision-Date: 2023-03-09 13:35+0000\n"
+"Last-Translator: lost_geographer <david@chionne.eu>\n"
 "Language-Team: Italian <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/it/>\n"
 "Language: it\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 4.16.2\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
@@ -511,7 +511,7 @@ msgstr "La porta SMTP deve essere >= 1 e <= 65535"
 
 #: pytition/petition/forms.py:196
 msgid "Wrong answer"
-msgstr ""
+msgstr "Risposta sbagliata"
 
 #: pytition/petition/forms.py:240
 #: pytition/petition/templates/petition/account_settings.html:95
@@ -545,10 +545,8 @@ msgid "Petition does not exist"
 msgstr "Questa petizione non esiste"
 
 #: pytition/petition/helpers.py:77
-#, fuzzy
-#| msgid "This Petition is not published yet!"
 msgid "This Petition has been moderated!"
-msgstr "Questa petizione non è ancora pubblicata!"
+msgstr "Questa petizione è stata moderata!"
 
 #: pytition/petition/helpers.py:79
 msgid "This Petition is not published yet!"
@@ -560,7 +558,7 @@ msgstr "Conferma la tua firma per questa petizione"
 
 #: pytition/petition/helpers.py:111
 msgid "Account created !"
-msgstr ""
+msgstr "Account creato!"
 
 #: pytition/petition/models.py:27 pytition/petition/models.py:88
 msgid "Default petition template"
@@ -628,7 +626,7 @@ msgstr "Utente legato a queste autorizzazioni"
 
 #: pytition/petition/models.py:655
 msgid "message"
-msgstr ""
+msgstr "messaggio"
 
 #: pytition/petition/templates/layouts/base.html:12
 msgid "Homepage"
@@ -661,7 +659,7 @@ msgstr "Accedi (login)"
 
 #: pytition/petition/templates/layouts/nav.html:16
 msgid "Report to moderation"
-msgstr ""
+msgstr "Segnala alla moderazione"
 
 #: pytition/petition/templates/layouts/nav.html:39
 #: pytition/petition/templates/layouts/nav_dashboard.html:33
@@ -674,34 +672,28 @@ msgid "Search"
 msgstr "Cerca"
 
 #: pytition/petition/templates/layouts/nav.html:54
-#, fuzzy
-#| msgid "Thank you for confirming your signature!"
 msgid "Thank you for your reporting!"
-msgstr "Grazie per aver confermato la tua firma!"
+msgstr "Grazie per la tua segnalazione!"
 
 #: pytition/petition/templates/layouts/nav.html:55
 msgid "Reporting failed, please retry later."
-msgstr ""
+msgstr "Segnalazione fallita, riprova più tardi."
 
 #: pytition/petition/templates/layouts/nav.html:59
 msgid "Report this petition to moderation"
-msgstr ""
+msgstr "Segnala questa petizione alla moderazione"
 
 #: pytition/petition/templates/layouts/nav.html:65
-#, fuzzy
-#| msgid "Do you really want to transfer the following petition?"
 msgid "Why do you want to report this petition?"
-msgstr "Sei sicuro di voler trasferire questa petizione?"
+msgstr "Perché vuoi segnalare questa petizione?"
 
 #: pytition/petition/templates/layouts/nav.html:76
-#, fuzzy
-#| msgid "You are going to transfer this petition to someone else:"
 msgid "You are about to report this petition to moderation."
-msgstr "Stai trasferendo questa petizione a:"
+msgstr "Stai per segnalare questa petizione alla moderazione."
 
 #: pytition/petition/templates/layouts/nav.html:81
 msgid "Report"
-msgstr ""
+msgstr "Segnala"
 
 #: pytition/petition/templates/layouts/nav.html:82
 #: pytition/petition/templates/petition/petition_list.html:109
@@ -852,6 +844,12 @@ msgid ""
 "a><br> Documentation is available on <a href=\"https://pytition.readthedocs."
 "io\">ReadTheDocs</a>"
 msgstr ""
+"<span style=\"color: red;font-weight: bold;\">Sito web di dimostrazione (per "
+"favore NON inserire petizioni reali qui!)</span><br/> Questo strumento è un "
+"software gratuito e open-source, che puoi installare anche sul tuo "
+"server!<br> Scaricare il codice sorgente su <a href=\"https://github.com/"
+"pytition/pytition\">GitHub</a><br> La documentazione è disponibile su <a "
+"href=\"https://pytition.readthedocs.io\">ReadTheDocs</a>"
 
 #: pytition/petition/templates/petition/edit_petition.html:28
 msgid "Petition settings"
@@ -905,42 +903,38 @@ msgid "Save"
 msgstr "Salva"
 
 #: pytition/petition/templates/petition/edit_petition.html:80
-#, fuzzy
-#| msgid "Newsletter subscription method"
 msgid "Twitter description"
-msgstr "Metodo di iscrizione alla newsletter"
+msgstr "Descrizione per Twitter"
 
 #: pytition/petition/templates/petition/edit_petition.html:87
-#, fuzzy
-#| msgid "Organization Twitter handle"
 msgid "Org twitter handle"
-msgstr "Nome utente dell'organizzazione su Twitter"
+msgstr "Nome utente Twitter dell'organizzazione"
 
 #: pytition/petition/templates/petition/edit_petition.html:94
 #: pytition/petition/templates/petition/edit_petition.html:99
 msgid "Enable share buttons?"
-msgstr ""
+msgstr "Attivare i pulsanti di condivisione?"
 
 #: pytition/petition/templates/petition/edit_petition.html:106
 msgid "Twitter image"
-msgstr ""
+msgstr "Immagine per Twitter"
 
 #: pytition/petition/templates/petition/edit_petition.html:108
 msgid "Upload"
-msgstr ""
+msgstr "Carica"
 
 #: pytition/petition/templates/petition/edit_petition.html:113
 #: pytition/petition/templates/petition/edit_petition.html:230
 msgid "Choose file"
-msgstr ""
+msgstr "Scegli un file"
 
 #: pytition/petition/templates/petition/edit_petition.html:121
 msgid "Image"
-msgstr ""
+msgstr "Immagine"
 
 #: pytition/petition/templates/petition/edit_petition.html:132
 msgid "Remove image"
-msgstr ""
+msgstr "Rimuovi l'immagine"
 
 #: pytition/petition/templates/petition/edit_petition.html:145
 msgid ""
@@ -1042,18 +1036,14 @@ msgstr "Petizioni recenti"
 #: pytition/petition/templates/petition/index.html:27
 #: pytition/petition/templates/petition/org_profile.html:24
 #: pytition/petition/templates/petition/user_profile.html:24
-#, fuzzy
-#| msgid "Create"
 msgid "Last Created"
-msgstr "Crea"
+msgstr "Ultimo creato"
 
 #: pytition/petition/templates/petition/index.html:29
 #: pytition/petition/templates/petition/org_profile.html:26
 #: pytition/petition/templates/petition/user_profile.html:26
-#, fuzzy
-#| msgid "First name"
 msgid "First Created"
-msgstr "Nome"
+msgstr "Primo creato"
 
 #: pytition/petition/templates/petition/new_petition_step1.html:35
 #: pytition/petition/templates/petition/new_petition_step2.html:41
@@ -1258,6 +1248,9 @@ msgid ""
 "Thank you for signing this petition! Your signature will be accounted for as "
 "soon as you click on the link in the e-mail we've just sent you."
 msgstr ""
+"Grazie per aver firmato questa petizione! La tua firma sarà registrata non "
+"appena avrai cliccato sul link contenuto nell'e-mail che ti abbiamo appena "
+"inviato."
 
 #: pytition/petition/templates/petition/petition_detail.html:103
 #: pytition/petition/templates/petition/petition_detail.html:127
@@ -1271,16 +1264,16 @@ msgid ""
 "Thank you for confirming your signature to this petition! Your signature is "
 "now accounted for. See you soon!"
 msgstr ""
+"Grazie per aver confermato la tua firma per questa petizione! La tua firma è "
+"ora registrata. A presto!"
 
 #: pytition/petition/templates/petition/petition_detail.html:139
-#, fuzzy
-#| msgid "Email address"
 msgid "Instance address"
-msgstr "Email"
+msgstr "Indirizzo dell'istanza"
 
 #: pytition/petition/templates/petition/petition_detail.html:146
 msgid "Enter your Mastodon instance's address"
-msgstr ""
+msgstr "Inserire l'indirizzo della tua istanza di Mastodon"
 
 #: pytition/petition/templates/petition/petition_detail.html:151
 #: pytition/petition/templates/petition/template_list.html:39
@@ -1289,7 +1282,7 @@ msgstr "Chiudi"
 
 #: pytition/petition/templates/petition/petition_detail.html:152
 msgid "Share"
-msgstr ""
+msgstr "Condividi"
 
 #: pytition/petition/templates/petition/petition_detail.html:163
 msgid "SIGN"
@@ -1297,16 +1290,14 @@ msgstr "FIRMA"
 
 #: pytition/petition/templates/petition/petition_detail.html:171
 msgid "This petition is moderated. You only see it because you are its creator"
-msgstr ""
+msgstr "Questa petizione è moderata. La vedi solo perché l'hai creata tu"
 
 #: pytition/petition/templates/petition/petition_detail.html:256
 #: pytition/petition/templates/petition/petition_detail.html:283
 #: pytition/petition/templates/petition/petition_detail.html:292
 #: pytition/petition/templates/petition/petition_detail.html:301
-#, fuzzy
-#| msgid "Publish the petition"
 msgid "Sign the petition!"
-msgstr "Pubblica la petizione"
+msgstr "Firma la petizione!"
 
 #: pytition/petition/templates/petition/petition_list.html:14
 msgid "You don't have any petitions yet"
@@ -1318,10 +1309,8 @@ msgid "Create a new petition"
 msgstr "Crea nuova petizione"
 
 #: pytition/petition/templates/petition/petition_list.html:63
-#, fuzzy
-#| msgid "This petition does not exist."
 msgid "This petition is moderated"
-msgstr "Petizione inesistente."
+msgstr "Questa petizione è moderata"
 
 #: pytition/petition/templates/petition/petition_list.html:69
 msgid "View petition"
@@ -1383,6 +1372,8 @@ msgstr "Iscriviti ai firmatari della newsletter"
 msgid ""
 "copy/paste the following text block into Sympa's mass-subscribe formular"
 msgstr ""
+"copia/incolla il seguente blocco di testo nel modulo di iscrizione di massa "
+"di Sympa"
 
 #: pytition/petition/templates/petition/signature_data.html:64
 msgid "Re-send selected confirmation e-mail"
@@ -1613,7 +1604,7 @@ msgstr ""
 
 #: pytition/petition/templates/registration/confirmation_email.html:10
 msgid "Welcome"
-msgstr ""
+msgstr "Benvenutə"
 
 #: pytition/petition/templates/registration/confirmation_email.html:12
 #, python-format
@@ -2026,10 +2017,8 @@ msgstr ""
 "Non hai i diritti per trasferire una petizione dell'organizzazione '{}'"
 
 #: pytition/petition/views.py:1682
-#, fuzzy
-#| msgid "You don't have the permission to modify petitions"
 msgid "You don't have the permission to transfer this petition"
-msgstr "Non hai i diritti per modificare delle petizioni"
+msgstr "Non hai l'autorizzazione per trasferire questa petizione"
 
 #: pytition/petition/views.py:1701
 msgid "Incorrect request, something went wrong."
@@ -2058,7 +2047,7 @@ msgstr "Si è verificato un errore durante il trasferimento della petizione."
 #: pytition/petition/views.py:1764
 #, python-brace-format
 msgid "How much is {a} + {b}?"
-msgstr ""
+msgstr "Quanto fa {a} + {b}?"
 
 #: pytition/pytition/settings/base.py:242
 msgid "English"
