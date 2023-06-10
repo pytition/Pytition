@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import get_connection, EmailMultiAlternatives, EmailMessage
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
 
 # Remove all moderated instances of Petition

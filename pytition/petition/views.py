@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.utils.html import format_html
