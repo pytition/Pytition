@@ -9,7 +9,7 @@ node {
         sh '''
 cd $WORKSPACE
 rm -rf venv && python3.8 -m venv venv
-source venv/bin/activate
+. venv/bin/activate
 pip3 install -r requirements_dev.txt
 cat <<ENDOFFILE > my.cnf
 [client]
