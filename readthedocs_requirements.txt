@@ -1,6 +1,6 @@
 Django~=2.2.0
 django-colorfield==0.1.15
-django-tinymce==2.8.0
+django-tinymce==3.4.0
 django-mailer==1.2.6
 requests~=2.20.0
 django-widget-tweaks==1.4.3
