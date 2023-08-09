@@ -24,9 +24,8 @@ In a production environment you should modify the following settings:
 
 ### Setup your customization
 
-You can customize the TinyMCE variables:
+You can customize the TinyMCE editor via this variable:
 
-* TINYMCE_JS_URL
 * TINYMCE_DEFAULT_CONFIG
 
 ### Setup mysql credentials
