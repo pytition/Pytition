@@ -1,5 +1,5 @@
 Django~=4.2.0
-django-colorfield==0.8.0
+django-colorfield==0.10.1
 django-tinymce==3.6.1
 django-mailer==1.2.6
 django-maintenance-mode
