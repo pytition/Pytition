@@ -1226,6 +1226,7 @@ def edit_petition(request, petition_id):
         'email_form_submitted': False,
         'social_network_form_submitted': False,
         'newsletter_form_submitted': False,
+        'style_form_submitted': False,
     }
 
     if request.method == "POST":
