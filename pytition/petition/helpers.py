@@ -93,7 +93,7 @@ def footer_content_processor(request):
 # Send Confirmation email
 def send_confirmation_email(request, signature):
     petition = signature.petition
-    url = request.build_absolute_uri("/petition/{}/confirm/{}".format(petition.id, signature.confirmation_hash))
+    url = request.build_absolute_uri(reverse("confirm", args=[petition.id, signature.confirmation_hash]))
     html_message = render_to_string("petition/confirmation_email.html", {'firstname': signature.first_name, 'url': url})
     message = strip_tags(html_message)
     with get_connection() as connection:
