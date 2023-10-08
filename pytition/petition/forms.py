@@ -10,7 +10,6 @@ from .models import Signature, PetitionTemplate, Petition, Organization, Pytitio
 from .widgets import SwitchField
 from .helpers import send_welcome_mail
 
-import uuid
 import html
 from tinymce.widgets import TinyMCE
 from colorfield.fields import ColorWidget
@@ -46,16 +45,6 @@ class SignatureForm(ModelForm):
             del self.fields['subscribed_to_mailinglist']
         else:
             self.fields['subscribed_to_mailinglist'].label = self.instance.petition.newsletter_text
-
-    def save(self, commit=True):
-        object = super().save(commit=False)
-        hashstring = str(uuid.uuid4())
-        object.confirmation_hash = hashstring
-        object.confirmed = False
-        if commit:
-            object.save()
-        return object
-
 
 class PetitionCreationStep1(forms.Form):
     ### Ask for title ###

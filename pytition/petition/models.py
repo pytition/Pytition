@@ -19,6 +19,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .helpers import sanitize_html
 
 import html
+import uuid
 
 
 # ----------------------------------- PytitionUser ----------------------------
@@ -456,6 +457,8 @@ class Signature(models.Model):
 
     def save(self, *args, **kwargs):
         self.clean()
+        if not self.confirmation_hash:
+            self.confirmation_hash = str(uuid.uuid4())
         if self.confirmed:
             # invalidating other signatures from same email
             Signature.objects.filter(petition=self.petition).filter(email=self.email)\
