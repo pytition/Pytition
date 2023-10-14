@@ -94,7 +94,7 @@ class PetitionCreationStep3(forms.Form):
 
 class ContentFormGeneric(forms.Form):
     ### Content of a Petition ###
-    text = forms.CharField(widget=TinyMCE)
+    text = forms.CharField(widget=TinyMCE, required=False)
     target = forms.IntegerField(required=False)
     side_text = forms.CharField(widget=TinyMCE, required=False)
     footer_text = forms.CharField(widget=TinyMCE, required=False)
