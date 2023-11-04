@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils.html import mark_safe, strip_tags
 from django.utils.text import slugify
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
@@ -19,13 +19,14 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .helpers import sanitize_html
 
 import html
+import uuid
 
 
 # ----------------------------------- PytitionUser ----------------------------
 class PytitionUser(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pytitionuser")
     invitations = models.ManyToManyField('Organization', related_name="invited", blank=True)
-    default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
+    default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=gettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
     moderated = models.BooleanField(default=False)
 
     def drop(self):
@@ -85,8 +86,8 @@ class PytitionUser(models.Model):
 
 # --------------------------------- Organization ------------------------------
 class Organization(models.Model):
-    name = models.CharField(max_length=200, verbose_name=ugettext_lazy("Name"), unique=True, null=False, blank=False)
-    default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=ugettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
+    name = models.CharField(max_length=200, verbose_name=gettext_lazy("Name"), unique=True, null=False, blank=False)
+    default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=gettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
     slugname = models.SlugField(max_length=200, unique=True)
     members = models.ManyToManyField(PytitionUser, through='Permission')
 
@@ -173,7 +174,7 @@ class Petition(models.Model):
     )
 
     # Description
-    title = models.TextField(verbose_name=ugettext_lazy("Title"))
+    title = models.TextField(verbose_name=gettext_lazy("Title"))
     text = tinymce_models.HTMLField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(default=500)
@@ -438,15 +439,15 @@ class Petition(models.Model):
 
 # --------------------------------- Signature ---------------------------------
 class Signature(models.Model):
-    first_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("First name"))
-    last_name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Last name"))
-    phone = PhoneNumberField(max_length=20, blank=True, verbose_name=ugettext_lazy("Phone number"))
-    email = models.EmailField(verbose_name=ugettext_lazy("Email address"))
+    first_name = models.CharField(max_length=50, verbose_name=gettext_lazy("First name"))
+    last_name = models.CharField(max_length=50, verbose_name=gettext_lazy("Last name"))
+    phone = PhoneNumberField(max_length=20, blank=True, verbose_name=gettext_lazy("Phone number"))
+    email = models.EmailField(verbose_name=gettext_lazy("Email address"))
     confirmation_hash = models.CharField(max_length=128)
-    confirmed = models.BooleanField(default=False, verbose_name=ugettext_lazy("Confirmed"))
-    petition = models.ForeignKey(Petition, on_delete=models.CASCADE, verbose_name=ugettext_lazy("Petition"))
-    subscribed_to_mailinglist = models.BooleanField(default=False, verbose_name=ugettext_lazy("Subscribed to mailing list"))
-    date = models.DateTimeField(blank=True, auto_now_add=True, verbose_name=ugettext_lazy("Date"))
+    confirmed = models.BooleanField(default=False, verbose_name=gettext_lazy("Confirmed"))
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE, verbose_name=gettext_lazy("Petition"))
+    subscribed_to_mailinglist = models.BooleanField(default=False, verbose_name=gettext_lazy("Subscribed to mailing list"))
+    date = models.DateTimeField(blank=True, auto_now_add=True, verbose_name=gettext_lazy("Date"))
     ipaddress = models.TextField(blank=True, null=True)
 
     def clean(self):
@@ -456,6 +457,8 @@ class Signature(models.Model):
 
     def save(self, *args, **kwargs):
         self.clean()
+        if not self.confirmation_hash:
+            self.confirmation_hash = str(uuid.uuid4())
         if self.confirmed:
             # invalidating other signatures from same email
             Signature.objects.filter(petition=self.petition).filter(email=self.email)\
@@ -501,7 +504,7 @@ class PetitionTemplate(models.Model):
     )
 
     # Description
-    name = models.CharField(max_length=50, verbose_name=ugettext_lazy("Name"))
+    name = models.CharField(max_length=50, verbose_name=gettext_lazy("Name"))
     text = tinymce_models.HTMLField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(blank=True, null=True)
@@ -580,8 +583,8 @@ class SlugModel(models.Model):
 
 # ------------------------------------ Permission -----------------------------
 class Permission(models.Model):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name=ugettext_lazy("Organization related to these permissions"))
-    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, verbose_name=ugettext_lazy("User related to these permissions"))
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, verbose_name=gettext_lazy("Organization related to these permissions"))
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, verbose_name=gettext_lazy("User related to these permissions"))
     can_add_members = models.BooleanField(default=False)
     can_remove_members = models.BooleanField(default=False)
     can_create_petitions = models.BooleanField(default=True)
@@ -655,7 +658,7 @@ def post_delete_user(sender, instance, *args, **kwargs):
 # ------------------------------------ ModerationReason -----------------------------
 
 class ModerationReason(models.Model):
-    msg = models.TextField(verbose_name=ugettext_lazy("message"))
+    msg = models.TextField(verbose_name=gettext_lazy("message"))
     visible = models.BooleanField(default=True)
 
 class Moderation(models.Model):

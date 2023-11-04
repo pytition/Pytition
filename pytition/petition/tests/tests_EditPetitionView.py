@@ -387,9 +387,9 @@ class EditPetitionViewTest(TestCase):
         self.assertTemplateUsed(response, "petition/edit_petition.html")
         p2.refresh_from_db()
 
-        style_form_data['bgcolor'] = '#' + style_form_data['bgcolor']
-        style_form_data['gradient_from'] = '#' + style_form_data['gradient_from']
-        style_form_data['gradient_to'] = '#' + style_form_data['gradient_to']
+        style_form_data['bgcolor'] = style_form_data['bgcolor']
+        style_form_data['gradient_from'] = style_form_data['gradient_from']
+        style_form_data['gradient_to'] = style_form_data['gradient_to']
         for key, value in style_form_data.items():
             if key == "style_form_submitted":
                 continue

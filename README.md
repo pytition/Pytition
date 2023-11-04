@@ -54,14 +54,14 @@ Those are external projects that are needed and used by Pytition, but included i
 
 ## Dependencies
 
-* Python 3
-* Django 2.2.x
-* django-tinymce 2.8.0
-* django-colorfield 0.1.15
+* Python 3.8 up to 3.11
+* Django 4.2.x
+* django-tinymce 3.5.0
+* django-colorfield 0.8.0
 * requests 2.20.x
-* mysqlclient 1.3.13
+* mysqlclient 2.0.1
 * beautifulsoup4 4.6.3
-* django-formtools 2.1
+* django-formtools 2.2
 * bcrypt
 
 ## Translations

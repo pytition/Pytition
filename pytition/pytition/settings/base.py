@@ -84,6 +84,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pytition.wsgi.application'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 if os.environ.get('USE_POSTGRESQL'):
     from .pgsql import DATABASES
@@ -154,11 +155,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.environ.get('STATIC_ROOT')
 LOGIN_URL = '/petition/login/'
 
-TINYMCE_JS_PATH = '/vendor/tinymce/js/tinymce/tinymce.min.js'
-TINYMCE_JS_URL = STATIC_URL + TINYMCE_JS_PATH
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
-    'theme': "modern",
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
     'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat | fontselect | fontsizeselect',

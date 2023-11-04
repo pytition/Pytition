@@ -13,7 +13,7 @@ RUN mkdir /mediaroot
 WORKDIR /code
 COPY requirements.txt requirements_dev.txt /code/
 RUN pip install -r requirements_dev.txt
-RUN pip install psycopg2-binary==2.8.4
+RUN pip install "psycopg[binary]==3.1.8"
 COPY . /code/
 COPY pytition/pytition/settings/config_example.py /config/docker_config.py
 RUN touch /config/__init__.py

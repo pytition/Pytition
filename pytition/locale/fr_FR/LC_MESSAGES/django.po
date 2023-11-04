@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2022-08-15 21:15+0200\n"
+"PO-Revision-Date: 2023-10-14 11:18+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
@@ -638,7 +638,7 @@ msgstr "Utilisateur lié à ces permissions"
 
 #: pytition/petition/models.py:655
 msgid "message"
-msgstr "Message"
+msgstr "message"
 
 #: pytition/petition/templates/layouts/base.html:12
 msgid "Homepage"
@@ -2073,7 +2073,7 @@ msgstr ""
 
 #: pytition/petition/views.py:1724
 msgid "Petition successfully transfered!"
-msgstr "Permissions transférée avec succès !"
+msgstr "Pétition transférée avec succès !"
 
 #: pytition/petition/views.py:1727
 msgid "Something went wrong while transferring this petition."

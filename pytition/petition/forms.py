@@ -1,6 +1,6 @@
 from django.forms import ModelForm, ValidationError
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
@@ -10,7 +10,6 @@ from .models import Signature, PetitionTemplate, Petition, Organization, Pytitio
 from .widgets import SwitchField
 from .helpers import send_welcome_mail
 
-import uuid
 import html
 from tinymce.widgets import TinyMCE
 from colorfield.fields import ColorWidget
@@ -46,16 +45,6 @@ class SignatureForm(ModelForm):
             del self.fields['subscribed_to_mailinglist']
         else:
             self.fields['subscribed_to_mailinglist'].label = self.instance.petition.newsletter_text
-
-    def save(self, commit=True):
-        object = super().save(commit=False)
-        hashstring = str(uuid.uuid4())
-        object.confirmation_hash = hashstring
-        object.confirmed = False
-        if commit:
-            object.save()
-        return object
-
 
 class PetitionCreationStep1(forms.Form):
     ### Ask for title ###
@@ -105,7 +94,7 @@ class PetitionCreationStep3(forms.Form):
 
 class ContentFormGeneric(forms.Form):
     ### Content of a Petition ###
-    text = forms.CharField(widget=TinyMCE)
+    text = forms.CharField(widget=TinyMCE, required=False)
     target = forms.IntegerField(required=False)
     side_text = forms.CharField(widget=TinyMCE, required=False)
     footer_text = forms.CharField(widget=TinyMCE, required=False)
@@ -184,10 +173,10 @@ class NewsletterForm(forms.Form):
 
 class StyleForm(forms.Form):
     ### Graphical UI style info of Petition ###
-    bgcolor = forms.CharField(widget=ColorWidget)
-    linear_gradient_direction = forms.ChoiceField(choices=Petition.LINEAR_GRADIENT_CHOICES)
-    gradient_from = forms.CharField(widget=ColorWidget)
-    gradient_to = forms.CharField(widget=ColorWidget)
+    bgcolor = forms.CharField(widget=ColorWidget, required=False)
+    linear_gradient_direction = forms.ChoiceField(choices=Petition.LINEAR_GRADIENT_CHOICES, required=False)
+    gradient_from = forms.CharField(widget=ColorWidget, required=False)
+    gradient_to = forms.CharField(widget=ColorWidget, required=False)
 
 
 class PytitionUserCreationForm(UserCreationForm):
