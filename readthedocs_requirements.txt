@@ -12,3 +12,4 @@ uwsgi
 coverage==4.5.2
 sphinx~=3.0.0
 sphinx-rtd-theme
+jinja2<3.1
