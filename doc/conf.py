@@ -12,6 +12,7 @@
 #
 import os
 import sys
+import re
 sys.path.insert(0, os.path.abspath('../pytition'))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
 
@@ -22,7 +23,8 @@ copyright = '2020, Yann Sionneau'
 author = 'Yann Sionneau'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0'
+release = re.sub('^v', '', os.popen('git describe --tags').read().strip())
+version = release
 
 
 # -- General configuration ---------------------------------------------------
