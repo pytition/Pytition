@@ -301,7 +301,7 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response2.context['social_network_form_submitted'], True)
         self.assertEquals(response2.context['newsletter_form_submitted'], False)
 
-    def test_edit_template_POST_newsletter_form(self):
+    def test_edit_petition_POST_newsletter_form(self):
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         newsletter_form_data = {
@@ -356,7 +356,7 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response2.context['social_network_form_submitted'], False)
         self.assertEquals(response2.context['newsletter_form_submitted'], True)
 
-    def test_edit_template_POST_style_form(self):
+    def test_edit_petition_POST_style_form(self):
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
         style_form_data = {
