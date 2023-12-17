@@ -339,3 +339,50 @@ class PetitionViewTest(TestCase):
         self.assertEquals(response2.context['email_form_submitted'], False)
         self.assertEquals(response2.context['social_network_form_submitted'], False)
         self.assertEquals(response2.context['newsletter_form_submitted'], True)
+
+    def test_edit_template_POST_style_form(self):
+        julia = self.login('julia')
+        org = Organization.objects.get(name='RAP')
+        style_form_data = {
+            'style_form_submitted': 'yes',
+            'bgcolor': '33ccff',
+            'linear_gradient_direction': 'to right',
+            'gradient_from': '0000ff',
+            'gradient_to': 'ff0000',
+        }
+        # For an org template
+        pt = PetitionTemplate.objects.create(name="Default template", org=org)
+        response = self.client.post(reverse("edit_template", args=[pt.id]), style_form_data)
+        self.assertEqual(response.status_code, 200)
+        pt.refresh_from_db()
+        self.assertTemplateUsed(response, "petition/edit_template.html")
+        self.assertEquals(response.context['style_form'].is_valid(), True)
+        self.assertEquals(response.context['style_form'].is_bound, True)
+        self.assertEquals(response.context['content_form_submitted'], False)
+        self.assertEquals(response.context['email_form_submitted'], False)
+        self.assertEquals(response.context['social_network_form_submitted'], False)
+        self.assertEquals(response.context['newsletter_form_submitted'], False)
+        self.assertEquals(response.context['style_form_submitted'], True)
+
+        # For an user template
+        pt2 = PetitionTemplate.objects.create(name="Default template 2", user=julia)
+        response2 = self.client.post(reverse("edit_template", args=[pt2.id]), style_form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/edit_template.html")
+        pt2.refresh_from_db()
+
+        style_form_data['bgcolor'] = style_form_data['bgcolor']
+        style_form_data['gradient_from'] = style_form_data['gradient_from']
+        style_form_data['gradient_to'] = style_form_data['gradient_to']
+        for key, value in style_form_data.items():
+            if key == "style_form_submitted":
+                continue
+            self.assertEquals(getattr(pt2, key), value)
+            self.assertEquals(getattr(pt, key), value)
+        self.assertEquals(response.context['style_form'].is_valid(), True)
+        self.assertEquals(response.context['style_form'].is_bound, True)
+        self.assertEquals(response2.context['content_form_submitted'], False)
+        self.assertEquals(response2.context['email_form_submitted'], False)
+        self.assertEquals(response2.context['social_network_form_submitted'], False)
+        self.assertEquals(response2.context['newsletter_form_submitted'], False)
+        self.assertEquals(response.context['style_form_submitted'], True)
