@@ -215,7 +215,13 @@ class Petition(models.Model):
     creation_date = models.DateTimeField(blank=True)
     last_modification_date = models.DateTimeField(blank=True)
     moderated = models.BooleanField(default=False)
-    has_share_buttons = models.BooleanField(default=True)
+    has_email_share_button = models.BooleanField(default=False)
+    has_facebook_share_button = models.BooleanField(default=False)
+    has_tumblr_share_button = models.BooleanField(default=False)
+    has_linkedin_share_button = models.BooleanField(default=False)
+    has_twitter_share_button = models.BooleanField(default=False)
+    has_mastodon_share_button = models.BooleanField(default=False)
+    has_whatsapp_share_button = models.BooleanField(default=False)
     publication_date = models.DateTimeField(blank=True, null=True)
     show_publication_date = models.BooleanField(default=False)
 
@@ -437,6 +443,11 @@ class Petition(models.Model):
         self.moderated = do_moderate
         self.save()
 
+    @property
+    def has_any_share_button(self):
+        return (self.has_email_share_button or self.has_facebook_share_button or self.has_tumblr_share_button or self.has_linkedin_share_button 
+                or self.has_twitter_share_button or self.has_mastodon_share_button or self.has_whatsapp_share_button)
+
 # --------------------------------- Signature ---------------------------------
 class Signature(models.Model):
     first_name = models.CharField(max_length=50, verbose_name=gettext_lazy("First name"))
@@ -540,7 +551,13 @@ class PetitionTemplate(models.Model):
     sign_form_footer = models.TextField(blank=True)
     confirmation_email_reply = models.EmailField(max_length=100, blank=True)
     use_custom_email_settings = models.BooleanField(default=False)
-    has_share_buttons = models.BooleanField(default=True)
+    has_email_share_button = models.BooleanField(default=False)
+    has_facebook_share_button = models.BooleanField(default=False)
+    has_tumblr_share_button = models.BooleanField(default=False)
+    has_linkedin_share_button = models.BooleanField(default=False)
+    has_twitter_share_button = models.BooleanField(default=False)
+    has_mastodon_share_button = models.BooleanField(default=False)
+    has_whatsapp_share_button = models.BooleanField(default=False)
     paper_signatures_enabled = models.BooleanField(default=False)
 
     def __str__(self):

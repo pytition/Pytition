@@ -90,16 +90,76 @@
              {% if petition.org_twitter_handle %}value="{{ petition.org_twitter_handle }}"{% endif %}>
         </div>
   </div>
- <div class="form-group row">
-     <label for="id_has_share_buttons" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable share buttons?" %}</label>
-     <div class="col-sm-12 col-md-9 col-lg-10">
-         <div class="custom-control custom-switch">
-             <input type="checkbox" name="has_share_buttons"  class="is-valid custom-control-input" id="id_has_share_buttons"
-                     {% if petition.has_share_buttons %} checked {% endif %}>
-             <label class="custom-control-label" for="id_has_share_buttons">{% trans "Enable share buttons?" %}</label>
-         </div>
-     </div>
- </div>
+    <div class="form-group row">
+        <label for="id_has_email_share_button" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable email share button?" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="has_email_share_button"  class="is-valid custom-control-input" id="id_has_email_share_button"
+                        {% if petition.has_email_share_button %} checked {% endif %}>
+                <label class="custom-control-label" for="id_has_email_share_button">{% trans "Enable email share button?" %}</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="id_has_facebook_share_button" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable Facebook share button?" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="has_facebook_share_button"  class="is-valid custom-control-input" id="id_has_facebook_share_button"
+                        {% if petition.has_facebook_share_button %} checked {% endif %}>
+                <label class="custom-control-label" for="id_has_facebook_share_button">{% trans "Enable Facebook share button?" %}</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="id_has_tumblr_share_button" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable Tumblr share button?" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="has_tumblr_share_button"  class="is-valid custom-control-input" id="id_has_tumblr_share_button"
+                        {% if petition.has_tumblr_share_button %} checked {% endif %}>
+                <label class="custom-control-label" for="id_has_tumblr_share_button">{% trans "Enable Tumblr share button?" %}</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="id_has_linkedin_share_button" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable LinkedIn share button?" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="has_linkedin_share_button"  class="is-valid custom-control-input" id="id_has_linkedin_share_button"
+                        {% if petition.has_linkedin_share_button %} checked {% endif %}>
+                <label class="custom-control-label" for="id_has_linkedin_share_button">{% trans "Enable LinkedIn share button?" %}</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="id_has_twitter_share_button" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable Twitter share button?" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="has_twitter_share_button"  class="is-valid custom-control-input" id="id_has_twitter_share_button"
+                        {% if petition.has_twitter_share_button %} checked {% endif %}>
+                <label class="custom-control-label" for="id_has_twitter_share_button">{% trans "Enable Twitter share button?" %}</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="id_has_mastodon_share_button" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable Mastodon share button?" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="has_mastodon_share_button"  class="is-valid custom-control-input" id="id_has_mastodon_share_button"
+                        {% if petition.has_mastodon_share_button %} checked {% endif %}>
+                <label class="custom-control-label" for="id_has_mastodon_share_button">{% trans "Enable Mastodon share button?" %}</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="id_has_whatsapp_share_button" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Enable Whatsapp share button?" %}</label>
+        <div class="col-sm-12 col-md-9 col-lg-10">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="has_whatsapp_share_button"  class="is-valid custom-control-input" id="id_has_whatsapp_share_button"
+                        {% if petition.has_whatsapp_share_button %} checked {% endif %}>
+                <label class="custom-control-label" for="id_has_whatsapp_share_button">{% trans "Enable Whatsapp share button?" %}</label>
+            </div>
+        </div>
+    </div>
 <div class="form-group row">
 <div class="input-group">
 <input type="checkbox" name="remove_twitter_image" id="remove_twitter_image" hidden>

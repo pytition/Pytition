@@ -674,7 +674,13 @@ def edit_template(request, template_id):
                     template.twitter_image = ""
                 template.twitter_description = social_network_form.cleaned_data['twitter_description']
                 template.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
-                template.has_share_buttons = social_network_form.cleaned_data['has_share_buttons']
+                template.has_email_share_button = social_network_form.cleaned_data['has_email_share_button']
+                template.has_facebook_share_button = social_network_form.cleaned_data['has_facebook_share_button']
+                template.has_tumblr_share_button = social_network_form.cleaned_data['has_tumblr_share_button']
+                template.has_linkedin_share_button = social_network_form.cleaned_data['has_linkedin_share_button']
+                template.has_twitter_share_button = social_network_form.cleaned_data['has_twitter_share_button']
+                template.has_mastodon_share_button = social_network_form.cleaned_data['has_mastodon_share_button']
+                template.has_whatsapp_share_button = social_network_form.cleaned_data['has_whatsapp_share_button']
                 template.save()
         else:
             remove_fields = ["twitter_image", "remove_twitter_image"]
@@ -1271,12 +1277,25 @@ def edit_petition(request, petition_id):
                     petition.twitter_image = ""
                 petition.twitter_description = social_network_form.cleaned_data['twitter_description']
                 petition.org_twitter_handle = social_network_form.cleaned_data['org_twitter_handle']
-                petition.has_share_buttons = social_network_form.cleaned_data['has_share_buttons']
+                petition.has_email_share_button = social_network_form.cleaned_data['has_email_share_button']
+                petition.has_facebook_share_button = social_network_form.cleaned_data['has_facebook_share_button']
+                petition.has_tumblr_share_button = social_network_form.cleaned_data['has_tumblr_share_button']
+                petition.has_linkedin_share_button = social_network_form.cleaned_data['has_linkedin_share_button']
+                petition.has_twitter_share_button = social_network_form.cleaned_data['has_twitter_share_button']
+                petition.has_mastodon_share_button = social_network_form.cleaned_data['has_mastodon_share_button']
+                petition.has_whatsapp_share_button = social_network_form.cleaned_data['has_whatsapp_share_button']
                 petition.save()
         else:
             data = {'twitter_description': petition.twitter_description,
                     'org_twitter_handle': petition.org_twitter_handle,
-                    'has_share_buttons': petition.has_share_buttons}
+                    'has_email_share_button': petition.has_email_share_button,
+                    'has_facebook_share_button': petition.has_facebook_share_button,
+                    'has_tumblr_share_button': petition.has_tumblr_share_button,
+                    'has_linkedin_share_button': petition.has_linkedin_share_button,
+                    'has_twitter_share_button': petition.has_twitter_share_button,
+                    'has_mastodon_share_button': petition.has_mastodon_share_button,
+                    'has_whatsapp_share_button': petition.has_whatsapp_share_button
+                    }
             social_network_form = SocialNetworkForm(data)
 
 
@@ -1317,7 +1336,14 @@ def edit_petition(request, petition_id):
     else:
         data = {'twitter_description': petition.twitter_description,
                 'org_twitter_handle': petition.org_twitter_handle,
-                'has_share_buttons': petition.has_share_buttons}
+                'has_email_share_button': petition.has_email_share_button,
+                'has_facebook_share_button': petition.has_facebook_share_button,
+                'has_tumblr_share_button': petition.has_tumblr_share_button,
+                'has_linkedin_share_button': petition.has_linkedin_share_button,
+                'has_twitter_share_button': petition.has_twitter_share_button,
+                'has_mastodon_share_button': petition.has_mastodon_share_button,
+                'has_whatsapp_share_button': petition.has_whatsapp_share_button
+                }
         social_network_form = SocialNetworkForm(data)
         content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
         style_form = StyleForm({f: getattr(petition, f) for f in StyleForm.base_fields})
