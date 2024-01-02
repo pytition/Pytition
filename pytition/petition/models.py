@@ -443,6 +443,11 @@ class Petition(models.Model):
         self.moderated = do_moderate
         self.save()
 
+    @property
+    def has_any_share_button(self):
+        return (self.has_email_share_button or self.has_facebook_share_button or self.has_tumblr_share_button or self.has_linkedin_share_button 
+                or self.has_twitter_share_button or self.has_mastodon_share_button or self.has_whatsapp_share_button)
+
 # --------------------------------- Signature ---------------------------------
 class Signature(models.Model):
     first_name = models.CharField(max_length=50, verbose_name=gettext_lazy("First name"))

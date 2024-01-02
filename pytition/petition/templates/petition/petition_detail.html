@@ -51,7 +51,7 @@ content="{{ petition.raw_twitter_description|safe }}"/>
 
 {% block extracss %}
 <link href="{% static "css/petition.css" %}" rel="stylesheet" type="text/css">
-{% if petition.has_email_share_button or petition.has_facebook_share_button or petition.has_tumblr_share_button or petition.has_linkedin_share_button or petition.has_twitter_share_button or petition.has_mastodon_share_button or petition.has_whatsapp_share_button %}
+{% if petition.has_any_share_button %}
     <link href="{% static "css/rrssb.css" %}" rel="stylesheet" type="text/css">
 {% endif %}
 <style type="text/css">
@@ -262,7 +262,7 @@ dataLayer = [];
 
                 <span class="eaSubmitResetButtonGroup mb-1" id="eaFormButtonGroup_1"><input
                   type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
-                {% if petition.has_email_share_button or petition.has_facebook_share_button or petition.has_tumblr_share_button or petition.has_linkedin_share_button or petition.has_twitter_share_button or petition.has_mastodon_share_button or petition.has_whatsapp_share_button %}
+                {% if petition.has_any_share_button %}
                 <div>
                   <ul class="rrssb-buttons">
                     {% if petition.has_email_share_button %}  
@@ -371,7 +371,7 @@ dataLayer = [];
 
 {% block extrajs %}
 <script type="text/javascript" src="{% static "js/petition.js" %}"></script>
-{% if petition.has_email_share_button or petition.has_facebook_share_button or petition.has_tumblr_share_button or petition.has_linkedin_share_button or petition.has_twitter_share_button or petition.has_mastodon_share_button or petition.has_whatsapp_share_button %}
+{% if petition.has_any_share_button %}
 <script type="text/javascript" src="{% static "vendor/rrssb/js/rrssb.min.js" %}"></script>
 <script>
     const msbConfig = {
