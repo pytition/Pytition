@@ -301,6 +301,108 @@ class EditPetitionViewTest(TestCase):
         self.assertEquals(response2.context['social_network_form_submitted'], True)
         self.assertEquals(response2.context['newsletter_form_submitted'], False)
 
+    def test_edit_petition_POST_newsletter_form(self):
+        julia = self.login('julia')
+        org = Organization.objects.get(name='RAP')
+        newsletter_form_data = {
+            'newsletter_form_submitted': 'yes',
+            'has_newsletter': 'on',
+            'newsletter_subscribe_http_data': 'blah',
+            'newsletter_subscribe_http_mailfield': 'blih',
+            'newsletter_subscribe_http_mailfield': 'bluh',
+            'newsletter_subscribe_mail_subject': 'bloh',
+            'newsletter_subscribe_mail_from': 'toto@titi.com',
+            'newsletter_subscribe_mail_to': 'titi@toto.com',
+            'newsletter_subscribe_method': 'POST',
+            'newsletter_subscribe_mail_smtp_host': 'localhost',
+            'newsletter_subscribe_mail_smtp_port': 1234,
+            'newsletter_subscribe_mail_smtp_user': 'root',
+            'newsletter_subscribe_mail_smtp_password': 'rootpassword',
+            'newsletter_subscribe_mail_smtp_tls': 'on',
+            'newsletter_subscribe_mail_smtp_starttls': '',
+        }
+        # For an org template
+        p = Petition.objects.create(title="My petition", org=org)
+        response = self.client.post(reverse("edit_petition", args=[p.id]), newsletter_form_data)
+        self.assertEqual(response.status_code, 200)
+        p.refresh_from_db()
+        self.assertTemplateUsed(response, "petition/edit_petition.html")
+        self.assertEquals(response.context['newsletter_form'].is_valid(), True)
+        self.assertEquals(response.context['newsletter_form'].is_bound, True)
+        self.assertEquals(response.context['content_form_submitted'], False)
+        self.assertEquals(response.context['email_form_submitted'], False)
+        self.assertEquals(response.context['social_network_form_submitted'], False)
+        self.assertEquals(response.context['newsletter_form_submitted'], True)
+
+        # For an user template
+        p2 = Petition.objects.create(title="My petition 2", user=julia)
+        response2 = self.client.post(reverse("edit_petition", args=[p2.id]), newsletter_form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/edit_petition.html")
+        p2.refresh_from_db()
+
+        newsletter_form_data['has_newsletter'] = True
+        newsletter_form_data['newsletter_subscribe_mail_smtp_tls'] = True
+        newsletter_form_data['newsletter_subscribe_mail_smtp_starttls'] = False
+        for key, value in newsletter_form_data.items():
+            if key == "newsletter_form_submitted":
+                continue
+            self.assertEquals(getattr(p2, key), value)
+            self.assertEquals(getattr(p, key), value)
+        self.assertEquals(response2.context['newsletter_form'].is_valid(), True)
+        self.assertEquals(response2.context['newsletter_form'].is_bound, True)
+        self.assertEquals(response2.context['content_form_submitted'], False)
+        self.assertEquals(response2.context['email_form_submitted'], False)
+        self.assertEquals(response2.context['social_network_form_submitted'], False)
+        self.assertEquals(response2.context['newsletter_form_submitted'], True)
+
+    def test_edit_petition_POST_style_form(self):
+        julia = self.login('julia')
+        org = Organization.objects.get(name='RAP')
+        style_form_data = {
+            'style_form_submitted': 'yes',
+            'bgcolor': '33ccff',
+            'linear_gradient_direction': 'to right',
+            'gradient_from': '0000ff',
+            'gradient_to': 'ff0000',
+        }
+        # For an org template
+        p = Petition.objects.create(title="My petition", org=org)
+        response = self.client.post(reverse("edit_petition", args=[p.id]), style_form_data)
+        self.assertEqual(response.status_code, 200)
+        p.refresh_from_db()
+        self.assertTemplateUsed(response, "petition/edit_petition.html")
+        self.assertEquals(response.context['style_form'].is_valid(), True)
+        self.assertEquals(response.context['style_form'].is_bound, True)
+        self.assertEquals(response.context['content_form_submitted'], False)
+        self.assertEquals(response.context['email_form_submitted'], False)
+        self.assertEquals(response.context['social_network_form_submitted'], False)
+        self.assertEquals(response.context['newsletter_form_submitted'], False)
+        self.assertEquals(response.context['style_form_submitted'], True)
+
+        # For an user template
+        p2 = Petition.objects.create(title="My petition 2", user=julia)
+        response2 = self.client.post(reverse("edit_petition", args=[p2.id]), style_form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "petition/edit_petition.html")
+        p2.refresh_from_db()
+
+        style_form_data['bgcolor'] = style_form_data['bgcolor']
+        style_form_data['gradient_from'] = style_form_data['gradient_from']
+        style_form_data['gradient_to'] = style_form_data['gradient_to']
+        for key, value in style_form_data.items():
+            if key == "style_form_submitted":
+                continue
+            self.assertEquals(getattr(p2, key), value)
+            self.assertEquals(getattr(p, key), value)
+        self.assertEquals(response.context['style_form'].is_valid(), True)
+        self.assertEquals(response.context['style_form'].is_bound, True)
+        self.assertEquals(response2.context['content_form_submitted'], False)
+        self.assertEquals(response2.context['email_form_submitted'], False)
+        self.assertEquals(response2.context['social_network_form_submitted'], False)
+        self.assertEquals(response2.context['newsletter_form_submitted'], False)
+        self.assertEquals(response.context['style_form_submitted'], True)
+
     def test_edit_petition_email_share_button(self):
         julia = self.login('julia')
         org = Organization.objects.get(name='RAP')
@@ -741,105 +843,3 @@ class EditPetitionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         p.refresh_from_db()
         self.assertFalse(p.has_whatsapp_share_button)
-
-    def test_edit_petition_POST_newsletter_form(self):
-        julia = self.login('julia')
-        org = Organization.objects.get(name='RAP')
-        newsletter_form_data = {
-            'newsletter_form_submitted': 'yes',
-            'has_newsletter': 'on',
-            'newsletter_subscribe_http_data': 'blah',
-            'newsletter_subscribe_http_mailfield': 'blih',
-            'newsletter_subscribe_http_mailfield': 'bluh',
-            'newsletter_subscribe_mail_subject': 'bloh',
-            'newsletter_subscribe_mail_from': 'toto@titi.com',
-            'newsletter_subscribe_mail_to': 'titi@toto.com',
-            'newsletter_subscribe_method': 'POST',
-            'newsletter_subscribe_mail_smtp_host': 'localhost',
-            'newsletter_subscribe_mail_smtp_port': 1234,
-            'newsletter_subscribe_mail_smtp_user': 'root',
-            'newsletter_subscribe_mail_smtp_password': 'rootpassword',
-            'newsletter_subscribe_mail_smtp_tls': 'on',
-            'newsletter_subscribe_mail_smtp_starttls': '',
-        }
-        # For an org template
-        p = Petition.objects.create(title="My petition", org=org)
-        response = self.client.post(reverse("edit_petition", args=[p.id]), newsletter_form_data)
-        self.assertEqual(response.status_code, 200)
-        p.refresh_from_db()
-        self.assertTemplateUsed(response, "petition/edit_petition.html")
-        self.assertEquals(response.context['newsletter_form'].is_valid(), True)
-        self.assertEquals(response.context['newsletter_form'].is_bound, True)
-        self.assertEquals(response.context['content_form_submitted'], False)
-        self.assertEquals(response.context['email_form_submitted'], False)
-        self.assertEquals(response.context['social_network_form_submitted'], False)
-        self.assertEquals(response.context['newsletter_form_submitted'], True)
-
-        # For an user template
-        p2 = Petition.objects.create(title="My petition 2", user=julia)
-        response2 = self.client.post(reverse("edit_petition", args=[p2.id]), newsletter_form_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "petition/edit_petition.html")
-        p2.refresh_from_db()
-
-        newsletter_form_data['has_newsletter'] = True
-        newsletter_form_data['newsletter_subscribe_mail_smtp_tls'] = True
-        newsletter_form_data['newsletter_subscribe_mail_smtp_starttls'] = False
-        for key, value in newsletter_form_data.items():
-            if key == "newsletter_form_submitted":
-                continue
-            self.assertEquals(getattr(p2, key), value)
-            self.assertEquals(getattr(p, key), value)
-        self.assertEquals(response2.context['newsletter_form'].is_valid(), True)
-        self.assertEquals(response2.context['newsletter_form'].is_bound, True)
-        self.assertEquals(response2.context['content_form_submitted'], False)
-        self.assertEquals(response2.context['email_form_submitted'], False)
-        self.assertEquals(response2.context['social_network_form_submitted'], False)
-        self.assertEquals(response2.context['newsletter_form_submitted'], True)
-
-    def test_edit_petition_POST_style_form(self):
-        julia = self.login('julia')
-        org = Organization.objects.get(name='RAP')
-        style_form_data = {
-            'style_form_submitted': 'yes',
-            'bgcolor': '33ccff',
-            'linear_gradient_direction': 'to right',
-            'gradient_from': '0000ff',
-            'gradient_to': 'ff0000',
-        }
-        # For an org template
-        p = Petition.objects.create(title="My petition", org=org)
-        response = self.client.post(reverse("edit_petition", args=[p.id]), style_form_data)
-        self.assertEqual(response.status_code, 200)
-        p.refresh_from_db()
-        self.assertTemplateUsed(response, "petition/edit_petition.html")
-        self.assertEquals(response.context['style_form'].is_valid(), True)
-        self.assertEquals(response.context['style_form'].is_bound, True)
-        self.assertEquals(response.context['content_form_submitted'], False)
-        self.assertEquals(response.context['email_form_submitted'], False)
-        self.assertEquals(response.context['social_network_form_submitted'], False)
-        self.assertEquals(response.context['newsletter_form_submitted'], False)
-        self.assertEquals(response.context['style_form_submitted'], True)
-
-        # For an user template
-        p2 = Petition.objects.create(title="My petition 2", user=julia)
-        response2 = self.client.post(reverse("edit_petition", args=[p2.id]), style_form_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "petition/edit_petition.html")
-        p2.refresh_from_db()
-
-        style_form_data['bgcolor'] = style_form_data['bgcolor']
-        style_form_data['gradient_from'] = style_form_data['gradient_from']
-        style_form_data['gradient_to'] = style_form_data['gradient_to']
-        for key, value in style_form_data.items():
-            if key == "style_form_submitted":
-                continue
-            self.assertEquals(getattr(p2, key), value)
-            self.assertEquals(getattr(p, key), value)
-        self.assertEquals(response.context['style_form'].is_valid(), True)
-        self.assertEquals(response.context['style_form'].is_bound, True)
-        self.assertEquals(response2.context['content_form_submitted'], False)
-        self.assertEquals(response2.context['email_form_submitted'], False)
-        self.assertEquals(response2.context['social_network_form_submitted'], False)
-        self.assertEquals(response2.context['newsletter_form_submitted'], False)
-        self.assertEquals(response.context['style_form_submitted'], True)
