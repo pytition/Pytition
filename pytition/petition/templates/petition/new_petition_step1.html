@@ -10,7 +10,7 @@
       {{ wizard.management_form }}
       <div class="form-group">
       {% with form.title as field %}
-        {{ field.label_tag }}
+        {% trans "Title" %}
 
         {% if form.is_bound %}
           {% if field.errors %}

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2023-10-14 11:18+0200\n"
+"PO-Revision-Date: 2024-03-30 22:20+0200\n"
 "Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
@@ -578,6 +578,7 @@ msgstr "Gabarit de pétition par défaut"
 
 #: pytition/petition/models.py:175
 #: pytition/petition/templates/layouts/wizard_layout.html:18
+#: pytition/petition/templates/petition/new_petition_step1.html:13
 msgid "Title"
 msgstr "Titre"
 
