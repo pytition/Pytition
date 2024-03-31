@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2024-03-30 22:20+0200\n"
-"Last-Translator: Yann Sionneau <yann@sionneau.net>\n"
+"PO-Revision-Date: 2024-03-31 22:24+0200\n"
+"Last-Translator: Fares Sellaouti <fares@rhone.pcf.fr>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
 "Language: fr_FR\n"
@@ -2104,6 +2104,26 @@ msgstr "Italien"
 #: pytition/pytition/settings/base.py:246
 msgid "Occitan"
 msgstr "Occitan"
+
+#: pytition/petition/templates/petition/edit_petition.html:19
+msgid "Publication date"
+msgstr "Date de publication"
+
+#: pytition/petition/templates/petition/edit_petition.html:19
+msgid "Show publication date"
+msgstr "Afficher date de publication"
+
+#: pytition/petition/templates/petition/edit_petition.html:19
+msgid "Target"
+msgstr "Objectif"
+
+#: pytition/petition/templates/petition/edit_petition.html:19
+msgid "Side text"
+msgstr "Texte latéral"
+
+#: pytition/petition/templates/petition/edit_petition.html:19
+msgid "Sign form footer"
+msgstr "Pied de formulaire de signature"
 
 #~ msgid "View all petitions"
 #~ msgstr "Voir toutes les pétitions"
