@@ -33,14 +33,14 @@ You should configure a real SMTP email account and not just rely on "fake" email
 
 .. hlist::
 
-  * :django:setting:`DEFAULT_FROM_EMAIL`
-  * :django:setting:`SERVER_EMAIL`
-  * :django:setting:`EMAIL_HOST`
-  * :django:setting:`EMAIL_HOST_PASSWORD`
-  * :django:setting:`EMAIL_HOST_USER`
-  * :django:setting:`EMAIL_PORT`
-  * :django:setting:`EMAIL_USE_TLS`
-  * :django:setting:`EMAIL_USE_SSL`
+  * :setting:`DEFAULT_FROM_EMAIL`
+  * :setting:`SERVER_EMAIL`
+  * :setting:`EMAIL_HOST`
+  * :setting:`EMAIL_HOST_PASSWORD`
+  * :setting:`EMAIL_HOST_USER`
+  * :setting:`EMAIL_PORT`
+  * :setting:`EMAIL_USE_TLS`
+  * :setting:`EMAIL_USE_SSL`
   * others when necessary
 
 Other optional settings

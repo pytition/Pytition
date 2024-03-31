@@ -47,7 +47,8 @@ cd pytition && python3 ./manage.py migrate && cd -
 
 echo "Generating documentation"
 
-cd doc && make html && cd -
+cd doc && make html
+cd -
 
 echo "Compiling translations"
 
