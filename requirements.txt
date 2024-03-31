@@ -10,6 +10,6 @@ django-widget-tweaks==1.4.3
 beautifulsoup4~=4.6.3
 django-formtools==2.2
 bcrypt
-lxml
+lxml[html_clean]
 uwsgi
 jinja2<3.1
