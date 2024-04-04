@@ -29,3 +29,10 @@ license = {text = "BSD 3-Clause"}
 
 [tool.pdm]
 distribution = false
+
+[tool.pdm.dev-dependencies]
+test = [
+    "coverage==4.5.2",
+    "sphinx",
+    "sphinx-rtd-theme"
+]
