@@ -7,11 +7,11 @@ node {
         checkout scm
 
         sh '''
+export PATH=/var/lib/jenkins/.local/bin:$PATH # needed for pdm
 cd $WORKSPACE
 git fetch --tags
-rm -rf venv && python3 -m venv venv
-. venv/bin/activate
-pip3 install -r requirements_dev.txt
+pdm venv remove -y in-project || echo "No pdm venv so far, continuing"
+pdm sync --clean
 cat <<ENDOFFILE > my.cnf
 [client]
 database = pytition
@@ -23,7 +23,7 @@ ENDOFFILE
 echo "Generating a basic config file"
 
 echo "from .base import *" > pytition/pytition/settings/config.py
-echo "SECRET_KEY = '$(python3 -c "from django.core.management.utils import get_random_secret_key as g; print(g())")'" >> pytition/pytition/settings/config.py
+echo "SECRET_KEY = '$(pdm run python3 -c "from django.core.management.utils import get_random_secret_key as g; print(g())")'" >> pytition/pytition/settings/config.py
 cat <<EOT >> pytition/pytition/settings/config.py
 DATABASES = {
     'default': {
@@ -44,23 +44,22 @@ mysql --defaults-extra-file=$PWD/my.cnf -e "drop database pytition; create datab
 
 echo "Running database migrations"
 
-cd pytition && python3 ./manage.py migrate && cd -
+cd pytition && pdm run python3 ./manage.py migrate && cd -
 
 echo "Generating documentation"
 
-cd doc && make html
+cd doc && pdm run make html
 cd -
 
 echo "Compiling translations"
 
-cd pytition && python3 ./manage.py compilemessages && cd -
+cd pytition && pdm run python3 ./manage.py compilemessages && cd -
 
 echo "Running tests"
 
-coverage erase
-coverage run ./pytition/manage.py test --noinput petition
-coverage xml --include='pytition/*'
-deactivate
+pdm run coverage erase
+pdm run coverage run ./pytition/manage.py test --noinput petition
+pdm run coverage xml --include='pytition/*'
            '''
 step([$class: 'CoberturaPublisher',
                            autoUpdateHealth: false,
