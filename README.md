@@ -72,3 +72,4 @@ Those are external projects that are needed and used by Pytition, but included i
 | French  | <a href="https://weblate.framasoft.org/engage/pytition/fr_FR/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/fr_FR/pytitions/svg-badge.svg" alt="État de la traduction" /></a>|
 | Italian       | <a href="https://weblate.framasoft.org/engage/pytition/it/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/it/pytitions/svg-badge.svg" alt="État de la traduction" /></a>|
 | Occitan       | <a href="https://weblate.framasoft.org/engage/pytition/oc/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/oc/pytitions/svg-badge.svg" alt="État de la traduction" /></a> |
+| Spanish       | <a href="https://weblate.framasoft.org/engage/pytition/es/?utm_source=widget"><img src="https://weblate.framasoft.org/widgets/pytition/es/pytitions/svg-badge.svg" alt="État de la traduction" /></a> |
