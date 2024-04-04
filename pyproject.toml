@@ -1,0 +1,31 @@
+[project]
+name = "Pytition"
+version = "2.8.1"
+description = "Django app for self-hosted privacy-friendly online petitions"
+authors = [
+    {name = "Yann Sionneau", email = "yann@sionneau.net"},
+]
+dependencies = [
+    "Django~=4.2.0",
+    "django-colorfield==0.10.1",
+    "django-tinymce==3.6.1",
+    "django-mailer==2.3",
+    "django-maintenance-mode",
+    "django-phonenumber-field[phonenumbers]==6.3.0",
+    "requests~=2.20.0",
+    "mysqlclient==2.0.1",
+    "django-widget-tweaks==1.4.3",
+    "beautifulsoup4~=4.6.3",
+    "django-formtools==2.2",
+    "bcrypt",
+    "lxml[html_clean]",
+    "uwsgi",
+    "jinja2<3.1",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "BSD 3-Clause"}
+
+
+[tool.pdm]
+distribution = false
