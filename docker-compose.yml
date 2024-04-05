@@ -17,7 +17,7 @@ services:
       - DJANGO_SETTINGS_MODULE=config.docker_config
       - PYTHONPATH=/
     build: .
-    command: python pytition/manage.py runserver 0.0.0.0:8000
+    command: pdm run python pytition/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:

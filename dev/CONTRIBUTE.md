@@ -42,7 +42,7 @@ You can use VirtualBox, Docker, qemu or whatever virtualisation/containerization
 
 It uses coverage to evaluate tests coverage.
 ```
-coverage run pytition/manage.py test petition
-coverage report -m
+pdm run coverage run pytition/manage.py test petition
+pdm run coverage report -m
 ```
 Add `docker-compose exec web` before each command to use it with docker.
