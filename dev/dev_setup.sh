@@ -3,7 +3,7 @@
 echo "Installing development dependencies"
 
 sudo apt update
-sudo apt install git virtualenv libmariadbclient-dev python3-dev build-essential
+sudo apt install git libmariadbclient-dev python3-dev build-essential
 
 echo "Checking whether Pytition git repo is already cloned or not"
 
@@ -20,14 +20,9 @@ then
     cd pytition
 fi
 
-echo "Creating virtualenv"
+echo "Creating virtualenv and installing Pytition Python runtime dependencies"
 
-virtualenv -p python3 venv
-source venv/bin/activate
-
-echo "Installing Pytition Python runtime dependencies"
-
-pip3 install -r requirements_dev.txt
+pdm sync
 
 echo "Install MariaDB server? (y/n)"
 
@@ -88,11 +83,11 @@ sed -i -e "s@/home/petition/www/@$PWD/@" pytition/pytition/settings/base.py
 
 echo "Running database migrations"
 
-cd pytition && python3 ./manage.py migrate && cd -
+cd pytition && pdm run python3 ./manage.py migrate && cd -
 
 echo "Creating superuser account"
 
-cd pytition && python3 ./manage.py createsuperuser && cd -
+cd pytition && pdm run python3 ./manage.py createsuperuser && cd -
 
 echo "Done"
 
@@ -102,7 +97,7 @@ read prepopulate
 
 if [ "${prepopulate}" == "y" ]
 then
-    ./dev/prepropulate.sh
+    pdm run ./dev/prepropulate.sh
 fi
 
 echo "Done!"
@@ -111,5 +106,4 @@ echo ""
 
 echo "You can now run the following commands to start the development server:"
 echo "$ cd pytition"
-echo "$ source venv/bin/activate"
-echo "$ python3 ./pytition/manage.py runserver"
+echo "$ pdm run python3 ./pytition/manage.py runserver"
