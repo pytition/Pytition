@@ -18,7 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction, IntegrityError
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.timezone import now
@@ -1512,10 +1512,20 @@ def account_settings(request):
         else:
             password_change_form = PasswordChangeForm(pytitionuser.user)
 
+        if 'create_account_form_submitted' in request.POST:
+            create_account_form = UserCreationForm(request.POST)
+            submitted_ctx['create_account_form_submitted'] = True
+            if create_account_form.is_valid():
+                create_account_form.save()
+                messages.success(request, _("You successfully created account!"))
+        else:
+            create_account_form = UserCreationForm()
+
     else:
         update_info_form = get_update_form(pytitionuser.user)
         delete_account_form = DeleteAccountForm()
         password_change_form = PasswordChangeForm(pytitionuser.user)
+        create_account_form = UserCreationForm()
 
     orgs = pytitionuser.organization_set.all()
     # Checking if the user is allowed to leave the organisation
@@ -1534,6 +1544,7 @@ def account_settings(request):
            'update_info_form': update_info_form,
            'delete_account_form': delete_account_form,
            'password_change_form': password_change_form,
+           'create_account_form': create_account_form,
            'base_template': 'petition/user_base.html',
            'orgs': orgs}
     ctx.update(submitted_ctx)

@@ -11,6 +11,9 @@
             <a href="#update_info_form" class="list-group-item list-group-item-action active" data-toggle="list" id="a_update_info_form" aria-controls="update_info_form" role="tab"><span class="oi oi-person"></span>  {% trans "Personal Information" %}</a>
             <a href="#password_change_form" class="list-group-item list-group-item-action" data-toggle="list" id="a_password_change" aria-controls="password_change_form" role="tab"><span class="oi oi-key"></span>  {% trans "Change Password" %}</a>
             <a href="#org_form" class="list-group-item list-group-item-action" data-toggle="list" aria-controls="org_form" id="a_org_form" role="tab"><span class="oi oi-people"></span>  {% trans "Organizations" %}</a>
+            {% if user.user.is_superuser %}
+                <a href="#create_account_form" class="list-group-item list-group-item-action" data-toggle="list" id="a_create_form" aria-controls="org_form" role="tab"><span class="oi oi-people"></span>  {% trans "Create account" %}</a>
+            {% endif %}
             <a href="#delete_account_form" class="list-group-item list-group-item-action" data-toggle="list" id="a_delete_account" aria-controls="delete_account_form" role="tab"><span class="oi oi-trash"></span>  {% trans "Delete your account" %}</a>
         </div>
     </div>
@@ -100,6 +103,15 @@
                     {% include "petition/bs4_form.html" with form=delete_account_form %}
                     <div class="text-center">
                         <button name="delete_account_form_submitted" class="btn btn-danger" value="yes" type="submit">{% trans "Delete" %}</button>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="create_account_form" role="tabpanel" aria-labelledby="create-account-form-list">
+                <h3 class="mb-4">{% trans "Create Account" %}</h3>
+                <form method="POST">{% csrf_token %}
+                    {% include "petition/bs4_form.html" with form=create_account_form %}
+                    <div class="text-center">
+                        <button name="create_account_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Validate" %}</button>
                     </div>
                 </form>
             </div>
