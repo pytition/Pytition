@@ -21,6 +21,7 @@ dependencies = [
     "lxml[html_clean]",
     "uwsgi",
     "jinja2<3.1",
+    "psycopg[binary]==3.1.8",
 ]
 requires-python = ">=3.8"
 readme = "README.md"
