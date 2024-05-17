@@ -40,6 +40,11 @@ On Arch Linux
 
   $ sudo pacman -S mariadb mariadb-libs python make gcc gettext
 
+Install pdm
+-----------
+
+See https://pdm-project.org/en/latest/#installation
+
 Get the source, configure and initialize Pytition
 -------------------------------------------------
 
@@ -56,12 +61,6 @@ Create a directory to host your Pytition instance and it's static files:
 
   $ mkdir -p www/static www/mediaroot
 
-Create a Python3 virtualenv to install Pytition's dependencies:
-
-.. code-block:: bash
-
-  $ virtualenv -p python3 pytition_venv
-
 Clone Pytition git repository and checkout latest release:
 
 .. code-block:: bash
@@ -71,12 +70,13 @@ Clone Pytition git repository and checkout latest release:
   $ cd pytition
   $ git checkout $version
 
-Enter your virtualenv and install Pytition's dependencies:
+Install Pytition's dependencies and enter the virtual environment:
 
 .. code-block:: bash
 
-  $ source ../../pytition_venv/bin/activate
-  (pytition_venv) $ pip3 install -r requirements.txt
+  $ pdm self update # update pdm to latest version
+  $ pdm sync --clean
+  $ eval $(pdm venv activate)
 
 Create a MySQL database and user for Pytition:
 
@@ -227,7 +227,7 @@ Now let's create our uwsgi configuration in `/etc/uwsgi/apps-available/pytition.
   [uwsgi]
   chdir = /home/pytition/www/pytition/pytition
   module = pytition.wsgi
-  home = /home/pytition/pytition_venv
+  home = /home/pytition/www/pytition/.venv
   master = true
   processes = 10
   vacuum = true
@@ -237,6 +237,12 @@ Now let's create our uwsgi configuration in `/etc/uwsgi/apps-available/pytition.
   chmod-socket = 664
   plugins = python3
   env = DJANGO_SETTINGS_MODULE=pytition.settings.config
+
+
+.. note::
+
+  The uwsgi configuration (`pytition.ini`) file's `home` value must be set to your pdm virtual env path. You can have pdm display the venv path using this command while being in the pytition source code top level directory:
+  `pdm venv list`.
 
 Create a symlink to enable or uwsgi configuration:
 
@@ -248,8 +254,8 @@ Start uwsgi and nginx servers:
 
 .. code-block:: bash
 
-  $ sudo systemctl start uwsgi
-  $ sudo systemctl start nginx
+  $ sudo systemctl restart uwsgi
+  $ sudo systemctl restart nginx
 
 Your Pytition home page should be available over there: http://mydomain.tld
 
