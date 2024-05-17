@@ -49,14 +49,6 @@ Get the latest release git tag:
 
   $ version=$(curl -s https://api.github.com/repos/pytition/pytition/releases/latest | grep "tag_name" | cut -d : -f2,3 | tr -d \" | tr -d ,)
 
-
-Create a Python3 virtualenv to install Pytitiont's dependencies:
-
-.. code-block:: bash
-
-  $ cd /srv/pytition/
-  $ sudo virtualenv -p python3 pytition_venv
-
 Clone Pytition git repository and checkout latest release:
 
 .. code-block:: bash
@@ -75,13 +67,14 @@ Set correct ownership and group to directories:
   $ sudo chown orga2-user:www-data /srv/pytition/www/mediaroot/orga2
   $ sudo chmod g+s /srv/pytition/www/static/
 
-Enter your virtualenv and install Pytition's dependencies:
+Create a Python3 virtualenv and install Pytition's dependencies:
 
 .. code-block:: bash
 
   $ sudo su pytition-admin
-  $ source /srv/pytition/pytition_venv/bin/activate
-  (pytition_venv) $ pip3 install -r /srv/pytition/www/pytition/requirements.txt
+  $ cd /srv/pytition/www/pytition
+  $ pdm sync --clean
+  $ eval $(pdm venv activate)
 
 Create db-pytition-orga, db-pytition-orga2, db-pytition-admin as well as associated SQL users db-user-orga1, db-user-orga2 and db-user-admin on your MariaDB SQL server.
 
@@ -211,7 +204,7 @@ Here is an example of uwsgi configuration that you can put in /etc/uwsgi/app-ava
   [uwsgi]
   chdir = /srv/pytition/www/pytition/pytition
   module = pytition.wsgi
-  home = /srv/pytition/pytition_venv
+  home = /srv/pytition/www/pytition/.venv
   master = true
   enable-threads = true
   processes = 5
@@ -254,7 +247,8 @@ In order to update all your Pytition sites, here is a bach script (run by pytiti
   #!/bin/bash
   set -e
   DJANGO_MANAGE="/srv/pytition/www/pytition/pytition/manage.py"
-  source /srv/pytition/pytition_venv/bin/activate
+  cd /srv/pytition/www/pytition
+  eval $(pdm venv activate)
   export PYTHONPATH="/etc/pytition/"
   echo
   echo "###########################"
