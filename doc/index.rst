@@ -10,7 +10,7 @@ Welcome to Pytition's documentation!
 you can host on your own server.
 `Pytition` uses the renown `Django` framework and is easy to install.
 
-Demo: https://pytitiondemo.sionneau.net/
+Demo: https://demo.pytition.org/
 
 .. toctree::
    :maxdepth: 2
