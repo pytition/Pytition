@@ -1299,7 +1299,7 @@ def edit_petition(request, petition_id):
             social_network_form = SocialNetworkForm(data)
 
 
-        if 'newsletter_form_submitted' in request.POST:
+        if not settings.DISABLE_NEWSLETTER and 'newsletter_form_submitted' in request.POST:
             submitted_ctx['newsletter_form_submitted'] = True
             newsletter_form = NewsletterForm(request.POST)
             if newsletter_form.is_valid():
