@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Occitan (Pytition)\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2023-01-24 15:11+0000\n"
+"PO-Revision-Date: 2024-06-19 04:33+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/oc/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.15.1\n"
+"X-Generator: Weblate 5.5.5\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
@@ -689,7 +689,7 @@ msgstr "Perqué volètz senhalar aquesta peticion ?"
 
 #: pytition/petition/templates/layouts/nav.html:76
 msgid "You are about to report this petition to moderation."
-msgstr "Sètz per senhalar aquesta peticion a lo moderacion."
+msgstr "Sètz per senhalar aquesta peticion a la moderacion."
 
 #: pytition/petition/templates/layouts/nav.html:81
 msgid "Report"
