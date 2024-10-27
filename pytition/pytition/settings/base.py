@@ -265,7 +265,6 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 DISABLE_USER_PETITION = False
 
 #:| If set to True, regular users won't be able to create new organizations.
-#:| Only superusers will be allowed to
 RESTRICT_ORG_CREATION = False
 
 #:| Default address for 'Reply to' field in mail sent on account creation
