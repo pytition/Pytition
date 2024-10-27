@@ -71,9 +71,11 @@
                 {% else %}
                 <i>{% trans "You are not part of any organization" %}</i>
                 {% endif %}
+                {% if not settings.RESTRICT_ORG_CREATION or perms.petition.add_organization %}
                 <div class="text-center mt-5">
                     <a href="{% url 'org_create' %}" class="btn btn-primary">{% trans "Create an Organization" %}</a>
                 </div>
+                {% endif %}
             </div>
             <div class="tab-pane fade" id="delete_account_form" role="tabpanel"
                  aria-labelledby="delete-account-form-list">

@@ -1545,7 +1545,7 @@ def account_settings(request):
 # Create a new organization
 @login_required
 def org_create(request):
-    if settings.RESTRICT_ORG_CREATION and not request.user.is_superuser:
+    if settings.RESTRICT_ORG_CREATION and not request.user.has_perm('petition.add_organization'):
         messages.error(request, _("Only super users can create an organization."))
         return redirect("user_dashboard")
     user = get_session_user(request)
