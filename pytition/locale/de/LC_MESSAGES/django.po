@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2023-06-07 15:29+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2024-10-29 10:16+0000\n"
+"Last-Translator: Sascha Knott <weblate@knott.ac>\n"
 "Language-Team: German <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.8.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
@@ -42,7 +42,7 @@ msgstr ""
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
-msgstr ""
+msgstr "Sende die Bestätigungs-Email erneut"
 
 #: pytition/petition/admin.py:85 pytition/petition/admin.py:225
 msgid ""
@@ -50,17 +50,22 @@ msgid ""
 "gradient color. If not, the background color will be a monochrome background "
 "color."
 msgstr ""
+"Dies ist ein Farbverlauf. Wenn aktiviert, wird der Hintergrund einen "
+"Farbverlauf anzeigen. Wenn deaktiviert, wird der Hintergrund aus einer "
+"einzelnen Farbe bestehen."
 
 #: pytition/petition/admin.py:86 pytition/petition/admin.py:87
 #: pytition/petition/admin.py:226 pytition/petition/admin.py:227
 msgid "Only used if gradient is selected"
-msgstr ""
+msgstr "Nur verwendet, wenn Farbverlauf aktiviert ist"
 
 #: pytition/petition/admin.py:88 pytition/petition/admin.py:228
 msgid ""
 "Put a bullet point list of links, it will appear horizontally in the page "
 "footer"
 msgstr ""
+"Füge eine punktierte Link-Liste hinzu. Sie wird am unteren Ende der Seite "
+"angezeigt"
 
 #: pytition/petition/admin.py:89 pytition/petition/admin.py:229
 msgid ""
@@ -69,6 +74,10 @@ msgid ""
 "https://cards-dev.twitter.com/validator and https://developers.facebook.com/"
 "tools/debug/"
 msgstr ""
+"Dies ist die Beschreibung der Petition. Sie wird in Twitter/Facebook-"
+"Beiträgen als Vorschautext angezeigt, wenn der Link in sozialen Netzwerken "
+"veröffentlicht wird. Zu testen über https://cards-dev.twitter.com/validator "
+"und https://developers.facebook.com/tools/debug/"
 
 #: pytition/petition/admin.py:90 pytition/petition/admin.py:230
 msgid ""
@@ -76,11 +85,17 @@ msgid ""
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
 "and https://developers.facebook.com/tools/debug/"
 msgstr ""
+"Das Bild, das in Twitter/Facebook-Beiträgen als Vorschau angezeigt wird, "
+"wenn der Link in sozialen Netzwerken veröffentlicht wird. Zu testen über "
+"https://cards-dev.twitter.com/validator und https://developers.facebook.com/"
+"tools/debug/"
 
 #: pytition/petition/admin.py:91 pytition/petition/admin.py:231
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
+"Erlaubt die Auswahl, ob die Checkbox für die Newsletter-Anmeldung angezeigt "
+"wird oder nicht"
 
 #: pytition/petition/admin.py:92 pytition/petition/admin.py:232
 msgid ""
@@ -94,6 +109,16 @@ msgid ""
 "                    'your-email': ''<br>\n"
 "                    }"
 msgstr ""
+"Nur für eine Anmeldung zum Newsletter via HTTP POST oder GET. Hier Daten "
+"eintragen, die verschickt werden sollen. Die \"Python dictionary syntax\" "
+"wird genutzt, z.B.: <br>\n"
+"                    {'_wpcf7': 21,<br>\n"
+"                    '_wpcf7_version': '4.9',<br>\n"
+"                    '_wpcf7_locale': 'de_DE',<br>\n"
+"                    '_wpcf7_unit_tag': 'wpcf7-f21-p5398-o1',<br>\n"
+"                    '_wpcf7_container_post': '5398',<br>\n"
+"                    'your-email': ''<br>\n"
+"                    }"
 
 #: pytition/petition/admin.py:100 pytition/petition/admin.py:240
 msgid ""
@@ -101,6 +126,10 @@ msgid ""
 "send via GET or POST, containing the email address to subscribe. Following "
 "the example of preceding form field, that would be 'your-email'"
 msgstr ""
+"Nur bei Verwendung der Anmeldemethoden HTTP POST oder GET. Name des Feldes, "
+"das per GET oder POST gesendet werden soll und die E-Mail-Adresse enthält, "
+"die hinterlegt werden soll. In Anlehnung an das vorangegangene Formularfeld "
+"wäre dies „your-email“"
 
 #: pytition/petition/admin.py:101 pytition/petition/admin.py:241
 msgid ""
