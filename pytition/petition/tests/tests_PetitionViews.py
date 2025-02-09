@@ -36,6 +36,19 @@ class PetitionViewTest(TestCase):
         self.assertContains(response, text='<meta property="og:url" content="http://testserver/petition/{}/" />'
                             .format(petition.id))
 
+    def test_fill_petition_when_logged(self):
+        """ if logged in, the petition form should be pre filled with user account info """
+        petition = Petition.objects.filter(user__user__username="julia").first()
+        self.login('john')
+        response = self.client.get(reverse("detail", args=[petition.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['petition'], petition)
+        self.assertTemplateUsed(response, "petition/petition_detail.html")
+
+        form = response.context['form']
+        self.assertEqual(form.is_bound, True)
+        self.assertContains(response, text='value="John"')
+
     def test_petition_success_msg(self):
         """ Test that the success modal is there when signing and confirming """
         petition = Petition.objects.filter(published=True).first()
