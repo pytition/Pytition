@@ -311,7 +311,7 @@ Last command before being able to click on the "http://0.0.0.0:8000/" link that 
 
 .. code-block:: bash
 
-  $ docker-compose exec web ./dev/initialize.sh
+  $ docker-compose exec web pdm run ./dev/initialize.sh
 
 Aaaand that's it! You can now just click on the links:
 
