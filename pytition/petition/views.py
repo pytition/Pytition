@@ -1594,8 +1594,15 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
         except SlugModel.DoesNotExist:
             raise Http404(_("Sorry, we are not able to find this petition"))
         petition = slug.petition
+
+    initial = None if not pytitionuser else {
+        'first_name': pytitionuser.user.first_name,
+        'last_name': pytitionuser.user.last_name,
+        'email': pytitionuser.user.email
+    }
+
     check_petition_is_accessible(request, petition)
-    sign_form = SignatureForm(petition=petition)
+    sign_form = SignatureForm(petition=petition, initial=initial)
 
     reasons = ModerationReason.objects.all()
     ctx = {"user": pytitionuser, "petition": petition, "form": sign_form,
