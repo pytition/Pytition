@@ -6,37 +6,39 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2021-03-20 00:06+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-03-06 12:31+0000\n"
+"Last-Translator: Eder Etxebarria <eder@betxepare.eus>\n"
+"Language-Team: Basque <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:82
 #: pytition/petition/models.py:486
 msgid "Name"
-msgstr ""
+msgstr "Izena"
 
 #: pytition/petition/admin.py:39
 msgid "Number of petitions"
-msgstr ""
+msgstr "Eskaera kopurua"
 
 #: pytition/petition/admin.py:40
 msgid "Number of members"
-msgstr ""
+msgstr "Kide kopurua"
 
 #: pytition/petition/admin.py:49
 msgid "Error: {}"
-msgstr ""
+msgstr "Errorea: {}"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "Sinadurak berretsi"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
