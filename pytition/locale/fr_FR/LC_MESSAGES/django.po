@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Pytition\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2024-03-31 22:24+0200\n"
+"PO-Revision-Date: 2025-03-15 18:44+0200\n"
 "Last-Translator: Fares Sellaouti <fares@rhone.pcf.fr>\n"
 "Language-Team: French (France) <https://weblate.framasoft.org/projects/"
 "pytition/pytitions/fr_FR/>\n"
@@ -468,6 +468,10 @@ msgstr "Nom *"
 #: pytition/petition/forms.py:26 pytition/petition/models.py:441
 msgid "Phone number"
 msgstr "Numéro de téléphone"
+
+#: pytition/petition/forms.py:35 pytition/petition/models.py:456
+msgid "Zip code"
+msgstr "Code postal"
 
 #: pytition/petition/forms.py:27
 msgid "Email address *"

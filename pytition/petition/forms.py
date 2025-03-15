@@ -24,7 +24,7 @@ class SignatureForm(ModelForm):
                                     required=False)
     class Meta:
         model = Signature
-        fields = ['first_name', 'last_name', 'phone', 'email', 'subscribed_to_mailinglist']
+        fields = ['first_name', 'last_name', 'phone', 'zip_code', 'email', 'subscribed_to_mailinglist']
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': _('First name *'), 'class': 'form-control has-feedback eaFullWidthContent',
                                                  'group_class': 'form-group has-feedback'}),
@@ -32,11 +32,14 @@ class SignatureForm(ModelForm):
                                                 'group_class': 'form-group has-feedback'}),
             'phone': forms.TextInput(attrs={'placeholder': _('Phone number'), 'class': 'form-control has-feedback eaFullWidthContent',
                                             'group_class': 'form-group has-feedback'}),
+            'zip_code': forms.TextInput(
+                attrs={'placeholder': _('Zip code'), 'class': 'form-control has-feedback eaFullWidthContent',
+                       'group_class': 'form-group has-feedback'}),
             'email': forms.EmailInput(attrs={'placeholder': _('Email address *'), 'class': 'form-control has-feedback eaFullWidthContent',
                                              'group_class': 'form-group has-feedback'}),
         }
 
-        labels = { f : '' for f in  ['first_name', 'last_name', 'phone', 'email'] }
+        labels = {f: '' for f in ['first_name', 'last_name', 'phone', 'zip_code', 'email']}
 
     def __init__(self, petition=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
