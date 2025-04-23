@@ -13,7 +13,6 @@ dependencies = [
     "django-maintenance-mode",
     "django-phonenumber-field[phonenumbers]==6.3.0",
     "requests~=2.0",
-    "mysqlclient==2.0.1",
     "django-widget-tweaks==1.4.3",
     "beautifulsoup4~=4.6.3",
     "django-formtools==2.2",
@@ -21,12 +20,20 @@ dependencies = [
     "lxml[html_clean]",
     "uwsgi",
     "jinja2<3.1",
-    "psycopg[binary]==3.1.19",
+    "python-dotenv~=1.1.0",
+    "dj-database-url~=2.3.0",
 ]
 requires-python = ">=3.8"
 readme = "README.md"
-license = {text = "BSD 3-Clause"}
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 
+[tool.setuptools.packages.find]
+where = ["pytition"]
+
+[project.optional-dependencies]
+mysql = ["mysqlclient~=2.0.1"]
+postgres = ["psycopg[binary]~=3.1.19"]
 
 [tool.pdm]
 distribution = false
