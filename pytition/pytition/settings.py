@@ -9,18 +9,41 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import logging
 import os
+import re
+from pathlib import Path
+
+import dj_database_url
 import django.conf.locale
-from django.contrib.messages import constants as messages
 from django.urls import reverse_lazy
 from django.conf import global_settings
 from django.utils.translation import gettext_lazy
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from . import getenv_bool
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '[::1]']
+logger = logging.getLogger(__name__)
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+DOTENV_FILE = os.getenv("DOTENV_FILE")
+
+if DOTENV_FILE is None:
+    load_dotenv(dotenv_path=BASE_DIR.parent / ".env")
+elif not os.access(Path(DOTENV_FILE).resolve(), os.R_OK):
+    logger.error(
+        "Environement variable 'DOTENV_FILE' is set but points to a file that is not readable"
+    )
+else:
+    load_dotenv(dotenv_path=DOTENV_FILE)
+
+DEBUG = getenv_bool("DEBUG", default=False)
+
+SECRET_KEY = os.environ["SECRET_KEY"]
+
+SITES = re.split(r"\s*,\s*", os.environ.get("SITES", ""))
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '[::1]'] + SITES
 
 # Application definition
 
@@ -85,25 +108,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pytition.wsgi.application'
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+DATABASES = {
+    'default': dj_database_url.config(default=f"sqlite:///{BASE_DIR.parent / 'dev.sqlite3'}")
+}
 
-if os.environ.get('USE_POSTGRESQL'):
-    from .pgsql import DATABASES
+USE_MAIL_QUEUE = getenv_bool("USE_MAIL_QUEUE", False)
 
-#:| Set it to ``True`` if you want email sending to retry upon failure.
-#:| Email transmition naturally have retries *if the first SMTP server accepts it*
-#:| If your SMTP server refuses to handle the email (anti-flood throttle?) then it
-#:| is up to you to retry, and this is what the mail queue does for you.
-#:| This is especially needed if you don't own the first-hop SMTP server
-#:| and cannot configure it to always accept your emails regardless of the sending
-#:| frequency.
-#:| It is **HIGHLY** recommended to set this to ``True``.
-#:| If you chose to use the mail queue, you must also either
-#:
-#: * set a cron job (automatic task execution), or
-#: * serve the Django app through uwsgi (recommended setup)
-#:
-#: .. warning:: The first time you switch this setting from ``False`` to ``True``, you must run the ``DJANGO_SETTINGS_MODULE=pytition.settings.config python3 pytition/manage.py migrate`` command again. Beware to run it while being in your virtualenv.
-USE_MAIL_QUEUE = False
+if USE_MAIL_QUEUE:
+    INSTALLED_APPS += ('mailer',)
+    # this enable mailer by default in django.send_email
+    EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 # set it to True if you use the 'mailer' backend, and a external Crontab has been set
 MAIL_EXTERNAL_CRON_SET = False
@@ -151,8 +165,8 @@ LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"), )
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.environ.get('STATIC_ROOT')
+STATIC_URL = os.getenv("STATIC_ROOT", "/static/")
+STATIC_ROOT = os.getenv("STATIC_ROOT", global_settings.STATIC_ROOT)
 LOGIN_URL = '/petition/login/'
 
 TINYMCE_DEFAULT_CONFIG = {
@@ -203,26 +217,8 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 TINYMCE_INCLUDE_JQUERY = True
 
-#:| The name of your Pytition instance.
-SITE_NAME = "Pytition"
-
-#:| Whether you want to allow anyone to create an account and host petitions
-#:| on your Pytition instance.
-#:| Set it to ``False`` for a private instance.
-#:| Set it to ``True`` for a public instance.
-ALLOW_REGISTER = True
 
 LOGIN_REDIRECT_URL = reverse_lazy("user_dashboard")
-DEFAULT_INDEX_THUMBNAIL = "/img/petition_icon.svg"
-
-#:| Leave it set to None for no footer.
-#:| This should contain the relative path to your footer template.
-#:| That would be the location for any "legal mention" / "GDPR" / "TOS" link.
-#:
-#: Example::
-#:
-#:   FOOTER_TEMPLATE = 'layouts/footer.html.example'
-FOOTER_TEMPLATE = None
 
 #INDEX_PAGE_ORGA = "RAP"
 #INDEX_PAGE_USER = "admin"
@@ -254,27 +250,22 @@ EXTRA_LANG_INFO = {
 LANG_INFO = dict(django.conf.locale.LANG_INFO, **EXTRA_LANG_INFO)
 django.conf.locale.LANG_INFO = LANG_INFO
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
-MEDIA_URL = "/mediaroot/"
-
 FILE_UPLOAD_PERMISSIONS = 0o640
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 
-
-#:| If set to True, users won't be able to create petitions in their name, but only for an organization
-DISABLE_USER_PETITION = False
-
-#:| If set to True, regular users won't be able to create new organizations.
-RESTRICT_ORG_CREATION = False
-
-#:| Default address for 'Reply to' field in mail sent on account creation
-DEFAULT_NOREPLY_MAIL = "noreply@domain.tld"
-
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
 # Following setting prevents error 500, due to issue #76 of django_maintenance_mode
-MAINTENANCE_MODE_STATE_FILE_PATH = os.path.join(BASE_DIR, 'maintenance_mode_state.txt')
+MAINTENANCE_MODE_STATE_FILE_PATH = BASE_DIR.parent / "maintenance_mode_state.txt"
 
-# Set default region to France with regard to accepting phone numbers without international prefix.
-# The +33 prefix for France is therefore optional, but it might be mandatory to add a prefix for 
-# other countries. This does not change anything for translations.
-PHONENUMBER_DEFAULT_REGION = "FR"
+# User overridable settings in .env
+SITE_NAME = os.getenv("SITE_NAME", "Pytition")
+ALLOW_REGISTER = getenv_bool("ALLOW_REGISTER", True)
+DISABLE_USER_PETITION = getenv_bool("DISABLE_USER_PETITION", False)
+RESTRICT_ORG_CREATION = getenv_bool("RESTRICT_ORG_CREATION", False)
+FOOTER_TEMPLATE = os.getenv("FOOTER_TEMPLATE")
+DEFAULT_INDEX_THUMBNAIL = os.getenv("DEFAULT_INDEX_THUMBNAIL", "/img/petition_icon.svg")
+MEDIA_ROOT = os.getenv("MEDIA_URL", BASE_DIR / "mediaroot")
+MEDIA_URL = os.getenv("MEDIA_URL", "/mediaroot/")
+DEFAULT_NOREPLY_MAIL = os.getenv("DEFAULT_NOREPLY_MAIL", f"noreply@{SITES[0] if SITES else '127.0.0.1'}")
+PHONENUMBER_DEFAULT_REGION = os.getenv("PHONENUMBER_DEFAULT_REGION", "FR")
+

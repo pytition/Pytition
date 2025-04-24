@@ -13,3 +13,5 @@ bcrypt
 lxml[html_clean]
 uwsgi
 jinja2<3.1
+python-dotenv~=1.1.0
+dj-database-url~=2.3.0
