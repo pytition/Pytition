@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2025-07-10 05:35+0000\n"
+"PO-Revision-Date: 2025-08-08 00:43+0000\n"
 "Last-Translator: lino costa <rosalino.costapereira@gmail.com>\n"
 "Language-Team: Portuguese <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/pt/>\n"
@@ -1017,7 +1017,7 @@ msgstr[1] ""
 
 #: pytition/petition/templates/petition/index.html:11
 msgid "Welcome to Pytition"
-msgstr "Bem-vindo ao Pytition"
+msgstr "Bem-vindo ao petição"
 
 #: pytition/petition/templates/petition/index.html:12
 msgid "Make things change!"
@@ -1241,7 +1241,7 @@ msgstr "Por favor, corrija os erros abaixo."
 #: pytition/petition/templates/petition/petition_detail.html:90
 #: pytition/petition/templates/petition/petition_detail.html:115
 msgid "Thank you!"
-msgstr "Obrigado"
+msgstr "Obrigado!"
 
 #: pytition/petition/templates/petition/petition_detail.html:95
 msgid ""
