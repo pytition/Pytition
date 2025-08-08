@@ -6,41 +6,48 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2022-08-15 21:30+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-08-08 00:43+0000\n"
+"Last-Translator: lino costa <rosalino.costapereira@gmail.com>\n"
+"Language-Team: Tetum <https://weblate.framasoft.org/projects/pytition/"
+"pytitions/tet/>\n"
 "Language: tet\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
 msgid "Name"
-msgstr ""
+msgstr "Naran"
 
 #: pytition/petition/admin.py:39
+#, fuzzy
 msgid "Number of petitions"
-msgstr ""
+msgstr "Númeru petisaun sira"
 
 #: pytition/petition/admin.py:40
+#, fuzzy
 msgid "Number of members"
-msgstr ""
+msgstr "Númeru membru sira"
 
 #: pytition/petition/admin.py:49
+#, fuzzy
 msgid "Error: {}"
-msgstr ""
+msgstr "Sala"
 
 #: pytition/petition/admin.py:57
+#, fuzzy
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "Konfirma assinatura sira"
 
 #: pytition/petition/admin.py:58
+#, fuzzy
 msgid "Send the confirmation email once again"
-msgstr ""
+msgstr "Hatán fali email konfirmasaun"
 
 #: pytition/petition/admin.py:85 pytition/petition/admin.py:225
 msgid ""
