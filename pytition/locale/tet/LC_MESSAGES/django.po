@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2022-08-15 21:30+0200\n"
-"PO-Revision-Date: 2025-08-08 00:43+0000\n"
+"PO-Revision-Date: 2025-08-08 09:46+0000\n"
 "Last-Translator: lino costa <rosalino.costapereira@gmail.com>\n"
 "Language-Team: Tetum <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/tet/>\n"
@@ -21,6 +21,7 @@ msgstr ""
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
+#, fuzzy
 msgid "Name"
 msgstr "Naran"
 
@@ -50,30 +51,40 @@ msgid "Send the confirmation email once again"
 msgstr "Hatán fali email konfirmasaun"
 
 #: pytition/petition/admin.py:85 pytition/petition/admin.py:225
+#, fuzzy
 msgid ""
 "This is a gradient color. If selected, the background color will be a "
 "gradient color. If not, the background color will be a monochrome background "
 "color."
 msgstr ""
+"Kolor ida ne’e mak kolor gradiente. Se hili kolor ida ne’e, entaun fundu sei "
+"uza kolor gradiente. Se la hili, entaun fundu sei uza kolor monokromu"
 
 #: pytition/petition/admin.py:86 pytition/petition/admin.py:87
 #: pytition/petition/admin.py:226 pytition/petition/admin.py:227
 msgid "Only used if gradient is selected"
-msgstr ""
+msgstr "Uza deit se gradiente mak hili"
 
 #: pytition/petition/admin.py:88 pytition/petition/admin.py:228
+#, fuzzy
 msgid ""
 "Put a bullet point list of links, it will appear horizontally in the page "
 "footer"
 msgstr ""
+"Tau link sira iha lista ho pontu (bullet), sei aprese iha kraik pájina iha "
+"linha ida"
 
 #: pytition/petition/admin.py:89 pytition/petition/admin.py:229
+#, fuzzy
 msgid ""
 "This is the description of the petition, it will be displayed in Twitter/"
 "Facebook cards when the link is posted to social networks. To be tested via "
 "https://cards-dev.twitter.com/validator and https://developers.facebook.com/"
 "tools/debug/"
 msgstr ""
+"Deskrisaun petisaun ne’e, sei aprese iha karta Twitter/Facebook bainhira "
+"link tau iha redes sociais. Bele halo teste liuhosi https://cards-"
+"dev.twitter.com/validator no https://developers.facebook.com/tools/debug/\""
 
 #: pytition/petition/admin.py:90 pytition/petition/admin.py:230
 msgid ""
@@ -81,13 +92,20 @@ msgid ""
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
 "and https://developers.facebook.com/tools/debug/"
 msgstr ""
+"Fóto ne’ebé sei haree iha karta Twitter/Facebook bainhira link tau iha redes "
+"sosial. Bele halo teste liu hosi https://cards-dev.twitter.com/validator no "
+"https://developers.facebook.com/tools/debug/\""
 
 #: pytition/petition/admin.py:91 pytition/petition/admin.py:231
+#, fuzzy
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
+"Hatama posibilita husi itilizadór atu hili se checkbox inscrição boletim "
+"informasaun sei mostra ka lae"
 
 #: pytition/petition/admin.py:92 pytition/petition/admin.py:232
+#, fuzzy
 msgid ""
 "Only in case subscription to the newsletter via HTTP POST or GET methods. "
 "Put here data to be sent, using Python dictionary syntax. e.g.: <br>\n"
@@ -99,27 +117,41 @@ msgid ""
 "                    'your-email': ''<br>\n"
 "                    }"
 msgstr ""
+"Apenas iha kazu inscrição boletim informasaun husi metodu HTTP POST ka GET. "
+"Tau data ne’e atu fó ba, uza sintaxe dicionáriu Python.\""
 
 #: pytition/petition/admin.py:100 pytition/petition/admin.py:240
+#, fuzzy
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Name of the field to "
 "send via GET or POST, containing the email address to subscribe. Following "
 "the example of preceding form field, that would be 'your-email'"
 msgstr ""
+"Apenas iha kazu inscrição boletim informasaun husi metodu HTTP POST ka GET. "
+"Tau data ne’e atu envia, uza sintaxe dicionáriu Python"
 
 #: pytition/petition/admin.py:101 pytition/petition/admin.py:241
+#, fuzzy
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Adresse HTTP à "
 "requêter via GET ou POST pour enregistrer quelqu'un sur la newsletter"
 msgstr ""
+"Apenas bainhira metodu inscrição boletim informasaun usa HTTP POST ka GET. "
+"Endereçu HTTP atu requizita liu husi GET ka POST hodi regista ema iha "
+"boletim informasaun"
 
 #: pytition/petition/admin.py:102 pytition/petition/admin.py:242
+#, fuzzy
 msgid ""
 "Only when EMAIL subscription method is used. Inscrire ici la syntaxe de "
 "sujet du mail qui permet d'inscrire quelqu'un à la newsletter. Indiquez {} à "
 "la place où le mail du signataire doit être inséré. Ex: 'ADD NOM_LISTE {} "
 "NOM_SIGNATAIRE'"
 msgstr ""
+"Apenas bainhira metodu inscrição EMAIL mak uza. Tau iha ne’e sintaxe topiku "
+"email ne’ebé fó posibilita atu inscreve ema iha boletim informasaun. Usa {} "
+"iha fali laran ne’ebé email signatáriu tenki tau. Ex: 'ADD NOM_LISTE {} "
+"NOM_SIGNATAIRE"
 
 #: pytition/petition/admin.py:103 pytition/petition/admin.py:243
 msgid ""
