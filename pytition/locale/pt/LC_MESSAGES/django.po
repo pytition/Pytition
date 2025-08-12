@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2025-08-08 00:43+0000\n"
+"PO-Revision-Date: 2025-08-12 15:18+0000\n"
 "Last-Translator: lino costa <rosalino.costapereira@gmail.com>\n"
 "Language-Team: Portuguese <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/pt/>\n"
@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Apenas quando o método de subscrição por E-MAIL é utilizado. O remetente do "
 "e-mail que permite registar alguém na newsletter. Geralmente, trata-se de um "
-"endereço que é administrador da lista SYMPA ou MAILMAN."
+"endereço que é administrador da lista SYMPA ou MAILMAN"
 
 #: pytition/petition/admin.py:104 pytition/petition/admin.py:244
 msgid ""
@@ -167,12 +167,13 @@ msgstr ""
 "mail de administração da lista, por exemplo: sympa@NOM_LISTE.listes.vox.coop"
 
 #: pytition/petition/admin.py:105 pytition/petition/admin.py:245
+#, fuzzy
 msgid ""
 "This selects the newsletter subscription method. It is either HTTP GET or "
 "POST or via sending EMAIL to the newsletter admin address"
 msgstr ""
 "Seleciona o método de subscrição da newsletter. Pode ser HTTP GET ou POST ou "
-"através do envio de um E-MAIL para o endereço do administrador da newsletter."
+"através do envio de um E-MAIL para o endereço do administrador da newsletter"
 
 #: pytition/petition/admin.py:106 pytition/petition/admin.py:246
 msgid ""
@@ -463,11 +464,11 @@ msgstr "Endereço de e-mail *"
 
 #: pytition/petition/forms.py:66
 msgid "There is already a petition with this title"
-msgstr "Já existe uma petição com este título."
+msgstr "Já existe uma petição com este título"
 
 #: pytition/petition/forms.py:78
 msgid "You should either provide an org name or a user name"
-msgstr "Deve fornecer um nome de organização ou um nome de utilizador."
+msgstr "Deve fornecer um nome de organização ou um nome de utilizador"
 
 #: pytition/petition/forms.py:89
 msgid "Publish the petition now?"
@@ -730,7 +731,7 @@ msgstr "Publicar"
 
 #: pytition/petition/templates/layouts/wizard_layout.html:23
 msgid "Save your petition and publish it if it's ready"
-msgstr "Guarde a sua petição e publique-a quando estiver pronta."
+msgstr "Guarde a sua petição e publique-a quando estiver pronta"
 
 #: pytition/petition/templates/petition/account_settings.html:10
 msgid "Personal Settings"
@@ -770,7 +771,7 @@ msgid ""
 "or the last member"
 msgstr ""
 "Não pode sair de uma organização onde é o último administrador ou o último "
-"membro."
+"membro"
 
 #: pytition/petition/templates/petition/account_settings.html:72
 msgid "You are not part of any organization"
@@ -815,7 +816,7 @@ msgstr "Sair de uma organização"
 
 #: pytition/petition/templates/petition/account_settings.html:121
 msgid "Are you sure you want to leave"
-msgstr "Tem a certeza de que deseja sair?"
+msgstr "Tem a certeza de que deseja sair"
 
 #: pytition/petition/templates/petition/confirmation_email.html:10
 msgid "Thank you"
@@ -875,7 +876,7 @@ msgstr "Estilo e aparência"
 #: pytition/petition/templates/petition/edit_petition.html:303
 #: pytition/petition/templates/petition/edit_petition.html:309
 msgid "Social Networks"
-msgstr "Redes sociais:"
+msgstr "Redes sociais"
 
 #: pytition/petition/templates/petition/edit_petition.html:61
 #: pytition/petition/templates/petition/edit_petition.html:289
@@ -1010,6 +1011,9 @@ msgid_plural ""
 "              %(signature_number)s signatures\n"
 "            "
 msgstr[0] ""
+"\n"
+"              %(signature_number)s assinatura\n"
+"            "
 msgstr[1] ""
 "\n"
 "              %(signature_number)s assinaturas\n"
