@@ -12,13 +12,7 @@ On Debian derivatives
 .. code-block:: bash
 
   $ sudo apt update
-  $ sudo apt install git virtualenv python3-dev build-essential mariadb-server gettext libzip-dev libssl-dev
-
-On Ubuntu 18.04 LTS you need to install libmariadbclient-dev:
-
-.. code-block:: bash
-
-  $ sudo apt install libmariadbclient-dev
+  $ sudo apt install git python3-venv python3-dev build-essential mariadb-server gettext libzip-dev libssl-dev
 
 On Ubuntu 20.04 LTS and later you need to install libmariadb-dev-compat:
 
