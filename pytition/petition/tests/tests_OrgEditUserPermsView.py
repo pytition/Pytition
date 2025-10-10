@@ -24,4 +24,4 @@ class OrgEditUserPermsViewTest(TestCase):
     def test_OrgEditUserPermsViewOk(self):
         julia = self.login("julia")
         response = self.client.get(reverse("org_edit_user_perms", kwargs={'orgslugname': 'rap', 'user_name': 'julia'}))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)

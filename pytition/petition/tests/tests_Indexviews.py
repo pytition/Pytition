@@ -96,4 +96,4 @@ class IndexViewTest(TestCase):
 
             response = self.client.get('/', follow=True)
             self.assertRedirects(response, reverse("user_dashboard"))
-            self.assertEquals(response.context['user'], pu)
+            self.assertEqual(response.context['user'], pu)

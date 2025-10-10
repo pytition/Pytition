@@ -24,7 +24,7 @@ class Command(BaseCommand):
             checkout_cmd = f"git checkout {version} -q"
             run(checkout_cmd)
     
-            run("pip3 install --upgrade -r requirements.txt")
+            run("pdm sync")
     
             os.chdir(settings.BASE_DIR)
             run("python3 manage.py migrate")

@@ -50,8 +50,8 @@ class OrgDeleteMemberViewTest(TestCase):
         self.logout()
         julia = self.login("julia")
         response = self.client.get(reverse('org_delete_member', kwargs={'orgslugname': 'rap'}) + "?member=max")
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(response["Content-Type"], "application/json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/json")
 
 
     def test_OrgDeleteMemberViewKoForbidden(self):
@@ -93,5 +93,5 @@ class OrgDeleteMemberViewTest(TestCase):
         julia_perms.can_remove_members = True
         julia_perms.save()
         response = self.client.get(reverse('org_delete_member', kwargs={'orgslugname': 'rap'}) + "?member=julia")
-        self.assertEquals(response.status_code, 403)
-        self.assertEquals(response["Content-Type"], "application/json")
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response["Content-Type"], "application/json")

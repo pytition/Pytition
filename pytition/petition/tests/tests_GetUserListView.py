@@ -25,8 +25,8 @@ class GetUserListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], "application/json")
         values = response.json()['values']
-        self.assertEquals(len(values), 1)
-        self.assertEquals(values[0], "admin")
+        self.assertEqual(len(values), 1)
+        self.assertEqual(values[0], "admin")
 
     def test_GetUserListViewEmptySearchOk(self):
         self.login("julia")
@@ -34,7 +34,7 @@ class GetUserListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], "application/json")
         values = response.json()['values']
-        self.assertEquals(len(values), 0)
+        self.assertEqual(len(values), 0)
 
     def test_GetUserListViewEmptyStringSearchOk(self):
         self.login("julia")
@@ -42,4 +42,4 @@ class GetUserListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], "application/json")
         values = response.json()['values']
-        self.assertEquals(len(values), 0)
+        self.assertEqual(len(values), 0)

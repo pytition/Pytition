@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.11
 ENV PYTHONUNBUFFERED 1
 ENV USE_POSTGRESQL 1
 ENV PDM_PYTHON /venv/.venv/bin/python

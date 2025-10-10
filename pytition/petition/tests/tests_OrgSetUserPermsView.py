@@ -40,7 +40,7 @@ class OrgSetUserPermsViewTest(TestCase):
         self.assertRedirects(response, reverse("org_edit_user_perms",
                                                kwargs={'orgslugname': 'rap', 'user_name': 'julia'}))
         julia_perms.refresh_from_db()
-        self.assertEquals(julia_perms.can_remove_members, False)
+        self.assertEqual(julia_perms.can_remove_members, False)
 
     def test_OrgSetUserPermsViewLastAdminRemoveItsPermsKO(self):
         julia = self.login("julia")
@@ -57,14 +57,14 @@ class OrgSetUserPermsViewTest(TestCase):
                                                kwargs={'orgslugname': 'rap', 'user_name': 'julia'}))
         self.assertEqual(response.context['permissions'].can_modify_permissions, True)
         julia_perms.refresh_from_db()
-        self.assertEquals(julia_perms.can_modify_permissions, True)
+        self.assertEqual(julia_perms.can_modify_permissions, True)
         messages = response.context['messages']
         self.assertGreaterEqual(len(messages), 1)
         ThereIsAnyError = False
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, True)
+        self.assertEqual(ThereIsAnyError, True)
 
     def test_OrgSetUserPermsViewSeveralAdminsRemoveItsPermsOK(self):
         julia = self.login("julia")
@@ -82,14 +82,14 @@ class OrgSetUserPermsViewTest(TestCase):
                                                kwargs={'orgslugname': 'alternatiba', 'user_name': 'julia'}))
         self.assertEqual(response.context['permissions'].can_modify_permissions, False)
         julia_perms.refresh_from_db()
-        self.assertEquals(julia_perms.can_modify_permissions, False)
+        self.assertEqual(julia_perms.can_modify_permissions, False)
         messages = response.context['messages']
         self.assertGreaterEqual(len(messages), 1)
         ThereIsAnyError = False
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, False)
+        self.assertEqual(ThereIsAnyError, False)
 
     def test_OrgSetUserPermsViewLastAdminSeveralMembersRemoveItsPermsKO(self):
         julia = self.login("julia")
@@ -107,11 +107,11 @@ class OrgSetUserPermsViewTest(TestCase):
                                                kwargs={'orgslugname': 'les-amis-de-la-terre', 'user_name': 'julia'}))
         self.assertEqual(response.context['permissions'].can_modify_permissions, True)
         julia_perms.refresh_from_db()
-        self.assertEquals(julia_perms.can_modify_permissions, True)
+        self.assertEqual(julia_perms.can_modify_permissions, True)
         messages = response.context['messages']
         self.assertGreaterEqual(len(messages), 1)
         ThereIsAnyError = False
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, True)
+        self.assertEqual(ThereIsAnyError, True)

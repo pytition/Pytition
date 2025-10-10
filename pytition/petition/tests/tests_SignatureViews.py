@@ -116,7 +116,7 @@ class PetitionViewTest(TestCase):
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, False)
+        self.assertEqual(ThereIsAnyError, False)
 
     def test_show_signatures_post_deleteOK_org(self):
         self.login("julia")
@@ -144,7 +144,7 @@ class PetitionViewTest(TestCase):
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, False)
+        self.assertEqual(ThereIsAnyError, False)
 
     def test_show_signatures_post_deleteKONoRightsUser(self):
         self.login("julia")
@@ -165,14 +165,14 @@ class PetitionViewTest(TestCase):
         self.assertRedirects(response, reverse("user_dashboard"))
         self.assertTemplateUsed(response, "petition/user_dashboard.html")
         s = Signature.objects.get(pk=sid)
-        self.assertEquals(s.id, sid) # dummy test, we just want the previous line not to raise a DoesNotExist exception
+        self.assertEqual(s.id, sid) # dummy test, we just want the previous line not to raise a DoesNotExist exception
         messages = response.context['messages']
         self.assertGreaterEqual(len(messages), 1)
         ThereIsAnyError = False
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, True)
+        self.assertEqual(ThereIsAnyError, True)
 
     def test_show_signatures_post_deleteKONoRightsOrg(self):
         self.login("max")
@@ -193,14 +193,14 @@ class PetitionViewTest(TestCase):
         self.assertRedirects(response, reverse("org_dashboard", args=[org.slugname]))
         self.assertTemplateUsed(response, "petition/org_dashboard.html")
         s = Signature.objects.get(pk=sid)
-        self.assertEquals(s.id, sid) # dummy test, we just want the previous line not to raise a DoesNotExist exception
+        self.assertEqual(s.id, sid) # dummy test, we just want the previous line not to raise a DoesNotExist exception
         messages = response.context['messages']
         self.assertGreaterEqual(len(messages), 1)
         ThereIsAnyError = False
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, True)
+        self.assertEqual(ThereIsAnyError, True)
 
     def test_show_signatures_post_resendOK_org(self):
         self.login("julia")
@@ -226,7 +226,7 @@ class PetitionViewTest(TestCase):
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, False)
+        self.assertEqual(ThereIsAnyError, False)
 
     def test_show_signatures_post_resendOK(self):
         julia = self.login("julia")
@@ -251,7 +251,7 @@ class PetitionViewTest(TestCase):
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, False)
+        self.assertEqual(ThereIsAnyError, False)
 
     def test_show_signatures_post_resendallOK(self):
         julia = self.login("julia")
@@ -275,7 +275,7 @@ class PetitionViewTest(TestCase):
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, False)
+        self.assertEqual(ThereIsAnyError, False)
 
     def test_show_signatures_post_resendallOK_org(self):
         self.login("julia")
@@ -300,4 +300,4 @@ class PetitionViewTest(TestCase):
         for msg in messages:
             if msg.level == constants.ERROR:
                 ThereIsAnyError = True
-        self.assertEquals(ThereIsAnyError, False)
+        self.assertEqual(ThereIsAnyError, False)

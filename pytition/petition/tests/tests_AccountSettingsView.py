@@ -724,10 +724,10 @@ class AccountSettingsViewTest(TestCase):
         julia = self.login("julia")
 
         response = self.client.get(reverse("account_settings"))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         orgs = response.context['orgs']
         for org in orgs:
             if org.is_last_admin(julia):
-                self.assertEquals(org.leave, False)
+                self.assertEqual(org.leave, False)
             if org.members.count() == 1 and julia in org.members.all():
-                self.assertEquals(org.leave, False)
+                self.assertEqual(org.leave, False)

@@ -28,7 +28,7 @@ class OrgCreateViewTest(TestCase):
     def test_CreateGetFormOK(self):
         john = self.login("john")
         response = self.client.get(reverse("org_create"))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_CreateOK(self):
         john = self.login("john")
@@ -41,8 +41,8 @@ class OrgCreateViewTest(TestCase):
         self.assertRedirects(response, reverse("user_dashboard"))
         user = response.context['user']
         orgs = user.organization_set.all()
-        self.assertEquals(user, john)
-        self.assertEquals(len(orgs), previous_org_numbers + 1)
+        self.assertEqual(user, john)
+        self.assertEqual(len(orgs), previous_org_numbers + 1)
         org = Organization.objects.get(slugname=slugify(newname))
         self.assertEqual(org.slugname, slugify(newname))
         self.assertEqual(org.name, newname)
@@ -61,17 +61,17 @@ class OrgCreateViewTest(TestCase):
         self.assertRedirects(response, reverse("user_dashboard"))
         user = response.context['user']
         orgs = user.organization_set.all()
-        self.assertEquals(user, john)
-        self.assertEquals(len(orgs), previous_org_numbers + 1)
+        self.assertEqual(user, john)
+        self.assertEqual(len(orgs), previous_org_numbers + 1)
         org = Organization.objects.get(slugname=slugify(newname))
         self.assertEqual(org.slugname, slugify(newname))
         self.assertEqual(org.name, newname)
 
         # second creation try
         response = self.client.post(reverse("org_create"), data, follow=True)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         org_count = user.organization_set.filter(name=newname).count()
-        self.assertEquals(org_count, 1)
+        self.assertEqual(org_count, 1)
 
     def test_CreateEmptyKO(self):
         john = self.login("john")
@@ -81,11 +81,11 @@ class OrgCreateViewTest(TestCase):
             'name': newname,
         }
         response = self.client.post(reverse("org_create"), data)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         user = response.context['user']
         orgs = user.organization_set.all()
-        self.assertEquals(user, john)
-        self.assertEquals(len(orgs), previous_org_numbers)
+        self.assertEqual(user, john)
+        self.assertEqual(len(orgs), previous_org_numbers)
         empty_org_name_number = Organization.objects.filter(name='').count()
         self.assertEqual(empty_org_name_number, 0)
 
@@ -113,11 +113,11 @@ class OrgCreateViewTest(TestCase):
         data = {'name': 'New Org'}
         response = self.client.post(reverse("org_create"), data, follow=True)
         self.assertRedirects(response, reverse("user_dashboard"))
-        self.assertEquals(Organization.objects.count(), init_org_number)
+        self.assertEqual(Organization.objects.count(), init_org_number)
         self.assertContains(response, "Only super users can create an organization.")
 
         self.login("admin")
         response = self.client.post(reverse("org_create"), data, follow=True)
         self.assertRedirects(response, reverse("user_dashboard"))
-        self.assertEquals(Organization.objects.count(), init_org_number + 1)
+        self.assertEqual(Organization.objects.count(), init_org_number + 1)
         self.assertNotContains(response, "Only super users can create an organization.")
