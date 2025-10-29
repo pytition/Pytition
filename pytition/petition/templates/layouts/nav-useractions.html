@@ -37,10 +37,13 @@
             <span class="oi oi-cog"></span>
             {% trans "Settings" %}
           </a>
-          <a class="dropdown-item" href="{% url "logout" %}?next=/">
-            <span class="oi oi-account-logout"></span>
-            {% trans "Logout" %}
-          </a>
+          <form action="{% url "logout" %}?next=/" method="post">
+            {% csrf_token %}
+            <button class="dropdown-item" type="submit">
+                <span class="oi oi-account-logout"></span>
+                {% trans "Logout" %}
+            </button>
+          </form>
         </div>
       {% endblock navdropdown %}
     </li>
