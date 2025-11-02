@@ -59,8 +59,10 @@
     data-toggle="list" aria-controls="social_network_form" role="tab"><span class="oi oi-share-boxed"></span> {% trans "Social Networks" %}</a>
     <a href="#email_form" class="list-group-item list-group-item-info list-group-item-action"
     data-toggle="list" aria-controls="email_form" role="tab"><span class="oi oi-envelope-closed"></span> {% trans "E-mail setup" %}</a>
-    <a href="#newsletter_form" class="list-group-item list-group-item-info list-group-item-action"
-    data-toggle="list" aria-controls="newsletter_form" role="tab"><span class="oi oi-rss"></span> {% trans "Newsletter setup" %}</a>
+    {% if not settings.DISABLE_NEWSLETTER %}
+        <a href="#newsletter_form" class="list-group-item list-group-item-info list-group-item-action"
+        data-toggle="list" aria-controls="newsletter_form" role="tab"><span class="oi oi-rss"></span> {% trans "Newsletter setup" %}</a>
+    {% endif %}
     <a href="#preview" class="list-group-item list-group-item-info list-group-item-action"
     data-toggle="list" aria-controls="preview" role="tab"><span class="oi oi-clipboard"></span> {% trans "Preview petition" %}</a>
 </div>
@@ -247,13 +249,15 @@
             <button name="email_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
         </form>
     </div>
-    <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
-        aria-labelledby="list-newsletter-form-list">
-        <form method="POST" id="form_newsletter">{% csrf_token %}
-            {% include "petition/bs4_form.html" with form=newsletter_form %}
-            <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
-        </form>
-    </div>
+    {% if not settings.DISABLE_NEWSLETTER %}
+        <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
+            aria-labelledby="list-newsletter-form-list">
+            <form method="POST" id="form_newsletter">{% csrf_token %}
+                {% include "petition/bs4_form.html" with form=newsletter_form %}
+                <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
+            </form>
+        </div>
+    {% endif %}
     <div class="tab-pane fade" id="preview" role="tabpanel"
         aria-labelledby="list-preview-list" data-src="{{ petition.url }}">
             <div class="alert alert-warning" role="alert">
@@ -502,7 +506,7 @@ function formHasChanged(){
         || (content_tab_changed && !formcontent.data('submitted'))
         || (formstyle.serialize() !== formstyle.data('serialize') && !formstyle.data('submitted'))
         || (formemail.serialize() !== formemail.data('serialize') && !formemail.data('submitted'))
-        || (formnewsletter.serialize() !== formnewsletter.data('serialize') && !formnewsletter.data('submitted'));
+        || (formnewsletter.length > 0 && formnewsletter.serialize() !== formnewsletter.data('serialize') && !formnewsletter.data('submitted'));
 
 }
 
