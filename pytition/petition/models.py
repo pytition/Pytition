@@ -1,25 +1,24 @@
+import html
+import uuid
+
+from colorfield.fields import ColorField
+from django.conf import settings
+from django.contrib.auth.hashers import get_hasher
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.db import transaction
+from django.db.models.signals import post_save, post_delete, pre_save
+from django.dispatch import receiver
+from django.urls import reverse
+from django.utils import timezone
 from django.utils.html import mark_safe, strip_tags
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
-from django.core.exceptions import ValidationError
-from django.db.models.signals import post_save, post_delete, pre_save
-from django.dispatch import receiver
-from django.conf import settings
-from django.contrib.auth.hashers import get_hasher
-from django.db import transaction
-from django.urls import reverse
-from django.utils import timezone
-
-from tinymce import models as tinymce_models
-from colorfield.fields import ColorField
 from phonenumber_field.modelfields import PhoneNumberField
+from tinymce import models as tinymce_models
 
 from .helpers import sanitize_html
-
-import html
-import uuid
 
 
 # ----------------------------------- PytitionUser ----------------------------
@@ -454,6 +453,7 @@ class Signature(models.Model):
     last_name = models.CharField(max_length=50, verbose_name=gettext_lazy("Last name"))
     phone = PhoneNumberField(max_length=20, blank=True, verbose_name=gettext_lazy("Phone number"))
     email = models.EmailField(verbose_name=gettext_lazy("Email address"))
+    zip_code = models.CharField(max_length=5, verbose_name=gettext_lazy("Zip code"))
     confirmation_hash = models.CharField(max_length=128)
     confirmed = models.BooleanField(default=False, verbose_name=gettext_lazy("Confirmed"))
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE, verbose_name=gettext_lazy("Petition"))
