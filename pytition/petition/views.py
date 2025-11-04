@@ -19,6 +19,7 @@ from django.db import transaction, IntegrityError
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.timezone import now
@@ -1785,7 +1786,15 @@ def search_users_and_orgs(request):
     return JsonResponse(result)
 
 
+# User registration view that redirects authenticated users
 class PytitionUserCreateView(CreateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        # If user is already authenticated, redirect them to the index page
+        if request.user.is_authenticated:
+            messages.info(request, _("You are already logged in."))
+            return redirect('index')
+        return super().dispatch(request, *args, **kwargs)
 
     def save_numbers(self, request):
         request.session['random_a'] = self.a
@@ -1817,6 +1826,18 @@ class PytitionUserCreateView(CreateView):
     def form_valid(self, form):
         form.send_success_email()
         return super().form_valid(form)
+
+
+# Login view that redirects authenticated users
+class PytitionLoginView(LoginView):
+    redirect_authenticated_user = True
+    
+    def get_redirect_url(self):
+        # If user is already authenticated, redirect to index
+        if self.request.user.is_authenticated:
+            return reverse('index')
+        return super().get_redirect_url()
+
 
 # /<int:petition_id>/report/<int:reason_id>
 # Report a petition to moderation
