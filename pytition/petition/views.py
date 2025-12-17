@@ -14,6 +14,7 @@ from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.utils.html import format_html
 from django.db.models import Q
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction, IntegrityError
 from django.contrib.auth.hashers import make_password
@@ -1837,6 +1838,13 @@ class PytitionLoginView(LoginView):
         if self.request.user.is_authenticated:
             return reverse('index')
         return super().get_redirect_url()
+
+# Logout view - accepts both GET and POST
+def user_logout(request):
+    auth_logout(request)
+    messages.success(request, _("You have been logged out successfully."))
+    next_url = request.GET.get('next', 'index')
+    return redirect(next_url)
 
 
 # /<int:petition_id>/report/<int:reason_id>

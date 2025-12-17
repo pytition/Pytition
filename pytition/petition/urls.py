@@ -61,8 +61,11 @@ urlpatterns = [
     path('wizard/org/<slug:orgslugname>/new_petition/from_template/<int:template_id>', PetitionCreationWizard.as_view(views.WizardForms), name='org_petition_wizard_from_template'),
     path('wizard/user/new_petition', PetitionCreationWizard.as_view(views.WizardForms), name='user_petition_wizard'),
     path('wizard/user/new_petition/from_template/<template_id>', PetitionCreationWizard.as_view(views.WizardForms), name='user_petition_wizard_from_template'),
-    # Authentication - Custom login view that redirects authenticated users
+    # Authentication
+    # Custom login view that redirects authenticated users
     path('login/', PytitionLoginView.as_view(), name='login'),
+    # Custom logout view that accepts GET
+    path('logout/', views.user_logout, name='logout'),
     path('', include('django.contrib.auth.urls')),
     path('account_settings', views.account_settings, name="account_settings"),
     # Misc
