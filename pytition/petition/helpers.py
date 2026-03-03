@@ -9,23 +9,68 @@ from django.utils.html import strip_tags
 from django.core.mail import get_connection, EmailMultiAlternatives, EmailMessage
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+from functools import lru_cache  # OPTIMALIZÁCIA: import pre cache
 
 # Remove all moderated instances of Petition
 def remove_user_moderated(petitions):
     petitions = [p for p in petitions if not p.is_moderated]
     return petitions
 
-# Remove all javascripts from HTML code
-def sanitize_html(unsecure_html_content):
-    cleaner = Cleaner(inline_style=False, scripts=True, javascript=True,
-                      safe_attrs=lxml.html.defs.safe_attrs | set(['style']),
-                      frames=False, embedded=False,
-                      meta=True, links=True, page_structure=True, remove_tags=['body'])
+
+# =============================================================================
+# OPTIMALIZÁCIA: Cleaner sa vytvorí RAZ pri importe modulu
+# PRED: Cleaner() sa volal pri KAŽDOM sanitize_html() - 1000x = 1000 objektov
+# PO:   Cleaner() sa vytvorí 1x a použije sa opakovane
+# =============================================================================
+_html_cleaner = Cleaner(
+    inline_style=False, 
+    scripts=True, 
+    javascript=True,
+    safe_attrs=lxml.html.defs.safe_attrs | set(['style']),
+    frames=False, 
+    embedded=False,
+    meta=True, 
+    links=True, 
+    page_structure=True, 
+    remove_tags=['body']
+)
+
+
+# =============================================================================
+# OPTIMALIZÁCIA: LRU Cache pre opakovaný HTML obsah
+# Ak sa rovnaký HTML spracuje viackrát, vráti sa z pamäte (O(1) namiesto O(n))
+# maxsize=256 = posledných 256 unikátnych HTML reťazcov
+# =============================================================================
+@lru_cache(maxsize=256)
+def _sanitize_html_cached(unsecure_html_content):
+    """Interná funkcia s cache - používa globálny _html_cleaner."""
     try:
-        secure_html_content = lxml.html.tostring(cleaner.clean_html(lxml.html.fromstring(unsecure_html_content)), method="html")
+        secure_html_content = lxml.html.tostring(
+            _html_cleaner.clean_html(lxml.html.fromstring(unsecure_html_content)), 
+            method="html"
+        )
     except:
         secure_html_content = b''
     return secure_html_content.decode()
+
+
+# Remove all javascripts from HTML code
+def sanitize_html(unsecure_html_content):
+    """
+    Odstráni JavaScript a nebezpečné elementy z HTML.
+    
+    OPTIMALIZÁCIE:
+    1. Používa globálny Cleaner (nie nový pri každom volaní)
+    2. LRU cache pre opakovaný obsah
+    3. Early return pre prázdny vstup
+    """
+    # OPTIMALIZÁCIA: Rýchly návrat pre prázdny vstup
+    if not unsecure_html_content:
+        return ''
+    
+    # Použiť cache verziu
+    return _sanitize_html_cached(unsecure_html_content)
+
 
 # Get the client IP address, considering proxies and RP
 def get_client_ip(request):
