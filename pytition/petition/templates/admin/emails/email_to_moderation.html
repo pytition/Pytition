@@ -1,0 +1,17 @@
+{% extends "layouts/email.base.html" %}
+{% load i18n %}
+{% block content %}
+<p>{% trans "Hello" %}</p>
+
+{% if owner_type == "user" %}
+<p>{% blocktrans with username=element user_url=site_url|add:element.get_absolute_url %}This user has been moderated <a href="{{ user_url }}"><b>{{ username }}</b></a>.{% endblocktrans %}</p>
+{% elif owner_type == "organization" %}
+<p>{% blocktrans with organization_title=element organization_url=site_url|add:element.get_absolute_url %}This organization has been moderated <a href="{{ organization_url }}"><b>{{ organization_title }}</b></a>.{% endblocktrans %}</p>
+{% elif owner_type == "petition" %}
+<p>{% blocktrans with petition_title=element petition_url=site_url|add:element.get_absolute_url %}This petition has been moderated <a href="{{ petition_url }}"><b>{{ petition_title }}</b></a>.{% endblocktrans %}</p>
+{% endif %}
+
+<p>{% blocktrans %}The reason is: <b>{{ reason }}</b>{% endblocktrans %}</p>
+
+<p>{% blocktranslate %}<a href="{{ admin_moderation_url }}">Access the admin moderation panel</a>.{% endblocktranslate %}</p>
+{% endblock %}

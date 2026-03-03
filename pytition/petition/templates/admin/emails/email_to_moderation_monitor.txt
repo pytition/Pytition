@@ -1,0 +1,17 @@
+{% extends "layouts/email.base.txt" %}
+{% load i18n %}
+{% block content %}
+{% trans "Hello" %}
+
+{% if owner_type == "user" %}
+{% trans "This user has been monitored with a strong priority: " %} {{ element }}.
+{% elif owner_type == "organization" %}
+{% trans "This organization has been monitored with a strong priority: " %} {{ element }}.
+{% elif owner_type == "petition" %}
+{% blocktranslate with petition_title=element.title petition_url=site_url|add:element.get_absolute_url %}The petition *{{ petition_title }}* ({{ petition_url}}) has been automatically detected as suspicious and is now monitored. The reason is: {{ reason }}{% endblocktranslate %}
+
+{% blocktranslate %}Access the admin moderation panel on {{ admin_moderation_url }}.{% endblocktranslate %}
+{% endif %}
+
+{% blocktranslate %}Have a nice day,{% endblocktranslate %}
+{% endblock %}

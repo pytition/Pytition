@@ -9,11 +9,11 @@ body {
 }
 
 a {
-    color: #00f
+    color: var(--color-main, #00f);
 }
 
 .share a {
-    color: #ffeb1f
+    color: var(--color-accent, #ffeb1f);
 }
 
 p.lead {
@@ -28,6 +28,7 @@ nav.navbar {
     .presentation {
         flex-grow: 1;
         padding: 15px;
+        text-align:justify;
     }
 }
 
@@ -46,6 +47,11 @@ nav.navbar {
     margin-bottom: 2em;
 }
 .presentation img {
+    max-width: 100%;
+    object-fit: scale-down
+}
+
+.presentation video {
     max-width: 100%;
     object-fit: scale-down
 }
@@ -234,11 +240,11 @@ a.share-item:hover {
 }
 
 .more h3 .fa-stack {
-    color: #666
+    color: #666;
 }
 
 .more h3 .fa-inverse {
-    color: #ffeb1f
+    color: var(--color-accent, #ffeb1f);
 }
 
 .more .more-content {
@@ -269,8 +275,6 @@ a.share-item:hover {
 }
 
 .jumbotron {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 2rem 1rem;
 }
+

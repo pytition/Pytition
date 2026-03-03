@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""URL dispatcher for Pytition
+
+It designs URLs for pytition project.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/topics/http/urls/
+"""
+
 from django.urls import include
 from django.urls import path
 
@@ -20,8 +29,11 @@ urlpatterns = [
     path('resend/<int:signature_id>', views.go_send_confirmation_email, name='resend_confirmation_email'),
     path('<int:petition_id>/sign', views.create_signature, name='create_signature'),
     path('<int:petition_id>/show_signatures', views.show_signatures, name='show_signatures'),
+    path('<int:petition_id>/show_signatures_graph', views.show_signatures_graph, name='show_signatures_graph'),
     path('<int:petition_id>/show_sympa_subscribe_bloc', views.show_sympa_subscribe_bloc, name='show_sympa_subscribe_bloc'),
+    path('<int:petition_id>/in_bin', views.petition_in_bin, name='petition_in_bin'),
     path('<int:petition_id>/delete', views.petition_delete, name='petition_delete'),
+    path('<int:petition_id>/restore', views.petition_restore, name='petition_restore'),
     path('<int:petition_id>/publish', views.petition_publish, name='petition_publish'),
     path('<int:petition_id>/unpublish', views.petition_unpublish, name='petition_unpublish'),
     path('<int:petition_id>/edit', views.edit_petition, name='edit_petition'),
@@ -35,6 +47,7 @@ urlpatterns = [
     path('org/create', views.org_create, name="org_create"),
     path('org/<slug:orgslugname>', views.org_profile, name='org_profile'),
     path('org/<slug:orgslugname>/dashboard', views.org_dashboard, name='org_dashboard'),
+    path('org/<slug:orgslugname>/bin', views.org_bin, name='org_bin'),
     path('org/<slug:orgslugname>/leave_org', views.leave_org, name="leave_org"),
     path('org/<slug:orgslugname>/add_user', views.org_add_user, name='org_add_user'),
     path('org/<slug:orgslugname>/new_template', views.new_template, name='org_new_template'),
@@ -50,6 +63,7 @@ urlpatterns = [
     path('templates/<int:template_id>/delete', views.template_delete, name='template_delete'),
     # User
     path('user/dashboard', views.user_dashboard, name='user_dashboard'),
+    path('user/bin', views.user_bin, name='user_bin'),
     path('user/new_template', views.new_template, name='user_new_template'),
     path('user/<user_name>', views.user_profile, name='user_profile'),
     path('user/<username>/<slug:petitionname>', views.slug_show_petition, name="slug_show_petition"),

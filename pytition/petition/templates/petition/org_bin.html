@@ -1,0 +1,5 @@
+{% extends 'petition/org_base.html' %}
+
+{% block content %}
+  {% include "petition/bin_list.html" with petitions=petitions.all petitions_bin=petitions_bin.all title=_("Your organization's deleted petitions") search=False %}
+{% endblock %}

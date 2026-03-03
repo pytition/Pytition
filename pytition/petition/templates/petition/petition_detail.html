@@ -34,8 +34,6 @@ content="{{ petition.raw_twitter_description|safe }}"/>
 <!-- FIXME: <meta itemprop="url" content=""/> //-->
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:creator" content="@yannsionneau"/>
-<meta name="twitter:site" content="{{ petition.org_twitter_handle }}"/>
 <meta name="twitter:title" content="{{ petition.title }}"/>
 {% if petition.twitter_description %}
 <meta name="twitter:description"
@@ -54,18 +52,6 @@ content="{{ petition.raw_twitter_description|safe }}"/>
 {% if petition.has_any_share_button %}
     <link href="{% static "css/rrssb.css" %}" rel="stylesheet" type="text/css">
 {% endif %}
-<style type="text/css">
-{% if petition.bgcolor != "#FFFFFF" %}
-body {
-  background-color: {{ petition.bgcolor }};
-}
-{% endif %}
-{% if petition.linear_gradient_direction != petition.NO %}
-body {
-  background: linear-gradient({{ petition.linear_gradient_direction}}, {{ petition.gradient_from }}, {{ petition.gradient_to }});
-}
-{% endif %}
-</style>
 {% endblock %}
 
 {% block extrajshead %}
@@ -164,23 +150,25 @@ dataLayer = [];
   </div>
 </div>
 
-<div class="container">
-{% if not petition.published %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>{% trans "Careful!" %}</strong>
-    {% blocktrans trimmed %}
-        This petition is not published yet. You can only see it because you are logged-in as either its creator or a member of the organization
-        which created it. Other visitors won't be able to see it.
-    {% endblocktrans %}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-{% endif %}
-  <div class="jumbotron text-center">
-    <h1 class="jumbotron-heading">{{ petition.title|html_sanitize|striptags|safe }}</h1>
+<div class="container petition-details">
+  {% if not petition.published %}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{% trans "Careful!" %}</strong>
+      {% blocktrans trimmed %}
+          This petition is not published yet. You can only see it because you are logged-in as either its creator or a member of the organization
+          which created it. Other visitors won't be able to see it.
+      {% endblocktrans %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endif %}
+  <div>
+    <h1>{{ petition.title|html_sanitize|striptags|safe }}</h1>
     {% if petition.is_moderated %}
-    <h2 class="text-danger">{% trans "This petition is moderated. You only see it because you are its creator" %}</h2>
+    <div class="alert alert-danger">
+      <p>{% trans "This petition is moderated. You only see it because you are its creator" %}</p>
+    </div>
     {% endif %}
   </div>
   <div class="row petition-wrapper">
@@ -192,13 +180,21 @@ dataLayer = [];
           {% endif %}
           <p class="sign text-primary"><strong>Signez la pétition&nbsp;!</strong></p>
           <div class="counter" id="counter">
-            <p>
-              Déjà <span id="nb-signatures">{{ petition.signature_number }}</span> signatures.
-              Objectif : <span class="format-number">{{ petition.target }}</span>
-            </p>
             <div class="progress">
               <div class="progress-bar bg-primary" role="progressbar" id="progress-bar"
               data-target="{{ petition.target }}">
+              </div>
+            </div>
+            <div class="counter-stats">
+              <div class="counter-stats-ongoing">
+                <span id="nb-signatures" class="counter-stats-number">{{ petition.signature_number }}</span>
+                <br>
+                <span>Signatures</span>
+              </div>
+              <div class="counter-stats-target">
+                <span class="counter-stats-number">{{ petition.target }}</span>
+                <br>
+                <span>Objectif</span>
               </div>
             </div>
           </div>
@@ -260,12 +256,14 @@ dataLayer = [];
                 </div>
                 {% endfor %}
 
+                <p><small>{% trans "Your contact information will be accessible to the petition creators. Be sure to only provide it to petitions you trust." %}</small></p>
+
                 <span class="eaSubmitResetButtonGroup mb-1" id="eaFormButtonGroup_1"><input
                   type="submit" class="btn btn-primary eaSubmitButton" value="Signer"></span>
                 {% if petition.has_any_share_button %}
                 <div>
                   <ul class="rrssb-buttons">
-                    {% if petition.has_email_share_button %}  
+                    {% if petition.has_email_share_button %}
                     <li class="rrssb-email">
                       <!-- Replace subject with your message using URL Endocding: http://meyerweb.com/eric/tools/dencoder/ -->
                       <a href="mailto:?Subject={{ petition.title|html_sanitize|striptags|safe }}: {% trans "Sign the petition!" %}&body={{ request.build_absolute_uri }}">
@@ -276,7 +274,7 @@ dataLayer = [];
                       </a>
                     </li>
                     {% endif %}
-                    {% if petition.has_facebook_share_button %}  
+                    {% if petition.has_facebook_share_button %}
                     <li class="rrssb-facebook">
                       <!--  Replace with your URL. For best results, make sure you page has the proper FB Open Graph tags in header:
                             https://developers.facebook.com/docs/opengraph/howtos/maximizing-distribution-media-content/ -->
@@ -288,7 +286,7 @@ dataLayer = [];
                       </a>
                     </li>
                     {% endif %}
-                    {% if petition.has_tumblr_share_button %}  
+                    {% if petition.has_tumblr_share_button %}
                     <li class="rrssb-tumblr">
                       <a href="http://tumblr.com/share/link?url={{ request.build_absolute_uri  }}&name={{ petition.title|html_sanitize|striptags|safe }}">
                         <span class="rrssb-icon">
@@ -298,7 +296,7 @@ dataLayer = [];
                       </a>
                     </li>
                     {% endif %}
-                    {% if petition.has_linkedin_share_button %}  
+                    {% if petition.has_linkedin_share_button %}
                     <li class="rrssb-linkedin">
                       <!-- Replace href with your meta and URL information -->
                       <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ request.build_absolute_uri }}&amp;title={{ petition.title|html_sanitize|striptags|safe }}&amp;summary={% trans "Sign the petition!" %}" class="popup">
@@ -309,7 +307,7 @@ dataLayer = [];
                       </a>
                     </li>
                     {% endif %}
-                    {% if petition.has_twitter_share_button %}  
+                    {% if petition.has_twitter_share_button %}
                     <li class="rrssb-twitter">
                       <!-- Replace href with your Meta and URL information  -->
                       <a href="https://twitter.com/intent/tweet?text={{ petition.title|html_sanitize|striptags|safe }}:%0A{{ request.build_absolute_uri }}%0A{% trans "Sign the petition!" %}"
@@ -321,7 +319,7 @@ dataLayer = [];
                       </a>
                     </li>
                     {% endif %}
-                    {% if petition.has_mastodon_share_button %}  
+                    {% if petition.has_mastodon_share_button %}
                       <li class="rrssb-mastodon">
                       <a class="mastodon-share-button" data-target="{{ petition.title|html_sanitize|striptags|safe }}:%0A{{ request.build_absolute_uri }}%0A{% trans "Sign the petition!" %}">
                         <span class="rrssb-icon">
@@ -334,7 +332,7 @@ dataLayer = [];
                       </a>
                     </li>
                     {% endif %}
-                    {% if petition.has_whatsapp_share_button %}  
+                    {% if petition.has_whatsapp_share_button %}
                     <li class="rrssb-whatsapp">
                       <a href="whatsapp://send?text={{ request.build_absolute_uri }}" data-action="share/whatsapp/share">
                         <span class="rrssb-icon">
@@ -405,16 +403,28 @@ $("#show_confirm_success").modal("show");
 {% endblock %}
 
 {% block footer %}
+{% if petition.footer_links|trim or petition.footer_text|trim %}
 <div class="container">
-<div class="row footer-wrapper bg-dark">
-    <footer role="contentinfo" class="footer col-12">
-        <div class="footer-links ml-2">
-            {{ petition.footer_links|html_sanitize|safe }}
-        </div>
-        <div class="footer-text ml-2">
-            {{ petition.footer_text|html_sanitize|safe }}
-        </div>
-    </footer>
+  <div class="row footer-wrapper">
+      <footer role="contentinfo" class="footer col-12">
+          <div class="footer-links ml-2">
+              {{ petition.footer_links|html_sanitize|safe }}
+          </div>
+          <div class="footer-text ml-2">
+              {{ petition.footer_text|html_sanitize|safe }}
+          </div>
+      </footer>
+  </div>
 </div>
-</div>
+{% endif %}
+
+
+{% if petition %}
+<section class="container text-right mb-4">
+  <button class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#report_modal">
+    {% trans "Report to moderation" %}
+  </button>
+</section>
+{% endif %}
+
 {% endblock %}

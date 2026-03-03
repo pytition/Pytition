@@ -1,16 +1,10 @@
+{% extends "layouts/email.base.html" %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
+{% block content %}
+<p>{% blocktrans %}Welcome {{ firstname }}!{% endblocktrans %}</p>
 
-<h2>{% trans "Welcome" %} {{ firstname }}!</h2>
+<p>{% blocktrans %}You successfully created your account! Your login is <b>{{ username }}</b>.{% endblocktrans %}</p>
 
-{% blocktrans %}
-You successfully created your account ! Your login is {{ username }}
-{% endblocktrans %}
-</body>
-</html>
+<p><a href="{{ login_url }}">{% blocktrans %}Login to {{ site_name }}{% endblocktrans %}</a></p>
+{% endblock %}

@@ -22,6 +22,55 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '[::1]']
 
+#:| Spam detection systems to activate.
+#:| Defaults are:
+#:
+#: * ``petition.spam_management.detectors.keywords_detector.KeywordSpamDetector``
+#:    (uses a list of keywords, see `below <#pytition.settings.base.FORBIDDEN_WORDS>`__)
+#: * ``petition.spam_management.detectors.akismet_detector.AkismetSpamDetector``
+#:    (uses `Akismet service <https://akismet.com>`__, need configuration,
+#:    see `below <#pytition.settings.base.AKISMET_KEY>`__)
+#: * ``petition.spam_management.detectors.alt_profanity_check_detector.ProfanitySpamDetector``
+#:    (uses `alt-profanity-check <https://pypi.org/project/alt-profanity-check/>`__)
+#:
+#: To deactivate a detection system, list only those you want to keep::
+#:
+#:    SPAM_DETECTORS = [
+#:      'petition.spam_management.detectors.keywords_detector.KeywordSpamDetector',
+#:    ]
+#:
+SPAM_DETECTORS = [
+    'petition.spam_management.detectors.keywords_detector.KeywordSpamDetector',
+    'petition.spam_management.detectors.akismet_detector.AkismetSpamDetector',
+    'petition.spam_management.detectors.alt_profanity_check_detector.ProfanitySpamDetector',
+]
+
+#:| Keywords that trigger monitoring.
+#:| Add as many as you need.
+FORBIDDEN_WORDS = ["viagra", "casino"]
+
+# Akismet variables
+#:| Your Akismet’s API key.
+#:| See https://akismet.com/support/getting-started/api-key/ to know how to get one.
+AKISMET_KEY = os.getenv("AKISMET_API_KEY", "")
+#:| The URL of your Pytition installation.
+#:| Must begin with https:// or http://
+AKISMET_URL = os.getenv("AKISMET_SITE_URL", "")
+
+#:| If set to True, the petitions are automatically moderated if Akismet returns 2.
+#:| If set to False, the petitions will just be monitored if Akismet returns 2.
+#:| We recommend to set to False if the administrator notices a lot of false positives.
+AKISMET_MODERATION_AUTO = True
+
+#:| If set to True, send mail to petition’s owner if petition is being monitored.
+SEND_MONITORING_MAIL_TO_USER = True
+
+#:| The email address which moderation / monitoring reports will be sent to.
+MODERATION_EMAIL = os.getenv("ADMIN_MODERATION_EMAIL", "admin@test.fr")
+
+#:| Number of days a petition in the bin will wait before being permanently deleted.
+NUMBER_OF_DAYS_FOR_EXPIRATION = 90
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -102,17 +151,22 @@ if os.environ.get('USE_POSTGRESQL'):
 #: * set a cron job (automatic task execution), or
 #: * serve the Django app through uwsgi (recommended setup)
 #:
-#: .. warning:: The first time you switch this setting from ``False`` to ``True``, you must run the ``DJANGO_SETTINGS_MODULE=pytition.settings.config python3 pytition/manage.py migrate`` command again. Beware to run it while being in your virtualenv.
+#: .. warning:: The first time you switch this setting from ``False`` to ``True``, you must run the
+#:   ``DJANGO_SETTINGS_MODULE=pytition.settings.config python3 pytition/manage.py migrate`` command
+#:   again. Beware to run it while being in your virtualenv.
 USE_MAIL_QUEUE = False
 
 # set it to True if you use the 'mailer' backend, and a external Crontab has been set
 MAIL_EXTERNAL_CRON_SET = False
 
-# number of seconds to wait before sending emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
+# Number of seconds to wait before sending emails.
+# This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
 UWSGI_WAIT_FOR_MAIL_SEND_IN_S = 10
-# number of seconds to wait before retrying emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
+# Number of seconds to wait before retrying emails.
+# This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
 UWSGI_WAIT_FOR_RETRY_IN_S = 1 * 60
-# number of seconds to wait before purging emails. This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
+# Number of seconds to wait before purging emails.
+# This will be usefull only if USE_MAIL_QUEUE=True and uwsgi is used
 UWSGI_WAIT_FOR_PURGE_IN_S = 1 * 24 * 60 * 60
 UWSGI_NB_DAYS_TO_KEEP = 3
 
@@ -156,7 +210,9 @@ STATIC_ROOT = os.environ.get('STATIC_ROOT')
 LOGIN_URL = '/petition/login/'
 
 TINYMCE_DEFAULT_CONFIG = {
-    'plugins': 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+    'promotion': False,
+    'license_key': 'gpl',
+    'plugins': 'preview searchreplace autolink directionality visualblocks visualchars fullscreen link codesample charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help',
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
     'toolbar1': 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat | fontselect | fontsizeselect',
@@ -237,6 +293,134 @@ PAGINATOR_COUNT = 12
 SIGNATURE_THROTTLE = 5 # 5 signatures from same IP allowed
 SIGNATURE_THROTTLE_TIMING = 60*60*24 # in a 1 day time frame
 
+### Auto moderation and monitoring settings ###
+# Please note that the defaults values needs to be battle-tested
+# and may not be the best values.
+#
+# Set variable to 0 if you want to disable a test
+
+## Signatures variation from one day to the next
+#: If there is SIGNATURE_VARIATION_CRITICAL times more signatures today
+#: than a fixed period of time, we moderate the petition automatically.
+SIGNATURE_VARIATION_CRITICAL = 10000
+#: If there is SIGNATURE_VARIATION_STRONG times more signatures today
+#: than a fixed period of time, we monitor the petition with a strong priority.
+SIGNATURE_VARIATION_STRONG = 1000
+#: If there is SIGNATURE_VARIATION_AVERAGE times more signatures today
+#: than a fixed period of time, we monitor the petition with an average priority.
+SIGNATURE_VARIATION_AVERAGE = 100
+#: If there is SIGNATURE_VARIATION_LOW times more signatures today
+#: than a fixed period of time, we monitor the petition with a low priority.
+SIGNATURE_VARIATION_LOW = 10
+
+## Total signature numbers according to monitoring priorities
+#: If there are more than SIGNATURE_NUMBER_CRITICAL signatures in a petition,
+#: we moderate it automatically.
+SIGNATURE_NUMBER_CRITICAL = 1000000
+#: If there are more than SIGNATURE_NUMBER_STRONG signatures in a petition,
+#: we monitor it with a strong priority.
+SIGNATURE_NUMBER_STRONG = 100000
+#: If there are more than SIGNATURE_NUMBER_AVERAGE signatures in a petition,
+#: we monitor it with an average priority
+SIGNATURE_NUMBER_AVERAGE = 10000
+#: If there are more than SIGNATURE_NUMBER_LOW signatures in a petition,
+#: we monitor it with a low priority
+SIGNATURE_NUMBER_LOW = 1000
+
+## Number of unconfirmed signatures in the last 6h according to monitoring priorities
+#: If there are more than UNCONFIRMED_NUMBER_CRITICAL unconfirmed signatures in 6h,
+#: we moderate the petition automatically
+UNCONFIRMED_NUMBER_CRITICAL = 500
+#: If there are more than UNCONFIRMED_NUMBER_STRONG unconfirmed signatures in 6h,
+#: we monitor the petition with a strong priority
+UNCONFIRMED_NUMBER_STRONG = 300
+#: If there are more than UNCONFIRMED_NUMBER_AVERAGE unconfirmed signatures in 6h,
+#: we monitor the petition with an average priority
+UNCONFIRMED_NUMBER_AVERAGE = 200
+#: If there are more than UNCONFIRMED_NUMBER_AVERAGE unconfirmed signatures in 6h,
+#: we monitor the petition with a low priority
+UNCONFIRMED_NUMBER_LOW = 100
+
+## Number of signatures in 24h after the creation of the petition according to monitoring priorities
+#: If there are more than CREATION_NUMBER_CRITICAL signatures 24h after the creation of a petition,
+#: we moderate it automatically
+CREATION_NUMBER_CRITICAL = 1000000
+#: If there are more than CREATION_NUMBER_STRONG signatures 24h after the creation of a petition,
+#: we monitor it with a strong priority
+CREATION_NUMBER_STRONG = 100000
+#: If there are more than CREATION_NUMBER_AVERAGE signatures 24h after the creation of a petition,
+#: we monitor it with an average priority
+CREATION_NUMBER_AVERAGE = 10000
+#: If there are more than CREATION_NUMBER_LOW signatures 24h after the creation of a petition,
+#: we monitor it with a low priority
+CREATION_NUMBER_LOW = 1000
+
+## Maximum numbers of petitions created in one day by a user or an organization
+#: More than DAY_PETITION_CRITICAL petitions from the same user or orga in one day
+#: trigger automatic moderation
+DAY_PETITION_CRITICAL = 10
+#: More than DAY_PETITION_STRONG petitions from the same user or orga in one day
+#: trigger strong monitoring
+DAY_PETITION_STRONG = 7
+#: More than DAY_PETITION_AVERAGE petitions from the same user or orga in one day
+#: trigger average monitoring
+DAY_PETITION_AVERAGE = 6
+#: More than DAY_PETITION_LOW petitions from the same user or orga in one day
+#: trigger low monitoring
+DAY_PETITION_LOW = 5
+
+## Maximum numbers of monitored or moderated petitions for a user or an organization.
+# Checked at the creation of a petition in views.py
+#: If a user or an organization has more than MONITORED_PETITIONS_CRITICAL moderated
+#: or monitored petitions, it is automatically moderated.
+MONITORED_PETITIONS_CRITICAL = 10
+#: If a user or an organization has more than MONITORED_PETITIONS_STRONG moderated
+#: or monitored petitions, it is monitored with a strong priority.
+MONITORED_PETITIONS_STRONG = 7
+#: If a user or an organization has more than MONITORED_PETITIONS_AVERAGE moderated
+#: or monitored petitions, it is monitored with an average priority.
+MONITORED_PETITIONS_AVERAGE = 5
+#: If a user or an organization has more than MONITORED_PETITIONS_LOW moderated
+#: or monitored petitions, it is monitored with a low priority.
+MONITORED_PETITIONS_LOW = 3
+
+## Maximum total numbers of signatures for a user's or an organization's petitions.
+#: If a user or an organization has more than SIGNATURES_TOTAL_CRITICAL signatures
+#: in all their petitions, they are automatically moderated.
+SIGNATURES_TOTAL_CRITICAL = 1000000
+#: If a user or an organization has more than SIGNATURES_TOTAL_STRONG signatures
+#: in all their petitions, they are monitored with a strong priority.
+SIGNATURES_TOTAL_STRONG = 100000
+#: If a user or an organization has more than SIGNATURES_TOTAL_AVERAGE signatures
+#: in all their petitions, they are monitored with an average priority.
+SIGNATURES_TOTAL_AVERAGE = 10000
+#: If a user or an organization has more than SIGNATURES_TOTAL_LOW signatures
+#: in all their petitions, they are monitored with a low priority.
+SIGNATURES_TOTAL_LOW = 1000
+
+REASONS = {
+    "owner_petition_number":
+        gettext_lazy("This owner has created too many petitions in one day."),
+    "owner_monpetition_number":
+        gettext_lazy("This owner has too many moderated or monitored petitions."),
+    "owner_signature_number":
+        gettext_lazy("This owner has too many signatures in their petitions."),
+    "petition_inappropriate":
+        gettext_lazy("This petition seems inappropriate."),
+    "petition_spam":
+        gettext_lazy("This petition is spam."),
+    "signature_number":
+        gettext_lazy("This petition has too many signatures."),
+    "signature_variation":
+        gettext_lazy("This petition has a high variation in its number of signatures."),
+    "signature_unconfirmed":
+        gettext_lazy("This petition has too many unconfirmed signatures in the last 6h."),
+    "signature_creation":
+        gettext_lazy("This petition has had too many signatures 24h after its creation."),
+    "manual_moderation":
+        gettext_lazy("Manual moderation."),
+}
+
 LANGUAGES = [
     ('en', gettext_lazy('English')),
     ('es', gettext_lazy('Spanish')),
@@ -260,9 +444,18 @@ MEDIA_URL = "/mediaroot/"
 FILE_UPLOAD_PERMISSIONS = 0o640
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 
-
-#:| If set to True, users won't be able to create petitions in their name, but only for an organization
+#: If set to True, users won't be able to create petitions in their name,
+#: but only for an organization
 DISABLE_USER_PETITION = False
+
+#:| If set to True, users won't be able to set a newsletter on their petitions
+DISABLE_NEWSLETTER = True
+
+#: If set to True, users won't be able to custom the petitions page
+DISABLE_CUSTOM_STYLE = True
+
+#:| If set to True, users won't be able to set paper signatures on their petitions
+DISABLE_PAPER_SIGNATURES = os.getenv("DISABLE_PAPER_SIGNATURES", False) == "True"
 
 #:| If set to True, regular users won't be able to create new organizations.
 RESTRICT_ORG_CREATION = False
@@ -275,6 +468,8 @@ MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
 MAINTENANCE_MODE_STATE_FILE_PATH = os.path.join(BASE_DIR, 'maintenance_mode_state.txt')
 
 # Set default region to France with regard to accepting phone numbers without international prefix.
-# The +33 prefix for France is therefore optional, but it might be mandatory to add a prefix for 
+# The +33 prefix for France is therefore optional, but it might be mandatory to add a prefix for
 # other countries. This does not change anything for translations.
 PHONENUMBER_DEFAULT_REGION = "FR"
+
+ALLOWED_IMAGE_EXTENSIONS = ['jpeg', 'jpg', 'png']

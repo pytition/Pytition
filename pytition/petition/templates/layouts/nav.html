@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 {% block navbar %}
 <nav class="navbar navbar-light navbar-expand-sm flex-sm-row">
   <div class="container">
@@ -10,13 +11,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
     <ul class="navbar-nav ml-auto">
-    {% if petition %}
-        <li class="nav-item">
-            <button class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#report_modal">
-                {% trans "Report to moderation" %}
-            </button>
-        </li>
-    {% endif %}
     <li class="nav-item">
         <form class="form-inline ml-2 my-lg-0" action="{% url 'set_language' %}" method="post">
         {% csrf_token %}
@@ -27,7 +21,7 @@
           {% get_language_info_list for LANGUAGES as languages %}
           {% for language in languages %}
             <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
-              {{ language.code }}
+              {{ language.name_local|default:language.name|capfirst }}
             </option>
           {% endfor %}
         </select>
@@ -36,7 +30,7 @@
     <li class="nav-item">
       <form class="form-inline my-2 my-lg-0 ml-0 ml-sm-3" action="{% url 'search' %}" method="GET">
         <div class="input-group input-group-sm">
-          <input type="text" class="form-control" placeholder="{% trans "Search for petition" %}" name="q" value="{{ q }}">
+          <input type="text" class="form-control" placeholder="{% trans "Search for petition" %}" name="q" value="{{ q }}" required>
           <div class="input-group-append">
             <button type="submit" class="btn btn-outline-secondary">{% trans "Search" %}</button>
           </div>
@@ -63,15 +57,17 @@
         <div class="modal-body">
         {% if moderation_reasons %}
           {% trans "Why do you want to report this petition?" %}
-            <select id="reason_selector" class="custom-select">
+            <select id="reason_selector" class="custom-select" data-base-url="{% url 'report_petition' petition.id 0 %}">
             {% for reason in moderation_reasons %}
-                <option value="{% url "report_petition" petition.id reason.id %}">{{ reason.msg }}</option>
+              {% if reason.visible %}
+                <option data-url="{% url "report_petition" petition.id reason.id %}" value="{{ forloop.counter }}">{{ reason.text }}</option>
+              {% endif %}
             {% endfor %}
             </select>
         {% else %}
             <!-- this is a Hack to keep the JS code simple !-->
             <select id="reason_selector" class="d-none">
-                <option value="{%  url "report_petition" petition.id %}"></option>
+                <option data-url="{% url "report_petition" petition.id reason.id %}" value="1"></option>
             </select>
             {% trans "You are about to report this petition to moderation." %}
         {% endif %}

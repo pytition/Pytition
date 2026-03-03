@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""Forms for Pytition classes
+
+It defines a form for each class in the pytition project.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/topics/forms/modelforms/
+"""
+
 from django.forms import ModelForm, ValidationError
 from django import forms
 from django.utils.translation import gettext_lazy as _
@@ -5,6 +14,7 @@ from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.utils.html import mark_safe, strip_tags
+from django.core.validators import FileExtensionValidator
 
 from .models import Signature, PetitionTemplate, Petition, Organization, PytitionUser, SlugModel
 from .widgets import SwitchField
@@ -13,6 +23,8 @@ from .helpers import send_welcome_mail
 import html
 from tinymce.widgets import TinyMCE
 from colorfield.fields import ColorWidget
+
+from django.conf import settings
 
 
 class SignatureForm(ModelForm):
@@ -48,7 +60,7 @@ class SignatureForm(ModelForm):
 
 class PetitionCreationStep1(forms.Form):
     ### Ask for title ###
-    title = forms.CharField(max_length=200)
+    title = forms.CharField(max_length=80, help_text=_("80 characters maximum"))
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -94,20 +106,28 @@ class PetitionCreationStep3(forms.Form):
 
 class ContentFormGeneric(forms.Form):
     ### Content of a Petition ###
-    text = forms.CharField(widget=TinyMCE, required=False)
+    text = forms.CharField(widget=TinyMCE(attrs={'rows': 25}), required=False)
     target = forms.IntegerField(required=False)
+    if not settings.DISABLE_PAPER_SIGNATURES:
+        paper_signatures_enabled = SwitchField(required=False, label=_("Allow paper signatures"))
+        paper_signatures = forms.IntegerField(required=False)
     side_text = forms.CharField(widget=TinyMCE, required=False)
     footer_text = forms.CharField(widget=TinyMCE, required=False)
     footer_links = forms.CharField(widget=TinyMCE, required=False)
     sign_form_footer = forms.CharField(required=False)
+    field_order = None
 
 
 class ContentFormPetition(ContentFormGeneric):
-    title = forms.CharField(max_length=200)
-    publication_date = forms.DateField(required=False)
+    title = forms.CharField(max_length=80, help_text=_("80 characters maximum"))
+    if not settings.DISABLE_PAPER_SIGNATURES:
+        paper_signatures_enabled = SwitchField(required=False, label=_("Allow paper signatures"), help_text=_("Paper signatures will appear below after you click on save"))
+        paper_signatures = forms.IntegerField(required=False, label=_("Paper signatures"))
+
+    publication_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     show_publication_date = SwitchField(required=False, label=_("Show publication date"))
-    paper_signatures = forms.IntegerField()
-    field_order = ('title', 'publication_date', 'show_publication_date','paper_signatures')
+
+    field_order = ('title', 'target', 'publication_date', 'show_publication_date', 'paper_signatures_enabled', 'paper_signatures')
 
 
 class ContentFormTemplate(ContentFormGeneric):
@@ -127,7 +147,7 @@ class EmailForm(forms.Form):
 class SocialNetworkForm(forms.Form):
     ### Social Network settings of Petition ###
     twitter_description = forms.CharField(max_length=200, required=False)
-    twitter_image = forms.FileField(max_length=500, required=False)
+    twitter_image = forms.FileField(max_length=500, required=False, validators=[FileExtensionValidator(allowed_extensions=settings.ALLOWED_IMAGE_EXTENSIONS)])
     org_twitter_handle = forms.CharField(max_length=20, required=False)
     remove_twitter_image = forms.BooleanField(required=False, initial=False)
     has_email_share_button = forms.BooleanField(required=False)

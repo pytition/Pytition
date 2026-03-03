@@ -1,0 +1,20 @@
+{% extends "layouts/email.base.html" %}
+{% load i18n %}
+{% block content %}
+<p>{% blocktranslate %}Hi,{% endblocktranslate %}</p>
+
+<p>
+{% blocktranslate with user=petition.user.username petition_title=petition.title %}The petition from user <b>{{ user }}</b> has been reported: <a href="{{ petition_url }}">{{ petition_title }}</a>.{% endblocktranslate %}
+</p>
+
+{% if reason %}
+<p>
+{% blocktranslate with reason=reason.text %}The reason of the report is: <b>« {{ reason }} »</b>.{% endblocktranslate %}
+</p>
+{% endif %}
+
+<p>
+{% blocktranslate %}<a href="{{ admin_moderation_url }}">Access the admin moderation panel</a>.{% endblocktranslate %}
+</p>
+{% endblock %}
+

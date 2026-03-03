@@ -1,0 +1,10 @@
+{% extends "layouts/email.base.txt" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block content %}
+{% blocktrans %}Welcome {{ firstname }}!{% endblocktrans %}
+
+{% blocktrans %}You successfully created your account! Your login is *{{ username }}*.{% endblocktrans %}
+
+{% blocktrans %}Login to {{ site_name }} on {{ login_url }}{% endblocktrans %}
+{% endblock %}

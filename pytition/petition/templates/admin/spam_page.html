@@ -1,0 +1,1018 @@
+<script> 
+    //to select all visible elements in a table
+    function toggle(source, name) {
+        var checkboxes = Array.from(document.querySelectorAll(`input[name=${name}]`)).filter(checkbox => isVisible(checkbox));
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] != source)
+                checkboxes[i].checked = source.checked;
+        }
+    }
+
+    // check if an element is visible, used in toggle to select all visible elements
+    function isVisible(element){
+        while(element){
+            if (getComputedStyle(element).display === "none") return false;
+                element = element.parentElement;
+        }
+        return true;
+    }
+
+    // Search bar before each table
+    function searchBar(type) {
+    // Assign values to the variables depending on the type of element 
+    var input, filter, table, tr, td, i, txtValue;
+
+    if (type == "user"){
+        input = document.getElementById("searchUser");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("userTable");
+        tr = table.getElementsByTagName("tr");
+    } else if (type == "org"){
+        input = document.getElementById("searchOrg");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("orgTable");
+        tr = table.getElementsByTagName("tr");
+    } else if (type == "mod_petition"){
+        input = document.getElementById("searchModPetition");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("modPetitionTable");
+        tr = table.getElementsByTagName("tr");
+    } else if (type == "mon_petition"){
+        input = document.getElementById("searchMonPetition");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("monPetitionTable");
+        tr = table.getElementsByTagName("tr");
+    } else if (type == "rep_petition"){
+        input = document.getElementById("searchRepPetition");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("repPetitionTable");
+        tr = table.getElementsByTagName("tr");
+    }
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+        }
+    }
+    }
+
+    // sort tables by clicking on a column
+    function sortTable(table_id, column) {
+        const table = document.getElementById(table_id);
+        let switching = true;
+
+        while (switching) {
+            switching = false;
+            let rows = table.tBodies[0].querySelectorAll(":scope > tr");
+
+            for (let i = 0; i < rows.length - 1; i++) {
+                let x = rows[i].cells[column];
+                let y = rows[i + 1].cells[column];
+
+            if (x && y) {
+                let valX = x.textContent.trim();
+                let valY = y.textContent.trim();
+
+                if (Number(valX) < Number(valY)) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    break;
+                }
+            }
+            }
+        }
+        const rowIds = Array.from(table.tBodies[0].rows).map(r => r.id);
+        localStorage.setItem(`table_order_${table_id}`, JSON.stringify(rowIds));
+    }
+
+    function showVariables() {
+        var x = document.getElementById("mod_variables");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+        localStorage.setItem('mod_variables_display', x.style.display);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const x = document.getElementById('mod_variables');
+        const saved = localStorage.getItem('mod_variables_display');
+        if (saved) x.style.display = saved; // 'block' ou 'none'
+    });
+
+</script>
+
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/custom_admin_style.css' %}">
+{% endblock %}
+
+{% csrf_token %}
+{% block content %}
+
+<h1>{% trans "Spam monitoring page" %}</h1>
+
+<div id="monitoredUsers" class="section">
+    <table>
+        <h2 class="title">{% trans "Monitored users" %}</h2>
+
+        <h2>{%trans "Available actions" %}</h2>
+        <ul>
+            {% blocktrans %}
+                <li><strong> Demonitor user</strong>: demonitor selected users. They will not appear on this table anymore. </li>
+                <li><strong> Moderate user</strong>: moderate selected users. They will not appear on this table anymore. </li>
+                <li><strong> Delete user</strong>: delete selected users and their associated petitions. If they are the last member of an organization, delete the organization. </li>
+            {% endblocktrans %}
+        </ul>
+
+        <h2>{% trans "Monitoring priority" %}</h2>
+        <ul>
+            <li id="red_priority">{% trans "Strong" %}</li>
+            <li id="orange_priority">{% trans "Average" %}</li>
+            <li id="yellow_priority">{% trans "Low" %}</li>
+        </ul>
+
+        <input type="text" id="searchUser" onkeyup="searchBar('user')" placeholder="{% trans 'Search for users..' %}">
+
+        <form method="post">
+            {% csrf_token %}
+            <select name="limit_mon_users">
+                <option value="{{ 50 }}">{% trans "display 50" %}</option>
+                <option value="{{ 200 }}">{% trans "display 200" %}</option>
+                <option value="{{ 500 }}">{% trans "display 500" %}</option>
+                <option value="None">{% trans "display all" %}</option>
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+        </form>
+
+
+        <form method="post" id="action_user_mon">
+            {% csrf_token %}
+            <select name="action">
+                    {% for action_name in actions_mon_user %}
+                        <option value="{{ action_name }}">{{ action_name }}</option>
+                    {% endfor %}
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+
+            <p>
+                <input type="checkbox" onclick="toggle(this, 'selected_mon_user');" /> {%trans "Select All" %}<br />
+            </p>
+    </table>
+
+            <table class="adminlist" id="monUserTable" width="100%">  
+                <thead>
+                    <tr>
+                        <th>{% trans "Selection" %}</th>
+                        <th>{% trans "Username" %}</th>
+                        <th onclick="sortTable('monUserTable', 2)">{% trans "Total number of petitions" %}</th>
+                        <th onclick="sortTable('monUserTable', 3)">{% trans "Day number of petitions" %}</th>
+                        <th onclick="sortTable('monUserTable', 4)">{% trans "Number of moderated or monitored petitions" %}</th>
+                        <th onclick="sortTable('monUserTable', 5)">{% trans "Total number of signatures" %}</th>
+                        <th>{% trans "Monitoring reason" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in mon_users %}
+                        <tr {%if user.color%}style="background-color: {{user.color}};"{%endif%}>
+                            <td><input type="checkbox" name="selected_mon_user" value= "{{user.pk}}" form="action_user_mon"></td>
+                            <td><a href="{% url 'admin:custom_user_detail' user.user_id %}">{{user}}</a></td>
+                            <td>{{user.num_petitions}}</td>
+                            <td>{{user.day_num_petitions}}</td>
+                            <td>{{user.num_monitored_petitions}}</td>
+                            <td>{{user.signature_num}}</td>
+                            <td>{{user.mon_reason}}</td>
+                        </tr>
+                            {% empty %}
+                        <tr>
+                            <td colspan="7" id="no_element">{% trans "No monitored users." %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+</div>
+
+<div id="moderatedUsers" class="section">
+    <table>
+        <h2 class="title">{% trans "Moderated users" %}</h2>
+
+        <h2>{%trans "Available actions" %}</h2>
+        <ul>
+            {% blocktrans %}
+                <li><strong> Demoderate user</strong>: demoderate selected users. They will not appear on this table anymore. </li>
+                <li><strong> Delete user</strong>: delete selected users and their associated petitions. If they are the last member of an organization, delete the organization. </li>
+            {% endblocktrans %}
+        </ul>
+
+        <input type="text" id="searchUser" onkeyup="searchBar('user')" placeholder="{% trans 'Search for users..' %}">
+
+        <form method="post">
+            {% csrf_token %}
+            <select name="limit_users">
+                <option value="{{ 50 }}">{% trans "display 50" %}</option>
+                <option value="{{ 200 }}">{% trans "display 200" %}</option>
+                <option value="{{ 500 }}">{% trans "display 500" %}</option>
+                <option value="None">{% trans "display all" %}</option>
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+        </form>
+
+
+        <form method="post" id="action_user">
+            {% csrf_token %}
+            <select name="action">
+                    {% for action_name in actions_user %}
+                        <option value="{{ action_name }}">{{ action_name }}</option>
+                    {% endfor %}
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+
+            <p>
+                <input type="checkbox" onclick="toggle(this, 'selected_user');" /> {%trans "Select All" %}<br />
+            </p>
+    </table>
+
+        <table class="adminlist" id="userTable" width="100%">  
+            <thead>
+                <tr>
+                    <th>{% trans "Selection" %}</th>
+                    <th>{% trans "Username" %}</th>
+                    <th onclick="sortTable('userTable', 2)">{% trans "Total number of petitions" %}</th>
+                    <th onclick="sortTable('userTable', 3)">{% trans "Day number of petitions" %}</th>
+                    <th onclick="sortTable('userTable', 4)">{% trans "Number of moderated or monitored petitions" %}</th>
+                    <th onclick="sortTable('userTable', 5)">{% trans "Total number of signatures" %}</th>
+                    <th width="50%">{% trans "Moderation reason" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in mod_users %}
+                    <tr>
+                        <td><input type="checkbox" name="selected_user" value= "{{user.pk}}" form="action_user"></td>
+                        <td><a href="{% url 'admin:custom_user_detail' user.user_id %}">{{user}}</a></td>
+                        <td>{{user.num_petitions}}</td>
+                        <td>{{user.day_num_petitions}}</td>
+                        <td>{{user.num_monitored_petitions}}</td>
+                        <td>{{user.signature_num}}</td>
+                        <td>{{user.mod_reason}}</td>
+                    </tr>
+                        {% empty %}
+                    <tr>
+                        <td colspan="7" id="no_element">{% trans "No moderated users." %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<div id="monitoredPetitions" class="section">
+    <table>
+        <h2 class="title">{% trans "Monitored petitions" %}</h2>
+
+        <h2>{%trans "Available actions" %}</h2>
+        <ul>
+            {% blocktrans %}
+                <li><strong>Moderate petition</strong>: moderate selected petitions. They will not appear on this table anymore but on the Moderated Petitions table.</li>
+                <li><strong>Delete petition</strong>: delete selected petitions.</li>
+                <li><strong>Switch check signatures at each signature</strong>: switch between checking the number of signatures at each signature or periodically.</li>
+                <li><strong>Submit petition as ham</strong>: tell Akismet that the selected petitions are not spam. They are demonitored.</li>
+                <li><strong>Submit petition as spam</strong>: tell Akismet that the selected petitions are spam. They are moderated.</li>
+            {% endblocktrans %}
+        </ul>
+
+        <h2>{% trans "Monitoring priority" %}</h2>
+        <ul>
+            <li id="red_priority">{% trans "Strong" %}</li>
+            <li id="orange_priority">{% trans "Average" %}</li>
+            <li id="yellow_priority">{% trans "Low" %}</li>
+        </ul>
+
+        <input type="text" id="searchMonPetition" onkeyup="searchBar('mon_petition')" placeholder="{% trans 'Search for petitions..' %}">
+
+        <form method="post">
+            {% csrf_token %}
+            <select name="limit_mon">
+                <option value="{{ 50 }}">{% trans "display 50" %}</option>
+                <option value="{{ 200 }}">{% trans "display 200" %}</option>
+                <option value="{{ 500 }}">{% trans "display 500" %}</option>
+                <option value="None">{% trans "display all" %}</option>
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+        </form>
+
+        <form method="post" id="action_mon_petition">
+            {% csrf_token %}
+            <select name="action">
+                {% for action_name in actions_mon_petition %}
+                    <option value="{{ action_name }}">{{ action_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+
+            <p>
+                <input type="checkbox" onclick="toggle(this, 'selected_mon_petition');" /> {%trans "Select All" %}<br />
+            </p>
+
+    </table>
+
+    <table class="adminlist" id="monPetitionTable" width="100%">  
+        <thead>
+            <tr>
+                <th>{% trans "Selection" %}</th>
+                <th>{% trans "Title" %}</th>
+                <th>{% trans "Owner type" %}</th>
+                <th>{% trans "Owner" %}</th>
+                <th onclick="sortTable('monPetitionTable', 4)">{% trans "Total number of signatures" %}</th>
+                <th onclick="sortTable('monPetitionTable', 5)">{% trans "Number of signatures today" %}</th>
+                <th onclick="sortTable('monPetitionTable', 6)">{% trans "Number of signatures yesterday" %}</th>
+                <th onclick="sortTable('monPetitionTable', 7)">{% trans "Number of unconfirmed signatures in the last 6h" %}</th>
+                <th>{% trans "Number of signatures checked at each signature ? (if False, periodically)" %}</th>
+                <th>{% trans "Monitoring reason" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for petition in mon_petitions %}
+            <tr {%if petition.color%}style="background-color: {{petition.color}};"{%endif%}>
+                <td><input type="checkbox" name="selected_mon_petition" value= "{{petition.pk}}" form="action_mon_petition"></td>
+                <td><a href="{% url 'admin:custom_petition_detail' petition.id petition.owner.id petition.owner_type %}">{{petition}}</a></td>
+                <td>{{petition.owner_type}}</td>
+                {%if petition.owner_type == 'user'%}
+                    <td><a href="{% url 'admin:custom_user_detail' petition.owner.id %}">{{petition.owner}}</a></td>
+                {%elif petition.owner_type == 'org'%}
+                    <td><a href="{% url 'admin:custom_org_detail' petition.owner %}">{{petition.owner}}</a></td>
+                {%endif%}
+                <td>{{petition.signature_num}}</td>
+                <td>{{petition.day_num_signatures}}</td>
+                <td>{{petition.yesterday_num_signatures}}</td>
+                <td>{{petition.unconfirmed_num}}</td>
+                <td>{{petition.check_signatures_at_each_signature}}</td>
+                <td>{{petition.mon_reason}}</td>
+            </tr>
+                {% empty %}
+            <tr>
+                <td colspan="10" id="no_element">{% trans "No monitored petitions." %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+</form>
+</div>
+
+<div id="moderatedPetitions" class="section">
+    <table>
+        <h2 class="title">{% trans "Moderated petitions" %}</h2>
+
+        <h2>{%trans "Available actions" %}</h2>
+        <ul>
+            {% blocktrans %}
+                <li><strong>Demoderate petition</strong>: demoderate selected petitions. They will not appear on this table anymore.</li>
+                <li><strong>Delete petition</strong>: delete selected petitions.</li>
+                <li><strong>Switch check signatures at each signature</strong>: switch between checking the number of signatures at each signature or periodically.</li>
+                <li><strong>Submit petition as ham</strong>: tell Akismet that the selected petitions are not spam. They are demoderated.</li>
+                <li><strong>Submit petition as spam</strong>: tell Akismet that the selected petitions are spam.</li>
+            {% endblocktrans %}
+        </ul>
+
+        <input type="text" id="searchModPetition" onkeyup="searchBar('mod_petition')" placeholder="{% trans 'Search for petitions..' %}">
+
+        <form method="post">
+            {% csrf_token %}
+            <select name="limit_mod">
+                <option value="{{ 50 }}">{% trans "display 50" %}</option>
+                <option value="{{ 200 }}">{% trans "display 200" %}</option>
+                <option value="{{ 500 }}">{% trans "display 500" %}</option>
+                <option value="None">{% trans "display all" %}</option>
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+        </form>
+
+        <form method="post" id="action_mod_petition">
+            {% csrf_token %}
+            <select name="action">
+                {% for action_name in actions_mod_petitions %}
+                    <option value="{{ action_name }}">{{ action_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+
+            <p>
+                <input type="checkbox" onclick="toggle(this, 'selected_petition');" /> {%trans "Select All" %}<br />
+            </p>
+
+    </table>
+
+        <table class="adminlist" id="modPetitionTable" width="100%">  
+            <thead>
+                <tr>
+                    <th>{% trans "Selection" %}</th>
+                    <th>{% trans "Title" %}</th>
+                    <th>{% trans "Owner type" %}</th>
+                    <th>{% trans "Owner" %}</th>
+                    <th onclick="sortTable('modPetitionTable', 4)">{% trans "Total number of signatures" %}</th>
+                    <th onclick="sortTable('modPetitionTable', 5)">{% trans "Number of signatures today" %}</th>
+                    <th onclick="sortTable('modPetitionTable', 6)">{% trans "Number of signatures yesterday" %}</th>
+                    <th onclick="sortTable('modPetitionTable', 7)">{% trans "Number of unconfirmed signatures in the last 6h" %}</th>
+                    <th>{% trans "Number of signatures checked at each signature? (if False, periodically)" %}</th>
+                    <th>{% trans "Moderation reason" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for petition in mod_petitions %}
+                <tr id="{{petition.pk}}">
+                    <td><input type="checkbox" name="selected_petition" value= "{{petition.pk}}" form="action_mod_petition"></td>
+                    <td><a href="{% url 'admin:custom_petition_detail' petition.id petition.owner.id petition.owner_type%}">{{petition}}</a></td>
+                    <td>{{petition.owner_type}}</td>
+                    {%if petition.owner_type == 'user'%}
+                        <td><a href="{% url 'admin:custom_user_detail' petition.owner.id %}">{{petition.owner}}</a></td>
+                    {%elif petition.owner_type == 'org'%}
+                        <td><a href="{% url 'admin:custom_org_detail' petition.owner %}">{{petition.owner}}</a></td>
+                    {%endif%}
+                    <td>{{petition.signature_num}}</td>
+                    <td>{{petition.day_num_signatures}}</td>
+                    <td>{{petition.yesterday_num_signatures}}</td>
+                    <td>{{petition.unconfirmed_num}}</td>
+                    <td>{{petition.check_signatures_at_each_signature}}</td>
+                    <td>{{petition.mod_reason}}</td>
+                </tr>
+                    {% empty %}
+                <tr>
+                    <td colspan="10" id="no_element">{% trans "No moderated petitions." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </form>
+</div>
+
+<div id="reportedPetitions" class="section">
+    <table>
+        <h2 class="title">{% trans "Reported petitions" %}</h2>
+
+        <h2>{%trans "Available actions" %}</h2>
+        <ul>
+            {% blocktrans %}
+                <li><strong>Moderate petition</strong>: moderate selected petitions.</li>
+                <li><strong>Delete petition</strong>: delete selected petitions.</li>
+                <li><strong>Submit petition as spam</strong>: tell Akismet that the selected petitions are spam.</li>
+            {% endblocktrans %}
+        </ul>
+
+        <input type="text" id="searchRepPetition" onkeyup="searchBar('rep_petition')" placeholder="{% trans 'Search for petitions..' %}">
+
+        <form method="post">
+            {% csrf_token %}
+            <select name="limit_rep">
+                <option value="{{ 50 }}">{% trans "display 50" %}</option>
+                <option value="{{ 200 }}">{% trans "display 200" %}</option>
+                <option value="{{ 500 }}">{% trans "display 500" %}</option>
+                <option value="None">{% trans "display all" %}</option>
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+        </form>
+
+        <form method="post" id="action_rep_petition">
+            {% csrf_token %}
+            <select name="action">
+                {% for action_name in actions_rep_petitions %}
+                    <option value="{{ action_name }}">{{ action_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+
+            <p>
+                <input type="checkbox" onclick="toggle(this, 'selected_rep_petition');" /> {%trans "Select All" %}<br />
+            </p>
+
+    </table>
+
+        <table class="adminlist" id="repPetitionTable" width="100%">  
+            <thead>
+                <tr>
+                    <th>{% trans "Selection" %}</th>
+                    <th>{% trans "Title" %}</th>
+                    <th>{% trans "Owner type" %}</th>
+                    <th>{% trans "Owner" %}</th>
+                    <th>{% trans "Beginning of content" %}</th>
+                    <th>{% trans "Number of reports" %}</th>
+                    <th>{% trans "Last reporting reason" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for petition in rep_petitions %}
+                <tr id="{{petition.pk}}">
+                    <td><input type="checkbox" name="selected_rep_petition" value= "{{petition.pk}}" form="action_rep_petition"></td>
+                    <td><a href="{% url 'admin:custom_petition_detail' petition.id petition.owner.id petition.owner_type%}">{{petition.title}}</a></td>
+                    <td>{{petition.owner_type}}</td>
+                    {%if petition.owner_type == 'user'%}
+                        <td><a href="{% url 'admin:custom_user_detail' petition.owner.id %}">{{petition.owner}}</a></td>
+                    {%elif petition.owner_type == 'org'%}
+                        <td><a href="{% url 'admin:custom_org_detail' petition.owner %}">{{petition.owner}}</a></td>
+                    {%endif%}
+                    <td>{{petition.cut_text_str}}</td>
+                    <td>{{petition.num_rep}}</td>
+                    <td>{{petition.rep_reason}}</td>
+                </tr>
+                    {% empty %}
+                <tr>
+                    <td colspan="10" id="no_element">{% trans "No reported petitions." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </form>
+</div>
+
+<div id="monitoredOrgas"  class="section">
+    <table>
+        <h2 class="title">{% trans "Monitored organizations" %}</h2>
+
+        <h2>{%trans "Available actions" %}</h2>
+        <ul>
+            {% blocktrans %}
+                <li><strong>Demonitor organization</strong>: demonitor selected organizations. They will not appear on this table anymore.</li>
+                <li><strong>Moderate organization</strong>: moderate selected organizations. They will not appear on this table anymore.</li>
+                <li><strong>Delete organization</strong>: delete selected organizations.</li>
+            {% endblocktrans %}
+        </ul>
+
+        <h2>{% trans "Monitoring priority" %}</h2>
+        <ul>
+            <li id="red_priority">{% trans "Strong" %}</li>
+            <li id="orange_priority">{% trans "Average" %}</li>
+            <li id="yellow_priority">{% trans "Low" %}</li>
+        </ul>
+            
+        <input type="text" id="searchOrg" onkeyup="searchBar('org')" placeholder="{% trans 'Search for organizations..' %}">
+
+        <form method="post">
+            {% csrf_token %}
+                <select name="limit_mon_orgas">
+                    <option value="{{ 50 }}">{% trans "display 50" %}</option>
+                    <option value="{{ 200 }}">{% trans "display 200" %}</option>
+                    <option value="{{ 500 }}">{% trans "display 500" %}</option>
+                    <option value="None">{% trans "display all" %}</option>
+                </select>
+                <input type="submit" value="{% trans 'Send' %}">
+        </form>
+
+        <form method="post" id="action_orga_mon">
+            {% csrf_token %}
+            <select name="action">
+                {% for action_name in actions_mon_org %}
+                    <option value="{{ action_name }}">{{ action_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+            
+            <p>
+                <input type="checkbox" onclick="toggle(this, 'selected_mon_orga');" /> {%trans "Select All" %}<br />
+            </p>
+    </table>
+
+        <table class="adminlist" id="monOrgTable" width="100%">  
+            <thead>
+                <tr>
+                    <th>{% trans "Selection" %}</th>
+                    <th>{% trans "Name" %}</th>
+                    <th onclick="sortTable('monOrgTable', 2)">{% trans "Total number of petitions" %}</th>
+                    <th onclick="sortTable('monOrgTable', 3)">{% trans "Day number of petitions" %}</th>
+                    <th onclick="sortTable('monOrgTable', 4)">{% trans "Total number of members" %}</th>
+                    <th onclick="sortTable('monOrgTable', 5)">{% trans "Number of moderated members" %}</th>
+                    <th onclick="sortTable('monOrgTable', 6)">{% trans "Number of moderated or monitored petitions" %}</th>
+                    <th onclick="sortTable('monOrgTable', 7)">{% trans "Total number of signatures" %}</th>
+                    <th>{% trans "Monitoring reason" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orga in mon_organizations %}
+                <tr {%if orga.color%}style="background-color: {{orga.color}};"{%endif%}>
+                    <td><input type="checkbox" name="selected_mon_orga" value= "{{orga.pk}}" form="action_orga_mon"></td>
+                    <td><a href="{% url 'admin:custom_org_detail' orga.name %}">{{orga}}</a></td>
+                    <td>{{orga.num_petitions}}</td>
+                    <td>{{orga.day_num_petitions}}</td>
+                    <td>{{orga.user_num}}</td>
+                    <td>{{orga.num_mod_members}}</td>
+                    <td>{{orga.num_monitored_petitions}}</td>
+                    <td>{{orga.signature_num}}</td>
+                    <td>{{orga.mon_reason}}</td>
+                </tr>
+                    {% empty %}
+                <tr>
+                    <td colspan="9" id="no_element">{% trans "No monitored organizations." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </form>
+</div>
+
+<div id="moderatedOrgas" class="section">
+    <table>
+        <h2 class="title">{% trans "Moderated organizations" %}</h2>
+
+        <h2>{%trans "Available actions" %}</h2>
+        <ul>
+            {% blocktrans %}
+                <li><strong>Demoderate organization</strong>: demoderate selected organizations. They will not appear on this table anymore.</li>
+                <li><strong>Delete organization</strong>: delete selected organizations.</li>
+            {% endblocktrans %}
+        </ul>
+
+        <input type="text" id="searchOrg" onkeyup="searchBar('org')" placeholder="{% trans 'Search for organizations..' %}">
+
+        <form method="post">
+            {% csrf_token %}
+                <select name="limit_orgas">
+                    <option value="{{ 50 }}">{% trans "display 50" %}</option>
+                    <option value="{{ 200 }}">{% trans "display 200" %}</option>
+                    <option value="{{ 500 }}">{% trans "display 500" %}</option>
+                    <option value="None">{% trans "display all" %}</option>
+                </select>
+                <input type="submit" value="{% trans 'Send' %}">
+        </form>
+
+        <form method="post" id="action_orga">
+            {% csrf_token %}
+            <select name="action">
+                {% for action_name in actions_org %}
+                    <option value="{{ action_name }}">{{ action_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="{% trans 'Send' %}">
+
+            <p>
+                <input type="checkbox" onclick="toggle(this, 'selected_orga');" /> {%trans "Select All" %}<br />
+            </p>
+
+        </table>
+
+        <table class="adminlist" id="orgTable" width="100%">  
+            <thead>
+                <tr>
+                    <th>{% trans "Selection" %}</th>
+                    <th>{% trans "Name" %}</th>
+                    <th onclick="sortTable('orgTable', 2)">{% trans "Total number of petitions" %}</th>
+                    <th onclick="sortTable('orgTable', 3)">{% trans "Day number of petitions" %}</th>
+                    <th onclick="sortTable('orgTable', 4)">{% trans "Total number of members" %}</th>
+                    <th onclick="sortTable('orgTable', 5)">{% trans "Number of moderated members" %}</th>
+                    <th onclick="sortTable('orgTable', 6)">{% trans "Number of moderated or monitored petitions" %}</th>
+                    <th onclick="sortTable('orgTable', 7)">{% trans "Total number of signatures" %}</th>
+                    <th>{% trans "Moderation reason" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orga in mod_organizations %}
+                <tr>
+                    <td><input type="checkbox" name="selected_orga" value= "{{orga.pk}}" form="action_orga"></td>
+                    <td><a href="{% url 'admin:custom_org_detail' orga.name %}">{{orga}}</a></td>
+                    <td>{{orga.num_petitions}}</td>
+                    <td>{{orga.day_num_petitions}}</td>
+                    <td>{{orga.user_num}}</td>
+                    <td>{{orga.num_mod_members}}</td>
+                    <td>{{orga.num_monitored_petitions}}</td>
+                    <td>{{orga.signature_num}}</td>
+                    <td>{{orga.mod_reason}}</td>
+                </tr>
+                    {% empty %}
+                <tr>
+                    <td colspan="9" id="no_element">{% trans "No moderated organizations." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </form>
+</div>
+
+<div id="moderationVariables" class="section">
+    <h2 class="title">{% trans "Moderation variables" %}</h2>
+    
+    <p>
+        {% trans "These variables are used to test for bots and spam in petitions and their associated signatures. You can find and modify their values in " %} <strong>pytition/pytition/settings/base.py</strong>.
+    </p>
+
+    <button class="button" onclick="showVariables()" >{% trans "Hide moderation variables" %}</button>
+
+    <div id = "mod_variables">
+
+        <div id="subsection1">
+            <h2>{% trans "Cron commands" %}</h2>
+
+            {% blocktrans %}
+                <p>
+                    Petitions require their signatures to be checked periodically to avoid spam. 
+                    You can change this and make the verification at each signatures by using the <strong>switch check signatures at each signature</strong> action in petitions tables. <br>
+                    Permissions for organizations are also checked periodically. If a user is moderated, they lose their permissions in their organizations. 
+                </p>
+            {% endblocktrans %}
+
+            <p>
+                {% trans "In order to launch these Cron jobs, you can put the following commands in crontab by using the crontab -e command at the root of the project, outside of the docker container:" %}
+            </p>
+
+            <p>
+            <ul>
+                <li>{time} docker exec {docker_container_name} /venv/.venv/bin/python3.8 pytition/manage.py cron</li>
+                <li>{time} docker exec {docker_container_name} /venv/.venv/bin/python3.8 pytition/manage.py cron_permissions</li>
+            </ul>
+    </p>
+        </div>
+
+        <div id="subsection1">
+            <h2>{% trans "Tests to avoid inappropriate petitions" %}</h2>
+
+            <p>
+                {% trans "In order to avoid inappropriate petitions, we use detectors defined in pytition/petition/spam_management/detectors. They are all called in pytition/petition/spam_management/detector.py." %}
+            </p>
+
+            <ul>
+                <li>{% trans "akismet_detector: uses Akismet's is_spam() function to detect spam content. Returns 0, 1 or 2." %}</li>
+                <li>{% trans "alt_profanity_check_detector: uses function predict_prob() from alt-profanity-check library to detect profanity in english content. Returns 0, 1 or 2." %}</li>
+                <li>{% trans "keywords_detector: uses list of forbidden keywords defined in settings. Returns 0 or 1." %}</li>
+            </ul>
+
+            <p>
+                {% trans "Depending on the results of these detectors, automatic moderation or monitoring actions are taken:" %}
+            </p>
+
+            <ul>
+                <li>{% trans "0: no spam, no moderation or monitoring." %}</li>
+                <li>{% trans "1: possible spam, strong monitoring." %}</li>
+                <li>{% trans "2: spam, moderation." %}</li>
+            </ul>
+
+            <p>
+                {% trans "If there are too many false positives with Akismet, you can disable automatic moderation by putting AKISMET_MODERATION_AUTO at False (pytition/pytition/settings/base.py). That way, Akismet results will only trigger monitoring." %}
+            </p>
+        </div>
+
+        <div id="subsection1">
+            <h2>{% trans "Number of signatures from the same IP address" %}</h2>
+            <p>{% trans "These variables are used in the class PetitionCreationWizard(SessionWizardView) in " %}<strong>pytition/petition/views.py</strong>.</p>
+            
+            <table class="adminlist">  
+                <thead>
+                    <tr>
+                        <th>SIGNATURE_THROTTLE</th>
+                        <th>SIGNATURE_THROTTLE_TIMING</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{signature_throttle}}</td>
+                        <td>{{signature_throttle_timing}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {% blocktrans %}
+                <p>
+                    SIGNATURE_THROTTLE: maximum number of signatures from the same IP address in a petition in an amout of time defined by SIGNATURE_THROTTLE_TIMING.<br>
+                    Here, {{signature_throttle}} signatures can be made by the same IP address in {{signature_throttle_timing}} seconds.
+                </p>
+            {% endblocktrans %}
+
+        </div>
+        
+
+        <div id="subsection1">
+            <h2>{% trans "Monitoring variables" %}</h2>
+            <p>{% trans "The variables defined as VARIABLE_PRIORITY trigger monitoring with said priority. Four types of monitoring are defined:" %}</p>
+               
+                <p id="white_description">Critical: the petition is moderated, <strong>emails</strong> are sent to admin and owner.</p>
+                <p id="red_description">Strong: the petition is monitored with a strong priority, <strong>emails</strong> are sent to admin and user, display in admin and owner dashboard.</p>
+                <p id="orange_description">Average: the petition is monitored with an average priority, display in admin and owner dashboard.</p>
+                <p id="yellow_description">Low: the petition is monitored with a low priority, display in admin.</p>  
+        </div>
+
+        <h2 id="subtitle">{% trans "Monitoring of users and organizations" %}</h2>
+        <p>
+            {% trans "These variables are used in functions in " %} <strong>pytition/petition/spam_management/anti_bot_tests/check_petition_number.py</strong>. <br>
+            {% trans "These functions are called to monitor users and organizations in " %}<strong>pytition/petition/views.py</strong>
+        </p>
+
+
+
+        <div id="subsection2">
+            <h2>{% trans "Number of petitions in one day" %}</h2>
+            
+            <table class="adminlist" width="60%">  
+                <thead>
+                    <tr>
+                        <th id="white">DAY_PETITION_CRITICAL</th>
+                        <th id="red">DAY_PETITION_STRONG</th>
+                        <th id="orange">DAY_PETITION_AVERAGE</th>
+                        <th id="yellow">DAY_PETITION_LOW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="white">{{day_petition_critical}}</td>
+                        <td id="red">{{day_petition_strong}}</td>
+                        <td id="orange">{{day_petition_average}}</td>
+                        <td id="yellow">{{day_petition_low}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            {% blocktrans %}
+                <p>
+                    Maximum numbers of petitions in a day for a user or an organization. <br>
+                    Here, if a user creates {{day_petition_critical}} petitions in a day, they are moderated automatically.
+                </p>
+            {% endblocktrans %}
+
+            <h2>{% trans "Number of monitored or moderated petitions" %}</h2>
+
+            <table class="adminlist" width="60%">  
+                <thead>
+                    <tr>
+                        <th id="white">MONITORED_PETITIONS_CRITICAL</th>
+                        <th id="red">MONITORED_PETITIONS_STRONG</th>
+                        <th id="orange">MONITORED_PETITIONS_AVERAGE</th>
+                        <th id="yellow">MONITORED_PETITIONS_LOW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="white">{{monitored_petitions_critical}}</td>
+                        <td id="red">{{monitored_petitions_strong}}</td>
+                        <td id="orange">{{monitored_petitions_average}}</td>
+                        <td id="yellow">{{monitored_petitions_low}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {% blocktrans %}
+                <p>
+                    Maximum numbers of monitored or moderated petitions for a user or an organization. <br>
+                    Here, if a user or an organization has more than {{monitored_petitions_critical}}, they are moderated automatically.
+                </p>
+            {% endblocktrans %}
+
+            <h2>{% trans "Total number of signatures" %}</h2>
+
+            <table class="adminlist" width="60%">  
+                <thead>
+                    <tr>
+                        <th id="white">SIGNATURES_TOTAL_CRITICAL</th>
+                        <th id="red">SIGNATURES_TOTAL_STRONG</th>
+                        <th id="orange">SIGNATURES_TOTAL_AVERAGE</th>
+                        <th id="yellow">SIGNATURES_TOTAL_LOW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="white">{{signatures_total_critical}}</td>
+                        <td id="red">{{signatures_total_strong}}</td>
+                        <td id="orange">{{signatures_total_average}}</td>
+                        <td id="yellow">{{signatures_total_low}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {% blocktrans %}
+                <p>
+                    Maximum numbers of total signatures for all the petitions of a user or an organization. <br>
+                    Here if a user or an organization has more than {{signatures_total_critical}} signatures in all their petitions, they are moderated automatically.
+                </p>
+            {% endblocktrans %}
+    </div>
+
+    <h2 id="subtitle">{% trans "Monitoring of petitions" %}</h2>
+    <p>
+        {% trans "These variables are used in functions in " %}<strong>pytition/petition/spam_management/anti_bot_tests/check_signature_number.py</strong>. <br> 
+        {% trans "These functions are called to monitor petitions in " %}<strong>pytition/petition/views.py</strong>
+    </p>
+
+    <div id="subsection2">
+            <h2>{% trans "Signature variation" %}</h2>
+
+            <table class="adminlist" width="60%">  
+                <thead>
+                    <tr>
+                        <th id="white">SIGNATURE_VARIATION_CRITICAL</th>
+                        <th id="red">SIGNATURE_VARIATION_STRONG</th>
+                        <th id="orange">SIGNATURE_VARIATION_AVERAGE</th>
+                        <th id="yellow">SIGNATURE_VARIATION_LOW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="white">{{signature_variation_critical}}</td>
+                        <td id="red">{{signature_variation_strong}}</td>
+                        <td id="orange">{{signature_variation_average}}</td>
+                        <td id="yellow">{{signature_variation_low}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            {% blocktrans %}
+                <p>
+                    Maximum signature variations from one day to the next or one week to today. <br>
+                    Here, if there is {{signature_variation_strong}} times more signatures today than a fixed period of time, we monitor the petition with a strong priority.
+                </p>
+            {% endblocktrans %}
+
+            <h2>{% trans "Number of signatures" %}</h2>
+
+            <table class="adminlist" width="60%">  
+                <thead>
+                    <tr>
+                        <th id="white">SIGNATURE_NUMBER_CRITICAL</th>
+                        <th id="red">SIGNATURE_NUMBER_STRONG</th>
+                        <th id="orange">SIGNATURE_NUMBER_AVERAGE</th>
+                        <th id="yellow">SIGNATURE_NUMBER_LOW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="white">{{signature_number_critical}}</td>
+                        <td id="red">{{signature_number_strong}}</td>
+                        <td id="orange">{{signature_number_average}}</td>
+                        <td id="yellow">{{signature_number_low}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            {% blocktrans %}
+                <p>
+                    Maximum total signature numbers in a petition. <br>
+                    Here, if there are more than {{signature_number_strong}} signatures in a petition, we monitor it with a strong priority.
+                </p>
+            {% endblocktrans %}
+            
+            <h2>{% trans "Number of unconfirmed signatures" %}</h2>
+
+            <table class="adminlist" width="60%">  
+                <thead>
+                    <tr>
+                        <th id="white">UNCONFIRMED_NUMBER_CRITICAL</th>
+                        <th id="red">UNCONFIRMED_NUMBER_STRONG</th>
+                        <th id="orange">UNCONFIRMED_NUMBER_AVERAGE</th>
+                        <th id="yellow">UNCONFIRMED_NUMBER_LOW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="white">{{unconfirmed_signature_critical}}</td>
+                        <td id="red">{{unconfirmed_signature_strong}}</td>
+                        <td id="orange">{{unconfirmed_signature_average}}</td>
+                        <td id="yellow">{{unconfirmed_signature_low}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            {% blocktrans %}
+                <p>
+                    Maximum numbers of unconfirmed signatures in the last 6h. <br>
+                    For example, here, if there are more than 200 unconfirmed signatures in 6h, we monitor the petition with an average priority.
+                </p>
+            {% endblocktrans %}
+
+            <h2>{% trans "Number of signatures 24h after creation" %}</h2>
+
+            <table class="adminlist" width="60%">  
+                <thead>
+                    <tr>
+                        <th id="white">CREATION_NUMBER_CRITICAL</th>
+                        <th id="red">CREATION_NUMBER_STRONG</th>
+                        <th id="orange">CREATION_NUMBER_AVERAGE</th>
+                        <th id="yellow">CREATION_NUMBER_LOW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="white">{{signature_at_creation_critical}}</td>
+                        <td id="red">{{signature_at_creation_strong}}</td>
+                        <td id="orange">{{signature_at_creation_average}}</td>
+                        <td id="yellow">{{signature_at_creation_low}}</td>
+                    </tr>
+                </tbody>
+            </table>    
+
+            {% blocktrans %}
+                <p>
+                    Maximum numbers of signatures in the 24h after the creation of the petition. <br>
+                    For example, here, if there are more than 1000 signatures 24h after the creation of a petition, we monitor it with a low priority.
+                </p>
+            {% endblocktrans %}
+            
+    </div>
+       
+    </div>
+
+</div>
+{% endblock %}

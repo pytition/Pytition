@@ -59,7 +59,6 @@ Those are external projects that are needed and used by Pytition, but included i
 * django-tinymce 3.5.0
 * django-colorfield 0.8.0
 * requests 2.20.x
-* mysqlclient 2.0.1
 * beautifulsoup4 4.6.3
 * django-formtools 2.2
 * bcrypt
