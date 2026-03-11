@@ -17,6 +17,43 @@
     .custom-switch ~ .invalid-feedback {
         display: block;
     }
+
+    div.form-group.row {
+        margin-bottom: 2rem;
+    }
+
+    #id_publication_date {
+        width: 12rem;
+    }
+
+    #id_target {
+        width: 12rem;
+    }
+
+    #id_linear_gradient_direction {
+        width: 248px;
+    }
+
+    label.custom-file-label {
+        width: 240px;
+    }
+
+    #inputGroupFileAddon01 {
+        width: 64px;
+    }
+
+    #id_twitter_description {
+        width: 30rem;
+        height: 10rem;
+    }
+
+    #id_org_twitter_handle {
+        width: 30rem;
+    }
+
+    .form-text.text-muted {
+        padding-left: 15px;
+    }
     </style>
 {% endblock extracss %}
 
@@ -28,8 +65,12 @@
 {% trans "Petition settings" %}
 {% endblock main_title %}
 
+
+<!-- Display according to publish status -->
 {% block edit_content %}
 {% if not is_template %}
+
+<!-- Checkbox input displaying publish status -->
 <div data-petition-id="{{ petition.id }}" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}"
     class="petition-publish-switch mb-4 custom-control custom-switch
                        {% if not petition.published %}
@@ -48,23 +89,41 @@
         {% trans "Published" %}
         {% endif %}
     </label>
+
+    <!-- Alert message displayed only if petition is not published -->
+    <div class="alert alert-warning alert-dismissible fade show" id="publication-warning" role="alert" style="display: none">
+        <strong>{% trans "Caution!" %}</strong>
+            {% blocktrans trimmed %}
+              This petition is not published yet. You can only see it because you are logged-in as either its creator or a member of the organization
+              which created it. Other visitors won't be able to see it.
+            {% endblocktrans %}
+    </div>
 </div>
 {% endif %}
+
+<!-- 5 different menus to edit petition -->
 <div class="list-group list-group-horizontal mb-5" id="list-tab" role="tablist">
     <a href="#content_form" class="list-group-item list-group-item-info list-group-item-action active"
     data-toggle="list" aria-controls="content_form" role="tab"><span class="oi oi-clipboard" aria-current="true"></span> {% trans "Content" %}</a>
-    <a href="#style_form" class="list-group-item list-group-item-info list-group-item-action"
-    data-toggle="list" aria-controls="style_form" role="tab"><span class="oi oi-brush"></span> {% trans "Style & Look" %}</a>
+    {% if not settings.DISABLE_CUSTOM_STYLE %}
+        <a href="#style_form" class="list-group-item list-group-item-info list-group-item-action"
+        data-toggle="list" aria-controls="style_form" role="tab"><span class="oi oi-brush"></span> {% trans "Style & Look" %}</a>
+    {% endif %}
     <a href="#social_network_form" class="list-group-item list-group-item-info list-group-item-action"
     data-toggle="list" aria-controls="social_network_form" role="tab"><span class="oi oi-share-boxed"></span> {% trans "Social Networks" %}</a>
     <a href="#email_form" class="list-group-item list-group-item-info list-group-item-action"
     data-toggle="list" aria-controls="email_form" role="tab"><span class="oi oi-envelope-closed"></span> {% trans "E-mail setup" %}</a>
-    <a href="#newsletter_form" class="list-group-item list-group-item-info list-group-item-action"
-    data-toggle="list" aria-controls="newsletter_form" role="tab"><span class="oi oi-rss"></span> {% trans "Newsletter setup" %}</a>
+    {% if not settings.DISABLE_NEWSLETTER %}
+        <a href="#newsletter_form" class="list-group-item list-group-item-info list-group-item-action"
+        data-toggle="list" aria-controls="newsletter_form" role="tab"><span class="oi oi-rss"></span> {% trans "Newsletter setup" %}</a>
+    {% endif %}
     <a href="#preview" class="list-group-item list-group-item-info list-group-item-action"
     data-toggle="list" aria-controls="preview" role="tab"><span class="oi oi-clipboard"></span> {% trans "Preview petition" %}</a>
 </div>
 <div class="tab-content" id="nav-tabContent">
+
+    <!-- 'Content' panel -->
+    <!-- implemented with Django in `forms.py` -->
     <div class="tab-pane fade show active" id="content_form" role="tabpanel"
          aria-labelledby="list-content-form-list">
         <form method="POST" id="form_content">{% csrf_token %}
@@ -72,17 +131,76 @@
             <button name="content_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
         </form>
     </div>
+
+    <!-- 'Social Networks' panel -->
     <div class="tab-pane fade" id="social_network_form" role="tabpanel"
          aria-labelledby="list-social-network-form-list">
      <form method="POST" id="form_sn" enctype="multipart/form-data">
-         {% csrf_token %}
+        {% if social_network_form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in social_network_form.non_field_errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% csrf_token %}
+
+        <!-- Select petition image group -->
+        <div class="form-group row">
+            <div class="input-group {% if social_network_form.errors.twitter_image %}is-invalid{% endif %}">
+            <input type="checkbox" name="remove_twitter_image" id="remove_twitter_image" hidden>
+
+            <!-- the variable 'twitter_image' handles the image of the petition -->
+            <label for="inputGroupFileAddon01" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Petition image" %}</label>
+                <div class="input-group-prepend">
+                    <a class="input-group-text" id="inputGroupFileAddon01">{% trans "Upload" %}</a>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input {% if social_network_form.errors.twitter_image %}is-invalid{% endif %}" id="id_twitter_image"
+                      aria-describedby="inputGroupFileAddon01" name="twitter_image" accept="image/*">
+                    <label class="custom-file-label" for="id_twitter_image">{% trans "Choose file" %}</label>
+                </div>
+            </div>
+            <small class="form-text text-muted">
+                {% blocktranslate with accepted_image_extensions_list=accepted_image_extensions_list|join:", " %}Accepted file extensions: {{ accepted_image_extensions_list }}{% endblocktranslate %}
+            </small>
+            {% if social_network_form.errors.twitter_image %}
+                {% for error in social_network_form.errors.twitter_image %}
+                    <div class="invalid-feedback">
+                    {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Preview petition image group -->
+        <div class="form-group row">
+            <label for="img_preview" class="col-sm-12 col-md-3 col-lg-2 col-form-label"></label>
+            <div class="col-sm-12 col-md-9 col-lg-10">
+                <div class="card" id="twitter_img_card" style="width: 18rem;" {% if not petition.twitter_image %}hidden{% endif %}>
+                    <div class="card-header">{% trans "Image" %}</div>
+                    <div class="card-body mx-auto text-center">
+                        <div class="card-text">
+                            {% if petition.twitter_image %}
+                                        <img class="img-thumbnail img-fluid" alt="uploaded image preview" src="{{ petition.twitter_image }}" style="max-width: 200px; max-height: 200px;" id="img_preview"/>
+                            {% else %}
+                                        <img class="img-thumbnail img-fluid" alt="cloud clipart" src="{% static "vendor/open-iconic-1.1.1/png/cloud-upload-8x.png" %}" style="max-width: 200px; max-height: 200px;" id="img_preview"/>
+                            {% endif %}
+                        </div>
+                        <br/>
+                        <button type="button" class="btn btn-danger" id="twitter_img_remove_btn">
+                            <span class="oi oi-trash"> {% trans "Remove image" %}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
   <div class="form-group row">
     <label for="id_twitter_description" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Twitter description" %}</label>
         <div class="col-sm-12 col-md-9 col-lg-10">
-            <input type="text" name="twitter_description" maxlength="200" class="is-valid form-control" id="id_twitter_description"
-             {% if petition.twitter_description %}value="{{ petition.twitter_description }}"{% endif %}>
+            <textarea type="text" name="twitter_description" maxlength="200" class="is-valid form-control" id="id_twitter_description">{% if petition.twitter_description|trim %}{{ petition.twitter_description|trim }}{% endif %}</textarea>
         </div>
-  </div>
+    </div>
   <div class="form-group row">
     <label for="id_org_twitter_handle" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Org twitter handle" %}</label>
         <div class="col-sm-12 col-md-9 col-lg-10">
@@ -160,47 +278,12 @@
             </div>
         </div>
     </div>
-<div class="form-group row">
-<div class="input-group">
-<input type="checkbox" name="remove_twitter_image" id="remove_twitter_image" hidden>
-<label for="inputGroupFileAddon01" class="col-sm-12 col-md-3 col-lg-2 col-form-label">{% trans "Twitter image" %}</label>
-  <div class="input-group-prepend">
-    <a class="input-group-text" id="inputGroupFileAddon01">{% trans "Upload" %}</a>
-  </div>
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="id_twitter_image"
-      aria-describedby="inputGroupFileAddon01" name="twitter_image">
-    <label class="custom-file-label" for="id_twitter_image">{% trans "Choose file" %}</label>
-  </div>
-</div>
-</div>
-<div class="form-group row">
-    <label for="img_preview" class="col-sm-12 col-md-3 col-lg-2 col-form-label"></label>
-    <div class="col-sm-12 col-md-9 col-lg-10">
-<div class="card" id="twitter_img_card" style="width: 18rem;" {% if not petition.twitter_image %}hidden{% endif %}>
-<div class="card-header">{% trans "Image" %}</div>
-  <div class="card-body mx-auto text-center">
-    <div class="card-text">
-{% if petition.twitter_image %}
-            <img class="img-thumbnail img-fluid" alt="uploaded image preview" src="{{ petition.twitter_image }}" style="max-width: 200px; max-height: 200px;" id="img_preview"/>
-{% else %}
-            <img class="img-thumbnail img-fluid" alt="cloud clipart" src="{% static "vendor/open-iconic-1.1.1/png/cloud-upload-8x.png" %}" style="max-width: 200px; max-height: 200px;" id="img_preview"/>
-{% endif %}
-    </div>
-  <br/>
-<button type="button" class="btn btn-danger" id="twitter_img_remove_btn">
-    <span class="oi oi-trash"> {% trans "Remove image" %}</span>
-</button>
-  </div>
-</div>
-
-    </div>
-</div>
-
 
 <button name="social_network_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
         </form>
         <p>
+
+        <!-- Permalink info -->
         <div class="alert alert-info">
             {% blocktrans %}
                 A permlink (permanent link) is what allows you to share your petition with a nice link
@@ -211,6 +294,8 @@
             {{ example_url }}
             </b>
         </div>
+
+        <!-- Permalink -->
         <form action="{% url "add_new_slug" petition.id %}" method="POST" class="form-inline">
         {% csrf_token %}
         <table class="table table-striped" id="slugTable">
@@ -233,13 +318,19 @@
         </p>
         <button class="btn btn-success" id="addSlug"><span class="oi oi-plus"></span></button>
     </div>
-    <div class="tab-pane fade" id="style_form" role="tabpanel"
-         aria-labelledby="style-form-list">
-        <form method="POST" id="form_style">{% csrf_token %}
-            {% include "petition/bs4_form.html" with form=style_form %}
-            <button name="style_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
-        </form>
-    </div>
+
+    <!-- 'Style & Look' panel -->
+    {% if not settings.DISABLE_CUSTOM_STYLE %}
+        <div class="tab-pane fade" id="style_form" role="tabpanel"
+             aria-labelledby="style-form-list">
+            <form method="POST" id="form_style">{% csrf_token %}
+                {% include "petition/bs4_form.html" with form=style_form %}
+                <button name="style_form_submitted" class="btn btn-primary" value="yes" type="submit" >{% trans "Save" %}</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <!-- 'E-mail setup' panel -->
     <div class="tab-pane fade" id="email_form" role="tabpanel"
         aria-labelledby="list-email-form-list">
         <form method="POST" id="form_email">{% csrf_token %}
@@ -247,13 +338,17 @@
             <button name="email_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
         </form>
     </div>
-    <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
-        aria-labelledby="list-newsletter-form-list">
-        <form method="POST" id="form_newsletter">{% csrf_token %}
-            {% include "petition/bs4_form.html" with form=newsletter_form %}
-            <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
-        </form>
-    </div>
+    {% if not settings.DISABLE_NEWSLETTER %}
+        <div class="tab-pane fade" id="newsletter_form" role="tabpanel"
+            aria-labelledby="list-newsletter-form-list">
+            <form method="POST" id="form_newsletter">{% csrf_token %}
+                {% include "petition/bs4_form.html" with form=newsletter_form %}
+                <button name="newsletter_form_submitted" class="btn btn-primary" value="yes" type="submit">{% trans "Save" %}</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <!-- 'Preview petition' panel -->
     <div class="tab-pane fade" id="preview" role="tabpanel"
         aria-labelledby="list-preview-list" data-src="{{ petition.url }}">
             <div class="alert alert-warning" role="alert">
@@ -500,14 +595,26 @@ function formHasChanged(){
 
     return (formsn.serialize() !== formsn.data('serialize') && !formsn.data('submitted'))
         || (content_tab_changed && !formcontent.data('submitted'))
+        {% if not settings.DISABLE_CUSTOM_STYLE %}
         || (formstyle.serialize() !== formstyle.data('serialize') && !formstyle.data('submitted'))
+        {% endif %}
         || (formemail.serialize() !== formemail.data('serialize') && !formemail.data('submitted'))
-        || (formnewsletter.serialize() !== formnewsletter.data('serialize') && !formnewsletter.data('submitted'));
+        {% if not settings.DISABLE_NEWSLETTER %}
+        || (formnewsletter.serialize() !== formnewsletter.data('serialize') && !formnewsletter.data('submitted'))
+        {% endif %}
+        ;
 
 }
 
 $('form').on('submit', function(){
    $(this).data('submitted', true);
+});
+
+// if publication checkbox is unchecked, display publication-warning message
+$(window).on('load', function(){
+    if (!document.getElementById('petition_published_{{ petition.id }}').checked) {
+        document.getElementById("publication-warning").style.display = "block";
+    }
 });
 
 $(window).on('beforeunload', function(){

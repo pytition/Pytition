@@ -1,19 +1,12 @@
+{% extends "layouts/email.base.html" %}
 {% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
+{% block content %}
 
-<h2>{% trans "Thank you" %} {{ firstname }}!</h2>
+<p>{% blocktrans with petition_title=petition.title %}Thank you for signing the petition “<a href="{{ petition_url }}"><b>{{ petition_title }}</b></a>”, {{ firstname }}.{% endblocktrans %}</p>
 
-{% blocktrans %}
-Now, in order to confirm your signature, you only need to click here :
-{% endblocktrans %}
-<a href="{{ url }}">{{ url }}</a>
-<p />
-{% trans "See you soon!" %}
-</body>
-</html>
+<p>{% blocktrans %}Now, in order to <b>confirm your signature</b>, you only need to click here: <a href="{{ confirmation_url }}">{{ confirmation_url }}</a>{% endblocktrans %}</p>
+
+<p>{% blocktrans %}If this message is unsolicited, you can simply ignore it.{% endblocktrans %}</p>
+
+<p>{% trans "See you soon!" %}</p>
+{% endblock %}

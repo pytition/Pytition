@@ -131,6 +131,7 @@ Initialize Pytition project database. Pay attention to be in your virtualenv to 
   $ python3 manage.py collectstatic
   $ python3 manage.py compilemessages
   $ python3 manage.py createsuperuser
+  $ python3 manage.py gen_reasons
 
 .. note:: You will be asked to enter a `username`, `email` and `password` for the administrator's account.
 
@@ -253,6 +254,8 @@ Start uwsgi and nginx servers:
 
 Your Pytition home page should be available over there: http://mydomain.tld
 
+You also need to launch :ref:`cron-commands`.
+
 Now it's time to :ref:`Configure<Configuration>` your Pytition instance the way you want!
 
 Installation via Docker (recommended for development)
@@ -307,9 +310,35 @@ Last command before being able to click on the "http://0.0.0.0:8000/" link that 
 
   $ docker-compose exec web pdm run ./dev/initialize.sh
 
+Now, you need to launch :ref:`cron-commands`.
+
 Aaaand that's it! You can now just click on the links:
 
 - http://0.0.0.0:8000/ for the Pytition interface
 - http://0.0.0.0:8080/ for the mail server web interface
 
 Next time, just run ``$ docker-compose up --build``
+
+Cron commands
+=====================================================
+
+In both installation methods, you need to call three commands with cron: two for spam management and one for the expiration of bins.
+
+The first one filters the petitions that need to have their signature numbers checked periodically and calls anti-spam functions on them.
+
+.. code-block:: bash
+
+  $ python3 pytition/manage.py cron
+
+The second one removes permissions from moderated users in their organizations.
+
+.. code-block:: bash
+
+  $ python3 pytition/manage.py cron_permissions
+
+The last one deletes petitions permanently after 3 months in the bin.
+
+.. code-block:: bash
+
+  $ python3 pytition/manage.py cron_delete_bin
+

@@ -17,7 +17,7 @@ services:
       - DJANGO_SETTINGS_MODULE=config.docker_config
       - PYTHONPATH=/
     build: .
-    command: pdm run python pytition/manage.py runserver 0.0.0.0:8000
+    command: bash -c "pdm use -f /venv/.venv && pdm run python pytition/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:

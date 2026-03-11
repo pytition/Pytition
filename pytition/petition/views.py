@@ -1,9 +1,24 @@
+# -*- coding: utf-8 -*-
+"""View functions for Pytition
+
+It defines view functions that take a web request and return a web response.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/topics/http/views/
+"""
+
 import csv
-from datetime import timedelta
+from datetime import datetime, timedelta, date
+from django.utils import timezone
 import os
 import urllib.parse
 import random
 from time import time
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import io
+import base64
+from bs4 import BeautifulSoup
 
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
@@ -29,17 +44,19 @@ from django.views.generic.edit import CreateView
 from formtools.wizard.views import SessionWizardView
 
 from .models import Petition, Signature, Organization, PytitionUser, PetitionTemplate, Permission
-from .models import SlugModel, ModerationReason, Moderation
+from .models import SlugModel, ModerationReason, Moderation, MonitoringReason, Monitoring
 from .forms import SignatureForm, ContentFormPetition, EmailForm, NewsletterForm, SocialNetworkForm, ContentFormTemplate
 from .forms import StyleForm, PetitionCreationStep1, PetitionCreationStep2, PetitionCreationStep3, UpdateInfoForm
 from .forms import DeleteAccountForm, OrgCreationForm
 from .helpers import get_client_ip, get_session_user, petition_from_id
 from .helpers import check_petition_is_accessible
-from .helpers import send_confirmation_email, subscribe_to_newsletter, send_welcome_mail
+from .helpers import send_confirmation_email, subscribe_to_newsletter, send_mail_to_moderation, send_mail_to_moderation_report
 from .helpers import get_update_form, petition_detail_meta
 from .helpers import sanitize_html
 from .helpers import remove_user_moderated
-
+from .spam_management.anti_bot_tests.check_signature_number import check_signature_number, check_signature_variation, check_unconfirmed_signatures, check_creation_signatures
+from .spam_management.anti_bot_tests.check_petition_number import check_petition_number_day, check_mon_petition_number, check_user_signature_number
+from .spam_management.detector import check_for_spam
 
 #------------------------------------ Views -----------------------------------
 
@@ -128,19 +145,14 @@ def show_sympa_subscribe_bloc(request, petition_id):
 # /search?q=QUERY
 # Show results of a search query
 def search(request):
-    q = request.GET.get('q', '')
+    q = request.GET.get('q', '').strip()
     if q != "":
         petitions = Petition.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)).filter(published=True,
                                                                                                  moderated=False)[:15]
         petitions = remove_user_moderated(petitions)
         orgs = Organization.objects.filter(name__icontains=q)
     else:
-        petitions = Petition.objects.filter(published=True, moderated=False).order_by('-id')
-        petitions = remove_user_moderated(petitions)
-        paginator = Paginator(petitions, settings.PAGINATOR_COUNT)
-        page = request.GET.get('page')
-        petitions = paginator.get_page(page)
-        orgs = []
+        return redirect('/')
     return render(
         request, 'petition/search.html',
         {
@@ -187,7 +199,13 @@ def detail(request, petition_id):
         response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
         return response
     else:
-        return render(request, 'petition/petition_detail.html', ctx)
+        if petition.is_moderated and pytitionuser and pytitionuser.user.id == petition.user.user.id:
+            messages.error(request, _("This petition is moderated. You only see it because you are its creator"))
+            return render(request, 'petition/petition_detail.html', ctx)
+        elif not petition.is_moderated:
+            return render(request, 'petition/petition_detail.html', ctx)
+        else:
+            raise Http404(_("not found"))
 
 
 # /<int:petition_id>/confirm/<confirmation_hash>
@@ -277,10 +295,27 @@ def create_signature(request, petition_id):
             petition=petition,
             ipaddress=ipaddr,
             date__gt=since)
+
+        # If there are too many signatures from the same IP address, an error message and an email to moderation are sent
         if signatures.count() > settings.SIGNATURE_THROTTLE:
+            signature = form.save()
             messages.error(request, _("Too many signatures from your IP address, please try again later."))
+            ModerationReason.msg = "Too many signatures from this IP adress."
+            send_mail_to_moderation(settings.MODERATION_EMAIL, signature.first_name, ModerationReason.msg, "user")
             return render(request, 'petition/petition_detail.html', ctx)
         else:
+            # The owner chose to check the number of signatures at each signature. If the petition is moderated, redirect to index
+            if petition.check_signatures_at_each_signature:
+                if petition.cron_to_schedule:
+                    petition.cron_to_schedule = False
+                    petition.save()
+                if check_signature_number(petition) or check_signature_variation(petition, "yesterday") or check_signature_variation(petition, "last week") or check_unconfirmed_signatures(petition) or check_creation_signatures(petition):
+                    return redirect("index")
+
+            else:
+                petition.cron_to_schedule = True
+                petition.save()
+
             signature = form.save()
             signature.ipaddress = ipaddr
             signature.save()
@@ -324,26 +359,67 @@ def org_dashboard(request, orgslugname):
         return redirect("user_dashboard")
 
     can_create_petition = org.is_allowed_to(pytitionuser, "can_create_petitions")
-    petitions = org.petition_set.all()
+    petitions = org.petition_set.all().filter(in_bin_date__isnull=True)
+    petitions_bin = org.petition_set.all().filter(in_bin_date__isnull=False)
     other_orgs = pytitionuser.organization_set.filter(~Q(name=org.name)).all()
     return render(request, 'petition/org_dashboard.html',
             {'org': org, 'user': pytitionuser, "other_orgs": other_orgs,
-            'petitions': petitions, 'user_permissions': permissions,
+            'petitions': petitions, 'petitions_bin': petitions_bin, 'user_permissions': permissions,
              'can_create_petition': can_create_petition,
              'displaying_dashboard': True})
 
+# /org/<slug:orgslugname>/bin
+# Bin page for an organization's deleted petitions
+@login_required
+def org_bin(request, orgslugname):
+    user = get_session_user(request)
+
+    try:
+        org = Organization.objects.get(slugname=orgslugname)
+    except Organization.DoesNotExist:
+        messages.error(request, _("This organization does not exist: '{}'".format(orgslugname)))
+        return redirect("user_dashboard")
+
+    if user not in org.members.all():
+        messages.error(request, _("You are not part of this organization: '{}'".format(org.name)))
+        return redirect("user_dashboard")
+    else:
+        petitions = org.petition_set.all().filter(in_bin_date__isnull=True)
+        petitions_bin = org.petition_set.all().filter(in_bin_date__isnull=False)
+        return render(
+            request,
+            'petition/org_bin.html',
+            {'org': org, 'petitions': petitions, 'petitions_bin': petitions_bin,
+            'displaying_dashboard': True}
+        )
 
 # /user/dashboard
 # Dashboard of the logged in user
 @login_required
 def user_dashboard(request):
     user = get_session_user(request)
-    petitions = user.petition_set.all()
+    petitions = user.petition_set.all().filter(in_bin_date__isnull=True)
+    petitions_bin = user.petition_set.all().filter(in_bin_date__isnull=False)
 
     return render(
         request,
         'petition/user_dashboard.html',
-        {'user': user, 'petitions': petitions, 'can_create_petition': True,
+        {'user': user, 'petitions': petitions, 'petitions_bin': petitions_bin, 'can_create_petition': True,
+         'displaying_dashboard': True}
+    )
+
+# /user/bin
+# Bin page for a user's deleted petitions
+@login_required
+def user_bin(request):
+    user = get_session_user(request)
+    petitions = user.petition_set.all().filter(in_bin_date__isnull=True)
+    petitions_bin = user.petition_set.all().filter(in_bin_date__isnull=False)
+
+    return render(
+        request,
+        'petition/user_bin.html',
+        {'user': user, 'petitions': petitions, 'petitions_bin': petitions_bin, 'can_create_petition': True,
          'displaying_dashboard': True}
     )
 
@@ -576,8 +652,12 @@ def new_template(request, orgslugname=None):
         template_name = request.POST.get('template_name', '')
         if template_name != '':
             if orgslugname:
+                if orgslugname.moderated:
+                    return HttpResponseForbidden(_("This organisation is moderated, it cannot create new templates"))
                 template = PetitionTemplate(name=template_name, org=org)
             else:
+                if pytitionuser.moderated:
+                    return HttpResponseForbidden(_("You are moderated, you cannot create new templates"))
                 template = PetitionTemplate(name=template_name, user=pytitionuser)
             template.save()
             return redirect("edit_template", template.id)
@@ -640,6 +720,8 @@ def edit_template(request, template_id):
             submitted_ctx['content_form_submitted'] = True
             if content_form.is_valid():
                 template.target = content_form.cleaned_data['target']
+                if not settings.DISABLE_PAPER_SIGNATURES:
+                    template.paper_signatures = content_form.cleaned_data['paper_signatures']
                 template.name = content_form.cleaned_data['name']
                 template.text = content_form.cleaned_data['text']
                 template.side_text = content_form.cleaned_data['side_text']
@@ -832,7 +914,7 @@ def org_delete_member(request, orgslugname):
 
     try:
         permissions = Permission.objects.get(user=pytitionuser, organization=org)
-    except Permission.DoesNoeExist:
+    except Permission.DoesNotExist:
         return JsonResponse({}, status=500)
 
     if permissions.can_remove_members or pytitionuser == member:
@@ -1055,6 +1137,7 @@ class PetitionCreationWizard(SessionWizardView):
         pytitionuser = get_session_user(self.request)
         _redirect = self.request.POST.get('redirect', '')
 
+        # if an organization creates a petition
         if org_petition:
             orgslugname = self.kwargs['orgslugname']
             try:
@@ -1064,14 +1147,31 @@ class PetitionCreationWizard(SessionWizardView):
                 return redirect("user_dashboard")
                 #raise Http404(_("Organization does not exist"))
 
+            if org.moderated:
+                return HttpResponseForbidden(_("This organisation is moderated, it cannot create new petitions"))
+
             try:
                 permissions = Permission.objects.get(organization=org, user=pytitionuser)
             except Permission.DoesNotExist:
                 return redirect("org_dashboard", orgslugname)
 
             if pytitionuser in org.members.all() and permissions.can_create_petitions:
+
+                if pytitionuser.moderated:
+                    return HttpResponseForbidden(_("Your account is moderated, it cannot create new petitions"))
+
+                # Anti-bot tests for the organization
+                check_petition_number_day(pytitionuser, org, self.request)
+                check_mon_petition_number(pytitionuser, org, self.request)
+                check_user_signature_number(pytitionuser, org, self.request)
+
                 #FIXME I think new here is better than create
-                petition = Petition.objects.create(title=title, text=message, org=org)
+                petition = Petition.objects.create(title=title, text=message, org=org, ipaddr=get_client_ip(self.request), user_agent=self.request.META['HTTP_USER_AGENT'])
+
+                # check_for_spam function from detector launches all the other detectors to detect if a petition is spam
+                # it does moderation actions
+                check_for_spam(petition, pytitionuser)
+
                 if use_template:
                     template = PetitionTemplate.objects.get(pk=template_id)
                     if template in org.petitiontemplate_set.all():
@@ -1089,8 +1189,23 @@ class PetitionCreationWizard(SessionWizardView):
             else:
                 messages.error(self.request, _("You don't have the permission to create a new petition in this Organization"))
                 return redirect("org_dashboard", orgslugname)
+
+        # If a user creates the petition
         else:
-            petition = Petition.objects.create(title=title, text=message, user=pytitionuser)
+            if pytitionuser.moderated:
+                return HttpResponseForbidden(_("Your account is moderated, it cannot create new petitions"))
+
+            # Anti-bots tests for the user
+            check_petition_number_day(pytitionuser, None, self.request)
+            check_mon_petition_number(pytitionuser, None, self.request)
+            check_user_signature_number(pytitionuser, None, self.request)
+
+            petition = Petition.objects.create(title=title, text=message, user=pytitionuser, ipaddr=get_client_ip(self.request), user_agent=self.request.META['HTTP_USER_AGENT'])
+
+            # check_for_spam function from detector launches all the other detectors to detect if a petition is spam
+            # it does moderation actions
+            check_for_spam(petition, pytitionuser)
+
             if use_template:
                 template = PetitionTemplate.objects.get(pk=template_id)
                 if template in pytitionuser.petitiontemplate_set.all():
@@ -1142,7 +1257,7 @@ class PetitionCreationWizard(SessionWizardView):
 
 
 # /<int:petition_id>/delete
-# Delete a petition
+# Delete a petition if the user is the owner or has the right permissions in the organization
 @login_required
 def petition_delete(request, petition_id):
     petition = petition_from_id(petition_id)
@@ -1162,6 +1277,44 @@ def petition_delete(request, petition_id):
         else:
             return JsonResponse({}, status=403)
 
+# /<int:petition_id>/in_bin
+# Put a petition in the bin and unpublish it if the user is the owner or has the right permissions in the organization
+# If a petition has an in_bin_date, it is in the bin
+def petition_in_bin(request, petition_id):
+    pytitionuser = get_session_user(request)
+    petition = petition_from_id(petition_id)
+
+    if petition.owner_type == "org" and not petition.org.is_allowed_to(pytitionuser, "can_delete_petitions"):
+        return JsonResponse({}, status=403)
+    elif petition.owner_type == "user" and petition.owner != pytitionuser:
+        return JsonResponse({}, status=403)
+    else:
+        if petition.in_bin_date is None:
+            petition.in_bin_date = timezone.now()
+            petition.unpublish()
+            petition.save()
+            return JsonResponse({})
+        else:
+            return JsonResponse({}, status=403)
+
+# /<int:petition_id>/restore
+# Restore a petition from the bin if the user is the owner or has the right permissions in the organization
+def petition_restore(request, petition_id):
+    pytitionuser = get_session_user(request)
+    petition = petition_from_id(petition_id)
+
+    if petition.owner_type == "org" and not petition.org.is_allowed_to(pytitionuser, "can_create_petitions"):
+        messages.error(request, _("You don't have the permissions to restore this petition"))
+        return redirect("org_bin", petition.org.slugname)
+    elif petition.owner_type == "user" and petition.owner != pytitionuser:
+        return redirect("user_dashboard")
+    else:
+        if petition.in_bin_date:
+            petition.in_bin_date = None
+            petition.save()
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+        else:
+            raise Http404(_("This petition is not in the bin"))
 
 # /<int:petition_id>/publish
 # Publish a petition
@@ -1244,13 +1397,20 @@ def edit_petition(request, petition_id):
                 petition.show_publication_date = content_form.cleaned_data['show_publication_date']
                 petition.title = content_form.cleaned_data['title']
                 petition.target = content_form.cleaned_data['target']
-                petition.paper_signatures = content_form.cleaned_data['paper_signatures']
+                if not settings.DISABLE_PAPER_SIGNATURES:
+                    petition.paper_signatures_enabled = content_form.cleaned_data['paper_signatures_enabled']
+                    petition.paper_signatures = content_form.cleaned_data['paper_signatures']
                 petition.text = content_form.cleaned_data['text']
                 petition.side_text = content_form.cleaned_data['side_text']
                 petition.footer_text = content_form.cleaned_data['footer_text']
                 petition.footer_links = content_form.cleaned_data['footer_links']
                 petition.sign_form_footer = content_form.cleaned_data['sign_form_footer']
                 petition.save()
+
+                # check_for_spam function from detector launches all the other detectors to detect if a petition is spam
+                # it does moderation actions
+                check_for_spam(petition, pytitionuser)
+
         else:
             content_form = ContentFormPetition({f: getattr(petition, f) for f in ContentFormPetition.base_fields})
 
@@ -1299,7 +1459,7 @@ def edit_petition(request, petition_id):
             social_network_form = SocialNetworkForm(data)
 
 
-        if 'newsletter_form_submitted' in request.POST:
+        if not settings.DISABLE_NEWSLETTER and 'newsletter_form_submitted' in request.POST:
             submitted_ctx['newsletter_form_submitted'] = True
             newsletter_form = NewsletterForm(request.POST)
             if newsletter_form.is_valid():
@@ -1322,7 +1482,7 @@ def edit_petition(request, petition_id):
         else:
             newsletter_form = NewsletterForm({f: getattr(petition, f) for f in NewsletterForm.base_fields})
 
-        if 'style_form_submitted' in request.POST:
+        if not settings.DISABLE_CUSTOM_STYLE and 'style_form_submitted' in request.POST:
             submitted_ctx['style_form_submitted'] = True
             style_form = StyleForm(request.POST)
             if style_form.is_valid():
@@ -1357,6 +1517,7 @@ def edit_petition(request, petition_id):
         'social_network_form': social_network_form,
         'newsletter_form': newsletter_form,
         'petition': petition,
+        'accepted_image_extensions_list': settings.ALLOWED_IMAGE_EXTENSIONS,
         'is_template': False}
     url_prefix = request.scheme + "://" + request.get_host()
 
@@ -1463,6 +1624,8 @@ def show_signatures(request, petition_id):
                 messages.error(request, _("An error happened while trying to re-send confirmation emails"))
             else:
                 messages.success(request, _("You successfully re-sent all confirmation emails"))
+        if action == "show-signature-graph":
+            return redirect("show_signatures_graph", petition_id)
         return redirect("show_signatures", petition_id)
 
     signatures = petition.signature_set.all()
@@ -1473,6 +1636,116 @@ def show_signatures(request, petition_id):
 
     return render(request, "petition/signature_data.html", ctx)
 
+### Graph of signatures display for the owner of the petition ###
+@login_required
+def show_signatures_graph(request, petition_id):
+    petition = petition_from_id(petition_id)
+    pytitionuser = get_session_user(request)
+    ctx = {}
+
+    if petition.owner_type == "user":
+        base_template = 'petition/user_base.html'
+        if petition.user != pytitionuser:
+            messages.error(request, _("You are not allowed to view this petition's signatures."))
+            return redirect("user_dashboard")
+    else:
+        org = petition.org
+        base_template = 'petition/org_base.html'
+        other_orgs = pytitionuser.organization_set.filter(~Q(name=org.name)).all()
+        if pytitionuser not in org.members.all():
+            messages.error(request, _("You are not member of the following organization: \'{}\'".format(org.name)))
+            return redirect("user_dashboard")
+        try:
+            permissions = Permission.objects.get(organization=org, user=pytitionuser)
+        except Permission.DoesNotExist:
+            messages.error(request, _("Internal error, cannot find your permissions attached to this organization (\'{orgname}\')".format(orgname=org.name)))
+            return redirect("user_dashboard")
+
+        if not permissions.can_view_signatures:
+            messages.error(request, _("You are not allowed to view signatures in this organization"))
+            return redirect("org_dashboard", org.slugname)
+
+        ctx.update({'org': org, 'other_orgs': other_orgs,
+                    'user_permissions': permissions})
+
+    signatures = petition.signature_set.all()
+
+    # order the signatures by date of creation
+    signatures = signatures.filter(
+    petition=petition).order_by('date')
+
+    # initialize a 2D array with an index, the interval (number of days since the creation) and the signature
+    columns = 3
+    rows = signatures.count()
+    data_graph = [[0 for _ in range(columns)] for _ in range(rows)]
+
+    if signatures:
+        for i in range(0, rows):
+            data_graph[i][0] = i
+            data_graph[i][1] = signatures[i].date.date()
+            data_graph[i][2] = signatures[i]
+
+        # save clean data in a dict: date, number of signatures
+        data_graph_clean = {}
+
+        if rows != 0:
+            for i in range(0, rows):
+                if data_graph[i][1] in data_graph_clean:
+                    data_graph_clean[data_graph[i][1]] += 1
+                else:
+                    data_graph_clean[data_graph[i][1]] = 1
+
+        # turn the dict into arrays to plot the graph
+        xpoints = list(data_graph_clean.keys())
+        ypoints = list(data_graph_clean.values())
+
+        # get the total number of signatures for each day
+        for i in range(1, len(ypoints)):
+            ypoints[i] = ypoints[i-1] + ypoints[i]
+
+        # matplotlib graph of number of signatures in each day
+        graph, ax = plt.subplots()
+        if len(xpoints) == 1:
+            ax.plot(xpoints, ypoints, "o", color="purple")
+        elif len(xpoints) > 1:
+            ax.plot(xpoints, ypoints, color="purple")
+        else:
+            messages.error(request, _("This petition doesn't have any signatures"))
+            return redirect("show_signatures", petition_id)
+
+        # format the graph
+        ax.set_xticks(xpoints)
+        format = mdates.DateFormatter('%d\n%m')
+        ax.xaxis.set_major_formatter(format)
+        ax.set_xlabel('Day')
+        ax.set_ylabel('Number of signatures')
+        ax.set_title("Number of signatures per day")
+
+        # save the graph in a buffer
+        buf = io.BytesIO()
+        graph.savefig(buf, format='png', bbox_inches='tight')
+        buf.seek(0)
+
+        # encode the image in base64 to display in the html page
+        image_base64 = base64.b64encode(buf.read()).decode('utf-8')
+        buf.close()
+
+        ctx.update({'petition': petition, 'user': pytitionuser,
+                'base_template': base_template,
+                'signatures': signatures,
+                'image_base64': image_base64})
+
+        return render(request, "petition/signature_graph.html", ctx)
+
+    else:
+
+        ctx.update({'petition': petition, 'user': pytitionuser,
+                'base_template': base_template,
+                'signatures': signatures})
+
+        messages.error(request, _("This petition doesn't have any numerical signatures."))
+
+        return render(request, "petition/signature_data.html", ctx)
 
 # /account_settings
 # Show settings for the user accounts
@@ -1553,6 +1826,8 @@ def org_create(request):
     ctx = {'user': user}
 
     if request.method == "POST":
+        if user.moderated:
+            return HttpResponseForbidden(_("Your account is moderated, it cannot create new organisations"))
         form = OrgCreationForm(request.POST)
         if form.is_valid():
             org = form.save()
@@ -1612,7 +1887,12 @@ def slug_show_petition(request, orgslugname=None, username=None, petitionname=No
         response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
         return response
     else:
-        return render(request, "petition/petition_detail.html", ctx)
+        if petition.is_moderated and pytitionuser and pytitionuser.user.id == petition.user.user.id:
+            return render(request, 'petition/petition_detail.html', ctx)
+        elif not petition.is_moderated:
+            return render(request, 'petition/petition_detail.html', ctx)
+        else:
+            raise Http404(_("not found"))
 
 
 # /<int:petition_id>/add_new_slug
@@ -1830,6 +2110,9 @@ def report_petition(request, petition_id, reason_id=None):
 
     if reason_id:
         Moderation.objects.create(petition=petition, reason=reason)
+        send_mail_to_moderation_report(settings.MODERATION_EMAIL, request, petition, reason)
     else:
         Moderation.objects.create(petition=petition)
+        send_mail_to_moderation_report(settings.MODERATION_EMAIL, request, petition)
+
     return HttpResponse(status=200)

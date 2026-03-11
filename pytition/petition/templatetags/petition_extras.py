@@ -30,3 +30,7 @@ def bootstrap(field):
 @register.filter
 def html_sanitize(html):
     return sanitize_html(html)
+
+@register.filter
+def trim(text):
+    return text.strip("\r\n ")

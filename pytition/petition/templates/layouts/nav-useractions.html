@@ -21,23 +21,35 @@
               </a>
             {% endfor %}
           {% endif %}
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url "user_petition_wizard" %}">
-            <span class="oi oi-plus"></span>
-            {% trans "New Petition" %}
-          </a>
-        {% if not settings.RESTRICT_ORG_CREATION or perms.petition.add_organization %}
-          <a class="dropdown-item" href="{% url "org_create" %}">
-            <span class="oi oi-plus"></span>
-            {% trans "New Organization" %}
-          </a>
-        {% endif %}
+          {% if not user.moderated %}
+            <div class="dropdown-divider"></div>
+          {% endif %}
+          {% if not user.moderated %}
+            <a class="dropdown-item" href="{% url "user_petition_wizard" %}">
+              <span class="oi oi-plus"></span>
+              {% trans "New Petition" %}
+            </a>
+          {% endif %}
+          {% if not user.moderated %}
+            {% if not settings.RESTRICT_ORG_CREATION or perms.petition.add_organization %}
+              <a class="dropdown-item" href="{% url "org_create" %}">
+                <span class="oi oi-plus"></span>
+                {% trans "New Organization" %}
+              </a>
+            {% endif %}
+          {% endif %}
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{% url "account_settings" %}">
             <span class="oi oi-cog"></span>
             {% trans "Settings" %}
           </a>
-          <form action="{% url "logout" %}?next=/" method="post">
+          {% if user.user.is_staff or user.user.is_superuser %}
+            <a class="dropdown-item" href="{% url "admin:index" %}">
+              <span class="oi oi-wrench"></span>
+              {% trans "Administration" %}
+            </a>
+          {% endif %}
+          <form action="{% url "logout" %}" method="post">
             {% csrf_token %}
             <button class="dropdown-item" type="submit">
                 <span class="oi oi-account-logout"></span>

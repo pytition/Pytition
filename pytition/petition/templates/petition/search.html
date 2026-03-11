@@ -5,14 +5,14 @@
 {% block login_next %}{% url "user_dashboard" %}{% endblock login_next %}
 
 {% block main_content %}
-<div class="container" id="page_container">
-    <div class="row">
-        <h2>Search results for {{ q }}</h2>
+<div class="container mt-4" id="page_container">
+    <div>
+        <h2>{% blocktranslate %}Search results for "{{ q }}"{% endblocktranslate %}</h2>
     </div>
     {% if orgs|length > 0 %}
     <div class="row mt-4">
         <div class="col-md-12 col-xs-12">
-            <h3>Organizations</h3>
+            <h3>{% trans "Organizations" %}</h3>
         </div>
         {% for org in orgs %}
             <div class="col-md-4 col-xs-6 text-center sb-preview">
@@ -25,9 +25,19 @@
         {% endfor %}
     </div>
     {% endif %}
-    <div>
-        {% include 'petition/generic_petition_list.html' with petitions=petitions %}
-    </div>
+    {% if petitions|length > 0 %}
+        <div>
+            {% include 'petition/generic_petition_list.html' with petitions=petitions %}
+        </div>
+    {% endif %}
+    {% if orgs|length == 0 and petitions|length == 0 %}
+        <div class="mt-5">
+            <div class="text-center">
+                <p>{% trans "No results found" %}</p>
+                <a href="/">{% trans "Back to homepage" %}</a>
+            </div>
+        </div>
+    {% endif %}
 </div>
 {% endblock main_content %}
 

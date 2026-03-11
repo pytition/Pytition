@@ -39,6 +39,8 @@ $(function () {
     });
 });
 
+
+// Delete petition
 $(function () {
    $('[data-action="petition-delete"]').on("click", function() {
     var petition_delete_url = $(this).closest("[data-petition-delete]").data("petition-delete");
@@ -48,33 +50,61 @@ $(function () {
    });
 });
 
+
+/* Switch between 'published' and 'unpublished' status
+* Handle checkbox, assigned text and alert message
+*/
 $(function () {
    $('[data-action="publish"]').find('input:checkbox').on("change", function() {
+    // checkbox
     var box = $(this);
     var publish = box.prop('checked');
     box.prop('checked', !publish);
+
+    // petition
     var petition_id = $(this).closest("[data-petition-id]").data("petition-id");
     var petition_publish_url = $(this).closest("[data-petition-publish]").data("petition-publish");
     var petition_unpublish_url = $(this).closest("[data-petition-unpublish]").data("petition-unpublish");
+    
+    // label in the top of 'Content' pannel
     var label = box.siblings('label');
     var custom_switch = box.closest('.custom-switch');
     box.prop('disabled', true);
+
+    // temporary loader icon
     var loader_id = 'loader_' + petition_id;
     $(`<div id=${loader_id} class="spinner-border spinner-border-sm ml-1" \
         style="color: initial" role="status"><span class="sr-only">Loading...</span></div>`)
            .insertAfter(label);
     loader_id = '#' + loader_id;
+
+    // alert-warning if petition is not published
+    var alert_msg = document.getElementById("publication-warning");
+    
+    // switch between 'published' and 'unpublished' status
     $.ajax(publish ? petition_publish_url : petition_unpublish_url
     ).done(function() {
+        //change checkbox status and associated text
         var published = box.prop('checked');
-        label.text(published ? "{% trans "Not published" %}" : "{% trans "Published" %}");
+        label.text(published ? "{% trans "Not published" %}" : "{% trans "Published" %}");
         box.prop('disabled', false);
         box.prop('checked', !box.prop('checked'));
+
+        // enable/disable the alert-msg according to checkbox value
+        if (alert_msg != null) {
+            if (box.prop('checked')) {
+                alert_msg.style.display = "none";
+            } else {
+                alert_msg.style.display = "block";
+            }
+        }
+        
+        // remove the loader icon when the status switch is over
         $(loader_id).remove();
         if (document.getElementById(`failed_${petition_id}`) !== null)
             $(`#failed_${petition_id}`).remove();
 
-
+    // error handler in case the switch didnt work
     }).fail(function () {
         setTimeout(function() {
             box.prop('disabled', false);

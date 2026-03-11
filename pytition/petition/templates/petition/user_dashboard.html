@@ -1,5 +1,11 @@
 {% extends 'petition/user_base.html' %}
+{% load i18n %}
 
 {% block content %}
+  {% if user.moderated %}
+    <div class="alert alert-danger">
+      <p>{% trans "Your account is currently moderated. You can't create new petitions, organisations or templates." %}</p>
+    </div>
+  {% endif %}
   {% include "petition/petition_list.html" with petitions=petitions.all title=_("Your petitions") search=False %}
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layouts/email.base.txt" %}
+{% load i18n %}
+{% block content %}
+
+{% blocktrans with petition_title=petition.title %}Thank you for signing the petition “*{{ petition_title }}*” ({{ petition_url }}), {{ firstname }}.{% endblocktrans %}
+
+{% blocktrans %}Now, in order to *confirm your signature*, you only need to click here: {{ confirmation_url }}{% endblocktrans %}
+
+{% blocktrans %}If this message is unsolicited, you can simply ignore it.{% endblocktrans %}
+
+{% trans "See you soon!" %}</p>
+{% endblock %}

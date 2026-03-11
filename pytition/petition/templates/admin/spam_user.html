@@ -1,0 +1,135 @@
+<form method="post">
+    {% extends "admin/base_site.html" %}
+    {% load i18n %}
+    {% load static %}
+
+    {% block extrahead %}
+        {{ block.super }}
+        <link rel="stylesheet" href="{% static 'css/custom_admin_style.css' %}">
+    {% endblock %}
+
+    {% csrf_token %}
+    {% block content %}
+    
+        <h1>{% trans "User detail: " %} {{user.user.username}}</h1>
+
+        <div id="section">
+            <h2 id="title">{% trans "Basic information" %}</h2>
+
+            <table class="adminlist" id="userTableDetail">  
+                <thead>
+                    <tr>
+                        <th>{% trans "Username" %}</th>
+                        <th>{% trans "Full name" %}</th>
+                        <th>{% trans "Email" %}</th>
+                        <th>{% trans "Number of petitions" %}</th>
+                        <th>{% trans "Total number of signatures" %}</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{user.user.username}}</td>
+                        <td>{{name}}</td>
+                        <td>{{user.user.email}}</td>
+                        <td>{{num_petitions}}</td>
+                        <td>{{num_signatures}}</td>
+                    <tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div id="section">
+            <h2 id="title">{% trans "Organizations list" %}</h2>
+            <p>{% trans "The user belongs to these organizations:" %}</p>
+
+                <table class="adminlist" id="userTable">  
+                    <thead>
+                        <tr>
+                            <th>{% trans "Organization" %}</th>
+                            <th>{% trans "Number of petitions" %}</th>
+                            <th>{% trans "Total number of signatures" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for org in orga%}
+                            <tr>
+                                <td><a href="{% url 'admin:custom_org_detail' org %}">{{org}}</a></td>
+                                <td>{{org.num_petitions}}</td>
+                                <td>{{org.num_signatures}}</td>
+                            </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="4" id="no_element">{% trans "This user doesn't belong to any organization." %}</td>
+                                </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+        </div>
+
+        <div id="section">
+            <h2 id="title">{% trans "Petition list" %}</h2>
+            <p>{% trans "The user has created these petitions:" %}</p>
+
+            <table class="adminlist" id="userTable">  
+                <thead>
+                    <tr>
+                        <th>{% trans "Petition" %}</th>
+                        <th>{% trans "Beginning of the petition content" %}</th>
+                        <th>{% trans "Number of signatures" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for petition in petitions%}
+                        <tr>
+                            <td><a href="{% url 'admin:custom_petition_detail' petition.id user.user_id 'user'%}">{{petition.title}}</a></td>
+                            <td>{{petition.cut_text_str}}</td>
+                            <td>{{petition.num_signatures}}</td>
+                        </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" id="no_element">{% trans "This user hasn't created any petition yet." %}</td>
+                            </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="section">
+            <h2 id="title">{% trans "Moderation and monitoring" %}</h2>
+            {%if user.moderated%}
+                <p>{% trans "Moderated: " %} {{mod_reason}}</p>
+            {%elif user.monitored%}
+                <p>{% trans "Monitored: " %} {{mon_reason}}</p>
+            {%else%}
+                <p>{% trans "This user is neither moderated nor monitored." %}</p>
+            {%endif%}
+
+            <h2>Actions</h2>
+
+            {% if user.moderated %}
+                <ul>
+                    {% blocktrans %}
+                        <li><strong> Demoderate user</strong></li>
+                        <li><strong> Delete user</strong>: delete the user and their associated petitions. If they are the last member of an organization, delete the organization. </li>
+                    {% endblocktrans %}
+                </ul>
+            {% elif user.monitored %}
+                <ul>
+                    {% blocktrans %}
+                        <li><strong> Demonitor user</strong></li>
+                        <li><strong> Moderate user</strong></li>
+                        <li><strong> Delete user</strong>: delete the user and their associated petitions. If they are the last member of an organization, delete the organization. </li>
+                    {% endblocktrans %}
+                </ul>
+            {% endif %}
+
+            <select name="action" id="detail_actions">
+                {% for action_name in actions_user %}
+                    <option value="{{ action_name }}">{{ action_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Send">
+        </div>
+
+    {%endblock%}

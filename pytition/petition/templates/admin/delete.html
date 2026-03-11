@@ -1,0 +1,107 @@
+
+    {% extends "admin/base_site.html" %}
+    {% load i18n %}
+    {% load static %}
+    {% block content %}
+        <h1>{% trans "Are you sure you want to delete these elements ?" %}</h1>
+
+
+        {%if type == 'selected_user' or type == 'selected_mon_user'%}
+            <table class="adminlist" id="userTable">  
+                <thead>
+                    <tr>
+                        <th>{% trans "Users that will be deleted" %}</th>
+                        <th>{% trans "Moderated or monitored" %}</th>
+                        <th>{% trans "Reason" %}</th>
+                        <th>{% trans "Petitions that will be deleted" %}</th>
+                        <th>{% trans "Organizations that will be deleted" %}</th>
+                        <th>{% trans "Organizations" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for element in elements%}
+                        <tr>
+                            <td>{{element}}</td>
+                            <td>{{element.mod}}</td>
+                            <td>{{element.reason}}</td>
+                            <td>{{element.petitions}}</td>
+                            <td>{{element.delete_orgas}}</td>
+                            <td>{{element.orgas}}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        {%elif type == 'selected_orga' or type == 'selected_mon_orga' %}
+            <table class="adminlist" id="userTable">  
+                <thead>
+                    <tr>
+                        <th>{% trans "Organizations that will be deleted" %}</th>
+                        <th>{% trans "Moderated or monitored" %}</th>
+                        <th>{% trans "Reason" %}</th>
+                        <th>{% trans "Petitions that will be deleted" %}</th>
+                        <th>{% trans "Members" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for element in elements%}
+                        <tr>
+                            <td>{{element}}</td>
+                            <td>{{element.mod}}</td>
+                            <td>{{element.reason}}</td>
+                            <td>{{element.petitions}}</td>
+                            <td>{{element.members_str}}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            {%elif type == 'selected_petition' or type == 'selected_mon_petition'%}
+            <table class="adminlist" id="userTable">  
+                <thead>
+                    <tr>
+                        <th>{% trans "Petitions that will be deleted" %}</th>
+                        <th>{% trans "Moderated or monitored" %}</th>
+                        <th>{% trans "Reason" %}</th>
+                        <th>{% trans "Owner type" %}</th>
+                        <th>{% trans "Owner" %}</th>
+                        <th>{% trans "Total number of signatures" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for element in elements%}
+                        <tr>
+                            <td>{{element}}</td>
+                            <td>{{element.mod}}</td>
+                            <td>{{element.reason}}</td>
+                            <td>{{element.owner_type}}</td>
+                            <td>{{element.owner}}</td>
+                            <td>{{element.signature_num}}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        {%endif%}
+        
+        <p></p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <input type="hidden" name ="action" value="{{delete_action}}">
+            
+            {%if detail == False%}
+                {% for element in elements%}
+                    <input type="hidden" name ="{{type}}" value="{{element.id}}">
+                {%endfor%}
+            {%endif%}
+
+            <button class="button" type="submit" name="confirm" value="yes">
+                {% trans "Delete selected elements" %}
+            </button>
+
+            <button class="button" type="submit" name="confirm" value="no">
+                {% trans "Cancel" %}
+            </button>
+        </form>
+            
+
+    {%endblock%}
