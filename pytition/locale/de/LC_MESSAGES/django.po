@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: yann@sionneau.net\n"
 "POT-Creation-Date: 2022-08-15 21:12+0200\n"
-"PO-Revision-Date: 2024-10-29 10:16+0000\n"
-"Last-Translator: Sascha Knott <weblate@knott.ac>\n"
+"PO-Revision-Date: 2026-05-14 16:44+0000\n"
+"Last-Translator: Bot Blake <b0tblake@protonmail.com>\n"
 "Language-Team: German <https://weblate.framasoft.org/projects/pytition/"
 "pytitions/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.1\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: pytition/petition/admin.py:21 pytition/petition/models.py:87
 #: pytition/petition/models.py:502
@@ -38,7 +38,7 @@ msgstr "Fehler: {}"
 
 #: pytition/petition/admin.py:57
 msgid "Confirm the signatures"
-msgstr ""
+msgstr "Bestätige die Unterschriften"
 
 #: pytition/petition/admin.py:58
 msgid "Send the confirmation email once again"
@@ -136,6 +136,9 @@ msgid ""
 "Only when HTTP POST or GET subscription method is used. Adresse HTTP à "
 "requêter via GET ou POST pour enregistrer quelqu'un sur la newsletter"
 msgstr ""
+"Nur bei Verwendung von HTTP POST- oder GET Methode. HTTP-Adresse, die per "
+"GET oder POST verwendet werden soll, um jemanden für den Newsletter zu "
+"registrieren"
 
 #: pytition/petition/admin.py:102 pytition/petition/admin.py:242
 msgid ""
@@ -144,6 +147,10 @@ msgid ""
 "la place où le mail du signataire doit être inséré. Ex: 'ADD NOM_LISTE {} "
 "NOM_SIGNATAIRE'"
 msgstr ""
+"Nur bei Verwendung der E-Mail-Methode. Geben Sie hier die Syntax für den E-"
+"Mail-Betreff ein, um jemanden für den Newsletter anzumelden. Verwenden Sie "
+"geschweifte Klammern {} anstelle der E-Mail-Adresse des Abonnenten. "
+"Beispiel: 'ADD NOM_LISTE {} NOM_SIGNATAIRE'"
 
 #: pytition/petition/admin.py:103 pytition/petition/admin.py:243
 msgid ""
