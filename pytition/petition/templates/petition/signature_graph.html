@@ -1,0 +1,20 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block content %}
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h2>{% trans "Signatures graph" %}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h4><i>{{ petition.title }}</i></h4>
+        </div>
+    </div>
+    <div>
+        <center>
+            <img src= "data:image/png;base64,{{image_base64}}" alt="Signature graph">
+        </center>
+    </div>
+{% endblock content %}

@@ -61,6 +61,10 @@
           </div>
           {% if petition.is_moderated %}
           <div class="text-danger"><b>{% trans "This petition is moderated" %}</b></div>
+          {% else %}
+            {% if petition.get_priority == "average" or petition.get_priority == "strong"%}
+            <div class="text-danger"><b>{% trans "This petition is monitored:" %} {{petition.get_monitoring_reason}}</b></div>
+            {% endif %}
           {% endif %}
         </div>
         <div class="card-footer mt-auto">
@@ -90,7 +94,7 @@
       </div>
     </div>
 
-  <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}" data-petition-delete="{% url 'petition_delete' petition.id %}">
+  <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}" data-petition-delete="{% url 'petition_in_bin' petition.id %}">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -100,7 +104,7 @@
 
         <div class="modal-body">
           {% blocktrans with title=petition.title|striptags %}
-            Do you really want to delete petition '{{ title }}'
+            Do you really want to put this petition in the bin '{{ title }}'
           {% endblocktrans %}
         </div>
 

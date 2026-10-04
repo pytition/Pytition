@@ -1,0 +1,13 @@
+{% extends "layouts/email.base.txt" %}
+{% load i18n %}
+{% block content %}
+{% blocktranslate %}Hi,{% endblocktranslate %}
+
+{% blocktranslate with user=petition.user.username petition_title=petition.title %}The petition from user *{{ user }}* has been reported: {{ petition_title }} ({{ petition_url }}).{% endblocktranslate %}
+
+{% if reason %}
+{% blocktranslate with reason=reason.text %}The reason of the report is: "{{ reason }}"*.{% endblocktranslate %}
+{% endif %}
+
+{% blocktranslate %}Access the admin moderation panel on {{ admin_moderation_url }}.{% endblocktranslate %}
+{% endblock %}

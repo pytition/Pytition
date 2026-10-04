@@ -10,7 +10,9 @@
       {{ wizard.management_form }}
       <div class="form-group">
       {% with form.title as field %}
-        {% trans "Title" %}
+        <label for="{{ field.auto_id }}">
+          {% trans "Title" %}
+        </label>
 
         {% if form.is_bound %}
           {% if field.errors %}
@@ -30,6 +32,12 @@
         {% if field.help_text %}
           <small class="form-text text-muted">{{ field.help_text }}</small>
         {% endif %}
+
+        <div class="mt-2">
+          <label for="slug" class="d-block">{% trans "Slug" %}</label>
+          <input type="text" id="slug" class="form-control" readonly disabled />
+        </div>
+
       {% endwith %}
       </div>
       <button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
@@ -41,17 +49,34 @@
     {{ block.super }}
     <script type="text/javascript" src="{%  static 'vendor/smartwizard/dist/js/jquery.smartWizard.min.js' %}"></script>
     <script type="text/javascript">
-    $(document).ready(function(){
-      $('#smartwizard').smartWizard({
-                                    theme: 'arrows',
-                                    toolbarSettings: {
-                                        showNextButton: false,
-                                        showPreviousButton: false,
-                                    },
-                                    });
-    });
+        $(document).ready(function(){
+            $('#smartwizard').smartWizard({
+              theme: 'arrows',
+              toolbarSettings: {
+                  showNextButton: false,
+                  showPreviousButton: false,
+              },
+            });
 
-    document.location.hash = "step-1";
-    $('html, body').scrollTop('0px');
+            var titleInputEl = document.getElementById('id_step1-title');
+            var slugInputEl = document.getElementById('slug');
+            var slugify = function(str) {
+                return str
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-z0-9\s-]/g, "")
+                    .trim()
+                    .replace(/[\s]+/g, "-")
+                    .replace(/-+/g, "-");
+            }
+
+            titleInputEl.addEventListener('keyup', function (e) {
+                slugInputEl.value = slugify(titleInputEl.value);
+            });
+        });
+
+        document.location.hash = "step-1";
+        $('html, body').scrollTop('0px');
     </script>
 {% endblock %}

@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""Widgets for Pytition
+
+It defines representations for HTML input elements.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/ref/forms/widgets/
+"""
+
 from django import forms
 
 class SwitchWidget(forms.CheckboxInput):

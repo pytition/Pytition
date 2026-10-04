@@ -2,9 +2,11 @@
 <div class="dashboard-nav-item py-3">
   <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h4><span class="oi oi-people"></span>&nbsp;{% trans "Organizations" %}&nbsp;({{ user.organization_set.all.count }})</h4>
-      {% if not settings.RESTRICT_ORG_CREATION or perms.petition.add_organization %}
-          <a href="{% url "org_create" %}" class="btn btn-outline-primary btn-sm" data-toggle="tooltip"
-             title="{% trans "Create a new organization" %}">{% trans "New organization" %}</a>
+      {% if not user.moderated %}
+        {% if not settings.RESTRICT_ORG_CREATION or perms.petition.add_organization %}
+            <a href="{% url "org_create" %}" class="btn btn-outline-primary btn-sm" data-toggle="tooltip"
+              title="{% trans "Create a new organization" %}">{% trans "New organization" %}</a>
+        {% endif %}
       {% endif %}
   </div>
   <ul class="dashboard-org-list">

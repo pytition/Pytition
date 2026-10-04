@@ -55,6 +55,8 @@ coverage.xml
 .static_storage/
 .media/
 local_settings.py
+pytition/pytition/settings/config.py
+/scripts
 
 # Flask stuff:
 instance/
@@ -89,6 +91,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+my-venv/
 
 # Spyder project settings
 .spyderproject

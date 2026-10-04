@@ -1,0 +1,14 @@
+.                                # project info + container settings for Docker
+├── dev                          # dev install
+├── doc                          # dev doc
+├── nginx-uwsgi                  # web server settings for Nginx
+└── pytition                     # project files
+    ├── locale                   # translation
+    ├── petition                 # implementation files
+    │             ├── management # DataBase commands
+    │             ├── migrations # Django migration files
+    │             │              (see https://docs.djangoproject.com/en/5.1/topics/migrations/)
+    │             ├── static     # UI (css, js, images, etc.)
+    │             ├── templates  # HTML files
+    │             └── tests      # test files
+    └── pytition                 # project settings

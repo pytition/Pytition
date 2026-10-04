@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-15 21:30+0200\n"
+"POT-Creation-Date: 2025-10-09 12:20-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,50 +18,116 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: pytition/petition/admin.py:21 pytition/petition/models.py:87
-#: pytition/petition/models.py:502
-msgid "Name"
+#: pytition/petition/admin.py:71 pytition/petition/admin.py:108
+#: pytition/petition/spam_management/detectors/akismet_detector.py:29
+#, python-brace-format
+msgid "Akismet is down: {e}"
 msgstr ""
 
-#: pytition/petition/admin.py:39
-msgid "Number of petitions"
-msgstr ""
-
-#: pytition/petition/admin.py:40
-msgid "Number of members"
-msgstr ""
-
-#: pytition/petition/admin.py:49
+#: pytition/petition/admin.py:121
 msgid "Error: {}"
 msgstr ""
 
-#: pytition/petition/admin.py:57
-msgid "Confirm the signatures"
+#: pytition/petition/admin.py:217
+msgid "moderated"
 msgstr ""
 
-#: pytition/petition/admin.py:58
-msgid "Send the confirmation email once again"
+#: pytition/petition/admin.py:219 pytition/petition/admin.py:225
+#: pytition/petition/admin.py:821 pytition/petition/admin.py:826
+#: pytition/petition/admin.py:863 pytition/petition/admin.py:868
+#: pytition/petition/admin.py:901 pytition/petition/admin.py:907
+#: pytition/petition/admin.py:938 pytition/petition/admin.py:1225
+#: pytition/petition/admin.py:1233 pytition/petition/admin.py:1306
+#: pytition/petition/admin.py:1313 pytition/petition/admin.py:1385
+#: pytition/petition/admin.py:1392
+msgid "not specified"
 msgstr ""
 
-#: pytition/petition/admin.py:85 pytition/petition/admin.py:225
+#: pytition/petition/admin.py:223
+msgid "monitored"
+msgstr ""
+
+#: pytition/petition/admin.py:313
+msgid "Confirm selected signatures"
+msgstr ""
+
+#: pytition/petition/admin.py:314
+msgid "Resend confirmation email"
+msgstr ""
+
+#: pytition/petition/admin.py:315
+msgid "Publish selected petitions"
+msgstr ""
+
+#: pytition/petition/admin.py:316
+msgid "Moderate selected petitions"
+msgstr ""
+
+#: pytition/petition/admin.py:317
+msgid "Unpublish selected petitions"
+msgstr ""
+
+#: pytition/petition/admin.py:318
+#: pytition/petition/templates/admin/delete.html:98
+msgid "Delete selected elements"
+msgstr ""
+
+#: pytition/petition/admin.py:319
+msgid "Switch between bot testing periodically and at each signature"
+msgstr ""
+
+#: pytition/petition/admin.py:320
+msgid "Moderate selected elements"
+msgstr ""
+
+#: pytition/petition/admin.py:321
+msgid "Submit spam"
+msgstr ""
+
+#: pytition/petition/admin.py:322
+msgid "Submit ham"
+msgstr ""
+
+#: pytition/petition/admin.py:338 pytition/petition/models.py:121
+#: pytition/petition/models.py:656
+#: pytition/petition/templates/admin/spam_page.html:589
+#: pytition/petition/templates/admin/spam_page.html:666
+msgid "Name"
+msgstr ""
+
+#: pytition/petition/admin.py:354 pytition/petition/admin.py:410
+#: pytition/petition/templates/admin/spam_user.html:25
+#: pytition/petition/templates/admin/spam_user.html:50
+msgid "Number of petitions"
+msgstr ""
+
+#: pytition/petition/admin.py:359
+msgid "Number of petitions in 24h"
+msgstr ""
+
+#: pytition/petition/admin.py:411
+msgid "Number of members"
+msgstr ""
+
+#: pytition/petition/admin.py:444 pytition/petition/admin.py:681
 msgid ""
 "This is a gradient color. If selected, the background color will be a "
 "gradient color. If not, the background color will be a monochrome background "
 "color."
 msgstr ""
 
-#: pytition/petition/admin.py:86 pytition/petition/admin.py:87
-#: pytition/petition/admin.py:226 pytition/petition/admin.py:227
+#: pytition/petition/admin.py:445 pytition/petition/admin.py:446
+#: pytition/petition/admin.py:682 pytition/petition/admin.py:683
 msgid "Only used if gradient is selected"
 msgstr ""
 
-#: pytition/petition/admin.py:88 pytition/petition/admin.py:228
+#: pytition/petition/admin.py:447 pytition/petition/admin.py:684
 msgid ""
 "Put a bullet point list of links, it will appear horizontally in the page "
 "footer"
 msgstr ""
 
-#: pytition/petition/admin.py:89 pytition/petition/admin.py:229
+#: pytition/petition/admin.py:448 pytition/petition/admin.py:685
 msgid ""
 "This is the description of the petition, it will be displayed in Twitter/"
 "Facebook cards when the link is posted to social networks. To be tested via "
@@ -69,19 +135,19 @@ msgid ""
 "tools/debug/"
 msgstr ""
 
-#: pytition/petition/admin.py:90 pytition/petition/admin.py:230
+#: pytition/petition/admin.py:449 pytition/petition/admin.py:686
 msgid ""
 "Picture displayed in Twitter/Facebook cards when the link is posted to "
 "social networks. To be tested via https://cards-dev.twitter.com/validator "
 "and https://developers.facebook.com/tools/debug/"
 msgstr ""
 
-#: pytition/petition/admin.py:91 pytition/petition/admin.py:231
+#: pytition/petition/admin.py:450 pytition/petition/admin.py:687
 msgid ""
 "Allow to chose whether the newsletter subscription checkbox is shown or not"
 msgstr ""
 
-#: pytition/petition/admin.py:92 pytition/petition/admin.py:232
+#: pytition/petition/admin.py:451 pytition/petition/admin.py:688
 msgid ""
 "Only in case subscription to the newsletter via HTTP POST or GET methods. "
 "Put here data to be sent, using Python dictionary syntax. e.g.: <br>\n"
@@ -94,20 +160,20 @@ msgid ""
 "                    }"
 msgstr ""
 
-#: pytition/petition/admin.py:100 pytition/petition/admin.py:240
+#: pytition/petition/admin.py:459 pytition/petition/admin.py:696
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Name of the field to "
 "send via GET or POST, containing the email address to subscribe. Following "
 "the example of preceding form field, that would be 'your-email'"
 msgstr ""
 
-#: pytition/petition/admin.py:101 pytition/petition/admin.py:241
+#: pytition/petition/admin.py:460 pytition/petition/admin.py:697
 msgid ""
 "Only when HTTP POST or GET subscription method is used. Adresse HTTP à "
 "requêter via GET ou POST pour enregistrer quelqu'un sur la newsletter"
 msgstr ""
 
-#: pytition/petition/admin.py:102 pytition/petition/admin.py:242
+#: pytition/petition/admin.py:461 pytition/petition/admin.py:698
 msgid ""
 "Only when EMAIL subscription method is used. Inscrire ici la syntaxe de "
 "sujet du mail qui permet d'inscrire quelqu'un à la newsletter. Indiquez {} à "
@@ -115,37 +181,37 @@ msgid ""
 "NOM_SIGNATAIRE'"
 msgstr ""
 
-#: pytition/petition/admin.py:103 pytition/petition/admin.py:243
+#: pytition/petition/admin.py:462 pytition/petition/admin.py:699
 msgid ""
 "Only when EMAIL subscription method is used. L'expéditeur du mail qui permet "
 "d'enregistrer quelqu'un à la newsletter. Il s'agit généralement d'une "
 "adresse qui est administratrice de la liste SYMPA ou MAILMAN"
 msgstr ""
 
-#: pytition/petition/admin.py:104 pytition/petition/admin.py:244
+#: pytition/petition/admin.py:463 pytition/petition/admin.py:700
 msgid ""
 "Only when EMAIL subscription method is used. Adresse email d'administration "
 "de la liste, ex : sympa@NOM_LISTE.listes.vox.coop"
 msgstr ""
 
-#: pytition/petition/admin.py:105 pytition/petition/admin.py:245
+#: pytition/petition/admin.py:464 pytition/petition/admin.py:701
 msgid ""
 "This selects the newsletter subscription method. It is either HTTP GET or "
 "POST or via sending EMAIL to the newsletter admin address"
 msgstr ""
 
-#: pytition/petition/admin.py:106 pytition/petition/admin.py:246
+#: pytition/petition/admin.py:465 pytition/petition/admin.py:702
 msgid ""
 "If checked, the petition is published and accessible on the website by "
 "everybody. If not checked, the petition is only accessible by logged in "
 "users, others will get a 404 error."
 msgstr ""
 
-#: pytition/petition/admin.py:107 pytition/petition/admin.py:247
+#: pytition/petition/admin.py:466 pytition/petition/admin.py:703
 msgid "E.g.: I want to receive updates or informations from this organization."
 msgstr ""
 
-#: pytition/petition/admin.py:108 pytition/petition/admin.py:248
+#: pytition/petition/admin.py:467 pytition/petition/admin.py:704
 msgid ""
 "E.g.: Your data will stay strictly confidential and will not be sold, given "
 "away or exchanged with third parties. Informations about this campaign as "
@@ -153,7 +219,7 @@ msgid ""
 "checked the checkbox. You can unsubscribe at any moment."
 msgstr ""
 
-#: pytition/petition/admin.py:109 pytition/petition/admin.py:249
+#: pytition/petition/admin.py:468 pytition/petition/admin.py:705
 msgid ""
 "The twitter account handle of the organization, starting with the '@' "
 "symbol. E.g.: @RAP_Asso. This is necessary in order to attribute the "
@@ -161,400 +227,1556 @@ msgid ""
 "docs/tweets/optimize-with-cards/overview/summary"
 msgstr ""
 
-#: pytition/petition/admin.py:110 pytition/petition/admin.py:250
+#: pytition/petition/admin.py:469 pytition/petition/admin.py:706
 msgid "Check if you want to use your own E-Mail SMTP account."
 msgstr ""
 
-#: pytition/petition/admin.py:111 pytition/petition/admin.py:251
+#: pytition/petition/admin.py:470 pytition/petition/admin.py:707
 msgid "e.g.: petition@mydomain.tld"
 msgstr ""
 
-#: pytition/petition/admin.py:112 pytition/petition/admin.py:252
+#: pytition/petition/admin.py:471 pytition/petition/admin.py:708
 msgid "If you don't have a real email account, leave 'localhost'."
 msgstr ""
 
-#: pytition/petition/admin.py:113 pytition/petition/admin.py:253
+#: pytition/petition/admin.py:472 pytition/petition/admin.py:709
 msgid ""
 "25 for cleartext connection, 587 for STARTTLS, 465 for TLS. Prefer TLS if "
 "the email server supports it."
 msgstr ""
 
-#: pytition/petition/admin.py:114 pytition/petition/admin.py:115
-#: pytition/petition/admin.py:254 pytition/petition/admin.py:255
+#: pytition/petition/admin.py:473 pytition/petition/admin.py:474
+#: pytition/petition/admin.py:710 pytition/petition/admin.py:711
 msgid "Leave empty if you don't use any account autentication."
 msgstr ""
 
-#: pytition/petition/admin.py:116 pytition/petition/admin.py:256
+#: pytition/petition/admin.py:475 pytition/petition/admin.py:712
 msgid ""
 "SMTP connection encrypted via TLS, prefer this rather than STARTTLS if "
 "possible. Don't check both. The 2 settings are mutually exclusive."
 msgstr ""
 
-#: pytition/petition/admin.py:117 pytition/petition/admin.py:257
+#: pytition/petition/admin.py:476 pytition/petition/admin.py:713
 msgid ""
 "Connexion SMTP chiffrée via STARTTLS, préférez TLS à ce réglage. Ne pas "
 "cocher les 2. Les 2 réglages sont mutuellement exclusifs."
 msgstr ""
 
-#: pytition/petition/admin.py:120
+#: pytition/petition/admin.py:479
 msgid "Petition title"
 msgstr ""
 
-#: pytition/petition/admin.py:121 pytition/petition/admin.py:261
+#: pytition/petition/admin.py:480 pytition/petition/admin.py:717
 msgid "Petition text"
 msgstr ""
 
-#: pytition/petition/admin.py:122 pytition/petition/admin.py:262
+#: pytition/petition/admin.py:481 pytition/petition/admin.py:718
 msgid "Side text, on top of form"
 msgstr ""
 
-#: pytition/petition/admin.py:123 pytition/petition/admin.py:263
+#: pytition/petition/admin.py:482 pytition/petition/admin.py:719
 msgid "Signature target number"
 msgstr ""
 
-#: pytition/petition/admin.py:124
+#: pytition/petition/admin.py:483
 msgid "Number of paper (or other external medium) signatures"
 msgstr ""
 
-#: pytition/petition/admin.py:125
+#: pytition/petition/admin.py:484
 msgid "Enable paper signatures accounting"
 msgstr ""
 
-#: pytition/petition/admin.py:126 pytition/petition/admin.py:264
+#: pytition/petition/admin.py:485 pytition/petition/admin.py:720
 msgid "Direction of linear gradient for background color"
 msgstr ""
 
-#: pytition/petition/admin.py:127 pytition/petition/admin.py:265
+#: pytition/petition/admin.py:486 pytition/petition/admin.py:721
 msgid "Source color for linear gradient"
 msgstr ""
 
-#: pytition/petition/admin.py:128 pytition/petition/admin.py:266
+#: pytition/petition/admin.py:487 pytition/petition/admin.py:722
 msgid "Destinatoin color for linear gradient"
 msgstr ""
 
-#: pytition/petition/admin.py:129 pytition/petition/admin.py:267
+#: pytition/petition/admin.py:488 pytition/petition/admin.py:723
 msgid "Color for monochrome background color"
 msgstr ""
 
-#: pytition/petition/admin.py:130 pytition/petition/admin.py:268
+#: pytition/petition/admin.py:489 pytition/petition/admin.py:724
 msgid "Footer text"
 msgstr ""
 
-#: pytition/petition/admin.py:131 pytition/petition/admin.py:269
+#: pytition/petition/admin.py:490 pytition/petition/admin.py:725
 msgid "Footer links"
 msgstr ""
 
-#: pytition/petition/admin.py:132 pytition/petition/admin.py:270
+#: pytition/petition/admin.py:491 pytition/petition/admin.py:726
 msgid "Description for Twitter/Facebook cards"
 msgstr ""
 
-#: pytition/petition/admin.py:133 pytition/petition/admin.py:271
+#: pytition/petition/admin.py:492 pytition/petition/admin.py:727
 msgid "Picture for Twitter/Facebook cards"
 msgstr ""
 
-#: pytition/petition/admin.py:134 pytition/petition/admin.py:272
+#: pytition/petition/admin.py:493 pytition/petition/admin.py:728
 msgid "Is the petition associated with a newsletter?"
 msgstr ""
 
-#: pytition/petition/admin.py:135 pytition/petition/admin.py:273
+#: pytition/petition/admin.py:494 pytition/petition/admin.py:729
 msgid ""
 "Data structure to be sent in order to subscribe someone to the newsletter in "
 "case of HTTP method"
 msgstr ""
 
-#: pytition/petition/admin.py:136 pytition/petition/admin.py:274
+#: pytition/petition/admin.py:495 pytition/petition/admin.py:730
 msgid ""
 "Name of the field which should contain the email value in the PHP data "
 "structure"
 msgstr ""
 
-#: pytition/petition/admin.py:137 pytition/petition/admin.py:275
+#: pytition/petition/admin.py:496 pytition/petition/admin.py:731
 msgid "HTTP URL for newsletter subscription"
 msgstr ""
 
-#: pytition/petition/admin.py:138 pytition/petition/admin.py:276
+#: pytition/petition/admin.py:497 pytition/petition/admin.py:732
 msgid "Email subject for newsletter subscription command"
 msgstr ""
 
-#: pytition/petition/admin.py:139 pytition/petition/admin.py:277
+#: pytition/petition/admin.py:498 pytition/petition/admin.py:733
 msgid "FROM field for newsletter subscription command"
 msgstr ""
 
-#: pytition/petition/admin.py:140 pytition/petition/admin.py:278
+#: pytition/petition/admin.py:499 pytition/petition/admin.py:734
 msgid "TO field for newsletter subscription command"
 msgstr ""
 
-#: pytition/petition/admin.py:141 pytition/petition/admin.py:279
+#: pytition/petition/admin.py:500 pytition/petition/admin.py:735
 msgid "Newsletter subscription method"
 msgstr ""
 
-#: pytition/petition/admin.py:142 pytition/petition/admin.py:280
-msgid "Puslibhed"
+#: pytition/petition/admin.py:501 pytition/petition/admin.py:736
+#: pytition/petition/templates/petition/bin_list.html:50
+#: pytition/petition/templates/petition/edit_petition.html:53
+#: pytition/petition/templates/petition/petition_list.html:58
+msgid "Published"
 msgstr ""
 
-#: pytition/petition/admin.py:143 pytition/petition/admin.py:281
+#: pytition/petition/admin.py:502 pytition/petition/admin.py:737
 msgid "Form label text of newsletter subscription checkbox"
 msgstr ""
 
-#: pytition/petition/admin.py:144 pytition/petition/admin.py:282
+#: pytition/petition/admin.py:503 pytition/petition/admin.py:738
 msgid "Sign form footer text"
 msgstr ""
 
-#: pytition/petition/admin.py:145 pytition/petition/admin.py:283
+#: pytition/petition/admin.py:504 pytition/petition/admin.py:739
 msgid "Organization Twitter handle"
 msgstr ""
 
-#: pytition/petition/admin.py:146 pytition/petition/admin.py:284
+#: pytition/petition/admin.py:505 pytition/petition/admin.py:740
 msgid "Use custom e-mail settings?"
 msgstr ""
 
-#: pytition/petition/admin.py:147 pytition/petition/admin.py:285
+#: pytition/petition/admin.py:506 pytition/petition/admin.py:741
 msgid "Confirmation email Reply-to address"
 msgstr ""
 
-#: pytition/petition/admin.py:148 pytition/petition/admin.py:286
+#: pytition/petition/admin.py:507 pytition/petition/admin.py:742
 msgid "SMTP server hostname"
 msgstr ""
 
-#: pytition/petition/admin.py:149 pytition/petition/admin.py:287
+#: pytition/petition/admin.py:508 pytition/petition/admin.py:743
 msgid "SMTP port"
 msgstr ""
 
-#: pytition/petition/admin.py:150 pytition/petition/admin.py:288
+#: pytition/petition/admin.py:509 pytition/petition/admin.py:744
 msgid "SMTP username"
 msgstr ""
 
-#: pytition/petition/admin.py:151 pytition/petition/admin.py:289
+#: pytition/petition/admin.py:510 pytition/petition/admin.py:745
 msgid "SMTP password"
 msgstr ""
 
-#: pytition/petition/admin.py:152 pytition/petition/admin.py:290
+#: pytition/petition/admin.py:511 pytition/petition/admin.py:746
 msgid "SMTP via TLS?"
 msgstr ""
 
-#: pytition/petition/admin.py:153 pytition/petition/admin.py:291
+#: pytition/petition/admin.py:512 pytition/petition/admin.py:747
 msgid "SMTP via STARTTLS?"
 msgstr ""
 
-#: pytition/petition/admin.py:164
+#: pytition/petition/admin.py:569
 msgid "To whom is this petition?"
 msgstr ""
 
-#: pytition/petition/admin.py:169 pytition/petition/admin.py:305
+#: pytition/petition/admin.py:574 pytition/petition/admin.py:761
 msgid "Content of the petition"
 msgstr ""
 
-#: pytition/petition/admin.py:175 pytition/petition/admin.py:310
+#: pytition/petition/admin.py:580 pytition/petition/admin.py:766
 msgid "Background color"
 msgstr ""
 
-#: pytition/petition/admin.py:180 pytition/petition/admin.py:315
+#: pytition/petition/admin.py:585 pytition/petition/admin.py:771
 msgid "Setup of the newsletter associated to the petition"
 msgstr ""
 
-#: pytition/petition/admin.py:191 pytition/petition/admin.py:326
+#: pytition/petition/admin.py:596 pytition/petition/admin.py:782
 msgid "Confirmation email setup"
 msgstr ""
 
-#: pytition/petition/admin.py:196 pytition/petition/admin.py:331
+#: pytition/petition/admin.py:601 pytition/petition/admin.py:787
 msgid "Petition meta-data for social networks"
 msgstr ""
 
-#: pytition/petition/admin.py:200
+#: pytition/petition/admin.py:605
 msgid "Publish the petition"
 msgstr ""
 
-#: pytition/petition/admin.py:208
-msgid "Unconfirmed signatures"
+#: pytition/petition/admin.py:625
+msgid "Status"
 msgstr ""
 
-#: pytition/petition/admin.py:212
-msgid "Confirmed signatures"
+#: pytition/petition/admin.py:635
+msgid "Publication date"
 msgstr ""
 
-#: pytition/petition/admin.py:260
+#: pytition/petition/admin.py:642
+#: pytition/petition/templates/admin/delete.html:66
+#: pytition/petition/templates/admin/spam_page.html:183
+#: pytition/petition/templates/admin/spam_page.html:256
+#: pytition/petition/templates/admin/spam_page.html:338
+#: pytition/petition/templates/admin/spam_page.html:424
+#: pytition/petition/templates/admin/spam_page.html:595
+#: pytition/petition/templates/admin/spam_page.html:672
+#: pytition/petition/templates/admin/spam_page.html:865
+#: pytition/petition/templates/admin/spam_user.html:26
+#: pytition/petition/templates/admin/spam_user.html:51
+msgid "Total number of signatures"
+msgstr ""
+
+#: pytition/petition/admin.py:649
+msgid "Number of signatures since one day"
+msgstr ""
+
+#: pytition/petition/admin.py:654
+#: pytition/petition/templates/admin/spam_page.html:340
+#: pytition/petition/templates/admin/spam_page.html:426
+msgid "Number of signatures yesterday"
+msgstr ""
+
+#: pytition/petition/admin.py:660
+msgid "Number of signatures since one week"
+msgstr ""
+
+#: pytition/petition/admin.py:667
+msgid "Number of signatures since one month"
+msgstr ""
+
+#: pytition/petition/admin.py:716
 msgid "Petition template name"
 msgstr ""
 
-#: pytition/petition/admin.py:300
+#: pytition/petition/admin.py:756
 msgid "To whom is this petition template?"
 msgstr ""
 
-#: pytition/petition/forms.py:24
+#: pytition/petition/admin.py:1002 pytition/petition/admin.py:1088
+#: pytition/petition/admin.py:1309 pytition/petition/admin.py:1354
+msgid "demoderate user"
+msgstr ""
+
+#: pytition/petition/admin.py:1002 pytition/petition/admin.py:1004
+#: pytition/petition/admin.py:1094 pytition/petition/admin.py:1302
+#: pytition/petition/admin.py:1309 pytition/petition/admin.py:1316
+#: pytition/petition/admin.py:1357
+msgid "delete user"
+msgstr ""
+
+#: pytition/petition/admin.py:1003 pytition/petition/admin.py:1088
+#: pytition/petition/admin.py:1388 pytition/petition/admin.py:1431
+msgid "demoderate organization"
+msgstr ""
+
+#: pytition/petition/admin.py:1003 pytition/petition/admin.py:1005
+#: pytition/petition/admin.py:1094 pytition/petition/admin.py:1381
+#: pytition/petition/admin.py:1388 pytition/petition/admin.py:1395
+#: pytition/petition/admin.py:1434
+msgid "delete organization"
+msgstr ""
+
+#: pytition/petition/admin.py:1004 pytition/petition/admin.py:1091
+#: pytition/petition/admin.py:1316 pytition/petition/admin.py:1360
+msgid "demonitor user"
+msgstr ""
+
+#: pytition/petition/admin.py:1004 pytition/petition/admin.py:1088
+#: pytition/petition/admin.py:1302 pytition/petition/admin.py:1316
+#: pytition/petition/admin.py:1354
+msgid "moderate user"
+msgstr ""
+
+#: pytition/petition/admin.py:1005 pytition/petition/admin.py:1091
+#: pytition/petition/admin.py:1395 pytition/petition/admin.py:1437
+msgid "demonitor organization"
+msgstr ""
+
+#: pytition/petition/admin.py:1005 pytition/petition/admin.py:1088
+#: pytition/petition/admin.py:1381 pytition/petition/admin.py:1395
+#: pytition/petition/admin.py:1431
+msgid "moderate organization"
+msgstr ""
+
+#: pytition/petition/admin.py:1006 pytition/petition/admin.py:1091
+#: pytition/petition/admin.py:1237 pytition/petition/admin.py:1265
+msgid "demonitor petition"
+msgstr ""
+
+#: pytition/petition/admin.py:1006 pytition/petition/admin.py:1008
+#: pytition/petition/admin.py:1088 pytition/petition/admin.py:1220
+#: pytition/petition/admin.py:1237 pytition/petition/admin.py:1268
+msgid "moderate petition"
+msgstr ""
+
+#: pytition/petition/admin.py:1006 pytition/petition/admin.py:1007
+#: pytition/petition/admin.py:1008 pytition/petition/admin.py:1094
+#: pytition/petition/admin.py:1220 pytition/petition/admin.py:1229
+#: pytition/petition/admin.py:1237 pytition/petition/admin.py:1271
+msgid "delete petition"
+msgstr ""
+
+#: pytition/petition/admin.py:1006 pytition/petition/admin.py:1007
+#: pytition/petition/admin.py:1103 pytition/petition/admin.py:1220
+#: pytition/petition/admin.py:1229 pytition/petition/admin.py:1237
+#: pytition/petition/admin.py:1280
+msgid "switch check signatures at each signature"
+msgstr ""
+
+#: pytition/petition/admin.py:1006 pytition/petition/admin.py:1007
+#: pytition/petition/admin.py:1097 pytition/petition/admin.py:1220
+#: pytition/petition/admin.py:1229 pytition/petition/admin.py:1237
+#: pytition/petition/admin.py:1274
+msgid "submit petition as ham"
+msgstr ""
+
+#: pytition/petition/admin.py:1006 pytition/petition/admin.py:1007
+#: pytition/petition/admin.py:1008 pytition/petition/admin.py:1100
+#: pytition/petition/admin.py:1220 pytition/petition/admin.py:1229
+#: pytition/petition/admin.py:1237 pytition/petition/admin.py:1277
+msgid "submit petition as spam"
+msgstr ""
+
+#: pytition/petition/admin.py:1007 pytition/petition/admin.py:1088
+#: pytition/petition/admin.py:1229 pytition/petition/admin.py:1268
+msgid "demoderate petition"
+msgstr ""
+
+#: pytition/petition/forms.py:38
 msgid "First name *"
 msgstr ""
 
-#: pytition/petition/forms.py:25
+#: pytition/petition/forms.py:40
 msgid "Last name *"
 msgstr ""
 
-#: pytition/petition/forms.py:26 pytition/petition/models.py:441
+#: pytition/petition/forms.py:42 pytition/petition/models.py:590
 msgid "Phone number"
 msgstr ""
 
-#: pytition/petition/forms.py:27
+#: pytition/petition/forms.py:44
 msgid "Email address *"
 msgstr ""
 
-#: pytition/petition/forms.py:66
+#: pytition/petition/forms.py:74
 msgid "There is already a petition with this title"
 msgstr ""
 
-#: pytition/petition/forms.py:78
+#: pytition/petition/forms.py:86
 msgid "You should either provide an org name or a user name"
 msgstr ""
 
-#: pytition/petition/forms.py:89
+#: pytition/petition/forms.py:97
 msgid "Publish the petition now?"
 msgstr ""
 
-#: pytition/petition/forms.py:90
-#: pytition/petition/templates/petition/new_petition_step3.html:26
+#: pytition/petition/forms.py:98
+#: pytition/petition/templates/petition/new_petition_step3.html:28
 msgid "Save & Configure"
 msgstr ""
 
-#: pytition/petition/forms.py:117
+#: pytition/petition/forms.py:100
+msgid "Use template"
+msgstr ""
+
+#: pytition/petition/forms.py:101
+msgid "Template id"
+msgstr ""
+
+#: pytition/petition/forms.py:108 pytition/petition/forms.py:118
+msgid "Allow paper signatures"
+msgstr ""
+
+#: pytition/petition/forms.py:118
+msgid "Paper signatures will appear below after you click on save"
+msgstr ""
+
+#: pytition/petition/forms.py:119
+msgid "Paper signatures"
+msgstr ""
+
+#: pytition/petition/forms.py:121
+msgid "Show publication date"
+msgstr ""
+
+#: pytition/petition/forms.py:134
 msgid ""
 "Your contact email. It will be used as \"Reply-To\" field of the "
 "confirmation email sent to signatories. People responding to confirmation "
 "email will in fact respond to this address."
 msgstr ""
 
-#: pytition/petition/forms.py:134
+#: pytition/petition/forms.py:158
 msgid "Does this petition have a newsletter?"
 msgstr ""
 
-#: pytition/petition/forms.py:148
+#: pytition/petition/forms.py:172
 msgid "Use TLS?"
 msgstr ""
 
-#: pytition/petition/forms.py:149
+#: pytition/petition/forms.py:173
 msgid "Use STARTTLS?"
 msgstr ""
 
-#: pytition/petition/forms.py:161
+#: pytition/petition/forms.py:185
 msgid "You cannot select both TLS and STARTTLS."
 msgstr ""
 
-#: pytition/petition/forms.py:164
+#: pytition/petition/forms.py:188
 msgid "SMTP port must be >= 1 and <= 65535"
 msgstr ""
 
-#: pytition/petition/forms.py:196
+#: pytition/petition/forms.py:220
 msgid "Wrong answer"
 msgstr ""
 
-#: pytition/petition/forms.py:240
+#: pytition/petition/forms.py:264
 #: pytition/petition/templates/petition/account_settings.html:95
 msgid "DROP MY ACCOUNT"
 msgstr ""
 
-#: pytition/petition/forms.py:241
+#: pytition/petition/forms.py:265
 msgid "You miss-typed the validation code"
 msgstr ""
 
-#: pytition/petition/forms.py:255
+#: pytition/petition/forms.py:279
 msgid "This is an invalid Organization name. Please try something else."
 msgstr ""
 
-#: pytition/petition/helpers.py:45 pytition/petition/views.py:355
-#: pytition/petition/views.py:378 pytition/petition/views.py:383
-#: pytition/petition/views.py:406 pytition/petition/views.py:499
-#: pytition/petition/views.py:509 pytition/petition/views.py:525
-#: pytition/petition/views.py:533
+#: pytition/petition/helpers.py:56 pytition/petition/views.py:432
+#: pytition/petition/views.py:455 pytition/petition/views.py:460
+#: pytition/petition/views.py:483 pytition/petition/views.py:576
+#: pytition/petition/views.py:586 pytition/petition/views.py:602
+#: pytition/petition/views.py:610
 msgid "not found"
 msgstr ""
 
-#: pytition/petition/helpers.py:52 pytition/petition/views.py:921
+#: pytition/petition/helpers.py:63 pytition/petition/views.py:984
 msgid "You are not part of this organization"
 msgstr ""
 
-#: pytition/petition/helpers.py:61
+#: pytition/petition/helpers.py:72
 msgid "Petition does not exist"
 msgstr ""
 
-#: pytition/petition/helpers.py:77
+#: pytition/petition/helpers.py:88
 msgid "This Petition has been moderated!"
 msgstr ""
 
-#: pytition/petition/helpers.py:79
+#: pytition/petition/helpers.py:90
 msgid "This Petition is not published yet!"
 msgstr ""
 
-#: pytition/petition/helpers.py:100
+#: pytition/petition/helpers.py:111
 msgid "Confirm your signature to our petition"
 msgstr ""
 
-#: pytition/petition/helpers.py:111
+#: pytition/petition/helpers.py:122
 msgid "Account created !"
 msgstr ""
 
-#: pytition/petition/models.py:27 pytition/petition/models.py:88
+#: pytition/petition/helpers.py:134 pytition/petition/helpers.py:156
+msgid "Moderation"
+msgstr ""
+
+#: pytition/petition/helpers.py:145 pytition/petition/helpers.py:167
+msgid "Strong monitoring"
+msgstr ""
+
+#: pytition/petition/helpers.py:178
+msgid "Information"
+msgstr ""
+
+#: pytition/petition/models.py:39 pytition/petition/models.py:122
 msgid "Default petition template"
 msgstr ""
 
-#: pytition/petition/models.py:175
+#: pytition/petition/models.py:249
+#: pytition/petition/templates/admin/spam_page.html:335
+#: pytition/petition/templates/admin/spam_page.html:421
+#: pytition/petition/templates/admin/spam_page.html:505
+#: pytition/petition/templates/admin/spam_petition.html:18
 #: pytition/petition/templates/layouts/wizard_layout.html:18
+#: pytition/petition/templates/petition/new_petition_step1.html:13
 msgid "Title"
 msgstr ""
 
-#: pytition/petition/models.py:310
+#: pytition/petition/models.py:448
 msgid "Thank you for confirming your signature!"
 msgstr ""
 
-#: pytition/petition/models.py:419
+#: pytition/petition/models.py:554
 msgid "This petition is buggy. Sorry about that!"
 msgstr ""
 
-#: pytition/petition/models.py:439
-#: pytition/petition/templates/petition/signature_data.html:85
+#: pytition/petition/models.py:588
+#: pytition/petition/templates/petition/signature_data.html:93
 msgid "First name"
 msgstr ""
 
-#: pytition/petition/models.py:440
-#: pytition/petition/templates/petition/signature_data.html:86
+#: pytition/petition/models.py:589
+#: pytition/petition/templates/petition/signature_data.html:94
 msgid "Last name"
 msgstr ""
 
-#: pytition/petition/models.py:442
+#: pytition/petition/models.py:591
 msgid "Email address"
 msgstr ""
 
-#: pytition/petition/models.py:444
+#: pytition/petition/models.py:593
 msgid "Confirmed"
 msgstr ""
 
-#: pytition/petition/models.py:445
+#: pytition/petition/models.py:594
+#: pytition/petition/templates/admin/spam_user.html:77
 msgid "Petition"
 msgstr ""
 
-#: pytition/petition/models.py:446
+#: pytition/petition/models.py:595
 msgid "Subscribed to mailing list"
 msgstr ""
 
-#: pytition/petition/models.py:447
-#: pytition/petition/templates/petition/signature_data.html:91
+#: pytition/petition/models.py:596
+#: pytition/petition/templates/petition/signature_data.html:99
 msgid "Date"
 msgstr ""
 
-#: pytition/petition/models.py:453
+#: pytition/petition/models.py:605
 msgid "You already signed the petition"
 msgstr ""
 
-#: pytition/petition/models.py:569
+#: pytition/petition/models.py:730
 msgid "A permlink cannot be empty. Please enter something."
 msgstr ""
 
-#: pytition/petition/models.py:580
+#: pytition/petition/models.py:741
 msgid "Organization related to these permissions"
 msgstr ""
 
-#: pytition/petition/models.py:581
+#: pytition/petition/models.py:742
 msgid "User related to these permissions"
 msgstr ""
 
-#: pytition/petition/models.py:655
+#: pytition/petition/models.py:816 pytition/petition/models.py:836
 msgid "message"
+msgstr ""
+
+#: pytition/petition/models.py:851
+msgid "priority"
+msgstr ""
+
+#: pytition/petition/spam_management/anti_bot_tests/check_petition_number.py:51
+#: pytition/petition/spam_management/anti_bot_tests/check_petition_number.py:104
+msgid "Too many petitions were created in one day"
+msgstr ""
+
+#: pytition/petition/spam_management/anti_bot_tests/check_petition_number.py:161
+msgid "You have too many moderated or monitored petitions."
+msgstr ""
+
+#: pytition/petition/spam_management/anti_bot_tests/check_petition_number.py:213
+msgid "This organization has too many moderated or monitored petitions."
+msgstr ""
+
+#: pytition/petition/spam_management/anti_bot_tests/check_petition_number.py:268
+msgid "You have too many signatures in your petitions."
+msgstr ""
+
+#: pytition/petition/spam_management/anti_bot_tests/check_petition_number.py:318
+msgid "This organization has too many signatures in its petitions."
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:6
+msgid "Are you sure you want to delete these elements ?"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:13
+msgid "Users that will be deleted"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:14
+#: pytition/petition/templates/admin/delete.html:39
+#: pytition/petition/templates/admin/delete.html:62
+msgid "Moderated or monitored"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:15
+#: pytition/petition/templates/admin/delete.html:40
+#: pytition/petition/templates/admin/delete.html:63
+msgid "Reason"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:16
+#: pytition/petition/templates/admin/delete.html:41
+#: pytition/petition/templates/admin/delete.html:61
+msgid "Petitions that will be deleted"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:17
+#: pytition/petition/templates/admin/delete.html:38
+msgid "Organizations that will be deleted"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:18
+#: pytition/petition/templates/petition/account_settings.html:13
+#: pytition/petition/templates/petition/account_settings.html:41
+#: pytition/petition/templates/petition/user_org_list.html:4
+msgid "Organizations"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:42
+#: pytition/petition/templates/petition/org_member_list.html:3
+msgid "Members"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:64
+#: pytition/petition/templates/admin/spam_page.html:336
+#: pytition/petition/templates/admin/spam_page.html:422
+#: pytition/petition/templates/admin/spam_page.html:506
+msgid "Owner type"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:65
+#: pytition/petition/templates/admin/spam_page.html:337
+#: pytition/petition/templates/admin/spam_page.html:423
+#: pytition/petition/templates/admin/spam_page.html:507
+#: pytition/petition/templates/admin/spam_petition.html:22
+msgid "Owner"
+msgstr ""
+
+#: pytition/petition/templates/admin/delete.html:102
+#: pytition/petition/templates/layouts/nav.html:91
+#: pytition/petition/templates/petition/bin_list.html:106
+#: pytition/petition/templates/petition/petition_list.html:113
+#: pytition/petition/templates/petition/transfer_petition.html:63
+msgid "Cancel"
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/email_to_moderation.html:10
+#: pytition/petition/templates/admin/emails/email_to_moderation_info.html:10
+#: pytition/petition/templates/admin/emails/email_to_moderation_monitor.html:10
+#: pytition/petition/templates/admin/emails/moderation_email.html:10
+#: pytition/petition/templates/admin/emails/monitoring_email.html:10
+msgid "Hello"
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/email_to_moderation.html:13
+msgid "This user has been moderated: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/email_to_moderation.html:15
+msgid "This organization has been moderated: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/email_to_moderation.html:17
+msgid "This petition has been moderated: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/email_to_moderation_monitor.html:13
+msgid "This user has been monitored with a strong priority: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/email_to_moderation_monitor.html:15
+msgid "This organization has been monitored with a strong priority: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/email_to_moderation_monitor.html:17
+msgid "This petition has been monitored with a strong priority: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/moderation_email.html:13
+msgid "You have been moderated for this reason: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/moderation_email.html:15
+msgid "Your organization has been moderated: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/moderation_email.html:17
+msgid "Your petition has been moderated: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/monitoring_email.html:13
+msgid "You have been monitored with a strong priority for this reason: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/monitoring_email.html:15
+msgid "Your organization has been monitored with a strong priority: "
+msgstr ""
+
+#: pytition/petition/templates/admin/emails/monitoring_email.html:17
+msgid "Your petition has been monitored with a strong priority: "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:13
+msgid "Organization detail: "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:16
+#: pytition/petition/templates/admin/spam_petition.html:17
+#: pytition/petition/templates/admin/spam_user.html:17
+msgid "Basic information"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:17
+msgid "Name: "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:19
+msgid "Members list"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:20
+msgid "These users belong to this organization:"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:47
+#: pytition/petition/templates/admin/spam_user.html:71
+msgid "Petition list"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:48
+msgid "The organization has created these petitions:"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:75
+#: pytition/petition/templates/admin/spam_petition.html:38
+#: pytition/petition/templates/admin/spam_user.html:99
+msgid "Moderation and monitoring"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:77
+#: pytition/petition/templates/admin/spam_petition.html:40
+#: pytition/petition/templates/admin/spam_user.html:101
+msgid "Moderated: "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:79
+#: pytition/petition/templates/admin/spam_petition.html:42
+#: pytition/petition/templates/admin/spam_user.html:103
+msgid "Monitored: "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:81
+msgid "This organization is neither moderated nor monitored."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:88
+msgid ""
+"\n"
+"                        <li><strong>Demoderate organization</strong></li>\n"
+"                        <li><strong>Delete organization</strong></li>\n"
+"                    "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_org.html:95
+msgid ""
+"\n"
+"                        <li><strong>Demonitor organization</strong></li>\n"
+"                        <li><strong>Moderate organization</strong></li>\n"
+"                        <li><strong>Delete organization</strong></li>\n"
+"                    "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:125
+msgid "Spam monitoring page"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:129
+msgid "Monitored users"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:131
+#: pytition/petition/templates/admin/spam_page.html:212
+#: pytition/petition/templates/admin/spam_page.html:285
+#: pytition/petition/templates/admin/spam_page.html:378
+#: pytition/petition/templates/admin/spam_page.html:464
+#: pytition/petition/templates/admin/spam_page.html:542
+#: pytition/petition/templates/admin/spam_page.html:626
+msgid "Available actions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:133
+msgid ""
+"\n"
+"                <li><strong> Demonitor user</strong>: demonitor selected "
+"users. They will not appear on this table anymore. </li>\n"
+"                <li><strong> Moderate user</strong>: moderate selected "
+"users. They will not appear on this table anymore. </li>\n"
+"                <li><strong> Delete user</strong>: delete selected users and "
+"their associated petitions. If they are the last member of an organization, "
+"delete the organization. </li>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:140
+#: pytition/petition/templates/admin/spam_page.html:296
+#: pytition/petition/templates/admin/spam_page.html:551
+msgid "Monitoring priority"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:142
+#: pytition/petition/templates/admin/spam_page.html:298
+#: pytition/petition/templates/admin/spam_page.html:553
+msgid "Strong"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:143
+#: pytition/petition/templates/admin/spam_page.html:299
+#: pytition/petition/templates/admin/spam_page.html:554
+msgid "Average"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:144
+#: pytition/petition/templates/admin/spam_page.html:300
+#: pytition/petition/templates/admin/spam_page.html:555
+msgid "Low"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:147
+#: pytition/petition/templates/admin/spam_page.html:220
+msgid "Search for users.."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:152
+#: pytition/petition/templates/admin/spam_page.html:225
+#: pytition/petition/templates/admin/spam_page.html:308
+#: pytition/petition/templates/admin/spam_page.html:394
+#: pytition/petition/templates/admin/spam_page.html:478
+#: pytition/petition/templates/admin/spam_page.html:563
+#: pytition/petition/templates/admin/spam_page.html:639
+msgid "display 50"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:153
+#: pytition/petition/templates/admin/spam_page.html:226
+#: pytition/petition/templates/admin/spam_page.html:309
+#: pytition/petition/templates/admin/spam_page.html:395
+#: pytition/petition/templates/admin/spam_page.html:479
+#: pytition/petition/templates/admin/spam_page.html:564
+#: pytition/petition/templates/admin/spam_page.html:640
+msgid "display 200"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:154
+#: pytition/petition/templates/admin/spam_page.html:227
+#: pytition/petition/templates/admin/spam_page.html:310
+#: pytition/petition/templates/admin/spam_page.html:396
+#: pytition/petition/templates/admin/spam_page.html:480
+#: pytition/petition/templates/admin/spam_page.html:565
+#: pytition/petition/templates/admin/spam_page.html:641
+msgid "display 500"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:155
+#: pytition/petition/templates/admin/spam_page.html:228
+#: pytition/petition/templates/admin/spam_page.html:311
+#: pytition/petition/templates/admin/spam_page.html:397
+#: pytition/petition/templates/admin/spam_page.html:481
+#: pytition/petition/templates/admin/spam_page.html:566
+#: pytition/petition/templates/admin/spam_page.html:642
+msgid "display all"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:157
+#: pytition/petition/templates/admin/spam_page.html:168
+#: pytition/petition/templates/admin/spam_page.html:230
+#: pytition/petition/templates/admin/spam_page.html:241
+#: pytition/petition/templates/admin/spam_page.html:313
+#: pytition/petition/templates/admin/spam_page.html:323
+#: pytition/petition/templates/admin/spam_page.html:399
+#: pytition/petition/templates/admin/spam_page.html:409
+#: pytition/petition/templates/admin/spam_page.html:483
+#: pytition/petition/templates/admin/spam_page.html:493
+#: pytition/petition/templates/admin/spam_page.html:568
+#: pytition/petition/templates/admin/spam_page.html:578
+#: pytition/petition/templates/admin/spam_page.html:644
+#: pytition/petition/templates/admin/spam_page.html:654
+msgid "Send"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:171
+#: pytition/petition/templates/admin/spam_page.html:244
+#: pytition/petition/templates/admin/spam_page.html:326
+#: pytition/petition/templates/admin/spam_page.html:412
+#: pytition/petition/templates/admin/spam_page.html:496
+#: pytition/petition/templates/admin/spam_page.html:581
+#: pytition/petition/templates/admin/spam_page.html:657
+msgid "Select All"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:178
+#: pytition/petition/templates/admin/spam_page.html:251
+#: pytition/petition/templates/admin/spam_page.html:334
+#: pytition/petition/templates/admin/spam_page.html:420
+#: pytition/petition/templates/admin/spam_page.html:504
+#: pytition/petition/templates/admin/spam_page.html:588
+#: pytition/petition/templates/admin/spam_page.html:665
+msgid "Selection"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:179
+#: pytition/petition/templates/admin/spam_page.html:252
+#: pytition/petition/templates/admin/spam_user.html:22
+#: pytition/petition/templates/petition/org_invite_user.html:10
+msgid "Username"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:180
+#: pytition/petition/templates/admin/spam_page.html:253
+#: pytition/petition/templates/admin/spam_page.html:590
+#: pytition/petition/templates/admin/spam_page.html:667
+msgid "Total number of petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:181
+#: pytition/petition/templates/admin/spam_page.html:254
+#: pytition/petition/templates/admin/spam_page.html:591
+#: pytition/petition/templates/admin/spam_page.html:668
+msgid "Day number of petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:182
+#: pytition/petition/templates/admin/spam_page.html:255
+#: pytition/petition/templates/admin/spam_page.html:594
+#: pytition/petition/templates/admin/spam_page.html:671
+msgid "Number of moderated or monitored petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:184
+#: pytition/petition/templates/admin/spam_page.html:343
+#: pytition/petition/templates/admin/spam_page.html:596
+msgid "Monitoring reason"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:200
+msgid "No monitored users."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:210
+msgid "Moderated users"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:214
+msgid ""
+"\n"
+"                <li><strong> Demoderate user</strong>: demoderate selected "
+"users. They will not appear on this table anymore. </li>\n"
+"                <li><strong> Delete user</strong>: delete selected users and "
+"their associated petitions. If they are the last member of an organization, "
+"delete the organization. </li>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:257
+#: pytition/petition/templates/admin/spam_page.html:429
+#: pytition/petition/templates/admin/spam_page.html:673
+msgid "Moderation reason"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:273
+msgid "No moderated users."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:283
+msgid "Monitored petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:287
+msgid ""
+"\n"
+"                <li><strong>Moderate petition</strong>: moderate selected "
+"petitions. They will not appear on this table anymore but on the Moderated "
+"Petitions table.</li>\n"
+"                <li><strong>Delete petition</strong>: delete selected "
+"petitions.</li>\n"
+"                <li><strong>Switch check signatures at each signature</"
+"strong>: switch between checking the number of signatures at each signature "
+"or periodically.</li>\n"
+"                <li><strong>Submit petition as ham</strong>: tell Akismet "
+"that the selected petitions are not spam. They are demonitored.</li>\n"
+"                <li><strong>Submit petition as spam</strong>: tell Akismet "
+"that the selected petitions are spam. They are moderated.</li>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:303
+#: pytition/petition/templates/admin/spam_page.html:389
+#: pytition/petition/templates/admin/spam_page.html:473
+msgid "Search for petitions.."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:339
+#: pytition/petition/templates/admin/spam_page.html:425
+msgid "Number of signatures today"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:341
+#: pytition/petition/templates/admin/spam_page.html:427
+msgid "Number of unconfirmed signatures in the last 6h"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:342
+msgid ""
+"Number of signatures checked at each signature ? (if False, periodically)"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:366
+msgid "No monitored petitions."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:376
+msgid "Moderated petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:380
+msgid ""
+"\n"
+"                <li><strong>Demoderate petition</strong>: demoderate "
+"selected petitions. They will not appear on this table anymore.</li>\n"
+"                <li><strong>Delete petition</strong>: delete selected "
+"petitions.</li>\n"
+"                <li><strong>Switch check signatures at each signature</"
+"strong>: switch between checking the number of signatures at each signature "
+"or periodically.</li>\n"
+"                <li><strong>Submit petition as ham</strong>: tell Akismet "
+"that the selected petitions are not spam. They are demoderated.</li>\n"
+"                <li><strong>Submit petition as spam</strong>: tell Akismet "
+"that the selected petitions are spam.</li>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:428
+msgid ""
+"Number of signatures checked at each signature? (if False, periodically)"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:452
+msgid "No moderated petitions."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:462
+msgid "Reported petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:466
+msgid ""
+"\n"
+"                <li><strong>Moderate petition</strong>: moderate selected "
+"petitions.</li>\n"
+"                <li><strong>Delete petition</strong>: delete selected "
+"petitions.</li>\n"
+"                <li><strong>Submit petition as spam</strong>: tell Akismet "
+"that the selected petitions are spam.</li>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:508
+msgid "Beginning of content"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:509
+msgid "Number of reports"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:510
+msgid "Last reporting reason"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:530
+msgid "No reported petitions."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:540
+msgid "Monitored organizations"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:544
+msgid ""
+"\n"
+"                <li><strong>Demonitor organization</strong>: demonitor "
+"selected organizations. They will not appear on this table anymore.</li>\n"
+"                <li><strong>Moderate organization</strong>: moderate "
+"selected organizations. They will not appear on this table anymore.</li>\n"
+"                <li><strong>Delete organization</strong>: delete selected "
+"organizations.</li>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:558
+#: pytition/petition/templates/admin/spam_page.html:634
+msgid "Search for organizations.."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:592
+#: pytition/petition/templates/admin/spam_page.html:669
+msgid "Total number of members"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:593
+#: pytition/petition/templates/admin/spam_page.html:670
+msgid "Number of moderated members"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:614
+msgid "No monitored organizations."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:624
+msgid "Moderated organizations"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:628
+msgid ""
+"\n"
+"                <li><strong>Demoderate organization</strong>: demoderate "
+"selected organizations. They will not appear on this table anymore.</li>\n"
+"                <li><strong>Delete organization</strong>: delete selected "
+"organizations.</li>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:691
+msgid "No moderated organizations."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:700
+msgid "Moderation variables"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:703
+msgid ""
+"These variables are used to test for bots and spam in petitions and their "
+"associated signatures. You can find and modify their values in "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:706
+msgid "Hide moderation variables"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:711
+msgid "Cron commands"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:713
+msgid ""
+"\n"
+"                <p>\n"
+"                    Petitions require their signatures to be checked "
+"periodically to avoid spam. \n"
+"                    You can change this and make the verification at each "
+"signatures by using the <strong>switch check signatures at each signature</"
+"strong> action in petitions tables. <br>\n"
+"                    Permissions for organizations are also checked "
+"periodically. If a user is moderated, they lose their permissions in their "
+"organizations. \n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:722
+msgid ""
+"In order to launch these Cron jobs, you can put the following commands in "
+"crontab by using the crontab -e command at the root of the project, outside "
+"of the docker container:"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:734
+msgid "Tests to avoid inappropriate petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:737
+msgid ""
+"In order to avoid inappropriate petitions, we use detectors defined in "
+"pytition/petition/spam_management/detectors. They are all called in pytition/"
+"petition/spam_management/detector.py."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:741
+msgid ""
+"akismet_detector: uses Akismet's is_spam() function to detect spam content. "
+"Returns 0, 1 or 2."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:742
+msgid ""
+"alt_profanity_check_detector: uses function predict_prob() from alt-"
+"profanity-check library to detect profanity in english content. Returns 0, 1 "
+"or 2."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:743
+msgid ""
+"keywords_detector: uses list of forbidden keywords defined in settings. "
+"Returns 0 or 1."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:747
+msgid ""
+"Depending on the results of these detectors, automatic moderation or "
+"monitoring actions are taken:"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:751
+msgid "0: no spam, no moderation or monitoring."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:752
+msgid "1: possible spam, strong monitoring."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:753
+msgid "2: spam, moderation."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:757
+msgid ""
+"If there are too many false positives with Akismet, you can disable "
+"automatic moderation by putting AKISMET_MODERATION_AUTO at False (pytition/"
+"pytition/settings/base.py). That way, Akismet results will only trigger "
+"monitoring."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:762
+msgid "Number of signatures from the same IP address"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:763
+msgid ""
+"These variables are used in the class "
+"PetitionCreationWizard(SessionWizardView) in "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:780
+#, python-format
+msgid ""
+"\n"
+"                <p>\n"
+"                    SIGNATURE_THROTTLE: maximum number of signatures from "
+"the same IP address in a petition in an amout of time defined by "
+"SIGNATURE_THROTTLE_TIMING.<br>\n"
+"                    Here, %(signature_throttle)s signatures can be made by "
+"the same IP address in %(signature_throttle_timing)s seconds.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:791
+msgid "Monitoring variables"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:792
+msgid ""
+"The variables defined as VARIABLE_PRIORITY trigger monitoring with said "
+"priority. Four types of monitoring are defined:"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:800
+msgid "Monitoring of users and organizations"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:802
+#: pytition/petition/templates/admin/spam_page.html:896
+msgid "These variables are used in functions in "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:803
+msgid "These functions are called to monitor users and organizations in "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:809
+msgid "Number of petitions in one day"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:830
+#, python-format
+msgid ""
+"\n"
+"                <p>\n"
+"                    Maximum numbers of petitions in a day for a user or an "
+"organization. <br>\n"
+"                    Here, if a user creates %(day_petition_critical)s "
+"petitions in a day, they are moderated automatically.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:837
+msgid "Number of monitored or moderated petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:858
+#, python-format
+msgid ""
+"\n"
+"                <p>\n"
+"                    Maximum numbers of monitored or moderated petitions for "
+"a user or an organization. <br>\n"
+"                    Here, if a user or an organization has more than "
+"%(monitored_petitions_critical)s, they are moderated automatically.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:886
+#, python-format
+msgid ""
+"\n"
+"                <p>\n"
+"                    Maximum numbers of total signatures for all the "
+"petitions of a user or an organization. <br>\n"
+"                    Here if a user or an organization has more than "
+"%(signatures_total_critical)s signatures in all their petitions, they are "
+"moderated automatically.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:894
+msgid "Monitoring of petitions"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:897
+msgid "These functions are called to monitor petitions in "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:901
+msgid "Signature variation"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:922
+#, python-format
+msgid ""
+"\n"
+"                <p>\n"
+"                    Maximum signature variations from one day to the next or "
+"one week to today. <br>\n"
+"                    Here, if there is %(signature_variation_strong)s times "
+"more signatures today than a fixed period of time, we monitor the petition "
+"with a strong priority.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:929
+#: pytition/petition/templates/admin/spam_user.html:79
+msgid "Number of signatures"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:950
+#, python-format
+msgid ""
+"\n"
+"                <p>\n"
+"                    Maximum total signature numbers in a petition. <br>\n"
+"                    Here, if there are more than %(signature_number_strong)s "
+"signatures in a petition, we monitor it with a strong priority.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:957
+msgid "Number of unconfirmed signatures"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:978
+msgid ""
+"\n"
+"                <p>\n"
+"                    Maximum numbers of unconfirmed signatures in the last "
+"6h. <br>\n"
+"                    For example, here, if there are more than 200 "
+"unconfirmed signatures in 6h, we monitor the petition with an average "
+"priority.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:985
+msgid "Number of signatures 24h after creation"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_page.html:1006
+msgid ""
+"\n"
+"                <p>\n"
+"                    Maximum numbers of signatures in the 24h after the "
+"creation of the petition. <br>\n"
+"                    For example, here, if there are more than 1000 "
+"signatures 24h after the creation of a petition, we monitor it with a low "
+"priority.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:13
+msgid "Petition detail: "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:14
+#: pytition/petition/templates/petition/petition_change_form.html:48
+msgid "Preview the petition"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:20
+#: pytition/petition/templates/layouts/wizard_layout.html:20
+#: pytition/petition/templates/petition/edit_petition.html:71
+#: pytition/petition/templates/petition/edit_petition.html:361
+#: pytition/petition/templates/petition/edit_petition.html:367
+msgid "Content"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:28
+msgid "Creation date"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:31
+msgid "Ip address"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:44
+msgid "This petition is neither moderated nor monitored."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:51
+msgid ""
+"\n"
+"                    <li><strong>Demoderate petition</strong></li>\n"
+"                    <li><strong>Delete petition</strong></li>\n"
+"                    <li><strong>Switch check signatures at creation</"
+"strong>: switch between checking the number of signatures at each signatures "
+"or periodically.</li>\n"
+"                    <li><strong>Submit petition as ham</strong>: tell "
+"Akismet that the petition is not spam. It will be demoderated.</li>\n"
+"                    <li><strong>Submit petition as spam</strong>: tell "
+"Akismet that the petition is spam.</li>\n"
+"                "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:61
+msgid ""
+"\n"
+"                    <li><strong>Demonitor petition</strong></li>\n"
+"                    <li><strong>Moderate petition</strong></li>\n"
+"                    <li><strong>Delete petition</strong></li>\n"
+"                    <li><strong>Switch check signatures at creation</"
+"strong>: switch between checking the number of signatures at each signatures "
+"or periodically.</li>\n"
+"                    <li><strong>Submit petition as ham</strong>: tell "
+"Akismet that the petition is not spam. It will be demonitored.</li>\n"
+"                    <li><strong>Submit petition as spam</strong>: tell "
+"Akismet that the petition is spam and moderate it.</li>\n"
+"                "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:81
+#: pytition/petition/templates/petition/signature_data.html:7
+msgid "Signatures"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:83
+#: pytition/petition/templates/petition/petition_change_form.html:43
+msgid "Generate confirmed signatures CSV file"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_petition.html:86
+#: pytition/petition/templates/petition/petition_change_form.html:46
+msgid "Generate ALL-signatures CSV file"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:14
+msgid "User detail: "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:23
+msgid "Full name"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:24
+#: pytition/petition/templates/registration/password_reset_form.html:15
+msgid "Email"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:43
+msgid "Organizations list"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:44
+msgid "The user belongs to these organizations:"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:49
+msgid "Organization"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:63
+msgid "This user doesn't belong to any organization."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:72
+msgid "The user has created these petitions:"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:78
+msgid "Beginning of the petition content"
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:91
+msgid "This user hasn't created any petition yet."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:105
+msgid "This user is neither moderated nor monitored."
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:112
+msgid ""
+"\n"
+"                        <li><strong> Demoderate user</strong></li>\n"
+"                        <li><strong> Delete user</strong>: delete the user "
+"and their associated petitions. If they are the last member of an "
+"organization, delete the organization. </li>\n"
+"                    "
+msgstr ""
+
+#: pytition/petition/templates/admin/spam_user.html:119
+msgid ""
+"\n"
+"                        <li><strong> Demonitor user</strong></li>\n"
+"                        <li><strong> Moderate user</strong></li>\n"
+"                        <li><strong> Delete user</strong>: delete the user "
+"and their associated petitions. If they are the last member of an "
+"organization, delete the organization. </li>\n"
+"                    "
 msgstr ""
 
 #: pytition/petition/templates/layouts/base.html:12
@@ -586,52 +1808,46 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:16
+#: pytition/petition/templates/layouts/nav.html:23
 msgid "Report to moderation"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:39
-#: pytition/petition/templates/layouts/nav_dashboard.html:33
+#: pytition/petition/templates/layouts/nav.html:46
+#: pytition/petition/templates/layouts/nav_dashboard.html:35
 msgid "Search for petition"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:41
-#: pytition/petition/templates/layouts/nav_dashboard.html:35
+#: pytition/petition/templates/layouts/nav.html:48
+#: pytition/petition/templates/layouts/nav_dashboard.html:37
 msgid "Search"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:54
+#: pytition/petition/templates/layouts/nav.html:61
 msgid "Thank you for your reporting!"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:55
+#: pytition/petition/templates/layouts/nav.html:62
 msgid "Reporting failed, please retry later."
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:59
+#: pytition/petition/templates/layouts/nav.html:66
 msgid "Report this petition to moderation"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:65
+#: pytition/petition/templates/layouts/nav.html:72
 msgid "Why do you want to report this petition?"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:76
+#: pytition/petition/templates/layouts/nav.html:85
 msgid "You are about to report this petition to moderation."
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:81
+#: pytition/petition/templates/layouts/nav.html:90
 msgid "Report"
 msgstr ""
 
-#: pytition/petition/templates/layouts/nav.html:82
-#: pytition/petition/templates/petition/petition_list.html:109
-#: pytition/petition/templates/petition/transfer_petition.html:63
-msgid "Cancel"
-msgstr ""
-
-#: pytition/petition/templates/layouts/nav_dashboard.html:8
-#: pytition/petition/templates/layouts/nav_dashboard.html:10
+#: pytition/petition/templates/layouts/nav_dashboard.html:9
+#: pytition/petition/templates/layouts/nav_dashboard.html:11
 #: pytition/petition/templates/petition/back_to_dashboard.html:3
 #: pytition/petition/templates/petition/back_to_dashboard.html:5
 msgid "Back to dashboard"
@@ -643,13 +1859,6 @@ msgstr ""
 
 #: pytition/petition/templates/layouts/wizard_layout.html:19
 msgid "Give a title to your petition"
-msgstr ""
-
-#: pytition/petition/templates/layouts/wizard_layout.html:20
-#: pytition/petition/templates/petition/edit_petition.html:55
-#: pytition/petition/templates/petition/edit_petition.html:261
-#: pytition/petition/templates/petition/edit_petition.html:267
-msgid "Content"
 msgstr ""
 
 #: pytition/petition/templates/layouts/wizard_layout.html:21
@@ -675,12 +1884,6 @@ msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:12
 msgid "Change Password"
-msgstr ""
-
-#: pytition/petition/templates/petition/account_settings.html:13
-#: pytition/petition/templates/petition/account_settings.html:41
-#: pytition/petition/templates/petition/user_org_list.html:4
-msgid "Organizations"
 msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:14
@@ -726,8 +1929,9 @@ msgid ""
 msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:102
-#: pytition/petition/templates/petition/edit_petition.html:167
-#: pytition/petition/templates/petition/petition_list.html:108
+#: pytition/petition/templates/petition/bin_list.html:105
+#: pytition/petition/templates/petition/edit_petition.html:259
+#: pytition/petition/templates/petition/petition_list.html:112
 #: pytition/petition/templates/petition/template_list.html:40
 msgid "Delete"
 msgstr ""
@@ -738,6 +1942,63 @@ msgstr ""
 
 #: pytition/petition/templates/petition/account_settings.html:121
 msgid "Are you sure you want to leave"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:14
+msgid "You haven't deleted any petition"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:48
+#: pytition/petition/templates/petition/edit_petition.html:51
+#: pytition/petition/templates/petition/petition_list.html:56
+msgid "Not published"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:55
+#: pytition/petition/templates/petition/petition_list.html:63
+msgid "This petition is moderated"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:58
+#: pytition/petition/templates/petition/petition_list.html:66
+msgid "This petition is monitored:"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:65
+msgid "Restore petition"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:68
+#: pytition/petition/templates/petition/petition_list.html:73
+msgid "View petition"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:72
+#: pytition/petition/templates/petition/petition_list.html:79
+msgid "View signatures"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:76
+#: pytition/petition/templates/petition/petition_list.html:83
+msgid "Transfer this petition"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:79
+#: pytition/petition/templates/petition/petition_list.html:86
+msgid "Delete the petition"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:94
+#: pytition/petition/templates/petition/petition_list.html:101
+msgid "Delete petition?"
+msgstr ""
+
+#: pytition/petition/templates/petition/bin_list.html:99
+#, python-format
+msgid ""
+"\n"
+"            Do you really want to PERMANENTLY delete petition '%(title)s'\n"
+"          "
 msgstr ""
 
 #: pytition/petition/templates/petition/confirmation_email.html:10
@@ -764,92 +2025,129 @@ msgid ""
 "io\">ReadTheDocs</a>"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:28
+#: pytition/petition/templates/petition/edit_petition.html:29
 msgid "Petition settings"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:46
-#: pytition/petition/templates/petition/petition_list.html:56
-msgid "Not published"
+#: pytition/petition/templates/petition/edit_petition.html:59
+msgid "Caution!"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:48
-#: pytition/petition/templates/petition/petition_list.html:58
-msgid "Published"
+#: pytition/petition/templates/petition/edit_petition.html:60
+#: pytition/petition/templates/petition/petition_detail.html:171
+msgid ""
+"This petition is not published yet. You can only see it because you are "
+"logged-in as either its creator or a member of the organization which "
+"created it. Other visitors won't be able to see it."
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:57
-#: pytition/petition/templates/petition/edit_petition.html:275
-#: pytition/petition/templates/petition/edit_petition.html:281
+#: pytition/petition/templates/petition/edit_petition.html:73
+#: pytition/petition/templates/petition/edit_petition.html:375
+#: pytition/petition/templates/petition/edit_petition.html:381
 msgid "Style & Look"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:59
-#: pytition/petition/templates/petition/edit_petition.html:303
-#: pytition/petition/templates/petition/edit_petition.html:309
+#: pytition/petition/templates/petition/edit_petition.html:75
+#: pytition/petition/templates/petition/edit_petition.html:403
+#: pytition/petition/templates/petition/edit_petition.html:409
 msgid "Social Networks"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:61
-#: pytition/petition/templates/petition/edit_petition.html:289
-#: pytition/petition/templates/petition/edit_petition.html:295
+#: pytition/petition/templates/petition/edit_petition.html:77
+#: pytition/petition/templates/petition/edit_petition.html:389
+#: pytition/petition/templates/petition/edit_petition.html:395
 msgid "E-mail setup"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:63
-#: pytition/petition/templates/petition/edit_petition.html:317
-#: pytition/petition/templates/petition/edit_petition.html:323
+#: pytition/petition/templates/petition/edit_petition.html:80
+#: pytition/petition/templates/petition/edit_petition.html:417
+#: pytition/petition/templates/petition/edit_petition.html:423
 msgid "Newsletter setup"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:65
+#: pytition/petition/templates/petition/edit_petition.html:83
 msgid "Preview petition"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:72
-#: pytition/petition/templates/petition/edit_petition.html:141
-#: pytition/petition/templates/petition/edit_petition.html:180
-#: pytition/petition/templates/petition/edit_petition.html:187
-#: pytition/petition/templates/petition/edit_petition.html:194
-#: pytition/petition/templates/petition/new_petition_step3.html:30
+#: pytition/petition/templates/petition/edit_petition.html:93
+#: pytition/petition/templates/petition/edit_petition.html:229
+#: pytition/petition/templates/petition/edit_petition.html:274
+#: pytition/petition/templates/petition/edit_petition.html:283
+#: pytition/petition/templates/petition/edit_petition.html:291
+#: pytition/petition/templates/petition/new_petition_step3.html:32
 msgid "Save"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:80
-msgid "Twitter description"
+#: pytition/petition/templates/petition/edit_petition.html:109
+msgid "Petition image"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:87
-msgid "Org twitter handle"
-msgstr ""
-
-#: pytition/petition/templates/petition/edit_petition.html:94
-#: pytition/petition/templates/petition/edit_petition.html:99
-msgid "Enable share buttons?"
-msgstr ""
-
-#: pytition/petition/templates/petition/edit_petition.html:106
-msgid "Twitter image"
-msgstr ""
-
-#: pytition/petition/templates/petition/edit_petition.html:108
+#: pytition/petition/templates/petition/edit_petition.html:111
 msgid "Upload"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:113
-#: pytition/petition/templates/petition/edit_petition.html:230
+#: pytition/petition/templates/petition/edit_petition.html:116
+#: pytition/petition/templates/petition/edit_petition.html:330
 msgid "Choose file"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:121
+#: pytition/petition/templates/petition/edit_petition.html:120
+#, python-format
+msgid "Accepted file extensions: %(accepted_image_extensions_list)s"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:126
 msgid "Image"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:132
+#: pytition/petition/templates/petition/edit_petition.html:137
 msgid "Remove image"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:145
+#: pytition/petition/templates/petition/edit_petition.html:144
+msgid "Twitter description"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:152
+msgid "Org twitter handle"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:159
+#: pytition/petition/templates/petition/edit_petition.html:164
+msgid "Enable email share button?"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:169
+#: pytition/petition/templates/petition/edit_petition.html:174
+msgid "Enable Facebook share button?"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:179
+#: pytition/petition/templates/petition/edit_petition.html:184
+msgid "Enable Tumblr share button?"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:189
+#: pytition/petition/templates/petition/edit_petition.html:194
+msgid "Enable LinkedIn share button?"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:199
+#: pytition/petition/templates/petition/edit_petition.html:204
+msgid "Enable Twitter share button?"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:209
+#: pytition/petition/templates/petition/edit_petition.html:214
+msgid "Enable Mastodon share button?"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:219
+#: pytition/petition/templates/petition/edit_petition.html:224
+msgid "Enable Whatsapp share button?"
+msgstr ""
+
+#: pytition/petition/templates/petition/edit_petition.html:235
 msgid ""
 "\n"
 "                A permlink (permanent link) is what allows you to share your "
@@ -860,15 +2158,15 @@ msgid ""
 "            "
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:159
+#: pytition/petition/templates/petition/edit_petition.html:251
 msgid "Permlinks"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:160
+#: pytition/petition/templates/petition/edit_petition.html:252
 msgid "Actions"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:200
+#: pytition/petition/templates/petition/edit_petition.html:300
 msgid ""
 "\n"
 "            Beware: this preview shows the current state of the petition."
@@ -878,15 +2176,15 @@ msgid ""
 "            "
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:262
-#: pytition/petition/templates/petition/edit_petition.html:276
-#: pytition/petition/templates/petition/edit_petition.html:290
-#: pytition/petition/templates/petition/edit_petition.html:304
-#: pytition/petition/templates/petition/edit_petition.html:318
+#: pytition/petition/templates/petition/edit_petition.html:362
+#: pytition/petition/templates/petition/edit_petition.html:376
+#: pytition/petition/templates/petition/edit_petition.html:390
+#: pytition/petition/templates/petition/edit_petition.html:404
+#: pytition/petition/templates/petition/edit_petition.html:418
 msgid "unsaved"
 msgstr ""
 
-#: pytition/petition/templates/petition/edit_petition.html:403
+#: pytition/petition/templates/petition/edit_petition.html:503
 msgid "OK"
 msgstr ""
 
@@ -894,11 +2192,7 @@ msgstr ""
 msgid "Template settings"
 msgstr ""
 
-#: pytition/petition/templates/petition/generic_petition_list.html:37
-msgid "Sign!"
-msgstr ""
-
-#: pytition/petition/templates/petition/generic_petition_list.html:42
+#: pytition/petition/templates/petition/generic_petition_list.html:40
 #, python-format
 msgid ""
 "\n"
@@ -911,29 +2205,17 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: pytition/petition/templates/petition/index.html:11
-msgid "Welcome to Pytition"
-msgstr ""
-
-#: pytition/petition/templates/petition/index.html:12
-msgid "Make things change!"
-msgstr ""
-
-#: pytition/petition/templates/petition/index.html:17
+#: pytition/petition/templates/petition/index.html:32
 msgid "Create a petition"
 msgstr ""
 
-#: pytition/petition/templates/petition/index.html:23
-msgid "View latest petitions"
-msgstr ""
-
-#: pytition/petition/templates/petition/index.html:27
+#: pytition/petition/templates/petition/index.html:78
 #: pytition/petition/templates/petition/org_profile.html:24
 #: pytition/petition/templates/petition/user_profile.html:24
 msgid "Last Created"
 msgstr ""
 
-#: pytition/petition/templates/petition/index.html:29
+#: pytition/petition/templates/petition/index.html:80
 #: pytition/petition/templates/petition/org_profile.html:26
 #: pytition/petition/templates/petition/user_profile.html:26
 msgid "First Created"
@@ -945,11 +2227,11 @@ msgid "Next"
 msgstr ""
 
 #: pytition/petition/templates/petition/new_petition_step2.html:39
-#: pytition/petition/templates/petition/new_petition_step3.html:47
+#: pytition/petition/templates/petition/new_petition_step3.html:49
 msgid "Previous step"
 msgstr ""
 
-#: pytition/petition/templates/petition/new_petition_step3.html:46
+#: pytition/petition/templates/petition/new_petition_step3.html:48
 msgid "First step"
 msgstr ""
 
@@ -998,19 +2280,28 @@ msgstr ""
 msgid "New petition"
 msgstr ""
 
-#: pytition/petition/templates/petition/org_base.html:25
-#: pytition/petition/templates/petition/user_base.html:19
+#: pytition/petition/templates/petition/org_base.html:22
+#: pytition/petition/templates/petition/user_base.html:17
+msgid "Petitions bin"
+msgstr ""
+
+#: pytition/petition/templates/petition/org_base.html:31
+#: pytition/petition/templates/petition/user_base.html:24
 msgid "Petition templates"
 msgstr ""
 
-#: pytition/petition/templates/petition/org_base.html:26
-#: pytition/petition/templates/petition/user_base.html:20
+#: pytition/petition/templates/petition/org_base.html:32
+#: pytition/petition/templates/petition/user_base.html:25
 msgid "Create a new petition template"
 msgstr ""
 
-#: pytition/petition/templates/petition/org_base.html:26
-#: pytition/petition/templates/petition/user_base.html:20
+#: pytition/petition/templates/petition/org_base.html:32
+#: pytition/petition/templates/petition/user_base.html:25
 msgid "New template"
+msgstr ""
+
+#: pytition/petition/templates/petition/org_bin.html:4
+msgid "Your organization's deleted petitions"
 msgstr ""
 
 #: pytition/petition/templates/petition/org_create.html:7
@@ -1027,14 +2318,6 @@ msgstr ""
 
 #: pytition/petition/templates/petition/org_invite_user.html:5
 msgid "Invite user"
-msgstr ""
-
-#: pytition/petition/templates/petition/org_invite_user.html:10
-msgid "Username"
-msgstr ""
-
-#: pytition/petition/templates/petition/org_member_list.html:3
-msgid "Members"
 msgstr ""
 
 #: pytition/petition/templates/petition/org_member_list.html:11
@@ -1090,18 +2373,6 @@ msgstr ""
 msgid "View on site"
 msgstr ""
 
-#: pytition/petition/templates/petition/petition_change_form.html:43
-msgid "Generate confirmed signatures CSV file"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_change_form.html:46
-msgid "Generate ALL-signatures CSV file"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_change_form.html:48
-msgid "Preview the petition"
-msgstr ""
-
 #: pytition/petition/templates/petition/petition_change_form.html:50
 msgid "Show the signatures"
 msgstr ""
@@ -1133,8 +2404,8 @@ msgstr ""
 
 #: pytition/petition/templates/petition/petition_detail.html:103
 #: pytition/petition/templates/petition/petition_detail.html:127
-#: pytition/petition/templates/petition/signature_data.html:53
-#: pytition/petition/templates/petition/signature_data.html:72
+#: pytition/petition/templates/petition/signature_data.html:58
+#: pytition/petition/templates/petition/signature_data.html:80
 msgid "Ok"
 msgstr ""
 
@@ -1165,15 +2436,28 @@ msgstr ""
 msgid "SIGN"
 msgstr ""
 
-#: pytition/petition/templates/petition/petition_detail.html:171
+#: pytition/petition/templates/petition/petition_detail.html:170
+msgid "Careful!"
+msgstr ""
+
+#: pytition/petition/templates/petition/petition_detail.html:183
 msgid "This petition is moderated. You only see it because you are its creator"
 msgstr ""
 
-#: pytition/petition/templates/petition/petition_detail.html:256
-#: pytition/petition/templates/petition/petition_detail.html:283
-#: pytition/petition/templates/petition/petition_detail.html:292
-#: pytition/petition/templates/petition/petition_detail.html:301
+#: pytition/petition/templates/petition/petition_detail.html:271
+msgid ""
+"The content of this petition is neither approved nor endorsed by Framasoft"
+msgstr ""
+
+#: pytition/petition/templates/petition/petition_detail.html:281
+#: pytition/petition/templates/petition/petition_detail.html:314
+#: pytition/petition/templates/petition/petition_detail.html:325
+#: pytition/petition/templates/petition/petition_detail.html:336
 msgid "Sign the petition!"
+msgstr ""
+
+#: pytition/petition/templates/petition/petition_detail.html:372
+msgid "Published on: "
 msgstr ""
 
 #: pytition/petition/templates/petition/petition_list.html:14
@@ -1185,44 +2469,16 @@ msgstr ""
 msgid "Create a new petition"
 msgstr ""
 
-#: pytition/petition/templates/petition/petition_list.html:63
-msgid "This petition is moderated"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_list.html:69
-msgid "View petition"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_list.html:73
+#: pytition/petition/templates/petition/petition_list.html:77
 msgid "Edit petition"
 msgstr ""
 
-#: pytition/petition/templates/petition/petition_list.html:75
-msgid "View signatures"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_list.html:79
-msgid "Transfer this petition"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_list.html:82
-msgid "Delete the petition"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_list.html:97
-msgid "Delete petition?"
-msgstr ""
-
-#: pytition/petition/templates/petition/petition_list.html:102
+#: pytition/petition/templates/petition/petition_list.html:106
 #, python-format
 msgid ""
 "\n"
-"            Do you really want to delete petition '%(title)s'\n"
+"            Do you really want to put this petition in the bin '%(title)s'\n"
 "          "
-msgstr ""
-
-#: pytition/petition/templates/petition/signature_data.html:7
-msgid "Signatures"
 msgstr ""
 
 #: pytition/petition/templates/petition/signature_data.html:22
@@ -1233,42 +2489,54 @@ msgstr ""
 msgid "Export <strong>confirmed</strong> signatures as CSV"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:32
-#: pytition/petition/templates/petition/signature_data.html:67
-msgid "Re-send confirmation e-mail to all unconfirmed"
+#: pytition/petition/templates/petition/signature_data.html:31
+msgid "Show graph of signatures"
 msgstr ""
 
 #: pytition/petition/templates/petition/signature_data.html:37
+#: pytition/petition/templates/petition/signature_data.html:72
+msgid "Re-send confirmation e-mail to all unconfirmed"
+msgstr ""
+
+#: pytition/petition/templates/petition/signature_data.html:42
 msgid "Subscribe signatories to the newsletter"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:44
+#: pytition/petition/templates/petition/signature_data.html:49
 msgid ""
 "copy/paste the following text block into Sympa's mass-subscribe formular"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:64
+#: pytition/petition/templates/petition/signature_data.html:69
 msgid "Re-send selected confirmation e-mail"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:65
+#: pytition/petition/templates/petition/signature_data.html:70
 msgid "Delete selected signatures"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:87
+#: pytition/petition/templates/petition/signature_data.html:75
+msgid "Show signature graph"
+msgstr ""
+
+#: pytition/petition/templates/petition/signature_data.html:95
 msgid "E-Mail"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:88
+#: pytition/petition/templates/petition/signature_data.html:96
 msgid "Phone"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:89
+#: pytition/petition/templates/petition/signature_data.html:97
 msgid "Confirmed?"
 msgstr ""
 
-#: pytition/petition/templates/petition/signature_data.html:90
+#: pytition/petition/templates/petition/signature_data.html:98
 msgid "Subscribed to newsletter?"
+msgstr ""
+
+#: pytition/petition/templates/petition/signature_graph.html:7
+msgid "Signatures graph"
 msgstr ""
 
 #: pytition/petition/templates/petition/template_list.html:9
@@ -1336,8 +2604,12 @@ msgstr ""
 msgid "Transfer"
 msgstr ""
 
-#: pytition/petition/templates/petition/user_base.html:28
+#: pytition/petition/templates/petition/user_base.html:33
 msgid "Your public profile"
+msgstr ""
+
+#: pytition/petition/templates/petition/user_bin.html:4
+msgid "Your deleted petitions"
 msgstr ""
 
 #: pytition/petition/templates/petition/user_dashboard.html:4
@@ -1517,10 +2789,6 @@ msgid ""
 "new one."
 msgstr ""
 
-#: pytition/petition/templates/registration/password_reset_form.html:15
-msgid "Email"
-msgstr ""
-
 #: pytition/petition/templates/registration/password_reset_form.html:17
 msgid "email@example.com"
 msgstr ""
@@ -1533,36 +2801,36 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
-#: pytition/petition/views.py:51
+#: pytition/petition/views.py:68
 msgid "You must set an INDEX_PAGE config in your settings"
 msgstr ""
 
-#: pytition/petition/views.py:56
+#: pytition/petition/views.py:73
 msgid "You must set an INDEX_PAGE_USER config in your settings"
 msgstr ""
 
-#: pytition/petition/views.py:61
+#: pytition/petition/views.py:78
 msgid "You must set an INDEX_PAGE_ORGA config in your settings"
 msgstr ""
 
-#: pytition/petition/views.py:118
+#: pytition/petition/views.py:135
 msgid "No newsletter subscription yet!"
 msgstr ""
 
-#: pytition/petition/views.py:201
+#: pytition/petition/views.py:218
 msgid ""
 "Error: This confirmation code is invalid. Maybe you've already confirmed?"
 msgstr ""
 
-#: pytition/petition/views.py:208
+#: pytition/petition/views.py:225
 msgid "Error: This confirmation code is invalid."
 msgstr ""
 
-#: pytition/petition/views.py:281
+#: pytition/petition/views.py:301
 msgid "Too many signatures from your IP address, please try again later."
 msgstr ""
 
-#: pytition/petition/views.py:289
+#: pytition/petition/views.py:323
 msgid ""
 "Thank you for signing this petition, an email has just been sent to you at "
 "your address '{}' in order to confirm your signature.<br>You will need to "
@@ -1570,318 +2838,375 @@ msgid ""
 "in your Inbox, please have a look in your Spam box."
 msgstr ""
 
-#: pytition/petition/views.py:308
+#: pytition/petition/views.py:342 pytition/petition/views.py:379
 msgid "This organization does not exist: '{}'"
 msgstr ""
 
-#: pytition/petition/views.py:314
+#: pytition/petition/views.py:348 pytition/petition/views.py:383
 msgid "You are not part of this organization: '{}'"
 msgstr ""
 
-#: pytition/petition/views.py:322 pytition/petition/views.py:562
-#: pytition/petition/views.py:615 pytition/petition/views.py:876
-#: pytition/petition/views.py:1117 pytition/petition/views.py:1378
+#: pytition/petition/views.py:356 pytition/petition/views.py:639
+#: pytition/petition/views.py:692 pytition/petition/views.py:961
+#: pytition/petition/views.py:1231 pytition/petition/views.py:1559
+#: pytition/petition/views.py:1645
 #, python-brace-format
 msgid ""
 "Internal error, cannot find your permissions attached to this organization "
 "('{orgname}')"
 msgstr ""
 
-#: pytition/petition/views.py:386
+#: pytition/petition/views.py:463
 msgid "Impossible to leave this organisation, you are the last administrator"
 msgstr ""
 
-#: pytition/petition/views.py:389
+#: pytition/petition/views.py:466
 msgid "Impossible to leave this organisation, you are the last member"
 msgstr ""
 
-#: pytition/petition/views.py:453
+#: pytition/petition/views.py:530
 msgid "This user does not exist (anylonger?)"
 msgstr ""
 
-#: pytition/petition/views.py:459
+#: pytition/petition/views.py:536
 msgid "This organization does not exist (anylonger?)"
 msgstr ""
 
-#: pytition/petition/views.py:465
+#: pytition/petition/views.py:542
 msgid "You are not part of this organization."
 msgstr ""
 
-#: pytition/petition/views.py:469
+#: pytition/petition/views.py:546
 #, python-brace-format
 msgid "User is already member of {orgname} organization"
 msgstr ""
 
-#: pytition/petition/views.py:473
+#: pytition/petition/views.py:550
 msgid "You are not allowed to invite new members into this organization."
 msgstr ""
 
-#: pytition/petition/views.py:480
+#: pytition/petition/views.py:557
 msgid "An error occured"
 msgstr ""
 
-#: pytition/petition/views.py:483
+#: pytition/petition/views.py:560
 #, python-brace-format
 msgid "You invited {username} to join {orgname}"
 msgstr ""
 
-#: pytition/petition/views.py:552 pytition/petition/views.py:819
-#: pytition/petition/views.py:902 pytition/petition/views.py:1104
+#: pytition/petition/views.py:629 pytition/petition/views.py:904
+#: pytition/petition/views.py:981 pytition/petition/views.py:1218
 msgid "Organization does not exist"
 msgstr ""
 
-#: pytition/petition/views.py:555
+#: pytition/petition/views.py:632
 msgid "You are not allowed to view this organization dashboard"
 msgstr ""
 
-#: pytition/petition/views.py:566
+#: pytition/petition/views.py:643
 msgid "You don't have the permission to create a Template in this organization"
 msgstr ""
 
-#: pytition/petition/views.py:583
+#: pytition/petition/views.py:660
 msgid "You need to provide a template name."
 msgstr ""
 
-#: pytition/petition/views.py:595
+#: pytition/petition/views.py:672
 msgid "You need to provide the template id to modify"
 msgstr ""
 
-#: pytition/petition/views.py:600
+#: pytition/petition/views.py:677
 msgid "This template does not exist"
 msgstr ""
 
-#: pytition/petition/views.py:619
+#: pytition/petition/views.py:696
 msgid "You are not allowed to edit this organization's templates"
 msgstr ""
 
-#: pytition/petition/views.py:624
+#: pytition/petition/views.py:701
 msgid "You are not allowed to edit this user's templates"
 msgstr ""
 
-#: pytition/petition/views.py:793
+#: pytition/petition/views.py:878
 msgid "You are not allowed to change this user's default template"
 msgstr ""
 
-#: pytition/petition/views.py:812 pytition/petition/views.py:896
+#: pytition/petition/views.py:897 pytition/petition/views.py:1000
 msgid "User does not exist"
 msgstr ""
 
-#: pytition/petition/views.py:852
+#: pytition/petition/views.py:937
 #, python-brace-format
 msgid "User '{name}' does not exist"
 msgstr ""
 
-#: pytition/petition/views.py:858
+#: pytition/petition/views.py:943
 #, python-brace-format
 msgid "Organization '{name}' does not exist"
 msgstr ""
 
-#: pytition/petition/views.py:861
+#: pytition/petition/views.py:946
 #, python-brace-format
 msgid "The user '{username}' is not member of this organization ({orgname})."
 msgstr ""
 
-#: pytition/petition/views.py:869
+#: pytition/petition/views.py:954
 msgid ""
 "Internal error, this member does not have permissions attached to this "
 "organization."
 msgstr ""
 
-#: pytition/petition/views.py:905
+#: pytition/petition/views.py:990
+msgid ""
+"Fatal error, you don't have permissions attached to you for this organization"
+msgstr ""
+
+#: pytition/petition/views.py:994
+msgid "You are not allowed to modify this organization members' permissions"
+msgstr ""
+
+#: pytition/petition/views.py:1004
 #, python-brace-format
 msgid "This user is not part of organization '{orgname}'"
 msgstr ""
 
-#: pytition/petition/views.py:911
+#: pytition/petition/views.py:1010
 msgid ""
 "Fatal error, this user does not have permissions attached for this "
 "organization"
 msgstr ""
 
-#: pytition/petition/views.py:917
-msgid ""
-"Fatal error, you don't have permissions attached to you for this organization"
-msgstr ""
-
-#: pytition/petition/views.py:925
-msgid "You are not allowed to modify this organization members' permissions"
-msgstr ""
-
-#: pytition/petition/views.py:953
+#: pytition/petition/views.py:1038
 msgid ""
 "You cannot remove your ability to change permissions on this Organization "
 "because you are the only one left who can do this. Give the permission to "
 "someone else before removing yours."
 msgstr ""
 
-#: pytition/petition/views.py:958
+#: pytition/petition/views.py:1043
 msgid ""
 "You cannot remove your ability to change permissions on this Organization "
 "because you are the only member left."
 msgstr ""
 
-#: pytition/petition/views.py:962
+#: pytition/petition/views.py:1047
 msgid "Permissions successfully changed!"
 msgstr ""
 
-#: pytition/petition/views.py:983
+#: pytition/petition/views.py:1068
 msgid "Users are not allowed to create their own petitions."
 msgstr ""
 
-#: pytition/petition/views.py:1050
+#: pytition/petition/views.py:1140
 msgid "Cannot find this organization"
 msgstr ""
 
-#: pytition/petition/views.py:1068
+#: pytition/petition/views.py:1169
 msgid "This template does not belong to your organization"
 msgstr ""
 
-#: pytition/petition/views.py:1077
+#: pytition/petition/views.py:1178
 msgid ""
 "You don't have the permission to create a new petition in this Organization"
 msgstr ""
 
-#: pytition/petition/views.py:1087
+#: pytition/petition/views.py:1201
 msgid "This template does not belong to you"
 msgstr ""
 
-#: pytition/petition/views.py:1214
-msgid "You are not allowed to edit this petition"
+#: pytition/petition/views.py:1293
+msgid "You don't have the permissions to restore this petition"
 msgstr ""
 
-#: pytition/petition/views.py:1331 pytition/petition/views.py:1343
-msgid "save-the-kittens-from-bad-wolf"
+#: pytition/petition/views.py:1303
+msgid "This petition is not in the bin"
 msgstr ""
 
 #: pytition/petition/views.py:1366
+msgid "You are not allowed to edit this petition"
+msgstr ""
+
+#: pytition/petition/views.py:1512 pytition/petition/views.py:1524
+msgid "save-the-kittens-from-bad-wolf"
+msgstr ""
+
+#: pytition/petition/views.py:1547 pytition/petition/views.py:1633
 msgid "You are not allowed to view this petition's signatures."
 msgstr ""
 
-#: pytition/petition/views.py:1373
+#: pytition/petition/views.py:1554 pytition/petition/views.py:1640
 msgid "You are not member of the following organization: '{}'"
 msgstr ""
 
-#: pytition/petition/views.py:1382
+#: pytition/petition/views.py:1563 pytition/petition/views.py:1649
 msgid "You are not allowed to view signatures in this organization"
 msgstr ""
 
-#: pytition/petition/views.py:1405
+#: pytition/petition/views.py:1586
 msgid "You don't have permission to delete some or all of selected signatures"
 msgstr ""
 
-#: pytition/petition/views.py:1407
+#: pytition/petition/views.py:1588
 msgid "You successfully deleted all selected signatures"
 msgstr ""
 
-#: pytition/petition/views.py:1416 pytition/petition/views.py:1427
+#: pytition/petition/views.py:1597 pytition/petition/views.py:1608
 msgid "An error happened while trying to re-send confirmation emails"
 msgstr ""
 
-#: pytition/petition/views.py:1418
+#: pytition/petition/views.py:1599
 msgid "You successfully re-sent all selected confirmation emails"
 msgstr ""
 
-#: pytition/petition/views.py:1429
+#: pytition/petition/views.py:1610
 msgid "You successfully re-sent all confirmation emails"
 msgstr ""
 
-#: pytition/petition/views.py:1475
+#: pytition/petition/views.py:1697
+msgid "This petition doesn't have any signatures"
+msgstr ""
+
+#: pytition/petition/views.py:1730
+msgid "This petition doesn't have any numerical signatures."
+msgstr ""
+
+#: pytition/petition/views.py:1768
 msgid "You successfully changed your password!"
 msgstr ""
 
-#: pytition/petition/views.py:1513
+#: pytition/petition/views.py:1806
 msgid "Only super users can create an organization."
 msgstr ""
 
-#: pytition/petition/views.py:1526
+#: pytition/petition/views.py:1819
 msgid "You successfully created organization '{}'"
 msgstr ""
 
-#: pytition/petition/views.py:1550 pytition/petition/views.py:1557
-#: pytition/petition/views.py:1559
+#: pytition/petition/views.py:1843 pytition/petition/views.py:1850
+#: pytition/petition/views.py:1852
 msgid "Sorry, we are not able to find this petition"
 msgstr ""
 
-#: pytition/petition/views.py:1590 pytition/petition/views.py:1624
+#: pytition/petition/views.py:1883 pytition/petition/views.py:1917
 msgid "This petition does not exist (anymore?)."
 msgstr ""
 
-#: pytition/petition/views.py:1596
+#: pytition/petition/views.py:1889
 msgid "You entered an empty slug text"
 msgstr ""
 
-#: pytition/petition/views.py:1603
+#: pytition/petition/views.py:1896
 msgid "Successful addition of the slug '{}'!"
 msgstr ""
 
-#: pytition/petition/views.py:1605
+#: pytition/petition/views.py:1898
 msgid "The slug '{}' already exists!"
 msgstr ""
 
-#: pytition/petition/views.py:1610 pytition/petition/views.py:1636
+#: pytition/petition/views.py:1903 pytition/petition/views.py:1929
 msgid "You don't have the permission to modify petitions"
 msgstr ""
 
-#: pytition/petition/views.py:1634
+#: pytition/petition/views.py:1927
 msgid "Successful deletion of a slug"
 msgstr ""
 
-#: pytition/petition/views.py:1669
+#: pytition/petition/views.py:1962
 msgid "This petition does not exist."
 msgstr ""
 
-#: pytition/petition/views.py:1678
+#: pytition/petition/views.py:1971
 msgid ""
 "You don't have the permission to transfer a petition from Organization '{}'"
 msgstr ""
 
-#: pytition/petition/views.py:1682
+#: pytition/petition/views.py:1975
 msgid "You don't have the permission to transfer this petition"
 msgstr ""
 
-#: pytition/petition/views.py:1701
+#: pytition/petition/views.py:1994
 msgid "Incorrect request, something went wrong."
 msgstr ""
 
-#: pytition/petition/views.py:1710
+#: pytition/petition/views.py:2003
 msgid ""
 "Users are not allowed to transfer petitions to organizations on this "
 "instance."
 msgstr ""
 
-#: pytition/petition/views.py:1718
+#: pytition/petition/views.py:2011
 msgid "You tried to transfer a petition to a non-exiting account"
 msgstr ""
 
-#: pytition/petition/views.py:1724
+#: pytition/petition/views.py:2017
 msgid "Petition successfully transfered!"
 msgstr ""
 
-#: pytition/petition/views.py:1727
+#: pytition/petition/views.py:2020
 msgid "Something went wrong while transferring this petition."
 msgstr ""
 
-#: pytition/petition/views.py:1764
+#: pytition/petition/views.py:2057
 #, python-brace-format
 msgid "How much is {a} + {b}?"
 msgstr ""
 
-#: pytition/pytition/settings/base.py:242
+#: pytition/pytition/settings/base.py:306
+msgid "This owner has created too many petitions in one day."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:307
+msgid "This owner has too many moderated or monitored petitions."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:308
+msgid "This owner has too many signatures in their petitions."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:309
+msgid "This petition seems inappropriate."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:310
+msgid "This petition is spam."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:311
+msgid "This petition has too many signatures."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:312
+msgid "This petition has a high variation in its number of signatures."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:313
+msgid "This petition has too many unconfirmed signatures in the last 6h."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:314
+msgid "This petition has had too many signatures 24h after its creation."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:315
+msgid "Manual moderation."
+msgstr ""
+
+#: pytition/pytition/settings/base.py:319
 msgid "English"
 msgstr ""
 
-#: pytition/pytition/settings/base.py:243
+#: pytition/pytition/settings/base.py:320
 msgid "Spanish"
 msgstr ""
 
-#: pytition/pytition/settings/base.py:244
+#: pytition/pytition/settings/base.py:321
 msgid "French"
 msgstr ""
 
-#: pytition/pytition/settings/base.py:245
+#: pytition/pytition/settings/base.py:322
 msgid "Italian"
 msgstr ""
 
-#: pytition/pytition/settings/base.py:246
+#: pytition/pytition/settings/base.py:323
 msgid "Occitan"
 msgstr ""

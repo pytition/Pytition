@@ -3,7 +3,7 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm flex-sm-row">
   <div class="container-fluid">
     {% block brand %}
-      <a class="navbar-brand" href="{% url 'index' %}">{{ sitename }}</a>
+      <a class="navbar-brand" href="{% url "user_dashboard" %}">{{ sitename }}</a>
     {% if displaying_dashboard is None %}
     {% if is_org %}
     <a class="btn btn-outline-primary" href="{% url 'org_dashboard' slug %}" aria-label="{% trans "Back to dashboard" %}"><span class="oi oi-dashboard"> {% trans "Back to dashboard" %}</span></a>
@@ -32,7 +32,7 @@
       </form>
       <form class="form-inline my-2 my-lg-0 ml-0 ml-sm-3" action="{% url 'search' %}" method="GET">
         <div class="input-group input-group-sm">
-          <input type="text" class="form-control" placeholder="{% trans "Search for petition" %}" name="q" value="{{ q }}">
+          <input type="text" class="form-control" placeholder="{% trans "Search for petition" %}" name="q" value="{{ q }}" required>
           <div class="input-group-append">
             <button type="submit" class="btn btn-outline-secondary">{% trans "Search" %}</button>
           </div>

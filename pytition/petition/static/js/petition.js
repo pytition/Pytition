@@ -14,38 +14,10 @@ $(document).ready(function() {
     progressbar.animate({width:q+"%"},l,m, function() {
         $(window).trigger("counter.displayed");
     });
-
-
-    /* handle sticky form */
-    function handle_scroll(a, b, c) {
-      function d() {
-          var a = !1,
-              b = g.offset().top;
-          b = window_width < mobile_breakpoint ? b + f.height() - g.height() : b - l - 15, m > b && (a = !0), window_width >= mobile_breakpoint ? a ? (l = m - b, f.css("transform", "translate3d(0," + l + "px,0)")) : f.css("transform", "translate3d(0,0,0)") : (f.css("transform", "translate3d(0,0,0)"), a ? i.addClass("fixed") : i.removeClass("fixed"))
-      }
-
-      function e() {
-          window_width = j.width(), d()
-      }
-      var f, g, h, i, j = a(b),
-          k = b.document,
-          l = 0,
-          m = 0;
-      window_width = 0, mobile_breakpoint = 992, j.on("scroll", function() {
-          m = j.scrollTop(), d()
-      }).on("resize", e), a(k).ready(function() {
-          f = a("#form-sticky"), g = f.find(".eaFullWidthContent:first"), h = a("#show-form"), i = a("body"), h.on("click", function() {
-              a("html,body").animate({
-                  scrollTop: a("#intro").offset().top
-              }, .5 * m)
-          }), e()
-      })
-    };
-    handle_scroll(jQuery, window);
 });
 $(function() {
    $('[data-action="petition-report"]').on("click", function() {
-       var report_url = $("#reason_selector option:selected").val();
+       var report_url = $("#reason_selector option:selected").data("url");
        var report_success = $(this).closest("[data-report-success]").data("report-success");
        var report_failure = $(this).closest("[data-report-failure]").data("report-failure");
        $.ajax(report_url).done(function() {

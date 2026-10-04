@@ -1,0 +1,114 @@
+{% load static %}
+{% load i18n %}
+
+{% if search %}
+<h3>{{ title }}</h3>
+{% else %}
+<h2>{{ title }}</h2>
+{% endif %}
+
+{% if not petitions_bin %}
+    {% if no_petition_msg %}
+        {{ no_petition_msg }}
+    {% else %}
+  <p>{% trans "You haven't deleted any petition"%}</p>
+    {% endif %}
+{% else %}
+<div class="row petition-list">
+  {% for petition in petitions_bin %}
+    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 text-center sb-preview" data-petition-unpublish="{% url 'petition_unpublish' petition.id %}" data-petition-publish="{% url 'petition_publish' petition.id %}">
+      <div class="card h-100
+      {% if petition.is_moderated %}
+      border border-danger
+      {% endif %}
+      ">
+        <a href="{{ petition.url }}" class="sb-preview-img">
+            {% if not petition.twitter_image%}
+            <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
+                 src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
+            {% else %}
+            <img class="card-img-top img-fluid img-thumbnail" alt="thumbnail"
+                 src="{{ petition.twitter_image }}">
+            {% endif %}
+        </a>
+        <div class="card-body d-flex flex-column">
+          <h4 class="card-title">{{ petition.title|striptags }}</h4>
+          {% if petition.twitter_description %}
+            <p class="card-text">{{ petition.twitter_description|safe }}</p>
+          {% endif %}
+          <p class="text-muted">{{ petition.signature_number }} signatures</p>
+          <div class="petition-publish-switch custom-control custom-switch
+                      {% if not petition.published %}
+                          text-muted
+                      {% else %}
+                          text-success
+                      {% endif %}" data-action="publish">
+            <label class="custom-control-label" for="petition_published_{{ petition.id }}">
+            {% if not petition.published or petition.is_moderated %}
+              {% trans "Not published" %}
+            {% else %}
+              {% trans "Published" %}
+            {% endif %}
+            </label>
+          </div>
+          {% if petition.is_moderated %}
+          <div class="text-danger"><b>{% trans "This petition is moderated" %}</b></div>
+          {% else %}
+            {% if petition.get_priority == "average" or petition.get_priority == "strong"%}
+            <div class="text-danger"><b>{% trans "This petition is monitored:" %} {{petition.get_monitoring_reason}}</b></div>
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class="card-footer mt-auto">
+          <div class="d-flex justify-content-around">
+            <a href="{% url "petition_restore" petition.id %}" class="btn btn-outline-warning btn-sm"
+                    title="{% trans "Restore petition" %}" data-toggle="tooltip"><span class="oi oi-action-undo"></span>
+            </a>
+            <a href="{{  petition.url }}" class="btn btn-outline-success btn-sm"
+               title="{% trans "View petition" %}" aria-disabled="true" data-toggle="tooltip">
+              <span class="oi oi-eye"></span>
+            </a>
+            <a href="{% url "show_signatures" petition.id %}" class="btn btn-outline-info btn-sm" data-toggle="tooltip"
+             title="{% trans "View signatures" %}" aria-disabled="true">
+              <span class="oi oi-spreadsheet"></span>
+            </a>
+            <a href="{% url "transfer_petition" petition.id %}" class="btn btn-outline-primary btn-sm" data-toggle="tooltip"
+             title="{% trans "Transfer this petition" %}" aria-disabled="true">
+              <span class="oi oi-share-boxed"></span>
+            </a>
+            <span data-toggle="tooltip" title="{% trans "Delete the petition" %}">
+              <button class="btn btn-outline-danger btn-sm"
+                    id="btn_petition_delete"
+                    data-toggle="modal" data-target="#petition{{ petition.id }}_delete_modal"
+                    aria-disabled="true"><span class="oi oi-circle-x"></span></button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="modal fade" id="petition{{ petition.id }}_delete_modal" data-petition="{{ petition.id }}" data-petition-delete="{% url 'petition_delete' petition.id %}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans "Delete petition?" %}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          {% blocktrans with title=petition.title|striptags %}
+            Do you really want to PERMANENTLY delete petition '{{ title }}'
+          {% endblocktrans %}
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-action="petition-delete" data-dismiss="modal">{% trans "Delete" %}</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">{% trans "Cancel" %}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,22 @@
+{% extends "layouts/email.base.txt" %}
+{% load i18n %}
+{% block content %}
+{% blocktranslate %}Hello {{ username }},{% endblocktranslate %}
+
+{% if element_type == "user" %}
+{% blocktranslate %}Your account *{{ username }}* has been moderated for the following reason: *{{ reason }}*{% endblocktranslate %}
+{% blocktranslate %}Your petitions have been unpublished, and you can't create new petitions, organisations or templates.{% endblocktranslate %}
+{% blocktranslate %}The moderation team has been notified and will act in due time.{% endblocktranslate %}
+{% elif element_type == "organization" %}
+{% blocktranslate %}Your organization *{{ element }}* has been moderated for the following reason: *{{ reason }}*{% endblocktranslate %}
+{% blocktranslate %}The organisation's petitions have been unpublished, and it cannot create new petitions or templates.{% endblocktranslate %}
+{% blocktranslate %}The moderation team has been notified and will act in due time.{% endblocktranslate %}
+{% elif element_type == "petition" %}
+{% blocktranslate %}Your petition *{{ element }}* has been moderated for the following reason: *{{ reason }}*{% endblocktranslate %}
+{% blocktranslate %}It is no longer publicly available.{% endblocktranslate %}
+{% blocktranslate %}The moderation team has been notified and will act in due time.{% endblocktranslate %}
+{% endif %}
+
+{% blocktranslate %}Have a nice day,{% endblocktranslate %}
+
+{% endblock %}

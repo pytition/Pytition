@@ -1,0 +1,23 @@
+{% extends "layouts/email.base.txt" %}
+{% load i18n %}
+{% block content %}
+{% blocktranslate %}Hello {{ username }},{% endblocktranslate %}
+
+{% if element_type == "user" %}
+{% trans "You have been monitored with a strong priority for this reason: " %}
+{% blocktranslate with username=element.username profile_url=site_url|add:element.get_absolute_url %}Your account *{{ username }}* ({{ profile_url }}) has been automatically detected as suspicious and is now monitored. The reason is: *{{ reason }}*. This means it will be reviewed by our moderation team to make sure it is not violating our terms of service.{% endblocktranslate %}
+
+{% blocktranslate %}You do not need to take any action at this time. Your petitions will remain published unless the situation changes or moderation action is taken by our team.{% endblocktranslate %}
+{% elif element_type == "organization" %}
+{% trans "Your organization has been monitored with a strong priority: " %} {{ element }}.
+{% blocktranslate with organisation_title=element.title organisation_url=site_url|add:element.get_absolute_url %}Your organisation *{{ organisation_title }}* ({{ organisation_url }}) has been automatically detected as suspicious and is now monitored. The reason is: *{{ reason }}*. This means it will be reviewed by our moderation team to make sure it is not violating our terms of service.{% endblocktranslate %}
+
+{% blocktranslate %}You do not need to take any action at this time. The organisation's petitions will remain published unless the situation changes or moderation action is taken by our team.{% endblocktranslate %}</p>
+{% elif element_type == "petition" %}
+{% blocktranslate with petition_title=element.title petition_url=site_url|add:element.get_absolute_url %}Your petition *{{ petition_title }}* ({{ petition_url }}) has been automatically detected as suspicious and is now monitored. The reason is: *{{ reason }}*. This means it will be reviewed by our moderation team to make sure it is not violating our terms of service.{% endblocktranslate %}
+
+{% blocktranslate %}You do not need to take any action at this time. The petition will remain published unless the situation changes or moderation action is taken by our team.{% endblocktranslate %}
+{% endif %}
+
+{% blocktranslate %}Have a nice day,{% endblocktranslate %}
+{% endblock %}

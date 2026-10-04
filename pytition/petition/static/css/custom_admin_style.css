@@ -1,0 +1,168 @@
+/* moderated element admin view colors */
+html[data-theme="light"], :root {
+    --mod-section-bg: rgb(222, 239, 239);
+    --mod-white-fg: black;
+}
+html[data-theme="dark"] {
+    --mod-section-bg: #264b5d;
+    --mod-white-fg: white;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --mod-section-bg: #264b5d;
+        --mod-white-fg: white;
+    }
+}
+select, input[type="submit"] {
+    height: 30px;
+    line-height: 0;
+    vertical-align: bottom;
+}
+
+input[type="checkbox"] {
+    vertical-align: bottom;
+}
+
+input[type="submit"] {
+    margin-left:5;
+}
+
+select:not([id="detail_actions"]) {
+    margin-left: 50;
+}
+
+select[id="detail_actions"] {
+    margin-left: 0;
+}
+
+h1 {
+    font-size: 40;
+}
+
+div.section {
+    background-color: var(--mod-section-bg);
+    padding: 30; 
+    margin-top: 20px; 
+    border-radius: 5px;
+}
+
+div[id="subsection1"] {
+    padding-bottom: 10;
+}
+
+div[id="subsection2"] {
+    padding-left: 20; 
+    padding-bottom: 20;
+}
+
+h2.title {
+    font-size: 30; 
+    margin-top: 0
+}
+
+h2[id="subtitle"] {
+    font-size: 20px;
+}
+
+#subsection1 h2 {
+    font-size: 20px;
+}
+
+p[id="red_description"] {
+    background-color: #ffa7a7; 
+    width: 1000; 
+    text-align: center;
+}
+
+p[id="orange_description"] {
+    background-color: #ffd2a7; 
+    width: 1000; 
+    text-align: center;
+}
+
+p[id="yellow_description"] {
+    background-color: #ffffa7; 
+    width: 1000; 
+    text-align: center;
+}
+
+li[id="red_priority"] {
+    background-color: #ffa7a7; 
+    width: 60; 
+    text-align: center;
+}
+
+li[id="orange_priority"] {
+    background-color: #ffd2a7; 
+    width: 60; 
+    text-align: center;
+}
+
+li[id="yellow_priority"] {
+    background-color: #ffffa7; 
+    width: 60; 
+    text-align: center;
+}
+
+p[id="red_description"],
+p[id="orange_description"],
+p[id="yellow_description"],
+li[id="red_priority"],
+li[id="orange_priority"],
+li[id="yellow_priority"],
+table[id="monPetitionTable"] tbody tr {
+    color: #333;
+}
+
+table[id="userTable"], table[id="monPetitionTable"], table[id="orgTable"], table[id="modPetitionTable"] {
+    display: block; 
+    max-height: 500px; 
+    overflow: auto;
+}
+
+th[id="yellow"], td[id="yellow"] {
+    background-color: #ffffa7;
+    color: black;
+}
+
+th[id="orange"], td[id="orange"] {
+    background-color: #ffd2a7;
+    color: black;
+}
+
+th[id="red"], td[id="red"] {
+    background-color: #ffa7a7;
+    color: black;
+}
+
+p[id="white_description"],
+th[id="white"], td[id="white"] {
+    color: var(--mod-white-fg);
+}
+
+th[onclick] {
+    cursor: pointer;
+}
+
+th[onclick]:hover {
+    color:black;
+}
+
+#content-start a {
+    color: rgb(33, 72, 97);
+}
+
+#content-start a:hover {
+    color: rgb(0, 27, 44);
+}
+
+
+p[id="white_description"] {
+    background-color: var(--body-bg); 
+    width: 1000; 
+    text-align: center;
+}
+
+td[id="no_element"] {
+    text-align: center;
+}

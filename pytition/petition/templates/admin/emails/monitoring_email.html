@@ -1,0 +1,23 @@
+{% extends "layouts/email.base.html" %}
+{% load i18n %}
+{% block content %}
+<p>{% blocktranslate %}Hello {{ username }},{% endblocktranslate %}</p>
+
+{% if element_type == "user" %}
+    {% trans "You have been monitored with a strong priority for this reason: " %}
+<p>{% blocktranslate with username=element.username profile_url=site_url|add:element.get_absolute_url %}Your account <a href="{{ profile_url }}"><b>{{ username }}</b></a> has been automatically detected as suspicious and is now monitored. The reason is: <b>{{ reason }}</b>. This means it will be reviewed by our moderation team to make sure it is not violating our terms of service.{% endblocktranslate %}</p>
+
+<p>{% blocktranslate %}You do not need to take any action at this time. Your petitions will remain published unless the situation changes or moderation action is taken by our team.{% endblocktranslate %}</p>
+{% elif element_type == "organization" %}
+    {% trans "Your organization has been monitored with a strong priority: " %} {{ element }}.
+<p>{% blocktranslate with organisation_title=element.title organisation_url=site_url|add:element.get_absolute_url %}Your organisation <a href="{{ organisation_url }}"><b>{{ organisation_title }}</b></a> has been automatically detected as suspicious and is now monitored. The reason is: <b>{{ reason }}</b>. This means it will be reviewed by our moderation team to make sure it is not violating our terms of service.{% endblocktranslate %}</p>
+
+<p>{% blocktranslate %}You do not need to take any action at this time. The organisation's petitions will remain published unless the situation changes or moderation action is taken by our team.{% endblocktranslate %}</p>
+{% elif element_type == "petition" %}
+<p>{% blocktranslate with petition_title=element.title petition_url=site_url|add:element.get_absolute_url %}Your petition <a href="{{ petition_url }}"><b>{{ petition_title }}</b></a> has been automatically detected as suspicious and is now monitored. The reason is: <b>{{ reason }}</b>. This means it will be reviewed by our moderation team to make sure it is not violating our terms of service.{% endblocktranslate %}</p>
+
+<p>{% blocktranslate %}You do not need to take any action at this time. The petition will remain published unless the situation changes or moderation action is taken by our team.{% endblocktranslate %}</p>
+{% endif %}
+
+<p>{% blocktranslate %}Have a nice day,{% endblocktranslate %}</p>
+{% endblock %}

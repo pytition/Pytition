@@ -25,6 +25,11 @@
                     <span class="oi oi-spreadsheet"></span>
                     {% trans "Export <strong>confirmed</strong> signatures as CSV" %}
                 </a>
+                <a>
+                    <button class="btn btn-primary" id="show-signature-graph">
+                    <span class="oi oi-spreadsheet"></span>
+                    {% trans "Show graph of signatures" %}</button>
+                </a>
             </p>
             <p>
                 <button class="btn btn-success" id="re-send-all">
@@ -65,6 +70,9 @@
                     <option value="delete">{% trans "Delete selected signatures" %}</option>
                     <option value="re-send-all" hidden>
                         {% trans "Re-send confirmation e-mail to all unconfirmed" %}
+                    </option>
+                    <option value="show-signature-graph" hidden>
+                        {% trans "Show signature graph" %}
                     </option>
                 </select>
                 </div>
@@ -145,6 +153,11 @@
     $(function() {
         $("#re-send-all").on("click", function() {
             $("#action").val("re-send-all");
+            $("#signatureForm").submit();
+        });
+
+        $("#show-signature-graph").on("click", function() {
+            $("#action").val("show-signature-graph");
             $("#signatureForm").submit();
         });
 

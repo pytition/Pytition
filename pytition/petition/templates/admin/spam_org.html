@@ -1,0 +1,111 @@
+<form method="post">
+    {% extends "admin/base_site.html" %}
+    {% load i18n %}
+    {% load static %}
+
+    {% block extrahead %}
+        {{ block.super }}
+        <link rel="stylesheet" href="{% static 'css/custom_admin_style.css' %}">
+    {% endblock %}
+
+    {% csrf_token %}
+    {% block content %}
+        <h1>{% trans "Organization detail: " %} {{org.name}}</h1>
+
+        <div id="section">
+            <h2 id="title">{% trans "Basic information" %}</h2>
+            <p>{% trans "Name: " %} {{org.name}}</p>
+
+            <h2 id="table">{% trans "Members list" %}</h2>
+            <p>{% trans "These users belong to this organization:" %}</p>
+
+            <table class="adminlist" id="userTable">  
+                <thead>
+                    <tr>
+                        <th>Full name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Number of petitions</th>
+                        <th>Total number of signatures</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for member in members%}
+                        <tr>
+                            <td><a href="{% url 'admin:custom_user_detail' member.user_id %}">{{member}}</a></td>
+                            <td>{{member.username}}</td>
+                            <td>{{member.user.email}}</td>
+                            <td>{{member.num_petitions}}</td>
+                            <td>{{member.num_signatures}}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="section">
+            <h2 id="title">{% trans "Petition list" %}</h2>
+            <p>{% trans "The organization has created these petitions:" %}</p>
+
+            <table class="adminlist" id="userTable">  
+                <thead>
+                    <tr>
+                        <th>Petition</th>
+                        <th>Beginning of the petition content</th>
+                        <th>Number of signatures</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for petition in petitions%}
+                        <tr>
+                            <td><a href="{% url 'admin:custom_petition_detail' petition.id org.id 'org'%}">{{petition.title}}</a></td>
+                            <td>{{petition.cut_text_str}}</td>
+                            <td>{{petition.num_signatures}}</td>
+                        </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4">This organization hasn't created any petition yet.</td>
+                            </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="section">
+            <h2 id="title">{% trans "Moderation and monitoring" %}</h2>
+            {%if org.moderated%}
+                <p>{% trans "Moderated: " %} {{mod_reason}}</p>
+            {%elif org.monitored%}
+                <p>{% trans "Monitored: " %} {{mon_reason}}</p>
+            {%else%}
+                <p>{% trans "This organization is neither moderated nor monitored." %}</p>
+            {%endif%}
+
+            <h2>Actions</h2>
+
+            {% if org.moderated %}
+                <ul>
+                    {% blocktrans %}
+                        <li><strong>Demoderate organization</strong></li>
+                        <li><strong>Delete organization</strong></li>
+                    {% endblocktrans %}
+                </ul>
+            {% elif org.monitored %}
+                <ul>
+                    {% blocktrans %}
+                        <li><strong>Demonitor organization</strong></li>
+                        <li><strong>Moderate organization</strong></li>
+                        <li><strong>Delete organization</strong></li>
+                    {% endblocktrans %}
+                </ul>
+            {% endif %}
+
+            <select name="action" id="detail_actions">
+                {% for action_name in actions_org %}
+                    <option value="{{ action_name }}">{{ action_name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Send">
+        </div>
+
+    {%endblock%}

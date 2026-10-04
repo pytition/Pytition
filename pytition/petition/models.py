@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""Models for Pytition
+
+It defines a model and associated actions or properties for each table in the database.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/topics/db/models/
+"""
+
 from django.db import models
 from django.utils.html import mark_safe, strip_tags
 from django.utils.text import slugify
@@ -11,12 +20,13 @@ from django.contrib.auth.hashers import get_hasher
 from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
+from datetime import timedelta
 
 from tinymce import models as tinymce_models
 from colorfield.fields import ColorField
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .helpers import sanitize_html
+from .helpers import sanitize_html, send_mail_to_moderation
 
 import html
 import uuid
@@ -28,7 +38,8 @@ class PytitionUser(models.Model):
     invitations = models.ManyToManyField('Organization', related_name="invited", blank=True)
     default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=gettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
     moderated = models.BooleanField(default=False)
-
+    monitored = models.BooleanField(default=False)
+    
     def drop(self):
         with transaction.atomic():
             orgs = list(self.organization_set.all())
@@ -47,6 +58,27 @@ class PytitionUser(models.Model):
         self.moderated = do_moderate
         self.save()
 
+    def monitor(self, do_monitor=True):
+        self.monitored = do_monitor
+        self.save()
+
+    def get_petition_number(self):
+        return self.petition_set.count()
+
+    # Number of petitions in the last 24h
+    def get_day_petition_number(self):
+        date_from = timezone.now() - timedelta(days=1)
+        day_petition_count = Petition.objects.filter(
+        user=self, publication_date__gte=date_from).count()
+        return day_petition_count
+
+    def get_total_signature_number(self):
+        count = 0
+        petitions = Petition.objects.filter(user=self)
+        for petition in petitions:
+            count += petition.get_signature_number()
+        return count
+    
     @property
     def is_authenticated(self):
         return self.user.is_authenticated
@@ -90,6 +122,8 @@ class Organization(models.Model):
     default_template = models.ForeignKey('PetitionTemplate', blank=True, null=True, related_name='+', verbose_name=gettext_lazy("Default petition template"), to_field='id', on_delete=models.SET_NULL)
     slugname = models.SlugField(max_length=200, unique=True)
     members = models.ManyToManyField(PytitionUser, through='Permission')
+    moderated = models.BooleanField(default=False)
+    monitored = models.BooleanField(default=False)
 
     def is_last_admin(self, user):
         """
@@ -122,6 +156,44 @@ class Organization(models.Model):
             return False
         else:
             return getattr(perm, right)
+
+    # Get the total number of petitions created by the organization
+    def get_petition_number_org(self):
+        return self.petition_set.count()
+
+    # Get the number of petitions created in the last 24h by the organization
+    def get_day_petition_number_org(self):
+        date_from = timezone.now() - timedelta(days=1)
+        day_petition_count_org = Petition.objects.filter(
+        org=self, publication_date__gte=date_from).count()
+        return day_petition_count_org
+
+    def get_total_signature_number(self):
+        count = 0
+        petitions = Petition.objects.filter(org=self)
+        for petition in petitions:
+            count += petition.get_signature_number()
+        return count
+
+    # Get the number of users
+    def get_user_num(self):
+        return self.members.count()
+
+    # Number of moderated members
+    def get_num_moderated_members(self):
+        num_moderated_members = PytitionUser.objects.filter(
+        organization=self, moderated=True).count()
+        return num_moderated_members
+
+    # Moderate the organization
+    def moderate(self, do_moderate=True):
+        self.moderated = do_moderate
+        self.save()
+
+    # Monitor the organization
+    def monitor(self, do_monitor=True):
+        self.monitored = do_monitor
+        self.save()
 
     def __str__(self):
         return self.name
@@ -178,6 +250,7 @@ class Petition(models.Model):
     text = tinymce_models.HTMLField(blank=True)
     side_text = tinymce_models.HTMLField(blank=True)
     target = models.IntegerField(default=500)
+    
     # Owner
     user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, null=True, blank=True)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True)
@@ -215,6 +288,7 @@ class Petition(models.Model):
     creation_date = models.DateTimeField(blank=True)
     last_modification_date = models.DateTimeField(blank=True)
     moderated = models.BooleanField(default=False)
+    monitored = models.BooleanField(default=False)
     has_email_share_button = models.BooleanField(default=False)
     has_facebook_share_button = models.BooleanField(default=False)
     has_tumblr_share_button = models.BooleanField(default=False)
@@ -225,12 +299,35 @@ class Petition(models.Model):
     publication_date = models.DateTimeField(blank=True, null=True)
     show_publication_date = models.BooleanField(default=False)
 
+    
+    # Boolean fields used for cron
+    # We use two fields to avoid launching functions that check the numbers of signatures on petitions that have no signatures.
+    # cron_to_schedule becomes True in the view during the first signature on the petition if check_signatures_at_each_signature is False
+    check_signatures_at_each_signature = models.BooleanField(default=False) # The admin chooses to check numbers of signatures at each new signature or periodically with cron
+    cron_to_schedule = models.BooleanField(default=False) # If we have to call anti-spam functions periodically with cron for the petition 
+
+    # Connexion information used by Akismet
+    ipaddr = models.CharField(max_length=45, blank=True, null=True)
+    user_agent = models.CharField(max_length=512, blank=True, null=True)
+
+    # If a petition has been deleted (not permanently) and is in the bin, its in_bin_date is not None
+    in_bin_date = models.DateTimeField(blank=True, null=True)
+
     @property
     def is_moderated(self):
-        if self.owner_type == "user":
-            return self.owner.moderated or self.moderated
-        return self.moderated
+        return self.owner.moderated or self.moderated
+    
+    @property
+    def is_monitored(self):
+        return self.monitored
+    
+    def get_priority(self):
+        if self.monitored:
+            return self.monitoring.last().reason.priority
 
+    def get_monitoring_reason(self):
+        if self.monitored:
+            return self.monitoring.last().reason.msg
     def transfer_to(self, user=None, org=None):
         if user is None and org is None:
             raise ValueError("You should specify either an org or a user when transferring a petition")
@@ -298,6 +395,7 @@ class Petition(models.Model):
         except Petition.DoesNotExist:
             return None
 
+    # Total number of signatures
     def get_signature_number(self, confirmed=None):
         signatures = self.signature_set
         if confirmed is not None:
@@ -307,6 +405,34 @@ class Petition(models.Model):
             return nb_electronic_signatures + self.paper_signatures
         else:
             return nb_electronic_signatures
+
+    # Number of signatures in the last 24h
+    def get_day_signature_number(self):
+        date_from = timezone.now() - timedelta(days=1)
+        day_signature_count = Signature.objects.filter(
+        petition=self, date__gte=date_from).count()
+        return day_signature_count
+
+    # Number of signatures yesterday. It is used in check_signature_number.py
+    def get_day_before_signature_number(self):
+        today = timezone.now()
+        yesterday_start = today - timedelta(days=1)
+        yesterday_end = today
+        day_before_signature_count = Signature.objects.filter(
+        petition=self, date__gte=yesterday_start, date__lt=yesterday_end).count()
+        return day_before_signature_count
+
+    # Number of signatures this week, excluding today. It is used to check the variation in the number of signatures in check_signature_number.py
+    def get_week_signature_number(self):
+        week_signature_count = Signature.objects.filter(
+        petition=self, date__gte=timezone.now() - timedelta(weeks=1), date__lt = timezone.now()).count()
+        return week_signature_count
+
+    # Number of signatures in the 24h after creation.
+    def get_creation_signature_number(self):
+        creation_signature_count = Signature.objects.filter(
+        petition=self, date__gte= self.creation_date, date__lt = self.creation_date + timedelta(days=1)).count()
+        return creation_signature_count
 
     def already_signed(self, email):
         signature_number = Signature.objects.filter(petition = self.id)\
@@ -427,6 +553,9 @@ class Petition(models.Model):
                 # This is a BUG!
                 raise ValueError(_("This petition is buggy. Sorry about that!"))
 
+    def get_absolute_url(self):
+        return self.url
+
     def save(self, *args, **kwargs):
         if (self.org is None and self.user is None):
             raise Exception("You need to provide a user or org as owner")
@@ -441,6 +570,15 @@ class Petition(models.Model):
 
     def moderate(self, do_moderate=True):
         self.moderated = do_moderate
+        self.save()
+
+    def monitor(self, do_monitor=True):
+        self.monitored = do_monitor
+        self.save()    
+
+    # Switch petitions check_signatures_at_creation between True and False. If False, the number of signatures is checked periodically.
+    def check_signatures_periodically(self, check=False):
+        self.check_signatures_at_each_signature = check
         self.save()
 
     @property
@@ -464,6 +602,9 @@ class Signature(models.Model):
     def clean(self):
         if self.petition.already_signed(self.email):
             if self.petition.signature_set.filter(email = self.email).get(confirmed = True).id != self.id:
+                ModerationReason.msg = "Too many signatures from this email adress."
+                moderation_email = "admin@test.fr"
+                send_mail_to_moderation(moderation_email, self.first_name, ModerationReason.msg, "user")
                 raise ValidationError(_("You already signed the petition"))
 
     def save(self, *args, **kwargs):
@@ -558,6 +699,7 @@ class PetitionTemplate(models.Model):
     has_twitter_share_button = models.BooleanField(default=False)
     has_mastodon_share_button = models.BooleanField(default=False)
     has_whatsapp_share_button = models.BooleanField(default=False)
+    paper_signatures = models.IntegerField(default=0)
     paper_signatures_enabled = models.BooleanField(default=False)
 
     def __str__(self):
@@ -675,9 +817,52 @@ def post_delete_user(sender, instance, *args, **kwargs):
 # ------------------------------------ ModerationReason -----------------------------
 
 class ModerationReason(models.Model):
-    msg = models.TextField(verbose_name=gettext_lazy("message"))
+    msg = models.TextField(verbose_name=gettext_lazy("message"), unique=True)
     visible = models.BooleanField(default=True)
 
+    @property
+    def text(self):
+        try:
+            return settings.REASONS[self.msg]
+        except: 
+            return self.msg
+
 class Moderation(models.Model):
-    petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE, related_name="moderation", null=True, blank=True)
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, related_name="moderation", null=True, blank=True)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="moderation", null=True, blank=True)
     reason = models.ForeignKey(ModerationReason, blank=True, null=True, on_delete=models.SET_NULL)
+
+# ------------------------------------ Monitoring -----------------------------
+# We can moderate or monitor an element depending on the priority. Monitoring has three levels of priority: strong, average, low
+
+class MonitoringReason(models.Model):
+    msg = models.TextField(verbose_name=gettext_lazy("message"), unique=True)
+    visible = models.BooleanField(default=True)
+
+    @property
+    def text(self):
+        try:
+            return settings.REASONS[self.msg]
+        except: 
+            return self.msg
+
+class Monitoring(models.Model):
+    petition = models.ForeignKey(Petition, on_delete=models.CASCADE, related_name="monitoring", null=True, blank=True)
+    user = models.ForeignKey(PytitionUser, on_delete=models.CASCADE, related_name="monitoring", null=True, blank=True)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="monitoring", null=True, blank=True)
+    reason = models.ForeignKey(MonitoringReason, blank=True, null=True, on_delete=models.SET_NULL)
+    priority = models.TextField(verbose_name=gettext_lazy("priority"), blank=True)
+
+# ------------------------------------ SpamPage -----------------------------
+# This model is used for the creation of the custom view in the spam monitoring page in the admin
+class ModeratedElement(models.Model):
+    class Meta:
+        managed = False
+        verbose_name_plural = "Spam monitoring page"
+    
+    def __str__(self):
+        return ""
+
+
+

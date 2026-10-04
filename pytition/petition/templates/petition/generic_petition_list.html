@@ -1,57 +1,51 @@
 {% load static %}
 {% load i18n %}
+{% load petition_extras %}
 <div class="row petition-list-row">
   {% for petition in petitions %}
-    <div class="col-md-4 col-xs-6 text-center sb-preview">
-      <div class="card h-100 text-center">
-        <a href="{{ petition.url }}" class="sb-preview-img">
-          {% if not petition.twitter_image%}
-            <img class="card-img-top img-fluid img-thumbnail" src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
+    <a href="{{ petition.url }}" class="petition-card">
+      <span class="sb-preview-img">
+        {% if not petition.twitter_image%}
+            <img class="card-img-top img-fluid img-thumbnail" alt="" src="{% static settings.DEFAULT_INDEX_THUMBNAIL %}">
           {% else %}
-            <img class="card-img-top img-fluid img-thumbnail" src="{{ petition.twitter_image }}">
+            <img class="card-img-top img-fluid img-thumbnail" alt="" src="{{ petition.twitter_image }}">
           {% endif %}
-        </a>
-        <div class="card-body">
-          {% with owner=petition.owner %}
-            {% if owner.kind == 'org' %}
-              <a href="{% url 'org_profile' orgslugname=owner.slugname %}" class="text-muted">
-                {{ owner }}
-              </a>
-            {% elif owner.kind == 'user' %}{# It could be of another kind in the future. #}
-              <a href="{% url 'user_profile' user_name=owner.username %}" class="text-muted">
-                {{ owner }}
-              </a>
-            {% endif %}
-          {% endwith %}
-          <h4 class="card-title">
-            <a href="{{ petition.url }}">
-              {{ petition.title|striptags }}
-            </a>
-          </h4>
-          {% if petition.twitter_description %}
-            <p class="card-text">
-              {{ petition.twitter_description|safe }}
-            </p>
-          {% endif %}
-          <a href="{{ petition.url }}" class="btn btn-secondary btn-sm">
-            {% trans "Sign!" %}
-          </a>
+      </span>
+      <div class="card-body">
+        <h4 class="card-title">
+          {{ petition.title|striptags }}
+        </h4>
+
+        <div class="card-desc">
+          <span>
+            {{ petition.raw_text|striptags|truncatewords:"200" }}
+          </span>
         </div>
         <div class="card-footer">
-          <small class="text-muted">
+          <p>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>account-circle</title><path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z"></path></svg>
+            {% with owner=petition.owner %}
+              {% if owner.kind == 'org' %}
+                <span>
+                  {{ owner }}
+                </span>
+              {% elif owner.kind == 'user' %}{# It could be of another kind in the future. #}
+                <span>
+                  {{ owner }}
+                </span>
+              {% endif %}
+            {% endwith %}
+          </p>
+          <span>
             {% blocktrans count signature_number=petition.signature_number %}
               {{ signature_number }} signature
             {% plural %}
               {{ signature_number }} signatures
             {% endblocktrans %}
-          </small>
+          </span>
         </div>
       </div>
-    </div>
-    {% if forloop.counter|divisibleby:3 or forloop.last %}
-      </div>
-      <div class="row petition-list-row">
-    {% endif %}
+    </a>
   {% empty %}
     <i>
       {{ no_petitions_text|safe }}
@@ -59,7 +53,7 @@
   {% endfor %}
 </div>
 {% if petitions.has_other_pages %}
-  <div>
+  <div class="mt-4">
     <ul class="pagination justify-content-center">
       {% if petitions.has_previous %}
         <li class="page-item"><a class="page-link" href="?page={{ petitions.previous_page_number }}&sort={{ sort }}">&laquo;</a></li>

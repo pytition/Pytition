@@ -1,0 +1,25 @@
+{% extends "layouts/email.base.html" %}
+{% load i18n %}
+{% block content %}
+<p>
+{% blocktranslate %}Hello {{ username }},{% endblocktranslate %}
+</p>
+
+{% if element_type == "user" %}
+<p>{% blocktranslate %}Your account <b>{{ username }}</b> has been moderated for the following reason: <b>{{ reason }}</b>{% endblocktranslate %}</p>
+<p>{% blocktranslate %}Your petitions have been unpublished, and you can't create new petitions, organisations or templates.{% endblocktranslate %}<br />
+{% blocktranslate %}The moderation team has been notified and will act in due time.{% endblocktranslate %}</p>
+{% elif element_type == "organization" %}
+<p>{% blocktranslate %}Your organization <b>{{ element }}</b> has been moderated for the following reason: <b>{{ reason }}</b>{% endblocktranslate %}</p>
+<p>{% blocktranslate %}The organisation's petitions have been unpublished, and it cannot create new petitions or templates.{% endblocktranslate %}<br />
+{% blocktranslate %}The moderation team has been notified and will act in due time.{% endblocktranslate %}</p>
+{% elif element_type == "petition" %}
+<p>{% blocktranslate %}Your petition <b>{{ element }}</b> has been moderated for the following reason: <b>{{ reason }}</b>{% endblocktranslate %}</p>
+<p>{% blocktranslate %}It is no longer publicly available.{% endblocktranslate %}<br />
+{% blocktranslate %}The moderation team has been notified and will act in due time.{% endblocktranslate %}</p>
+{% endif %}
+
+<p>{% blocktranslate %}Have a nice day,{% endblocktranslate %}</p>
+
+{% endblock %}
+

@@ -1,0 +1,90 @@
+<form method="post">
+    {% extends "admin/base_site.html" %}
+    {% load i18n %}
+    {% load static %}
+
+    {% block extrahead %}
+        {{ block.super }}
+        <link rel="stylesheet" href="{% static 'css/custom_admin_style.css' %}">
+    {% endblock %}
+
+    {% csrf_token %}
+    {% block content %}
+        <h1>{% trans "Petition detail: " %} {{petition}}</h1>
+        <h2><a href="{{ petition.url }}">{% trans "Preview the petition" %}</a></h2>
+        
+    <div id="section">
+        <h2 id="title">{% trans "Basic information" %}</h2>
+        <h2>{% trans "Title" %}</h2>
+        <p>{{petition}}</p>
+        <h2>{% trans "Content" %}</h2>
+        <p style="text-align: justify">{{text}}</p>
+        <h2>{% trans "Owner" %}</h2>
+        {% if owner_type == "User" %}
+            <p><a href="{% url 'admin:custom_user_detail' owner_id %}">{{owner_type}}: {{owner}}</a></p>
+        {% else %}
+            <p><a href="{% url 'admin:custom_org_detail' owner %}">{{owner_type}}: {{owner}}</a></p>
+        {%endif%}
+        <h2>{% trans "Creation date" %}</h2>
+        <p>{{petition.creation_date}}</p>
+
+        <h2>{% trans "Ip address" %}</h2>
+        <p>{{petition.ipaddr}}</p>
+        <h2>User agent</h2>
+        <p>{{petition.user_agent}}</p>
+    </div>
+
+    <div id="section">
+        <h2 id="title">{% trans "Moderation and monitoring" %}</h2>
+        {%if petition.moderated%}
+            <p>{% trans "Moderated: " %} {{mod_reason}}</p>
+        {%elif petition.monitored%}
+            <p>{% trans "Monitored: " %} {{mon_reason}}</p>
+        {%else%}
+            <p>{% trans "This petition is neither moderated nor monitored." %}</p>
+        {%endif%}
+
+        <h2>Actions</h2>
+
+        {% if petition.moderated %}
+            <ul>
+                {% blocktrans %}
+                    <li><strong>Demoderate petition</strong></li>
+                    <li><strong>Delete petition</strong></li>
+                    <li><strong>Switch check signatures at creation</strong>: switch between checking the number of signatures at each signatures or periodically.</li>
+                    <li><strong>Submit petition as ham</strong>: tell Akismet that the petition is not spam. It will be demoderated.</li>
+                    <li><strong>Submit petition as spam</strong>: tell Akismet that the petition is spam.</li>
+                {% endblocktrans %}
+            </ul>
+        {% elif petition.monitored %}
+            <ul>
+                {% blocktrans %}
+                    <li><strong>Demonitor petition</strong></li>
+                    <li><strong>Moderate petition</strong></li>
+                    <li><strong>Delete petition</strong></li>
+                    <li><strong>Switch check signatures at creation</strong>: switch between checking the number of signatures at each signatures or periodically.</li>
+                    <li><strong>Submit petition as ham</strong>: tell Akismet that the petition is not spam. It will be demonitored.</li>
+                    <li><strong>Submit petition as spam</strong>: tell Akismet that the petition is spam and moderate it.</li>
+                {% endblocktrans %}
+            </ul>
+        {% endif %}
+
+        <select name="action" id="detail_actions">
+            {% for action_name in actions_petition %}
+                <option value="{{ action_name }}">{{ action_name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Send">
+    </div>
+
+    <div id="section">
+        <h2 id="title">{% trans "Signatures" %}</h2>
+        <form action="{% url 'get_csv_confirmed_signature' petition.id %}">
+            <input type="submit" value="{% trans 'Generate confirmed signatures CSV file' %}">
+        </form>
+        <form action="{% url 'get_csv_signature' petition.id %}">
+            <input type="submit" value="{% trans 'Generate ALL-signatures CSV file' %}">
+        </form>
+    </div>
+
+    {%endblock%}
