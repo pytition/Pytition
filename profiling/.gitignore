@@ -1,0 +1,6 @@
+# Ignore profiling results (regenerate locally)
+results/*.prof
+results/*.pstats
+
+# Keep directory structure
+!results/.gitkeep
