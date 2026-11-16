@@ -247,9 +247,26 @@ def get_csv_signature(request, petition_id, only_confirmed):
 @login_required
 def go_send_confirmation_email(request, signature_id):
     app_label = Signature._meta.app_label
-    signature = Signature.objects.filter(pk=signature_id).get()
+    try:
+        signature = Signature.objects.get(pk=signature_id)
+    except Signature.DoesNotExist:
+        raise Http404(_("Signature does not exist"))
+    petition = signature.petition
+    pytitionuser = get_session_user(request)
+    if not request.user.is_superuser:
+        if petition.owner_type == "org":
+            if not petition.org.is_allowed_to(pytitionuser, 'can_modify_signatures'):
+                messages.error(request, _("You are not allowed to re-send confirmation emails for this petition"))
+                return redirect("user_dashboard")
+        elif petition.owner != pytitionuser:
+            messages.error(request, _("You are not allowed to re-send confirmation emails for this petition"))
+            return redirect("user_dashboard")
     send_confirmation_email(request, signature)
-    return redirect('admin:{}_signature_change'.format(app_label), signature_id)
+    if request.user.is_staff:
+        return redirect('admin:{}_signature_change'.format(app_label), signature_id)
+    if petition.owner_type == "org":
+        return redirect("org_dashboard", petition.org.slugname)
+    return redirect("user_dashboard")
 
 
 # <int:petition_id>/sign
@@ -1426,43 +1443,50 @@ def show_signatures(request, petition_id):
         selected_signature_ids = request.POST.getlist('signature_id', '')
         failed = False
         if selected_signature_ids and action:
-            selected_signatures = Signature.objects.filter(pk__in=selected_signature_ids)
+            # Only the signatures of the petition in the URL, the caller is
+            # already authorized on it: other users must not be able to act
+            # on signatures of other petitions.
+            selected_signatures = Signature.objects.filter(petition=petition, pk__in=selected_signature_ids)
             if action == "delete":
-                for s in selected_signatures:
-                    pet = s.petition
-                    if pet.org: # Petition is owned by an org, we check for rights
-                        if pet.org.is_allowed_to(pytitionuser, 'can_delete_signatures'):
+                if petition.org: # Petition is owned by an org, we check for rights
+                    if petition.org.is_allowed_to(pytitionuser, 'can_delete_signatures'):
+                        for s in selected_signatures:
                             s.delete()
-                        else:
-                            failed = True
-                    else: # Petition is owned by a user, we check it's the one asking for deletion
+                        messages.success(request, _("You successfully deleted all selected signatures"))
+                    else:
+                        messages.error(request, _("You don't have permission to delete some or all of selected signatures"))
+                else: # Petition is owned by the user asking for deletion
+                    for s in selected_signatures:
                         s.delete()
-                if failed:
-                    messages.error(request, _("You don't have permission to delete some or all of selected signatures"))
-                else:
                     messages.success(request, _("You successfully deleted all selected signatures"))
             if action == "re-send":
+                if petition.org and not petition.org.is_allowed_to(pytitionuser, 'can_modify_signatures'):
+                    messages.error(request, _("You don't have permission to re-send confirmation emails for this petition"))
+                else:
+                    for s in selected_signatures:
+                        if not s.confirmed:
+                            try:
+                                send_confirmation_email(request, s)
+                            except:
+                                failed = True
+                    if failed:
+                        messages.error(request, _("An error happened while trying to re-send confirmation emails"))
+                    else:
+                        messages.success(request, _("You successfully re-sent all selected confirmation emails"))
+        if action == "re-send-all":
+            if petition.org and not petition.org.is_allowed_to(pytitionuser, 'can_modify_signatures'):
+                messages.error(request, _("You don't have permission to re-send confirmation emails for this petition"))
+            else:
+                selected_signatures = Signature.objects.filter(petition=petition, confirmed=False)
                 for s in selected_signatures:
-                    if not s.confirmed:
-                        try:
-                            send_confirmation_email(request, s)
-                        except:
-                            failed = True
+                    try:
+                        send_confirmation_email(request, s)
+                    except:
+                        failed = True
                 if failed:
                     messages.error(request, _("An error happened while trying to re-send confirmation emails"))
                 else:
-                    messages.success(request, _("You successfully re-sent all selected confirmation emails"))
-        if action == "re-send-all":
-            selected_signatures = Signature.objects.filter(petition=petition, confirmed=False)
-            for s in selected_signatures:
-                try:
-                    send_confirmation_email(request, s)
-                except:
-                    failed = True
-            if failed:
-                messages.error(request, _("An error happened while trying to re-send confirmation emails"))
-            else:
-                messages.success(request, _("You successfully re-sent all confirmation emails"))
+                    messages.success(request, _("You successfully re-sent all confirmation emails"))
         return redirect("show_signatures", petition_id)
 
     signatures = petition.signature_set.all()
