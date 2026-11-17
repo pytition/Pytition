@@ -31,7 +31,63 @@ distribution = false
 
 [tool.pdm.dev-dependencies]
 test = [
-    "coverage==4.5.2",
+    "coverage>=7.0.0",
     "sphinx",
-    "sphinx-rtd-theme"
+    "sphinx-rtd-theme",
+    "pytest>=7.0.0",
+    "pytest-django>=4.5.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "pytest-html>=3.2.0",
+    "snakeviz>=2.2.0",
+    "line-profiler>=4.0.0",
+    "memory-profiler>=0.61.0",
 ]
+
+[tool.pdm.scripts]
+# Django test príkaz
+test.env = { DJANGO_SETTINGS_MODULE = "pytition.settings.test" }
+test.cmd = "coverage run --omit='.venv/*' pytition/manage.py test petition"
+
+# Coverage report
+coverage-report.cmd = "coverage report -m"
+coverage-html.cmd = "coverage html"
+
+# Profiling príkazy
+profile.env = { DJANGO_SETTINGS_MODULE = "pytition.settings.test" }
+profile.cmd = "python profiling/run_profiler.py"
+
+profile-all.env = { DJANGO_SETTINGS_MODULE = "pytition.settings.test" }
+profile-all.cmd = "python profiling/run_profiler.py all"
+
+benchmark.env = { DJANGO_SETTINGS_MODULE = "pytition.settings.test" }
+benchmark.cmd = "python profiling/benchmark.py"
+
+# Pytest príkazy
+pytest.env = { DJANGO_SETTINGS_MODULE = "pytition.settings.test" }
+pytest.cmd = "pytest"
+
+pytest-cov.env = { DJANGO_SETTINGS_MODULE = "pytition.settings.test" }
+pytest-cov.cmd = "pytest --cov=pytition/petition --cov-report=term-missing --cov-report=html"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "pytition.settings.test"
+python_files = ["tests*.py", "test_*.py"]
+addopts = "-v --tb=short --color=yes"
+testpaths = ["pytition/petition/tests"]
+
+[tool.coverage.run]
+source = ["pytition/petition"]
+omit = [
+    "*/migrations/*",
+    "*/.venv/*",
+    "*/tests/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+]
+show_missing = true
