@@ -264,6 +264,9 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 #:| If set to True, users won't be able to create petitions in their name, but only for an organization
 DISABLE_USER_PETITION = False
 
+#:| If set to True, users won't be able to set a newsletter on their petitions
+DISABLE_NEWSLETTER = False
+
 #:| If set to True, regular users won't be able to create new organizations.
 RESTRICT_ORG_CREATION = False
 
